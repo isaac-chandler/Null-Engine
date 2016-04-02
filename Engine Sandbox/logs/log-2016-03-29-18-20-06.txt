@@ -1,9 +1,0 @@
-[00:00:00][DEBUG][nullEngine.util.logs.Logs.init(Logs.java:86)] Successfully initalized logs
-[00:00:00][DEBUG][nullEngine.gl.Renderer.viewport(Renderer.java:25)] Viewport: 1280x720 @0, 0
-[00:00:02][DEBUG][nullEngine.loading.Loader.preContextChange(Loader.java:135)] Cleaning up vertex arrays
-[00:00:03][DEBUG][nullEngine.gl.Renderer.viewport(Renderer.java:25)] Viewport: 1366x768 @0, 0
-[00:00:03][DEBUG][nullEngine.gl.model.Model.contextChanged(Model.java:49)] Recreating vertex arrays
-[00:00:40][DEBUG][nullEngine.control.Application.destroy(Application.java:122)] Cleaning up
-[00:00:40][DEBUG][nullEngine.loading.Loader.cleanup(Loader.java:125)] Loader cleaning up
-[00:00:41][DEBUG][nullEngine.control.Application.destroy(Application.java:127)] Cleanup successful
-[00:00:41][DEBUG][nullEngine.util.logs.Logs.finish(Logs.java:323)] Finishing log

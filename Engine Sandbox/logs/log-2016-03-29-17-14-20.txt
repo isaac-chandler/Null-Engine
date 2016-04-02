@@ -1,9 +1,0 @@
-[00:00:00][DEBUG][nullEngine.util.logs.Logs.init(Logs.java:86)] Successfully initalized logs
-[00:00:00][DEBUG][nullEngine.gl.Renderer.viewport(Renderer.java:25)] Viewport: 1280x720 @0, 0
-[00:01:51][DEBUG][nullEngine.object.component.FirstPersonCamera.keyPressed(FirstPersonCamera.java:86)] Quaternion(0.0, 0.47942555, 0.0, 0.87758255)
-[00:06:40][DEBUG][nullEngine.object.component.FirstPersonCamera.keyPressed(FirstPersonCamera.java:87)] 
-1.0 0.0 0.0 0.0
-0.0 1.0 0.0 0.0
-0.0 0.0 1.0 0.0
-0.0 0.0 0.0 1.0
-

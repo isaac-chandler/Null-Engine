@@ -1,7 +1,0 @@
-[00:00:00][DEBUG][nullEngine.util.logs.Logs.init(Logs.java:86)] Successfully initalized logs
-[00:00:00][DEBUG][nullEngine.gl.Renderer.viewport(Renderer.java:25)] Viewport: 1280x720 @0, 0
-[00:00:00][DEBUG][Main.main(Main.java:44)] 118.788716ms
-[00:00:02][DEBUG][nullEngine.control.Application.destroy(Application.java:122)] Cleaning up
-[00:00:02][DEBUG][nullEngine.loading.Loader.cleanup(Loader.java:155)] Loader cleaning up
-[00:00:02][DEBUG][nullEngine.control.Application.destroy(Application.java:127)] Cleanup successful
-[00:00:02][DEBUG][nullEngine.util.logs.Logs.finish(Logs.java:323)] Finishing log
