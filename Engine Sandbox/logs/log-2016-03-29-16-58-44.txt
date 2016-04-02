@@ -1,0 +1,236 @@
+[00:00:00][DEBUG][nullEngine.util.logs.Logs.init(Logs.java:86)] Successfully initalized logs
+[00:00:00][DEBUG][nullEngine.gl.Renderer.viewport(Renderer.java:25)] Viewport: 1280x720 @0, 0
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.47942555, 0.0, 0.87758255)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, -0.47942558, 0.0, 0.87758255)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.47942555, 0.0, 0.87758255)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.841471, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.99749506, 0.0, 0.07073712)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.99749506, 0.0, 0.07073712)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.99749506, 0.0, 0.07073712)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.99749506, 0.0, 0.07073712)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.99749506, 0.0, 0.07073712)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.99749506, 0.0, 0.07073712)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.99749506, 0.0, 0.07073712)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.99749506, 0.0, 0.07073712)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:43)] Quaternion(0.0, 0.8414711, 0.0, 0.5403023)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:44)] Quaternion(0.0, 0.0, 0.0, 1.0)
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:46)] 
+
+
+[00:00:01][DEBUG][nullEngine.control.Application.destroy(Application.java:122)] Cleaning up
+[00:00:01][DEBUG][nullEngine.loading.Loader.cleanup(Loader.java:124)] Loader cleaning up
+[00:00:01][DEBUG][nullEngine.control.Application.destroy(Application.java:127)] Cleanup successful
+[00:00:01][DEBUG][nullEngine.util.logs.Logs.finish(Logs.java:323)] Finishing log

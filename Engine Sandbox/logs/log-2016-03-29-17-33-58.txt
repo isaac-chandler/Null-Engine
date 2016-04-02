@@ -1,0 +1,2580 @@
+[00:00:00][DEBUG][nullEngine.util.logs.Logs.init(Logs.java:86)] Successfully initalized logs
+[00:00:00][DEBUG][nullEngine.gl.Renderer.viewport(Renderer.java:25)] Viewport: 1280x720 @0, 0
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 478
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:00][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 477
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:01][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 507
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 508
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 509
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 510
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 511
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 512
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 513
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 514
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 515
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 516
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 517
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 518
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 519
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 520
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 521
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 522
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:02][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 521
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 519
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 517
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 515
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 513
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 510
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 509
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 507
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 505
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 503
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 501
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 500
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 498
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 496
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 495
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 492
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 490
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 488
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 485
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 482
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 480
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 478
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 475
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 473
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 470
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 467
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 463
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 460
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 457
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 453
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 448
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 442
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 434
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 426
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 416
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 405
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 393
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 382
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 370
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 360
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 348
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 336
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 324
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 310
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 296
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 283
+[00:00:03][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -77
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -77
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -77
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -58
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -10
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 125
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 202
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 297
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 405
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 503
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 594
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 681
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 756
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 820
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 864
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 897
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 911
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 913
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 906
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 862
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 798
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 727
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 647
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 557
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 468
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 387
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 299
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 217
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 142
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 75
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 21
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -34
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -84
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -138
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -186
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -187
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -195
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -204
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -210
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -218
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -226
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -238
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -249
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -264
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -281
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -305
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -329
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -356
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -380
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -397
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -419
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -431
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -441
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -449
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -457
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -465
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -473
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -480
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -489
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:04][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -496
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -502
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -507
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -510
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -511
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -511
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -509
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -504
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -501
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -496
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -492
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -487
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -481
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -477
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -472
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -466
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -462
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -457
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -451
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -446
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -441
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -436
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -430
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -425
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -421
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -415
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -411
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -407
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -403
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -402
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -400
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -399
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -399
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -397
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -396
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -395
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -393
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -390
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -389
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -385
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -383
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -379
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -377
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -373
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -371
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -369
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -368
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -369
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -370
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -371
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -372
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -374
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -375
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -376
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -376
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -377
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -377
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -378
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -379
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -379
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -379
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -379
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -380
+[00:00:05][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -382
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -382
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -383
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -383
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -384
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -386
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -386
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -387
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -387
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -388
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -388
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -387
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -386
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -384
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -381
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -377
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -371
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -365
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -356
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -347
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -337
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -328
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -317
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -307
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -297
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -286
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -276
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -265
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -254
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -246
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -236
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -225
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -211
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -197
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -181
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -157
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -135
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -114
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -93
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -81
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -66
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -53
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -41
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -28
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -19
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -12
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -5
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 2
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 4
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 2
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -8
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -25
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -48
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -80
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -113
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -148
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -188
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -231
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -277
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -320
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -362
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -409
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -457
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -505
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -555
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -612
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -662
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -713
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -768
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -822
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -878
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -933
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -989
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1040
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1096
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1151
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1202
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1252
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1296
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1337
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1366
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1388
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1400
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1407
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1411
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1412
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1411
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1402
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1380
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1350
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1308
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1260
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1207
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1141
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1071
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -990
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -912
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -817
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -723
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -614
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -510
+[00:00:06][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -403
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -291
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -182
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -62
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 61
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 192
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 323
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 446
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 576
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 686
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 798
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 902
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1011
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1105
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1193
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1272
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1344
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1402
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1452
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1497
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1531
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1554
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1570
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1575
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1578
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1569
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1543
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1486
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1434
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1367
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1293
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1215
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1131
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 1042
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 937
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 834
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 727
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 624
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 521
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 413
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 304
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 191
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] 86
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -28
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -131
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -237
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -328
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -415
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -504
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -583
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -660
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -734
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -809
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -877
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -936
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1004
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1061
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1112
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1158
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1202
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1232
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1256
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1278
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1295
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1305
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1316
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1321
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1323
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.mouseMoved(FirstPersonCamera.java:37)] -1325
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.getViewMatrix(FirstPersonCamera.java:23)] 
+1.0 0.0 0.0 -0.0
+0.0 1.0 0.0 -0.0
+0.0 0.0 1.0 -0.0
+0.0 0.0 0.0 1.0
+
+[00:00:07][DEBUG][nullEngine.control.Application.destroy(Application.java:122)] Cleaning up
+[00:00:07][DEBUG][nullEngine.loading.Loader.cleanup(Loader.java:124)] Loader cleaning up
+[00:00:07][DEBUG][nullEngine.control.Application.destroy(Application.java:127)] Cleanup successful
+[00:00:07][DEBUG][nullEngine.util.logs.Logs.finish(Logs.java:323)] Finishing log

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/workspace/java/Game Engine Workspace/Game Engine/lib/jar/PNGDecoder.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/workspace/java/Game Engine Workspace/Game Engine/lib/jar/lwjgl.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Desktop/workspace/java/Game Engine Workspace/Game Engine/lib/javadoc/lwjgl.zip!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Desktop/workspace/java/Game Engine Workspace/Game Engine/lib/source/lwjgl.zip!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Bundler:jar">
+    <output-path>$PROJECT_DIR$/Tools/out/bundler</output-path>
+    <root id="archive" name="Bundler.jar">
+      <element id="module-output" name="Bundler" />
+    </root>
+  </artifact>
+</component>

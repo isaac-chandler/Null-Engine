@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ModelConverter:jar">
+    <output-path>$PROJECT_DIR$/Tools/out/modelConverter</output-path>
+    <root id="archive" name="ModelConverter.jar">
+      <element id="module-output" name="ModelConverter" />
+    </root>
+  </artifact>
+</component>

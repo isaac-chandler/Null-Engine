@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Tools/Bundler/Bundler.iml" filepath="$PROJECT_DIR$/Tools/Bundler/Bundler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Engine Sandbox/Engine Sandbox.iml" filepath="$PROJECT_DIR$/Engine Sandbox/Engine Sandbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Game Engine/Game Engine.iml" filepath="$PROJECT_DIR$/Game Engine/Game Engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Game Engine Workspace.iml" filepath="$PROJECT_DIR$/Game Engine Workspace.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Math/Math.iml" filepath="$PROJECT_DIR$/Math/Math.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tools/ModelConverter/ModelConverter.iml" filepath="$PROJECT_DIR$/Tools/ModelConverter/ModelConverter.iml" />
+    </modules>
+  </component>
+</project>

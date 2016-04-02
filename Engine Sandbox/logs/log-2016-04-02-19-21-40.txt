@@ -1,0 +1,7 @@
+[00:00:00][DEBUG][nullEngine.util.logs.Logs.init(Logs.java:86)] Successfully initalized logs
+[00:00:00][DEBUG][nullEngine.gl.Renderer.viewport(Renderer.java:25)] Viewport: 1280x720 @0, 0
+[00:00:01][DEBUG][nullEngine.loading.model.OBJLoader.loadModel(OBJLoader.java:77)] true
+[00:00:03][DEBUG][nullEngine.control.Application.destroy(Application.java:122)] Cleaning up
+[00:00:03][DEBUG][nullEngine.loading.Loader.cleanup(Loader.java:203)] Loader cleaning up
+[00:00:03][DEBUG][nullEngine.control.Application.destroy(Application.java:127)] Cleanup successful
+[00:00:03][DEBUG][nullEngine.util.logs.Logs.finish(Logs.java:323)] Finishing log

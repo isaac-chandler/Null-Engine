@@ -1,0 +1,12 @@
+[00:00:00][DEBUG][nullEngine.util.logs.Logs.init(Logs.java:86)] Successfully initalized logs
+[00:00:00][DEBUG][nullEngine.gl.Renderer.viewport(Renderer.java:25)] Viewport: 1280x720 @0, 0
+[00:00:07][DEBUG][nullEngine.object.component.FirstPersonCamera.keyPressed(FirstPersonCamera.java:97)] -178.0027626455789
+[00:00:19][DEBUG][nullEngine.object.component.FirstPersonCamera.keyPressed(FirstPersonCamera.java:97)] -9.986732156624878
+[00:00:38][DEBUG][nullEngine.object.component.FirstPersonCamera.keyPressed(FirstPersonCamera.java:97)] -150.00004281492545
+[00:00:45][DEBUG][nullEngine.object.component.FirstPersonCamera.keyPressed(FirstPersonCamera.java:97)] -51.090705278725686
+[00:00:55][DEBUG][nullEngine.object.component.FirstPersonCamera.keyPressed(FirstPersonCamera.java:97)] -23.996864417110526
+[00:01:00][DEBUG][nullEngine.object.component.FirstPersonCamera.keyPressed(FirstPersonCamera.java:97)] -176.00976559038637
+[00:01:57][DEBUG][nullEngine.control.Application.destroy(Application.java:122)] Cleaning up
+[00:01:57][DEBUG][nullEngine.loading.Loader.cleanup(Loader.java:227)] Loader cleaning up
+[00:01:57][DEBUG][nullEngine.control.Application.destroy(Application.java:127)] Cleanup successful
+[00:01:57][DEBUG][nullEngine.util.logs.Logs.finish(Logs.java:323)] Finishing log
