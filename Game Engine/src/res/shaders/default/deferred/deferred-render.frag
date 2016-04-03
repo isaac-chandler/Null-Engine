@@ -2,14 +2,16 @@
 
 in vec2 texCoords;
 in vec3 normal;
-in vec3 lightDirection;
+in vec4 position;
 
 out vec4 outColor;
+out vec4 outPosition;
+out vec4 outNormal;
 
 uniform sampler2D sampler;
 
 void main() {
-	vec3 unitLightDirection = normalize(lightDirection);
-	vec3 unitNormal = normalize(normal);
-	outColor = texture(sampler, texCoords) * max(dot(unitNormal, unitLightDirection), 0);
+	outColor = texture(sampler, texCoords);
+	outPosition = position;
+	outNormal = vec4(normalize(normal), 1);
 }
