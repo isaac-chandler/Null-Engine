@@ -47,7 +47,7 @@ public class FirstPersonCamera extends Camera {
 
 		float pitch = (float) Math.toDegrees(Math.atan2(2 * temp.x * temp.w - 2 * temp.y * temp.z, 1 - 2 * temp.x * temp.x - 2 * temp.z * temp.z));
 
-		if ((pitch < -90 && pitch > -180) || (pitch < 180 && pitch > 90)) {
+		if ((pitch < -95 && pitch > -180) || (pitch < 180 && pitch > 95)) {
 			rotation.x = temp.x;
 			rotation.y = temp.y;
 			rotation.z = temp.z;

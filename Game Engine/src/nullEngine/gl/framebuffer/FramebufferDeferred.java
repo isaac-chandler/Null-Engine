@@ -39,6 +39,18 @@ public class FramebufferDeferred {
 		return id;
 	}
 
+	private static int genTextureDetailed(int width,int height) {
+		int id = GL11.glGenTextures();
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL30.GL_RGBA32F, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		return id;
+	}
+
 
 	public FramebufferDeferred(int width, int height) {
 		this.width = width;
@@ -48,8 +60,8 @@ public class FramebufferDeferred {
 		frameBufferID = GL30.glGenFramebuffers();
 
 		colorTextureID = genTexture(width, height);
-		positionTextureID = genTexture(width, height);
-		normalTextureID = genTexture(width, height);
+		positionTextureID = genTextureDetailed(width, height);
+		normalTextureID = genTextureDetailed(width, height);
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, depthTexutreID);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
@@ -93,6 +105,16 @@ public class FramebufferDeferred {
 		GL13.glActiveTexture(GL13.GL_TEXTURE2);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, normalTextureID);
 		Quad.get().render();
+	}
+
+	public void renderBack() {
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
+		GL13.glActiveTexture(GL13.GL_TEXTURE1);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, positionTextureID);
+		GL13.glActiveTexture(GL13.GL_TEXTURE2);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, normalTextureID);
+		Quad.back().render();
 	}
 
 	public void delete() {

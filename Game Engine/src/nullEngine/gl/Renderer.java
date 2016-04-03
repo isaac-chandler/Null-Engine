@@ -1,12 +1,13 @@
 package nullEngine.gl;
 
 import math.Matrix4f;
+import nullEngine.gl.shader.DeferredRenderShader;
 import org.lwjgl.opengl.GL11;
 import nullEngine.util.logs.Logs;
 
 public class Renderer {
 
-	private TestShader shader;
+	private DeferredRenderShader shader;
 	private Matrix4f modelMatrix = Matrix4f.IDENTITY;
 	private Matrix4f projectionMatrix = Matrix4f.IDENTITY;
 	private Matrix4f viewMatrix = Matrix4f.IDENTITY;
@@ -18,7 +19,7 @@ public class Renderer {
 	}
 
 	public Renderer() {
-		shader = new TestShader();
+		shader = DeferredRenderShader.INSTANCE;
 	}
 
 	public void viewport(int x, int y, int width, int height) {
@@ -41,15 +42,12 @@ public class Renderer {
 
 	public void setModelMatrix(Matrix4f modelMatrix) {
 		this.modelMatrix = modelMatrix;
-		shader.bind();
 		shader.loadModelMatrix(modelMatrix);
 		setMVP();
 	}
 
 	public void setProjectionMatrix(Matrix4f projectionMatrix) {
 		this.projectionMatrix = projectionMatrix;
-		shader.bind();
-		shader.loadProjectionMatrix(projectionMatrix);
 		setMVP();
 	}
 
@@ -59,8 +57,6 @@ public class Renderer {
 
 	public void setViewMatrix(Matrix4f viewMatrix) {
 		this.viewMatrix = viewMatrix;
-		shader.bind();
-		shader.loadViewMatrix(viewMatrix);
 		setMVP();
 	}
 

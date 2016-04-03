@@ -5,6 +5,7 @@ import nullEngine.loading.Loader;
 public class Quad {
 	
 	private static Model model;
+	private static Model back;
 	
 	private static final float[] vertices = new float[] {
 			-1, 1, 0f,
@@ -18,7 +19,12 @@ public class Quad {
 			3, 1, 2
 	};
 
-	private static final float[] textueCoords = new float[] {
+	private static final int[] indicesBack = new int[] {
+			3, 1, 0,
+			2, 1, 3
+	};
+
+	private static final float[] texCoords = new float[] {
 			0, 0,
 			0, 1,
 			1, 1,
@@ -33,10 +39,15 @@ public class Quad {
 	};
 	
 	public static void setup(Loader loader) {
-		model = loader.loadModel(vertices, textueCoords, normals, indices);
+		model = loader.loadModel(vertices, texCoords, normals, indices);
+		back = loader.loadModel(vertices, texCoords, normals, indicesBack);
 	}
 	
 	public static Model get() {
 		return model;
+	}
+
+	public static Model back() {
+		return back;
 	}
 }

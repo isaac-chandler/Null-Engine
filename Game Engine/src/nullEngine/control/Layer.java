@@ -7,13 +7,14 @@ import nullEngine.input.EventListener;
 import nullEngine.input.KeyEvent;
 import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;
+import nullEngine.object.RootObject;
 import nullEngine.object.component.Camera;
 
 public abstract class Layer implements EventListener {
 	protected Matrix4f projectionMatrix = new Matrix4f();
 
 	private Camera camera;
-	private GameObject root = new GameObject();
+	private GameObject root = new RootObject(this);
 	private boolean enabled = true;
 
 	public Layer(Camera camera) {

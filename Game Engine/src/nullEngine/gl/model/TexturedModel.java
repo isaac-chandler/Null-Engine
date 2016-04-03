@@ -1,6 +1,6 @@
 package nullEngine.gl.model;
 
-import nullEngine.gl.textures.Texture2D;
+import nullEngine.gl.texture.Texture2D;
 
 public class TexturedModel {
 	private Model model;

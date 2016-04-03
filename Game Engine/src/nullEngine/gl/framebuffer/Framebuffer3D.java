@@ -2,13 +2,8 @@ package nullEngine.gl.framebuffer;
 
 import nullEngine.control.Application;
 import nullEngine.gl.model.Quad;
-import nullEngine.gl.model.TexturedModel;
-import nullEngine.gl.textures.Texture2D;
 import nullEngine.util.logs.Logs;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL32;
+import org.lwjgl.opengl.*;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -18,8 +13,6 @@ public class Framebuffer3D {
 	private int colorTextureID;
 	private int depthTexutreID;
 	private int width, height;
-
-	private TexturedModel model;
 
 	private static final ArrayList<Framebuffer3D> framebuffers = new ArrayList<Framebuffer3D>();
 
@@ -55,9 +48,10 @@ public class Framebuffer3D {
 		if (GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE)
 			throw new RuntimeException("Frame buffer is not complete");
 
+		GL20.glDrawBuffers(GL30.GL_COLOR_ATTACHMENT0);
+
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 
-		model = new TexturedModel(Quad.get(), new Texture2D(colorTextureID));
 		framebuffers.add(this);
 	}
 
@@ -72,13 +66,22 @@ public class Framebuffer3D {
 	}
 
 	public void render() {
-		model.render();
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
+		Quad.get().render();
+	}
+
+	public void renderBack() {
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
+		Quad.back().render();
 	}
 
 	public void delete() {
 		GL30.glDeleteFramebuffers(frameBufferID);
 		GL11.glDeleteTextures(colorTextureID);
 		GL11.glDeleteTextures(depthTexutreID);
+		framebuffers.remove(this);
 	}
 
 	public int getFrameBufferID() {

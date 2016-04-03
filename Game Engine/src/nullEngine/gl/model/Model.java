@@ -59,6 +59,14 @@ public class Model {
 		}
 	}
 
+	public void delete() {
+		GL15.glDeleteBuffers(vertexVBO);
+		GL15.glDeleteBuffers(texCoordVBO);
+		GL15.glDeleteBuffers(normalVBO);
+		GL30.glDeleteVertexArrays(vaoID);
+		models.remove(this);
+	}
+
 	private void recreate() {
 		vaoID = GL30.glGenVertexArrays();
 		GL30.glBindVertexArray(vaoID);

@@ -1,31 +1,24 @@
 package nullEngine.gl.shader;
 
-public class DeferredAmbientShader extends Shader {
+import math.Vector4f;
+
+public class DeferredAmbientShader extends DeferredLightingShader {
 
 	public static final DeferredAmbientShader INSTANCE = new DeferredAmbientShader();
 
-	private int location_colors;
-	private int location_positions;
-	private int location_normals;
+	private int location_ambientColor;
 
 	private DeferredAmbientShader() {
-		super("default/deferred/deferred-processing", "default/deferred/deferred-processing");
-	}
-
-	@Override
-	protected void bindAttributes() {
-		bindAttribute(0, "inPosition");
-		bindAttribute(1, "inTexCoord");
+		super("default/deferred/deferred-ambient", "default/deferred/deferred-ambient");
 	}
 
 	@Override
 	protected void getUniformLocations() {
-		location_colors = getUniformLocation("colors");
-		location_positions = getUniformLocation("positions");
-		location_normals = getUniformLocation("normals");
+		super.getUniformLocations();
+		location_ambientColor = getUniformLocation("ambientColor");
+	}
 
-		loadInt(location_colors, 0);
-		loadInt(location_positions, 1);
-		loadInt(location_normals, 2);
+	public void loadAmbientColor(Vector4f color) {
+		loadVec3(location_ambientColor, color);
 	}
 }

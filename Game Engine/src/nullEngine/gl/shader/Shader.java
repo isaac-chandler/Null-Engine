@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL20;
 import nullEngine.exception.ShaderException;
 import nullEngine.loading.ResourceLoader;
 import nullEngine.util.logs.Logs;
+import org.lwjgl.opengl.GL30;
 
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;
@@ -54,7 +55,10 @@ public abstract class Shader {
 
 	protected void bindAttribute(int attribute, String name) {
 		GL20.glBindAttribLocation(program, attribute, name);
+	}
 
+	protected void bindFragData(int fragData, String name) {
+		GL30.glBindFragDataLocation(program, fragData, name);
 	}
 
 	protected int getUniformLocation(String name) {
@@ -73,8 +77,8 @@ public abstract class Shader {
 		GL20.glUniform3f(location, vec.x, vec.y, vec.z);
 	}
 
-	public void loadVec4(int location, Vector4f vec, float w) {
-		GL20.glUniform4f(location, vec.x, vec.y, vec.z, w);
+	public void loadVec4(int location, Vector4f vec) {
+		GL20.glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
 	}
 
 	public void loadInt(int location, int value) {
@@ -152,5 +156,9 @@ public abstract class Shader {
 		}
 
 		return shader;
+	}
+
+	public int getProgram() {
+		return program;
 	}
 }
