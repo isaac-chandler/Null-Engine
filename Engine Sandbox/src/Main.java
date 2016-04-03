@@ -1,16 +1,17 @@
+import math.Quaternion;
 import math.Vector4f;
 import nullEngine.NullEngine;
 import nullEngine.control.Application;
-import nullEngine.control.Layer;
 import nullEngine.control.Layer3D;
 import nullEngine.control.State;
 import nullEngine.gl.Renderer;
 import nullEngine.gl.model.Model;
 import nullEngine.gl.model.TexturedModel;
-import nullEngine.gl.textures.Texture2D;
+import nullEngine.gl.texture.Texture2D;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
+import nullEngine.object.component.DirectionalLight;
 import nullEngine.object.component.FirstPersonCamera;
 import nullEngine.util.logs.Logs;
 
@@ -31,7 +32,7 @@ public class Main {
 
 			FirstPersonCamera camera = new FirstPersonCamera();
 
-			Layer testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 1000f);
+			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 1000f);
 			test.addLayer(testLayer);
 
 			Loader loader = application.getLoader();
@@ -39,9 +40,7 @@ public class Main {
 			loader.setAnisotropyAmount(4);
 			loader.setLodBias(-1);
 //			Model model = Quad.get();
-			long start = System.nanoTime();
 			Model model = loader.loadModel("default/dragon");
-			Logs.d((System.nanoTime() - start) / 1e6 + "ms");
 
 			Texture2D texture = null;
 			try {
@@ -51,15 +50,46 @@ public class Main {
 			}
 			final TexturedModel texturedModel = new TexturedModel(model, texture);
 
-			GameObject object = new GameObject();
+			GameObject dragon = new GameObject();
 			GameObject cameraObject = new GameObject();
 			testLayer.getRoot().addChild(cameraObject);
-			testLayer.getRoot().addChild(object);
+			testLayer.getRoot().addChild(dragon);
+
+			GameObject light1 = new GameObject();
+			light1.addComponent(new DirectionalLight(new Vector4f(0.5f, 0, 0)));
+			light1.getTransform().setPos(new Vector4f(5, 0, -20));
+
+			GameObject light2 = new GameObject();
+			light2.addComponent(new DirectionalLight(new Vector4f(1, 1, 1)));
+			light2.getTransform().setPos(new Vector4f(-20, 0, 0));
+
+			GameObject light3 = new GameObject();
+			light3.addComponent(new DirectionalLight(new Vector4f(0, 1, 0)));
+			light3.getTransform().setPos(new Vector4f(0, 0, 20));
+
+			dragon.addChild(light1);
+			light1.addChild(light2);
+			dragon.addChild(light3);
+
+			light1.addComponent(new GameComponent() {
+				@Override
+				public void render(Renderer renderer, GameObject object) {
+
+				}
+
+				@Override
+				public void update(float delta, GameObject object) {
+					object.getTransform().increaseRot(new Quaternion(delta, Vector4f.FORWARD));
+				}
+			});
+
+
+//			testLayer.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			cameraObject.addComponent(camera);
-			object.getTransform().setPos(new Vector4f(0, 0, 1f));
+			dragon.getTransform().setPos(new Vector4f(0, 0, 1f));
 
-			object.addComponent(new GameComponent() {
+			dragon.addComponent(new GameComponent() {
 				@Override
 				public void render(Renderer renderer, GameObject object) {
 					texturedModel.render();
