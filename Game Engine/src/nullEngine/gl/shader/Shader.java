@@ -1,4 +1,4 @@
-package nullEngine.gl;
+package nullEngine.gl.shader;
 
 import math.Matrix4f;
 import math.Vector4f;

@@ -1,4 +1,4 @@
-package nullEngine.gl.textures;
+package nullEngine.gl.texture;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
