@@ -69,7 +69,6 @@ public class Application {
 	}
 
 	public Throwable start() {
-		window.initMouse();
 		running = true;
 		try {
 			while (running) {

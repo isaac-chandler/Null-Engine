@@ -525,11 +525,4 @@ public class Window {
 	public EventDistributor getDistributor() {
 		return distributor;
 	}
-
-	public void initMouse() {
-		GLFW.glfwGetCursorPos(window, doublebuffer, null);
-		inputData.setCursorX((int) doublebuffer.get(0));
-		GLFW.glfwGetCursorPos(window, null, doublebuffer);
-		inputData.setCursorY((int) doublebuffer.get(0));
-	}
 }

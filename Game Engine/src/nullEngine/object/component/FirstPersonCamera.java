@@ -5,7 +5,6 @@ import math.Quaternion;
 import math.Vector4f;
 import nullEngine.gl.Renderer;
 import nullEngine.input.Input;
-import nullEngine.input.KeyEvent;
 import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;
 import nullEngine.util.logs.Logs;
@@ -14,7 +13,7 @@ public class FirstPersonCamera extends Camera {
 
 	private static final float MOVEMENT_SPEED = 10;
 	private Matrix4f viewMatrix = new Matrix4f();
-	private Quaternion rotation = new Quaternion(0, 0, 0, 1);
+	private Quaternion rotation = new Quaternion((float) Math.PI, new Vector4f(0, 0, 1));
 
 	@Override
 	public void init(GameObject parent) {
@@ -42,6 +41,12 @@ public class FirstPersonCamera extends Camera {
 
 	@Override
 	public boolean mouseMoved(MouseEvent event) {
+		if (Math.abs(event.x) > 100 || Math.abs(event.y) > 100) {
+			return false;
+		}
+
+		Logs.d(event.x + ", " + event.y);
+
 		Quaternion.mul(rotation, new Quaternion((float) Math.toRadians(event.x / -1f), Vector4f.UP), rotation);
 		Quaternion.mul(rotation, new Quaternion((float) Math.toRadians(event.y / 1f), rotation.getRight(null)), temp);
 
@@ -58,8 +63,8 @@ public class FirstPersonCamera extends Camera {
 		return true;
 	}
 
-	private static final Vector4f Y_ONLY = new Vector4f(0, 1, 0);
-	private static final Vector4f NO_Y = new Vector4f(1, 0, 1);
+	private static final Vector4f Y_ONLY = new Vector4f(0, 1, 0, 0);
+	private static final Vector4f NO_Y = new Vector4f(1, 0, 1, 0);
 
 	@Override
 	public void update(float delta, GameObject object) {
@@ -90,14 +95,5 @@ public class FirstPersonCamera extends Camera {
 			object.getTransform().increasePos(motion);
 			updateMatrix();
 		}
-	}
-
-	@Override
-	public boolean keyPressed(KeyEvent event) {
-		if (event.key == Input.KEY_P) {
-			double pitch = Math.toDegrees(Math.atan2(2 * rotation.x * rotation.w - 2 * rotation.y * rotation.z, 1 - 2 * rotation.x * rotation.x - 2 * rotation.z * rotation.z));
-			Logs.d(pitch);
-		}
-		return false;
 	}
 }

@@ -28,7 +28,7 @@ public class Vector4f {
 	}
 
 	public static float lengthSquared(Vector4f src) {
-		return src.x * src.x + src.y * src.y + src.z * src.z;
+		return src.x * src.x + src.y * src.y + src.z * src.z + src.w * src.w;
 	}
 
 	public float lengthSquared() {
