@@ -7,7 +7,6 @@ import nullEngine.gl.Renderer;
 import nullEngine.input.Input;
 import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;
-import nullEngine.util.logs.Logs;
 
 public class FirstPersonCamera extends Camera {
 
@@ -41,12 +40,6 @@ public class FirstPersonCamera extends Camera {
 
 	@Override
 	public boolean mouseMoved(MouseEvent event) {
-		if (Math.abs(event.x) > 100 || Math.abs(event.y) > 100) {
-			return false;
-		}
-
-		Logs.d(event.x + ", " + event.y);
-
 		Quaternion.mul(rotation, new Quaternion((float) Math.toRadians(event.x / -1f), Vector4f.UP), rotation);
 		Quaternion.mul(rotation, new Quaternion((float) Math.toRadians(event.y / 1f), rotation.getRight(null)), temp);
 

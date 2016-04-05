@@ -57,6 +57,8 @@ public class Window {
 		return current;
 	}
 
+	private boolean ignoreNextCursorEvent = false;
+
 	private static final IntBuffer intBuffer = BufferUtils.createIntBuffer(1);
 	private static final DoubleBuffer doublebuffer = BufferUtils.createDoubleBuffer(1);
 
@@ -114,6 +116,7 @@ public class Window {
 		GLFW.glfwMakeContextCurrent(window);
 		GLFW.glfwSwapInterval(0);
 		//TODO temporary code
+		ignoreNextCursorEvent = true;
 		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 		glCapabilities = GL.createCapabilities();
 		initCallbacks();
@@ -184,7 +187,10 @@ public class Window {
 					event.x = inputData.cursorX((int) xpos);
 					event.y = inputData.cursorY((int) ypos);
 					event.mods = inputData.mods();
-					distributor.mouseMoved(event);
+					if (ignoreNextCursorEvent)
+						ignoreNextCursorEvent = false;
+					else
+						distributor.mouseMoved(event);
 				} catch (Exception e) {
 					Logs.e(e);
 				}
@@ -503,6 +509,7 @@ public class Window {
 		GLFW.glfwMakeContextCurrent(window);
 		GLFW.glfwSwapInterval(0);
 		//TODO temporary code
+		ignoreNextCursorEvent = true;
 		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 		glCapabilities = GL.createCapabilities();
 		initCallbacks();
