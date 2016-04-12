@@ -1,4 +1,4 @@
 package nullEngine.gl;
 
-public class Renderer {
+public class Material {
 }
