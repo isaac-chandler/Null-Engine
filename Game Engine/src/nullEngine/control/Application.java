@@ -1,6 +1,7 @@
 package nullEngine.control;
 
 import com.sun.istack.internal.Nullable;
+import nullEngine.gl.MasterRenderer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import nullEngine.exception.InitializationException;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 public class Application {
 
 	private Window window;
-	private Renderer renderer;
+	private MasterRenderer renderer;
 
 	private Loader loader;
 
@@ -47,7 +48,7 @@ public class Application {
 		GLFW.glfwShowWindow(window.getWindow());
 
 		loader = new Loader(this);
-		renderer = new Renderer();
+		renderer = new MasterRenderer();
 		renderer.viewport(0, 0, window.getWidth(), window.getHeight());
 		renderer.init();
 

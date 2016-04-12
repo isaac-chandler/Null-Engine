@@ -2,6 +2,7 @@ package nullEngine.gl.shader;
 
 import math.Matrix4f;
 import math.Vector4f;
+import nullEngine.gl.Material;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -12,6 +13,8 @@ import org.lwjgl.opengl.GL30;
 
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,10 +22,14 @@ import java.util.regex.Pattern;
 public abstract class Shader {
 
 	private static final Pattern INCLUDE_PATTERN = Pattern.compile("\\s*#include\\s*\"(.*?)\"\\s*");
+	private HashMap<String, Integer> userFloats = new HashMap<String, Integer>();
+	private HashMap<String, Integer> userVectors = new HashMap<String, Integer>();
+	private HashMap<String, Integer> userTextures = new HashMap<String, Integer>();
 
 	private int program;
 	private int vertexShader;
 	private int fragmentShader;
+	private int systemTextures = 0;
 
 
 	private FloatBuffer matrixbuffer = BufferUtils.createFloatBuffer(16);
@@ -63,6 +70,36 @@ public abstract class Shader {
 
 	protected int getUniformLocation(String name) {
 		return GL20.glGetUniformLocation(program, name);
+	}
+
+	protected void setSystemTextures(int systemTextures) {
+		this.systemTextures = systemTextures;
+	}
+
+	protected void addUserFloat(String name) {
+		userFloats.put(name, getUniformLocation(name));
+	}
+
+	protected void addUserVector(String name) {
+		userVectors.put(name, getUniformLocation(name));
+	}
+
+	protected void addUserTexture(String name) {
+		userTextures.put(name, getUniformLocation(name));
+	}
+
+	public void loadMaterial(Material material) {
+		for (Map.Entry<String, Integer> f : userFloats.entrySet())
+			loadFloat(f.getValue(), material.getFloat(f.getKey()));
+
+		for (Map.Entry<String, Integer> v : userVectors.entrySet())
+			loadVec4(v.getValue(), material.getVector(v.getKey()));
+
+		int textueLocation = systemTextures;
+		for (Map.Entry<String, Integer> texture : userTextures.entrySet()) {
+			loadInt(texture.getValue(), textueLocation);
+			material.getTexture(texture.getKey()).bind(textueLocation++);
+		}
 	}
 
 	protected void loadFloat(int location, float value) {

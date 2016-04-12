@@ -1,5 +1,6 @@
 package nullEngine.gl.shader;
 
+import math.Vector4f;
 import nullEngine.object.component.DirectionalLight;
 
 public class DeferredDiffuseShader extends DeferredLightingShader {
@@ -8,6 +9,7 @@ public class DeferredDiffuseShader extends DeferredLightingShader {
 
 	private int location_lightColor;
 	private int location_lightPos;
+	private int location_cameraPos;
 
 	private DeferredDiffuseShader() {
 		super("default/deferred/deferred-diffuse", "default/deferred/deferred-diffuse");
@@ -18,10 +20,15 @@ public class DeferredDiffuseShader extends DeferredLightingShader {
 		super.getUniformLocations();
 		location_lightColor = getUniformLocation("lightColor");
 		location_lightPos = getUniformLocation("lightPos");
+		location_cameraPos = getUniformLocation("cameraPos");
 	}
 
 	public void loadLight(DirectionalLight light) {
 		loadVec3(location_lightPos, light.getParent().getTransform().getWorldPos());
 		loadVec4(location_lightColor, light.getLightColor());
+	}
+
+	public void loadCameraPos(Vector4f cameraPos) {
+		loadVec3(location_cameraPos, cameraPos);
 	}
 }

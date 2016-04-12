@@ -4,6 +4,7 @@ public class DeferredLightingShader extends Shader {
 	private int location_colors;
 	private int location_positions;
 	private int location_normals;
+	private int location_specular;
 
 	public DeferredLightingShader(String vertex, String fragment) {
 		super(vertex, fragment);
@@ -20,6 +21,8 @@ public class DeferredLightingShader extends Shader {
 		location_colors = getUniformLocation("colors");
 		location_positions = getUniformLocation("positions");
 		location_normals = getUniformLocation("normals");
+		location_specular = getUniformLocation("specular");
+		setSystemTextures(4);
 	}
 
 	@Override
@@ -28,5 +31,6 @@ public class DeferredLightingShader extends Shader {
 		loadInt(location_colors, 0);
 		loadInt(location_positions, 1);
 		loadInt(location_normals, 2);
+		loadInt(location_specular, 3);
 	}
 }

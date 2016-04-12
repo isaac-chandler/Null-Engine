@@ -22,12 +22,16 @@ public class DeferredRenderShader extends Shader {
 		bindFragData(0, "outColor");
 		bindFragData(1, "outPosition");
 		bindFragData(2, "outNormal");
+		bindFragData(3, "outSpecular");
 	}
 
 	@Override
 	protected void getUniformLocations() {
 		location_modelMatrix = getUniformLocation("modelMatrix");
 		location_mvp = getUniformLocation("mvp");
+		addUserTexture("diffuse");
+		addUserFloat("reflectivity");
+		addUserFloat("shineDamper");
 	}
 
 	public void loadModelMatrix(Matrix4f mat) {

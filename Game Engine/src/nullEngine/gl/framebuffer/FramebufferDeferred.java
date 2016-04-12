@@ -15,13 +15,14 @@ public class FramebufferDeferred {
 	private int colorTextureID;
 	private int positionTextureID;
 	private int normalTextureID;
+	private int specularTextureID;
 	private int depthTexutreID;
 	private int width, height;
 
-	private static final IntBuffer DRAW_BUFFERS = BufferUtils.createIntBuffer(3);
+	private static final IntBuffer DRAW_BUFFERS = BufferUtils.createIntBuffer(4);
 
 	static {
-		DRAW_BUFFERS.put(GL30.GL_COLOR_ATTACHMENT0).put(GL30.GL_COLOR_ATTACHMENT1).put(GL30.GL_COLOR_ATTACHMENT2);
+		DRAW_BUFFERS.put(GL30.GL_COLOR_ATTACHMENT0).put(GL30.GL_COLOR_ATTACHMENT1).put(GL30.GL_COLOR_ATTACHMENT2).put(GL30.GL_COLOR_ATTACHMENT3);
 		DRAW_BUFFERS.flip();
 	}
 
@@ -62,6 +63,7 @@ public class FramebufferDeferred {
 		colorTextureID = genTexture(width, height);
 		positionTextureID = genTextureDetailed(width, height);
 		normalTextureID = genTextureDetailed(width, height);
+		specularTextureID = genTextureDetailed(width, height);
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, depthTexutreID);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
@@ -75,6 +77,7 @@ public class FramebufferDeferred {
 		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
 		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT1, GL11.GL_TEXTURE_2D, positionTextureID, 0);
 		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT2, GL11.GL_TEXTURE_2D, normalTextureID, 0);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT3, GL11.GL_TEXTURE_2D, specularTextureID, 0);
 		GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, depthTexutreID, 0);
 
 		if (GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE)
@@ -104,6 +107,8 @@ public class FramebufferDeferred {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, positionTextureID);
 		GL13.glActiveTexture(GL13.GL_TEXTURE2);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, normalTextureID);
+		GL13.glActiveTexture(GL13.GL_TEXTURE3);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, specularTextureID);
 		Quad.get().render();
 	}
 
@@ -123,6 +128,7 @@ public class FramebufferDeferred {
 		GL11.glDeleteTextures(positionTextureID);
 		GL11.glDeleteTextures(normalTextureID);
 		GL11.glDeleteTextures(depthTexutreID);
+		GL11.glDeleteTextures(specularTextureID);
 		framebuffers.remove(this);
 	}
 
@@ -144,6 +150,10 @@ public class FramebufferDeferred {
 
 	public int getDepthTexutreID() {
 		return depthTexutreID;
+	}
+
+	public int getSpecularTextureID() {
+		return specularTextureID;
 	}
 
 	public int getWidth() {
@@ -171,6 +181,7 @@ public class FramebufferDeferred {
 		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);
 		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT1, GL11.GL_TEXTURE_2D, positionTextureID, 0);
 		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT2, GL11.GL_TEXTURE_2D, normalTextureID, 0);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT3, GL11.GL_TEXTURE_2D, specularTextureID, 0);
 		GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, depthTexutreID, 0);
 
 		if (GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE) {

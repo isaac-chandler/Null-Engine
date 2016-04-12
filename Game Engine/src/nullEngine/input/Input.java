@@ -152,4 +152,14 @@ public class Input {
 	public static boolean mousePressed(int button) {
 		return button < inputData.getButtons().length && inputData.getButtons()[button];
 	}
+
+	public static int getKeyNumber(int key) {
+		if (key >= KEY_0 && key <= KEY_9)
+			return key - KEY_0;
+		else if (key >= KEY_KP_0 && key <= KEY_KP_9)
+			return key - KEY_KP_0;
+
+		return -1;
+	}
 }
+

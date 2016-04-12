@@ -1,7 +1,6 @@
 package nullEngine.object.component;
 
 import math.Vector4f;
-import nullEngine.control.Layer3D;
 import nullEngine.gl.Renderer;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
@@ -15,9 +14,7 @@ public class DirectionalLight extends GameComponent {
 
 	@Override
 	public void render(Renderer renderer, GameObject object) {
-		if (object.getLayer() instanceof Layer3D) {
-			((Layer3D) object.getLayer()).add(this);
-		}
+		renderer.add(this);
 	}
 
 	@Override

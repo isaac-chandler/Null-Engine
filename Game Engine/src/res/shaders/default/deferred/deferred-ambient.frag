@@ -9,6 +9,7 @@ uniform vec4 ambientColor;
 uniform sampler2D colors;
 uniform sampler2D positions;
 uniform sampler2D normals;
+uniform sampler2D specular;
 
 void main() {
 	outColor = texture(colors, texCoord) * ambientColor;

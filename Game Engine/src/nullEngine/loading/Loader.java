@@ -74,15 +74,28 @@ public class Loader {
 		return ibo;
 	}
 
-	public Model loadModel(float[] vertices, float[] textureCoords, float[] normals, int[] indices) {
-		int vao = createVAO();
-		int ibo = indexBuffer(indices);
-		vaos.add(vao);
-		int vertexVBO = dataToAttrib(0, vertices, 3);
-		int texCoordVBO = dataToAttrib(1, textureCoords, 2);
-		int normalVBO = dataToAttrib(2, normals, 3);
-		GL30.glBindVertexArray(0);
-		return new Model(vao, indices.length, ibo, vertexVBO, texCoordVBO, normalVBO);
+	public Model loadModel(float[][] vertices, float[][] texCoords, float[][] normals, int[][] indices) {
+		int[] vaos = new int[vertices.length];
+		int[] ibos = new int[vertices.length];
+		int[] vertexVBOs = new int[vertices.length];
+		int[] texCoordVBOs = new int[vertices.length];
+		int[] normalVBOs = new int[vertices.length];
+		int[] vertexCounts = new int[vertices.length];
+		for (int  i = 0; i < vertices.length; i++) {
+			vaos[i] = createVAO();
+			ibos[i] = indexBuffer(indices[i]);
+			vertexCounts[i] = indices[i].length;
+			this.vaos.add(vaos[i]);
+			vertexVBOs[i] = dataToAttrib(0, vertices[i], 3);
+			texCoordVBOs[i] = dataToAttrib(1, texCoords[i], 2);
+			normalVBOs[i] = dataToAttrib(2, normals[i], 3);
+			GL30.glBindVertexArray(0);
+		}
+		return new Model(vaos, vertexCounts, ibos, vertexVBOs, texCoordVBOs, normalVBOs);
+	}
+
+	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {
+		return loadModel(new float[][] {vertices}, new float[][] {texCoords}, new float[][] {normals}, new int[][] {indices});
 	}
 
 	public Model loadModel(String name) {
