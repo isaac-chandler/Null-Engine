@@ -6,6 +6,7 @@ import nullEngine.control.Layer3D;
 import nullEngine.control.State;
 import nullEngine.gl.Material;
 import nullEngine.gl.model.Model;
+import nullEngine.gl.shader.postfx.FogPostProcessing;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.gl.texture.TextureGenerator;
 import nullEngine.loading.Loader;
@@ -30,7 +31,7 @@ public class Main {
 
 			FirstPersonCamera camera = new FirstPersonCamera();
 
-			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 1000f);
+			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 100f);
 			test.addLayer(testLayer);
 
 			Loader loader = application.getLoader();
@@ -51,6 +52,12 @@ public class Main {
 			Material material = new Material();
 			material.setDiffuse(texture);
 			material.setShineDamper(15);
+
+//			testLayer.setAmbientColor(new Vector4f(1, 1, 1));
+			FogPostProcessing fog = new FogPostProcessing(1280, 720);
+			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
+			testLayer.getRenderer().addPostFX(fog);
+			testLayer.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();
 			GameObject cameraObject = new GameObject();

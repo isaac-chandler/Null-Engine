@@ -71,12 +71,6 @@ public class Framebuffer3D {
 		Quad.get().render();
 	}
 
-	public void renderBack() {
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
-		Quad.back().render();
-	}
-
 	public void delete() {
 		GL30.glDeleteFramebuffers(frameBufferID);
 		GL11.glDeleteTextures(colorTextureID);

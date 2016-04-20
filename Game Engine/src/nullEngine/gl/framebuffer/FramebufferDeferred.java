@@ -22,7 +22,11 @@ public class FramebufferDeferred {
 	private static final IntBuffer DRAW_BUFFERS = BufferUtils.createIntBuffer(4);
 
 	static {
-		DRAW_BUFFERS.put(GL30.GL_COLOR_ATTACHMENT0).put(GL30.GL_COLOR_ATTACHMENT1).put(GL30.GL_COLOR_ATTACHMENT2).put(GL30.GL_COLOR_ATTACHMENT3);
+		DRAW_BUFFERS
+				.put(GL30.GL_COLOR_ATTACHMENT0)
+				.put(GL30.GL_COLOR_ATTACHMENT1)
+				.put(GL30.GL_COLOR_ATTACHMENT2)
+				.put(GL30.GL_COLOR_ATTACHMENT3);
 		DRAW_BUFFERS.flip();
 	}
 
@@ -47,7 +51,7 @@ public class FramebufferDeferred {
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL30.GL_RGBA32F, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL30.GL_RGBA16F, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		return id;
 	}

@@ -17,14 +17,15 @@ void main() {
 	vec3 position = texture(positions, texCoord).xyz;
 	vec3 unitDirection = normalize(lightPos - position);
 	vec3 unitNormal = texture(normals, texCoord).xyz;
-	vec4 diffuse = lightColor * max(0, dot(unitNormal, unitDirection));
+	float diffuse = max(0, dot(unitNormal, unitDirection));
 
 	vec3 toCamera = normalize(cameraPos - position);
 	vec3 lightOut = reflect(-unitDirection, unitNormal);
 
 	vec4 specularVal = texture(specular, texCoord);
 
-	float specularFactor = pow(max(0, dot(lightOut, toCamera)), specularVal.y) * specularVal.x;
+	float specularFactor = pow(max(0, dot(toCamera, lightOut)), specularVal.y) * specularVal.x;
+	specularFactor *= step(1e-37, diffuse);
 
-	outColor = texture(colors, texCoord) * diffuse + (specularFactor * lightColor);
+	outColor = texture(colors, texCoord) * (diffuse * lightColor) + (specularFactor * lightColor);
 }

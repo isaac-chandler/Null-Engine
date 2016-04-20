@@ -4,10 +4,13 @@ in vec2 texCoords;
 in vec3 normal;
 in vec4 position;
 
+in vec3 cameraDirection;
+
 out vec4 outColor;
 out vec4 outPosition;
 out vec4 outNormal;
 out vec4 outSpecular;
+out vec4 outCameraDirection;
 
 uniform sampler2D diffuse;
 uniform float reflectivity;

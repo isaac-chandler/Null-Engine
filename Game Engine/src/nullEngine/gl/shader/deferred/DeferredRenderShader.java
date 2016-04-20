@@ -1,7 +1,8 @@
-package nullEngine.gl.shader;
+package nullEngine.gl.shader.deferred;
 
 
 import math.Matrix4f;
+import nullEngine.gl.shader.Shader;
 
 public class DeferredRenderShader extends Shader {
 

@@ -4,14 +4,16 @@ import math.Matrix4f;
 import math.Vector4f;
 import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.framebuffer.FramebufferDeferred;
+import nullEngine.gl.model.Quad;
 import nullEngine.gl.shader.BasicShader;
-import nullEngine.gl.shader.DeferredAmbientShader;
-import nullEngine.gl.shader.DeferredDiffuseShader;
-import nullEngine.gl.shader.DeferredRenderShader;
+import nullEngine.gl.shader.deferred.DeferredAmbientShader;
+import nullEngine.gl.shader.deferred.DeferredDiffuseShader;
+import nullEngine.gl.shader.deferred.DeferredRenderShader;
 import nullEngine.object.GameComponent;
 import nullEngine.object.component.DirectionalLight;
 import nullEngine.object.component.ModelComponent;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,18 +21,27 @@ import java.util.Map;
 
 public class DeferredRenderer extends Renderer {
 
+	private static final float LOD_DROPOFF_FACTOR = 1;
 	private HashMap<Material, ArrayList<ModelComponent>> models = new HashMap<Material, ArrayList<ModelComponent>>();
 	private Vector4f ambientColor = new Vector4f();
 	private ArrayList<DirectionalLight> lights = new ArrayList<DirectionalLight>();
 
 	private FramebufferDeferred dataBuffer;
 	private Framebuffer2D lightBuffer;
+	private float far;
+	private float near;
+
+	private ArrayList<PostProcessing> postFX = new ArrayList<PostProcessing>();
+
+	private static final Matrix4f FLIP = Matrix4f.setScale(new Vector4f(1, -1, 1), null);
 
 	private Vector4f cameraPos = new Vector4f();
 
-	public DeferredRenderer(int width, int height) {
+	public DeferredRenderer(int width, int height, float far, float near) {
 		dataBuffer = new FramebufferDeferred(width, height);
 		lightBuffer = new Framebuffer2D(width, height);
+		this.far = far;
+		this.near = near;
 	}
 
 	@Override
@@ -59,7 +70,10 @@ public class DeferredRenderer extends Renderer {
 			DeferredRenderShader.INSTANCE.loadMaterial(components.getKey());
 			for (ModelComponent model : components.getValue()) {
 				setModelMatrix(model.getParent().getTransform().getMatrix());
-				model.getModel().render();
+				Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
+				if (-pos.z <= far && -pos.z > near) {
+					model.getModel().render((int) Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()));
+				}
 			}
 		}
 		models.clear();
@@ -88,12 +102,18 @@ public class DeferredRenderer extends Renderer {
 		lights.clear();
 
 		GL11.glDisable(GL11.GL_BLEND);
+		int out = lightBuffer.getColorTextureID();
+		for (PostProcessing effect : postFX) {
+			out = effect.render(out, dataBuffer.getDepthTexutreID());
+		}
 
-		lightBuffer.unbind();
+		Framebuffer2D.unbind();
 		BasicShader.INSTANCE.bind();
-
-		BasicShader.INSTANCE.loadProjectionMatrix(Matrix4f.IDENTITY);
-		lightBuffer.render();
+		BasicShader.INSTANCE.loadProjectionMatrix(FLIP);
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, out);
+		Quad.back().render();
+//		dataBuffer.render();
 	}
 
 	@Override
@@ -128,5 +148,9 @@ public class DeferredRenderer extends Renderer {
 		cameraPos.x = viewMatrix.m30;
 		cameraPos.y = viewMatrix.m31;
 		cameraPos.z = viewMatrix.m32;
+	}
+
+	public void addPostFX(PostProcessing effect) {
+		postFX.add(effect);
 	}
 }

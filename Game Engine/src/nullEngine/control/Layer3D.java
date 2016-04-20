@@ -13,7 +13,7 @@ public class Layer3D extends Layer {
 		super(camera);
 		projectionMatrix.setPerspective(fov, (float) Application.get().getWidth() / (float) Application.get().getHeight(),
 				near, far);
-		renderer = new DeferredRenderer(Application.get().getWidth(), Application.get().getHeight());
+		renderer = new DeferredRenderer(Application.get().getWidth(), Application.get().getHeight(), far, near);
 	}
 
 	@Override
@@ -33,5 +33,9 @@ public class Layer3D extends Layer {
 
 	public void setAmbientColor(Vector4f ambientColor) {
 		renderer.setAmbientColor(ambientColor);
+	}
+
+	public DeferredRenderer getRenderer() {
+		return renderer;
 	}
 }

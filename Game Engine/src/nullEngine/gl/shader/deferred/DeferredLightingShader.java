@@ -1,4 +1,6 @@
-package nullEngine.gl.shader;
+package nullEngine.gl.shader.deferred;
+
+import nullEngine.gl.shader.Shader;
 
 public class DeferredLightingShader extends Shader {
 	private int location_colors;

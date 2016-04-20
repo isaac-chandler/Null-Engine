@@ -84,6 +84,9 @@ public class FirstPersonCamera extends Camera {
 			Vector4f.add(motion, rotation.getUp(null).mul(Y_ONLY).normalize().mul(-MOVEMENT_SPEED * delta), motion);
 		}
 
+		if (Input.keyPressed(Input.KEY_LEFT_CONTROL))
+			motion.mul(10);
+
 		if (!motion.isZero()) {
 			object.getTransform().increasePos(motion);
 			updateMatrix();

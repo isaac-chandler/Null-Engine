@@ -9,6 +9,7 @@ out vec3 normal;
 out vec4 position;
 
 uniform mat4 modelMatrix;
+uniform vec3 cameraPos;
 uniform mat4 mvp;
 
 void main() {

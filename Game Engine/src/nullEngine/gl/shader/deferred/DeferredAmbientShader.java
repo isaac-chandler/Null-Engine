@@ -1,4 +1,4 @@
-package nullEngine.gl.shader;
+package nullEngine.gl.shader.deferred;
 
 import math.Vector4f;
 
