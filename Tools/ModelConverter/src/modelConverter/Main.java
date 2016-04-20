@@ -3,13 +3,15 @@ package modelConverter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
 	//VERSION 1 Multiple LOD not supported
 	//VERSION 2 Multiple LOD supported
+	//VERSION 3 Multiple LODs are interleaved
 
-	private static final byte VERSION = 2;
+	private static final byte VERSION = 3;
 
 	public static void main(String[] args) throws IOException {
 		if (args.length < 1) {
@@ -57,31 +59,59 @@ public class Main {
 		fos.write(VERSION);
 		fos.write(lodCount);
 
+		System.out.println("Optimizing...");
 		OBJModel loader = new OBJModel(file);
-		write(loader, fos);
+		System.out.println("Optimized.");
+		ArrayList<Float> positions = new ArrayList<Float>(loader.newPositions);
+		ArrayList<Float> texCoords = new ArrayList<Float>(loader.newTexCoords);
+		ArrayList<Float> normals = new ArrayList<Float>(loader.newNormals);
+		ArrayList<Integer> indices = new ArrayList<Integer>(loader.newIndices.length);
+		for (int  i : loader.newIndices)
+			indices.add(i);
+		int[] vertexCounts = new int[lodCount];
+		vertexCounts[0] = loader.newIndices.length;
 
-		for (int i = 0; i < lodCount - 1; i ++) {
+		for (int i = 1; i < lodCount; i ++) {
+			System.out.println("Simpilifying (" + ((100 / (lodCount - 1)) * (i - 1)) + "%)...");
+			int offset = positions.size() / 3;
 			loader.simplify(lodBias);
-			write(loader, fos);
+			positions.addAll(loader.newPositions);
+			texCoords.addAll(loader.newTexCoords);
+			normals.addAll(loader.newNormals);
+			for (int j : loader.newIndices) {
+				indices.add(j + offset);
+			}
+			vertexCounts[i] = loader.newIndices.length;
+		}
+
+		System.out.println("Simplifying (100%)...");
+		System.out.println("Simplified.");
+
+		System.out.println("Writing to file...");
+
+		for (int vertexCount : vertexCounts) {
+			StreamUtils.writeInt(fos, vertexCount);
+		}
+
+		for (int index : indices) {
+			StreamUtils.writeInt(fos, index);
+		}
+
+		StreamUtils.writeInt(fos, positions.size() / 3);
+		for (float position : positions) {
+			StreamUtils.writeInt(fos, Float.floatToIntBits(position));
+		}
+
+		for (float texCoord : texCoords) {
+			StreamUtils.writeInt(fos, Float.floatToIntBits(texCoord));
+		}
+
+		for (float normal : normals) {
+			StreamUtils.writeInt(fos, Float.floatToIntBits(normal));
 		}
 
 		fos.close();
-	}
 
-	private static void write(OBJModel loader, FileOutputStream fos) throws IOException {
-		StreamUtils.writeInt(fos, loader.newPositions.size() / 3);
-		for (float f : loader.newPositions)
-			StreamUtils.writeInt(fos, Float.floatToIntBits(f));
-
-		for (float f : loader.newTexCoords)
-			StreamUtils.writeInt(fos, Float.floatToIntBits(f));
-
-		for (float f : loader.newNormals)
-			StreamUtils.writeInt(fos, Float.floatToIntBits(f));
-
-		StreamUtils.writeInt(fos, loader.newIndices.length);
-
-		for (int i : loader.newIndices)
-			StreamUtils.writeInt(fos, i);
+		System.out.println("Done.");
 	}
 }

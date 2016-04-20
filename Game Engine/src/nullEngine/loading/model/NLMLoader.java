@@ -19,6 +19,8 @@ public class NLMLoader {
 				return loadVersion1(loader, is);
 			} else if (version == 2) {
 				return loadVersion2(loader, is);
+			} else if (version == 3) {
+				return loadVersion3(loader, is);
 			} else {
 				throw new FileFormatException("Invalid file version: " + version);
 			}
@@ -28,29 +30,105 @@ public class NLMLoader {
 		}
 	}
 
+	private static Model loadVersion3(Loader loader, InputStream is) throws IOException {
+		int lodCount = is.read();
+		int[] vertexCounts = new int[lodCount];
+
+		int totalIndices = 0;
+
+		for (int  i = 0; i < lodCount; i++) {
+			vertexCounts[i] = StreamUtils.readInt(is);
+			totalIndices += vertexCounts[i];
+		}
+
+		int[] indices = new int[totalIndices];
+		for (int i = 0; i < totalIndices; i++) {
+			indices[i] = StreamUtils.readInt(is);
+		}
+
+		int vertexCount = StreamUtils.readInt(is);
+		float[] vertices = new float[vertexCount * 3];
+		for (int i = 0; i < vertexCount * 3; i++) {
+			vertices[i] = Float.intBitsToFloat(StreamUtils.readInt(is));
+		}
+
+		float[] texCoords = new float[vertexCount * 2];
+		for (int i = 0; i < vertexCount * 2; i++) {
+			texCoords[i] = Float.intBitsToFloat(StreamUtils.readInt(is));
+		}
+
+		float[] normals = new float[vertexCount * 3];
+		for (int i = 0; i < vertexCount * 3; i++) {
+			normals[i] = Float.intBitsToFloat(StreamUtils.readInt(is));
+		}
+
+		return loader.loadModel(vertices, texCoords, normals, indices, vertexCounts);
+	}
+
 	private static Model loadVersion2(Loader loader, InputStream is) throws IOException {
 		int lodCount = is.read();
-		float[][] vertices = new float[lodCount][];
-		float[][] texCoords = new float[lodCount][];
-		float[][] normals = new float[lodCount][];
-		int[][] indices = new int[lodCount][];
+		float[][] verticesTemp = new float[lodCount][];
+		float[][] texCoordsTemp = new float[lodCount][];
+		float[][] normalsTemp = new float[lodCount][];
+		int[][] indicesTemp = new int[lodCount][];
 
 		for (int i = 0; i < lodCount; i++) {
-			ModelData data = loadModelData(is);
-			vertices[i] = data.vertices;
-			texCoords[i] = data.texCoords;
-			normals[i] = data.normals;
-			indices[i] = data.indices;
+			ModelData data = loadModelDataPre3(is);
+			verticesTemp[i] = data.vertices;
+			texCoordsTemp[i] = data.texCoords;
+			normalsTemp[i] = data.normals;
+			indicesTemp[i] = data.indices;
 		}
-		return loader.loadModel(vertices, texCoords, normals, indices);
+
+		int[] vertexCounts = new int[lodCount];
+		int totalVertexDataSize = 0;
+		int totalIndexSize = 0;
+		for (int i = 0; i < lodCount; i++) {
+			vertexCounts[i] = indicesTemp[i].length;
+			totalVertexDataSize += verticesTemp[i].length / 3;
+			totalIndexSize += indicesTemp[i].length;
+		}
+
+		float[] vertices = new float[totalVertexDataSize * 3];
+		float[] texCoords = new float[totalVertexDataSize * 2];
+		float[] normals = new float[totalVertexDataSize * 3];
+		int[] indices = new int[totalIndexSize];
+
+		int totalOffset = 0;
+		for (int i = 0; i < lodCount; i++) {
+			int len = verticesTemp[i].length / 3;
+			for (int j = 0; j < len; j++) {
+				vertices[(totalOffset + j) * 3] = verticesTemp[i][j * 3];
+				vertices[(totalOffset + j) * 3 + 1] = verticesTemp[i][j * 3 + 1];
+				vertices[(totalOffset + j) * 3 + 2] = verticesTemp[i][j * 3 + 2];
+
+				texCoords[(totalOffset + j) * 2] = texCoordsTemp[i][j * 2];
+				texCoords[(totalOffset + j) * 2 + 1] = texCoordsTemp[i][j * 2 + 1];
+
+				normals[(totalOffset + j) * 3] = normalsTemp[i][j * 3];
+				normals[(totalOffset + j) * 3 + 1] = normalsTemp[i][j * 3 + 1];
+				normals[(totalOffset + j) * 3 + 2] = normalsTemp[i][j * 3 + 2];
+			}
+			totalOffset += len;
+		}
+
+		totalOffset = 0;
+
+		for (int[] indexArray : indicesTemp) {
+			for (int index : indexArray) {
+				indices[totalOffset++] = index;
+			}
+		}
+
+		return loader.loadModel(vertices, texCoords, normals, indices, vertexCounts);
 	}
 
 	private static Model loadVersion1(Loader loader, InputStream is) throws IOException {
-		ModelData data = loadModelData(is);
+		ModelData data = loadModelDataPre3(is);
 		return loader.loadModel(data.vertices, data.texCoords, data.normals, data.indices);
 	}
 
-	private static ModelData loadModelData(InputStream is) throws IOException {
+	private static ModelData loadModelDataPre3(InputStream is) throws IOException {
 		ModelData data = new ModelData();
 
 		int vertexCount = StreamUtils.readInt(is);
