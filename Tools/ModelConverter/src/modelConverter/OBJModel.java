@@ -12,7 +12,7 @@ public class OBJModel {
 	public ArrayList<Float> newNormals;
 	public int[] newIndices;
 
-	public OBJModel(File name) {
+	public OBJModel(File name, boolean cw) {
 		ArrayList<Float> positions = new ArrayList<Float>();
 		ArrayList<Float> texCoords = new ArrayList<Float>();
 		ArrayList<Float> normals = new ArrayList<Float>();
@@ -22,6 +22,7 @@ public class OBJModel {
 		int lineNum = 0;
 
 		try {
+			System.out.println("Reading...");
 			Scanner scanner = new Scanner(name);
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
@@ -44,14 +45,24 @@ public class OBJModel {
 					normals.add(Float.parseFloat(tokens[2]));
 					normals.add(Float.parseFloat(tokens[3]));
 				} else if (tokens[0].equals("f")) {
-					for (int i = 0; i < tokens.length - 3; i++) {
+					if (tokens.length > 4) {
+						scanner.close();
+						System.err.println("Faces must be triangulated");
+						System.exit(1);
+					}
+					if (cw) {
+						indices.add(new OBJIndex(tokens[3], hasTexCoords, hasNormals));
+						indices.add(new OBJIndex(tokens[2], hasTexCoords, hasNormals));
 						indices.add(new OBJIndex(tokens[1], hasTexCoords, hasNormals));
-						indices.add(new OBJIndex(tokens[i + 2], hasTexCoords, hasNormals));
-						indices.add(new OBJIndex(tokens[i + 3], hasTexCoords, hasNormals));
+					} else {
+						indices.add(new OBJIndex(tokens[1], hasTexCoords, hasNormals));
+						indices.add(new OBJIndex(tokens[2], hasTexCoords, hasNormals));
+						indices.add(new OBJIndex(tokens[3], hasTexCoords, hasNormals));
 					}
 				}
 			}
 			scanner.close();
+			System.out.println("Read.");
 
 			newPositions = new ArrayList<Float>();
 			newTexCoords = new ArrayList<Float>();
@@ -61,6 +72,7 @@ public class OBJModel {
 			HashMap<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
 			int currentIndex = 0;
 
+			System.out.println("Optimizing...");
 			for (int i = 0; i < indices.size(); i++) {
 				OBJIndex current = indices.get(i);
 
@@ -106,6 +118,7 @@ public class OBJModel {
 					newIndices[i] = indexMap.get(previous);
 				}
 			}
+			System.out.println("Optimized.");
 		} catch (Exception e) {
 			System.out.println(lineNum);
 			e.printStackTrace();

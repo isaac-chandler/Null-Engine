@@ -33,6 +33,7 @@ public class Main {
 
 		int lodCount = 5;
 		double lodBias = 1;
+		boolean cw = false;
 
 		for (String arg : args) {
 			if (arg.matches("\\-lodcount=\\d+")) {
@@ -47,21 +48,16 @@ public class Main {
 					System.err.println("Level of detail bias cannot be less than 1");
 					System.exit(1);
 				}
+			} else if (arg.equals("-cw") || arg.equals("-clockwise")) {
+				cw = true;
+			} else if (arg.equals("-ccw") || arg.equals("-counterclockwise") || arg.equals("-acw") || arg.equals("-anticlockwise")) {
+				cw = false;
 			}
 		}
 
 		File out = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.')) + ".nlm");
 
-		if (out.exists())
-			out.delete();
-
-		FileOutputStream fos = new FileOutputStream(out);
-		fos.write(VERSION);
-		fos.write(lodCount);
-
-		System.out.println("Optimizing...");
-		OBJModel loader = new OBJModel(file);
-		System.out.println("Optimized.");
+		OBJModel loader = new OBJModel(file, cw);
 		ArrayList<Float> positions = new ArrayList<Float>(loader.newPositions);
 		ArrayList<Float> texCoords = new ArrayList<Float>(loader.newTexCoords);
 		ArrayList<Float> normals = new ArrayList<Float>(loader.newNormals);
@@ -88,6 +84,13 @@ public class Main {
 		System.out.println("Simplified.");
 
 		System.out.println("Writing to file...");
+
+		if (out.exists())
+			out.delete();
+
+		FileOutputStream fos = new FileOutputStream(out);
+		fos.write(VERSION);
+		fos.write(lodCount);
 
 		for (int vertexCount : vertexCounts) {
 			StreamUtils.writeInt(fos, vertexCount);
