@@ -18,7 +18,7 @@ public class Material {
 
 	static {
 		setDefaultTexture("diffuse", TextureGenerator.WHITE);
-		setDefaultFloat("reflectivity", 1);
+		setDefaultFloat("reflectivity", 0);
 		setDefaultFloat("shineDamper", 1);
 	}
 

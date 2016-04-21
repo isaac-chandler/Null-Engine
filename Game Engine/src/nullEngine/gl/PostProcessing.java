@@ -35,7 +35,7 @@ public abstract class PostProcessing {
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, colors);
 			GL13.glActiveTexture(GL13.GL_TEXTURE1);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, depth);
-			Quad.get().render();
+			Quad.get().lazyRender(0);
 			return buffer.getColorTextureID();
 		} else
 			return colors;

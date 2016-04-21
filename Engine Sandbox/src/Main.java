@@ -6,6 +6,7 @@ import nullEngine.control.Layer3D;
 import nullEngine.control.State;
 import nullEngine.gl.Material;
 import nullEngine.gl.model.Model;
+import nullEngine.gl.model.Terrain;
 import nullEngine.gl.shader.postfx.FogPostProcessing;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.gl.texture.TextureGenerator;
@@ -52,6 +53,7 @@ public class Main {
 			Material material = new Material();
 			material.setDiffuse(texture);
 			material.setShineDamper(15);
+			material.setReflectivity(1);
 
 //			testLayer.setAmbientColor(new Vector4f(1, 1, 1));
 			FogPostProcessing fog = new FogPostProcessing(1280, 720);
@@ -61,14 +63,16 @@ public class Main {
 
 			GameObject dragon = new GameObject();
 			GameObject cameraObject = new GameObject();
+			GameObject terrain = new GameObject();
+			GameObject light1 = new GameObject();
 			testLayer.getRoot().addChild(cameraObject);
 			testLayer.getRoot().addChild(dragon);
+			testLayer.getRoot().addChild(terrain);
+			testLayer.getRoot().addChild(light1);
 
-			GameObject light1 = new GameObject();
 			light1.addComponent(new DirectionalLight(new Vector4f(1, 1, 1)));
 			light1.getTransform().setPos(new Vector4f(5, 0, -20));
 
-			testLayer.getRoot().addChild(light1);
 
 			cameraObject.addComponent(camera);
 			dragon.getTransform().setPos(new Vector4f(0, 0, 1f));
@@ -79,6 +83,14 @@ public class Main {
 					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
 				}
 			});
+
+//			terrain.getTransform().setPos(new Vector4f(-400, 0, -400));
+
+			Material terrainMaterial = new Material();
+			terrainMaterial.setDiffuse(TextureGenerator.genColored(new Vector4f(0, 0.557f, 0.067f)));
+			terrainMaterial.setReflectivity(0.2f);
+
+			terrain.addComponent(new ModelComponent(terrainMaterial, Terrain.generateFlatTerrain(loader, 800, 128, 1)));
 
 			Throwable e = application.start();
 			if (e != null) {

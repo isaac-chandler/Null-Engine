@@ -19,16 +19,11 @@ public class Quad {
 			3, 1, 2
 	};
 
-	private static final int[] indicesBack = new int[] {
-			3, 1, 0,
-			2, 1, 3
-	};
-
 	private static final float[] texCoords = new float[] {
-			0, 0,
 			0, 1,
-			1, 1,
-			1, 0
+			0, 0,
+			1, 0,
+			1, 1
 	};
 
 	private static final float[] normals = new float[] {
@@ -40,14 +35,9 @@ public class Quad {
 	
 	public static void setup(Loader loader) {
 		model = loader.loadModel(vertices, texCoords, normals, indices);
-		back = loader.loadModel(vertices, texCoords, normals, indicesBack);
 	}
 	
 	public static Model get() {
 		return model;
-	}
-
-	public static Model back() {
-		return back;
 	}
 }

@@ -11,6 +11,6 @@ uniform float density;
 uniform float cutoff;
 
 void main() {
-	float dist = texture(depth, vec2(2 * texCoord.x, 1) - texCoord).r;
+	float dist = texture(depth, texCoord).r;
 	outColor = mix(texture(colors, texCoord), vec4(skyColor, 1), pow(dist, 1 / density) * step(cutoff, dist));
 }

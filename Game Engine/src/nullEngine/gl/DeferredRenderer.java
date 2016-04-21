@@ -64,7 +64,6 @@ public class DeferredRenderer extends Renderer {
 		DeferredRenderShader.INSTANCE.bind();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		GL11.glCullFace(GL11.GL_FRONT);
 
 		for (Map.Entry<Material, ArrayList<ModelComponent>> components : models.entrySet()) {
 			DeferredRenderShader.INSTANCE.loadMaterial(components.getKey());
@@ -73,13 +72,13 @@ public class DeferredRenderer extends Renderer {
 				Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
 				if (-pos.z <= far && -pos.z > near) {
 					model.getModel().render((int) Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()));
+				} else if (pos.lengthSquared() < model.getModel().getRadiusSquared()){
+					model.getModel().render(0);
 				}
 			}
 		}
 		models.clear();
 
-
-		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		dataBuffer.unbind();
 
@@ -103,17 +102,18 @@ public class DeferredRenderer extends Renderer {
 
 		GL11.glDisable(GL11.GL_BLEND);
 		int out = lightBuffer.getColorTextureID();
+		Quad.get().preRender();
 		for (PostProcessing effect : postFX) {
 			out = effect.render(out, dataBuffer.getDepthTexutreID());
 		}
+		Quad.get().postRender();
 
 		Framebuffer2D.unbind();
 		BasicShader.INSTANCE.bind();
-		BasicShader.INSTANCE.loadProjectionMatrix(FLIP);
+		BasicShader.INSTANCE.loadProjectionMatrix(Matrix4f.IDENTITY);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, out);
-		Quad.back().render();
-//		dataBuffer.render();
+		Quad.get().render();
 	}
 
 	@Override

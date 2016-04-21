@@ -6,6 +6,8 @@ import org.lwjgl.opengl.GL11;
 public class MasterRenderer extends Renderer {
 	public void init() {
 		GL11.glClearColor(0, 0, 0, 0);
+		GL11.glFrontFace(GL11.GL_CCW);
+		GL11.glCullFace(GL11.GL_BACK);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 	}
 

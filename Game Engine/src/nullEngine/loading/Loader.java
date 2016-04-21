@@ -89,7 +89,17 @@ public class Loader {
 		for (int i = 1; i < vertexCounts.length; i++) {
 			vertexOffsets[i] = vertexCounts[i - 1] + vertexOffsets[i - 1];
 		}
-		return new Model(vao, vertexCounts, vertexOffsets, ibo, vertexVBO, texCoordVBO, normalVBO);
+
+		float biggestRadius = 0;
+		for (int i = 0; i < vertices.length / 3; i++) {
+			float x = vertices[i * 3];
+			float y = vertices[i * 3 + 1];
+			float z = vertices[i * 3 + 2];
+			float radius = x * x + y * y + z  * z;
+			if (radius > biggestRadius)
+				biggestRadius = radius;
+		}
+		return new Model(vao, vertexCounts, vertexOffsets, ibo, vertexVBO, texCoordVBO, normalVBO, biggestRadius);
 	}
 
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {
