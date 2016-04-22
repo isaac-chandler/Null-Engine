@@ -35,22 +35,15 @@ public class Main {
 
 			FlyCam camera = new FlyCam();
 
-			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 500f);
+			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 125f);
 			test.addLayer(testLayer);
 
 			Loader loader = application.getLoader();
 			loader.setAnisotropyEnabled(true);
 			loader.setAnisotropyAmount(4);
 			loader.setLodBias(-1);
-//			Model model = Quad.get();
 			final Model model = loader.loadModel("default/dragon");
 
-//			Texture2D texture = null;
-//			try {
-//				texture = new Texture2D(loader.loadTexture("default/test"));
-//			} catch (FileNotFoundException e) {
-//				Logs.f(e);
-//			}
 			Texture2D texture = TextureGenerator.genColored(218, 165, 32, 255);
 
 			Material material = new Material();
@@ -60,7 +53,7 @@ public class Main {
 
 			FogPostProcessing fog = new FogPostProcessing();
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
-			fog.setDensity(0.0005f);
+			fog.setDensity(0.001f);
 			testLayer.getRenderer().addPostFX(fog);
 			testLayer.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
@@ -79,7 +72,8 @@ public class Main {
 
 
 			cameraObject.addComponent(camera);
-			dragon.getTransform().setPos(new Vector4f(0, 0, 1f));
+			dragon.getTransform().setPos(new Vector4f(4, 0, 0));
+			dragon.getTransform().setRot(new Quaternion((float)Math.PI / -2, Vector4f.UP));
 
 			dragon.addComponent(new ModelComponent(material, model) {
 				@Override
@@ -88,8 +82,6 @@ public class Main {
 				}
 			});
 
-//			terrain.getTransform().setPos(new Vector4f(-400, 0, -400));
-
 			Material terrainMaterial = new Material();
 			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE);
 			terrainMaterial.setTexture("aTexture", new Texture2D(loader.loadTexture("default/grass")));
@@ -97,9 +89,9 @@ public class Main {
 			terrainMaterial.setTexture("gTexture", new Texture2D(loader.loadTexture("default/flowers")));
 			terrainMaterial.setTexture("bTexture", new Texture2D(loader.loadTexture("default/path")));
 			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
-			terrainMaterial.setVector("reflectivity", new Vector4f(0.2f, 0.2f, 0.2f, 0.2f));
-			terrainMaterial.setVector("shineDamper", new Vector4f(8, 8, 8, 8));
-			terrainMaterial.setFloat("tileCount", 200);
+			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.1f, 0));
+			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 4, 1));
+			terrainMaterial.setFloat("tileCount", 100);
 
 			terrain.addComponent(new ModelComponent(terrainMaterial, Terrain.generateFlatTerrain(loader, 200, 128)));
 

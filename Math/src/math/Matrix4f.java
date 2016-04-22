@@ -235,24 +235,6 @@ public class Matrix4f implements Serializable {
 			dest = new Matrix4f();
 
 		float tanHalfFOV = (float) Math.tan(fov / 2);
-//		float length = near - far;
-//
-//		dest.m00 = 1.0f / (tanHalfFOV * aspect);
-//		dest.m10 = 0;
-//		dest.m20 = 0;
-//		dest.m30 = 0;
-//		dest.m01 = 0;
-//		dest.m11 = 1.0f / tanHalfFOV;
-//		dest.m21 = 0;
-//		dest.m31 = 0;
-//		dest.m02 = 0;
-//		dest.m12 = 0;
-//		dest.m22 = (-near - far) / length;
-//		dest.m32 = 2 * far * near / length;
-//		dest.m03 = 0;
-//		dest.m13 = 0;
-//		dest.m23 = 1;
-//		dest.m33 = 0;
 
 		float length = far - near;
 
@@ -419,10 +401,7 @@ public class Matrix4f implements Serializable {
 
 	@Override
 	public String toString() {
-		return "\n" +
-				m00 + " " + m10 + " " + m20 + " " + m30 + "\n" +
-				m01 + " " + m11 + " " + m21 + " " + m31 + "\n" +
-				m02 + " " + m12 + " " + m22 + " " + m32 + "\n" +
-				m03 + " " + m13 + " " + m23 + " " + m33 + "\n";
+		return String.format("%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n",
+				m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
 	}
 }

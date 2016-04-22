@@ -40,6 +40,7 @@ public abstract class Renderer {
 
 	public void setViewMatrix(Matrix4f viewMatrix) {
 		this.viewMatrix = viewMatrix;
+
 		setMVP();
 	}
 

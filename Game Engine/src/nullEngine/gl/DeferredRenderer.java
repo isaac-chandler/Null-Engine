@@ -41,8 +41,6 @@ public class DeferredRenderer extends Renderer {
 
 	private static final Matrix4f FLIP = Matrix4f.setScale(new Vector4f(1, -1, 1), null);
 
-	private Vector4f cameraPos = new Vector4f();
-
 	public DeferredRenderer(int width, int height, float far, float near) {
 		dataBuffer = new FramebufferDeferred(width, height);
 		lightBuffer = new Framebuffer2D(width, height);
@@ -101,7 +99,7 @@ public class DeferredRenderer extends Renderer {
 		dataBuffer.render();
 
 		DeferredDirectionalShader.INSTANCE.bind();
-		DeferredDirectionalShader.INSTANCE.loadCameraPos(cameraPos);
+		DeferredDirectionalShader.INSTANCE.loadViewMatrix(viewMatrix);
 		for (DirectionalLight light : lights) {
 			DeferredDirectionalShader.INSTANCE.loadLight(light);
 			dataBuffer.render();
@@ -153,9 +151,6 @@ public class DeferredRenderer extends Renderer {
 	@Override
 	public void setViewMatrix(Matrix4f viewMatrix) {
 		super.setViewMatrix(viewMatrix);
-		cameraPos.x = viewMatrix.m30;
-		cameraPos.y = viewMatrix.m31;
-		cameraPos.z = viewMatrix.m32;
 	}
 
 	public void addPostFX(PostProcessing effect) {

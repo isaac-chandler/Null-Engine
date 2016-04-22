@@ -119,4 +119,12 @@ public abstract class Layer implements EventListener {
 	public void preResize() {
 		root.preResize();
 	}
+
+	public Camera getCamera() {
+		return camera;
+	}
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
 }
