@@ -1,4 +1,5 @@
-import math.Quaternion;
+package sandbox;
+
 import math.Vector4f;
 import nullEngine.NullEngine;
 import nullEngine.control.Application;
@@ -7,6 +8,7 @@ import nullEngine.control.State;
 import nullEngine.gl.Material;
 import nullEngine.gl.model.Model;
 import nullEngine.gl.model.Terrain;
+import nullEngine.gl.shader.deferred.DeferredTerrainShader;
 import nullEngine.gl.shader.postfx.FogPostProcessing;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.gl.texture.TextureGenerator;
@@ -32,7 +34,7 @@ public class Main {
 
 			FirstPersonCamera camera = new FirstPersonCamera();
 
-			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 100f);
+			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 500f);
 			test.addLayer(testLayer);
 
 			Loader loader = application.getLoader();
@@ -52,26 +54,25 @@ public class Main {
 
 			Material material = new Material();
 			material.setDiffuse(texture);
-			material.setShineDamper(15);
+			material.setShineDamper(32);
 			material.setReflectivity(1);
 
 //			testLayer.setAmbientColor(new Vector4f(1, 1, 1));
 			FogPostProcessing fog = new FogPostProcessing(1280, 720);
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
+			fog.setDensity(0.0005f);
 			testLayer.getRenderer().addPostFX(fog);
 			testLayer.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();
 			GameObject cameraObject = new GameObject();
 			GameObject terrain = new GameObject();
-			GameObject light1 = new GameObject();
 			testLayer.getRoot().addChild(cameraObject);
 			testLayer.getRoot().addChild(dragon);
 			testLayer.getRoot().addChild(terrain);
-			testLayer.getRoot().addChild(light1);
 
-			light1.addComponent(new DirectionalLight(new Vector4f(1, 1, 1)));
-			light1.getTransform().setPos(new Vector4f(5, 0, -20));
+			testLayer.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
+			testLayer.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
 
 
 			cameraObject.addComponent(camera);
@@ -80,17 +81,24 @@ public class Main {
 			dragon.addComponent(new ModelComponent(material, model) {
 				@Override
 				public void update(float delta, GameObject object) {
-					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
+//					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
 				}
 			});
 
 //			terrain.getTransform().setPos(new Vector4f(-400, 0, -400));
 
 			Material terrainMaterial = new Material();
-			terrainMaterial.setDiffuse(TextureGenerator.genColored(new Vector4f(0, 0.557f, 0.067f)));
-			terrainMaterial.setReflectivity(0.2f);
+			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE);
+			terrainMaterial.setTexture("aTexture", new Texture2D(loader.loadTexture("default/grass")));
+			terrainMaterial.setTexture("rTexture", new Texture2D(loader.loadTexture("default/dirt")));
+			terrainMaterial.setTexture("gTexture", new Texture2D(loader.loadTexture("default/flowers")));
+			terrainMaterial.setTexture("bTexture", new Texture2D(loader.loadTexture("default/path")));
+			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
+			terrainMaterial.setVector("reflectivity", new Vector4f(0.2f, 0.2f, 0.2f, 0.2f));
+			terrainMaterial.setVector("shineDamper", new Vector4f(8, 8, 8, 8));
+			terrainMaterial.setFloat("tileCount", 100);
 
-			terrain.addComponent(new ModelComponent(terrainMaterial, Terrain.generateFlatTerrain(loader, 800, 128, 1)));
+			terrain.addComponent(new ModelComponent(terrainMaterial, Terrain.generateFlatTerrain(loader, 800, 128)));
 
 			Throwable e = application.start();
 			if (e != null) {

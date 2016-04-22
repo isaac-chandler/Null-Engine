@@ -99,7 +99,7 @@ public class Loader {
 			if (radius > biggestRadius)
 				biggestRadius = radius;
 		}
-		return new Model(vao, vertexCounts, vertexOffsets, ibo, vertexVBO, texCoordVBO, normalVBO, biggestRadius);
+		return new Model(vao, vertexCounts, vertexOffsets, ibo, vertexVBO, texCoordVBO, normalVBO, (float) Math.sqrt(biggestRadius));
 	}
 
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {

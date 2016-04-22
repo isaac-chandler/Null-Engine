@@ -1,18 +1,15 @@
 package nullEngine.gl.shader.deferred;
 
-
 import math.Matrix4f;
 import nullEngine.gl.shader.Shader;
 
-public class DeferredRenderShader extends Shader {
-
-	public static final DeferredRenderShader INSTANCE = new DeferredRenderShader();
+public class DeferredShader extends Shader {
 
 	private int location_modelMatrix;
 	private int location_mvp;
 
-	private DeferredRenderShader() {
-		super("default/deferred/deferred-render", "default/deferred/deferred-render");
+	public DeferredShader(String vertex, String fragment) {
+		super(vertex, fragment);
 	}
 
 	@Override
@@ -30,9 +27,6 @@ public class DeferredRenderShader extends Shader {
 	protected void getUniformLocations() {
 		location_modelMatrix = getUniformLocation("modelMatrix");
 		location_mvp = getUniformLocation("mvp");
-		addUserTexture("diffuse");
-		addUserFloat("reflectivity");
-		addUserFloat("shineDamper");
 	}
 
 	public void loadModelMatrix(Matrix4f mat) {

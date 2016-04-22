@@ -1,5 +1,6 @@
 package nullEngine.gl;
 
+import math.MathUtil;
 import math.Matrix4f;
 import math.Vector4f;
 import nullEngine.gl.framebuffer.Framebuffer2D;
@@ -7,8 +8,9 @@ import nullEngine.gl.framebuffer.FramebufferDeferred;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.shader.BasicShader;
 import nullEngine.gl.shader.deferred.DeferredAmbientShader;
-import nullEngine.gl.shader.deferred.DeferredDiffuseShader;
-import nullEngine.gl.shader.deferred.DeferredRenderShader;
+import nullEngine.gl.shader.deferred.DeferredDirectionalShader;
+import nullEngine.gl.shader.deferred.DeferredBasicShader;
+import nullEngine.gl.shader.deferred.DeferredShader;
 import nullEngine.object.GameComponent;
 import nullEngine.object.component.DirectionalLight;
 import nullEngine.object.component.ModelComponent;
@@ -20,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeferredRenderer extends Renderer {
+
+	private DeferredShader shader = DeferredBasicShader.INSTANCE;
 
 	private static final float LOD_DROPOFF_FACTOR = 1;
 	private HashMap<Material, ArrayList<ModelComponent>> models = new HashMap<Material, ArrayList<ModelComponent>>();
@@ -61,19 +65,21 @@ public class DeferredRenderer extends Renderer {
 	@Override
 	public void render() {
 		dataBuffer.bind();
-		DeferredRenderShader.INSTANCE.bind();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
 		for (Map.Entry<Material, ArrayList<ModelComponent>> components : models.entrySet()) {
-			DeferredRenderShader.INSTANCE.loadMaterial(components.getKey());
+			shader = components.getKey().getShader();
+			shader.bind();
+			shader.loadMaterial(components.getKey());
 			for (ModelComponent model : components.getValue()) {
 				setModelMatrix(model.getParent().getTransform().getMatrix());
 				Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
-				if (-pos.z <= far && -pos.z > near) {
-					model.getModel().render((int) Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()));
-				} else if (pos.lengthSquared() < model.getModel().getRadiusSquared()){
-					model.getModel().render(0);
+				pos.z += model.getModel().getRadius();
+				if (-pos.z <= far) {
+					model.getModel().render(MathUtil.clamp(
+							(int) Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()) + model.getLodBias(), 0, model.getModel().getLODCount())
+					);
 				}
 			}
 		}
@@ -92,10 +98,10 @@ public class DeferredRenderer extends Renderer {
 
 		dataBuffer.render();
 
-		DeferredDiffuseShader.INSTANCE.bind();
-		DeferredDiffuseShader.INSTANCE.loadCameraPos(cameraPos);
+		DeferredDirectionalShader.INSTANCE.bind();
+		DeferredDirectionalShader.INSTANCE.loadCameraPos(cameraPos);
 		for (DirectionalLight light : lights) {
-			DeferredDiffuseShader.INSTANCE.loadLight(light);
+			DeferredDirectionalShader.INSTANCE.loadLight(light);
 			dataBuffer.render();
 		}
 		lights.clear();
@@ -133,13 +139,13 @@ public class DeferredRenderer extends Renderer {
 	@Override
 	protected void setMVP() {
 		super.setMVP();
-		DeferredRenderShader.INSTANCE.loadMVP(mvp);
+		shader.loadMVP(mvp);
 	}
 
 	@Override
 	public void setModelMatrix(Matrix4f modelMatrix) {
 		super.setModelMatrix(modelMatrix);
-		DeferredRenderShader.INSTANCE.loadModelMatrix(modelMatrix);
+		shader.loadModelMatrix(modelMatrix);
 	}
 
 	@Override

@@ -31,4 +31,8 @@ public class Texture2D {
 	public void delete() {
 		GL11.glDeleteTextures(id);
 	}
+
+	public Object getID() {
+		return id;
+	}
 }

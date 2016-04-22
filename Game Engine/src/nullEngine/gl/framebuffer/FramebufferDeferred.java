@@ -116,16 +116,6 @@ public class FramebufferDeferred {
 		Quad.get().render();
 	}
 
-	public void renderBack() {
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
-		GL13.glActiveTexture(GL13.GL_TEXTURE1);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, positionTextureID);
-		GL13.glActiveTexture(GL13.GL_TEXTURE2);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, normalTextureID);
-		Quad.back().render();
-	}
-
 	public void delete() {
 		GL30.glDeleteFramebuffers(frameBufferID);
 		GL11.glDeleteTextures(colorTextureID);

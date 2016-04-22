@@ -10,6 +10,7 @@ public class ModelComponent extends GameComponent {
 
 	private Material material;
 	private Model model;
+	private int lodBias = 0;
 
 	public ModelComponent(Material material, Model model) {
 		this.material = material;
@@ -30,6 +31,14 @@ public class ModelComponent extends GameComponent {
 
 	public void setModel(Model model) {
 		this.model = model;
+	}
+
+	public int getLodBias() {
+		return lodBias;
+	}
+
+	public void setLodBias(int lodBias) {
+		this.lodBias = lodBias;
 	}
 
 	@Override

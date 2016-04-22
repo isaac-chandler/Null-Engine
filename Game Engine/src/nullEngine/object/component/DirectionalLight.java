@@ -7,9 +7,11 @@ import nullEngine.object.GameObject;
 
 public class DirectionalLight extends GameComponent {
 	private Vector4f lightColor;
+	private Vector4f direction;
 
-	public DirectionalLight(Vector4f lightColor) {
+	public DirectionalLight(Vector4f lightColor, Vector4f direction) {
 		this.lightColor = lightColor;
+		this.direction = direction.normalize(null);
 	}
 
 	@Override
@@ -28,5 +30,13 @@ public class DirectionalLight extends GameComponent {
 
 	public void setLightColor(Vector4f lightColor) {
 		this.lightColor = lightColor;
+	}
+
+	public Vector4f getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Vector4f direction) {
+		this.direction = direction.normalize(null);
 	}
 }

@@ -20,11 +20,11 @@ public class Model {
 	private int vertexVBO;
 	private int texCoordVBO;
 	private int normalVBO;
-	private float radiusSquared;
+	private float radius;
 
 	public static Model QUAD;
 
-	public Model(int vaoID, int[] vertexCounts, int[] vertexOffsets, int ibo, int vertexVBO, int texCoordVBO, int normalVBO, float radiusSquared) {
+	public Model(int vaoID, int[] vertexCounts, int[] vertexOffsets, int ibo, int vertexVBO, int texCoordVBO, int normalVBO, float radius) {
 		this.vaoID = vaoID;
 		this.vertexCounts = vertexCounts;
 		this.vertexOffsets = vertexOffsets;
@@ -32,7 +32,7 @@ public class Model {
 		this.vertexVBO = vertexVBO;
 		this.texCoordVBO = texCoordVBO;
 		this.normalVBO = normalVBO;
-		this.radiusSquared = radiusSquared;
+		this.radius = radius;
 		models.add(this);
 	}
 
@@ -48,8 +48,8 @@ public class Model {
 		return vertexOffsets[lod];
 	}
 
-	public float getRadiusSquared() {
-		return radiusSquared;
+	public float getRadius() {
+		return radius;
 	}
 
 	public void render(int lod) {

@@ -5,7 +5,7 @@ in vec2 texCoord;
 out vec4 outColor;
 
 uniform vec4 lightColor;
-uniform vec3 lightPos;
+uniform vec3 direction;
 uniform vec3 cameraPos;
 
 uniform sampler2D colors;
@@ -15,12 +15,11 @@ uniform sampler2D specular;
 
 void main() {
 	vec3 position = texture(positions, texCoord).xyz;
-	vec3 unitDirection = normalize(lightPos - position);
 	vec3 unitNormal = texture(normals, texCoord).xyz;
-	float diffuse = max(0, dot(unitNormal, unitDirection));
+	float diffuse = max(0, dot(unitNormal, -direction));
 
 	vec3 toCamera = normalize(cameraPos - position);
-	vec3 lightOut = reflect(-unitDirection, unitNormal);
+	vec3 lightOut = reflect(direction, unitNormal);
 
 	vec4 specularVal = texture(specular, texCoord);
 

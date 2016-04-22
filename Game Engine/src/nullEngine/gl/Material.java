@@ -1,8 +1,9 @@
 package nullEngine.gl;
 
 import math.Vector4f;
+import nullEngine.gl.shader.deferred.DeferredBasicShader;
+import nullEngine.gl.shader.deferred.DeferredShader;
 import nullEngine.gl.texture.Texture2D;
-import nullEngine.gl.texture.TextureGenerator;
 
 import java.util.HashMap;
 
@@ -11,16 +12,11 @@ public class Material {
 	private HashMap<String, Vector4f> vectors;
 	private HashMap<String, Texture2D> textures;
 	private boolean usingLighting = true;
+	private DeferredShader shader = DeferredBasicShader.INSTANCE;
 
 	private static HashMap<String, Float> defaultFloats = new HashMap<String, Float>();
 	private static HashMap<String, Vector4f> defaultVectors = new HashMap<String, Vector4f>();
 	private static HashMap<String, Texture2D> defaultTextures = new HashMap<String, Texture2D>();
-
-	static {
-		setDefaultTexture("diffuse", TextureGenerator.WHITE);
-		setDefaultFloat("reflectivity", 0);
-		setDefaultFloat("shineDamper", 1);
-	}
 
 	public Material() {
 		floats = (HashMap<String, Float>) defaultFloats.clone();
@@ -94,5 +90,13 @@ public class Material {
 
 	public void setUsingLighting(boolean usingLighting) {
 		this.usingLighting = usingLighting;
+	}
+
+	public DeferredShader getShader() {
+		return shader;
+	}
+
+	public void setShader(DeferredShader shader) {
+		this.shader = shader;
 	}
 }
