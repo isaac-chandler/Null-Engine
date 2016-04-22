@@ -16,4 +16,8 @@ public interface EventListener {
 	boolean mouseMoved(MouseEvent event);
 
 	boolean charTyped(CharEvent event);
+
+	void postResize(ResizeEvent event);
+
+	void preResize();
 }

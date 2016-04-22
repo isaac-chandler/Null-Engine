@@ -9,8 +9,8 @@ public class FogPostProcessing extends PostProcessing {
 	private float density = 0.001f;
 	private float cutoff = 0.3f;
 
-	public FogPostProcessing(int width, int height) {
-		super(FogShader.INSTANCE, width, height);
+	public FogPostProcessing() {
+		super(FogShader.INSTANCE);
 	}
 
 	public void setSkyColor(Vector4f skyColor) {

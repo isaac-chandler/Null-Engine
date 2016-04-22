@@ -2,10 +2,7 @@ package nullEngine.control;
 
 import math.Matrix4f;
 import nullEngine.gl.Renderer;
-import nullEngine.input.CharEvent;
-import nullEngine.input.EventListener;
-import nullEngine.input.KeyEvent;
-import nullEngine.input.MouseEvent;
+import nullEngine.input.*;
 import nullEngine.object.GameObject;
 import nullEngine.object.RootObject;
 import nullEngine.object.component.Camera;
@@ -111,5 +108,15 @@ public abstract class Layer implements EventListener {
 			return root.charTyped(event);
 		}
 		return false;
+	}
+
+	@Override
+	public void postResize(ResizeEvent event) {
+		root.postResize(event);
+	}
+
+	@Override
+	public void preResize() {
+		root.preResize();
 	}
 }

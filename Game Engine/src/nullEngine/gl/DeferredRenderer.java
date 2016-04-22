@@ -8,12 +8,14 @@ import nullEngine.gl.framebuffer.FramebufferDeferred;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.shader.BasicShader;
 import nullEngine.gl.shader.deferred.DeferredAmbientShader;
-import nullEngine.gl.shader.deferred.DeferredDirectionalShader;
 import nullEngine.gl.shader.deferred.DeferredBasicShader;
+import nullEngine.gl.shader.deferred.DeferredDirectionalShader;
 import nullEngine.gl.shader.deferred.DeferredShader;
+import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.object.component.DirectionalLight;
 import nullEngine.object.component.ModelComponent;
+import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
@@ -158,5 +160,20 @@ public class DeferredRenderer extends Renderer {
 
 	public void addPostFX(PostProcessing effect) {
 		postFX.add(effect);
+	}
+
+	public void postResize(ResizeEvent event) {
+		dataBuffer = new FramebufferDeferred(event.width, event.height);
+		lightBuffer = new Framebuffer2D(event.width, event.height);
+		for (PostProcessing effect : postFX)
+			effect.postResize(event);
+		Logs.d("resized to " + event.width + "x" + event.height);
+	}
+
+	public void preResize() {
+		dataBuffer.delete();
+		lightBuffer.delete();
+		for (PostProcessing effect : postFX)
+			effect.preResize();
 	}
 }

@@ -84,8 +84,10 @@ public class FramebufferDeferred {
 		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT3, GL11.GL_TEXTURE_2D, specularTextureID, 0);
 		GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, depthTexutreID, 0);
 
-		if (GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE)
+		if (GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE) {
+			Logs.d("Failed to create framebuffer of size " + width + "x" + height);
 			throw new RuntimeException("Frame buffer is not complete");
+		}
 
 		GL20.glDrawBuffers(DRAW_BUFFERS);
 

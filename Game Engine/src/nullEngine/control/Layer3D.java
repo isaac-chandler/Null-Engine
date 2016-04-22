@@ -3,6 +3,7 @@ package nullEngine.control;
 import math.Vector4f;
 import nullEngine.gl.DeferredRenderer;
 import nullEngine.gl.Renderer;
+import nullEngine.input.ResizeEvent;
 import nullEngine.object.component.Camera;
 
 public class Layer3D extends Layer {
@@ -37,5 +38,17 @@ public class Layer3D extends Layer {
 
 	public DeferredRenderer getRenderer() {
 		return renderer;
+	}
+
+	@Override
+	public void postResize(ResizeEvent event) {
+		super.postResize(event);
+		renderer.postResize(event);
+	}
+
+	@Override
+	public void preResize() {
+		super.preResize();
+		renderer.preResize();
 	}
 }

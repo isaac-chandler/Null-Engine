@@ -1,6 +1,7 @@
 package nullEngine.gl;
 
 import com.sun.istack.internal.Nullable;
+import nullEngine.loading.Loader;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.*;
@@ -29,7 +30,6 @@ public class Window {
 	private int width, height;
 
 	private boolean fullscreen;
-	private EventDistributor eventDistributor;
 	private boolean vsync = false;
 
 	private GLFWCharModsCallback        charModsCallback;
@@ -210,10 +210,7 @@ public class Window {
 			@Override
 			public void invoke(long window, int width_, int height_) {
 				try {
-					if (!isFullscreen()) {
-						width = width_;
-						height = height_;
-					}
+
 				} catch (Exception e) {
 					Logs.e(e);
 				}
@@ -321,7 +318,19 @@ public class Window {
 			@Override
 			public void invoke(long window, int width_, int height_) {
 				try {
-
+					if (width_ != 0 && height_ != 0) {
+						if (!isFullscreen()) {
+							width = width_;
+							height = height_;
+						}
+						if (distributor.getListener() != null) {
+							ResizeEvent event = new ResizeEvent();
+							event.width = width_;
+							event.height = height_;
+							distributor.preResize();
+							distributor.postResize(event);
+						}
+					}
 				} catch (Exception e) {
 					Logs.e(e);
 				}
@@ -345,8 +354,8 @@ public class Window {
 		sizeCallback.free();
 	}
 
-	public void setEventDistributor(EventDistributor eventDistributor) {
-		this.eventDistributor = eventDistributor;
+	public void setDistributor(EventDistributor distributor) {
+		this.distributor = distributor;
 	}
 
 	public void free() {
@@ -483,7 +492,7 @@ public class Window {
 		return fullscreen;
 	}
 
-	public void setFullscreen(boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode) {
+	public void setFullscreen(boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode, Loader loader) {
 		if (this.fullscreen == fullscreen)
 			return;
 
@@ -503,6 +512,9 @@ public class Window {
 		long newWindow = GLFW.glfwCreateWindow(
 				fullscreen ? width : this.width,
 				fullscreen ? height : this.height, title, fullscreen ? GLFW.glfwGetPrimaryMonitor() : MemoryUtil.NULL, window);
+
+		distributor.preResize();
+		loader.preContextChange();
 		free();
 		window = newWindow;
 
@@ -513,6 +525,13 @@ public class Window {
 		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 		glCapabilities = GL.createCapabilities();
 		initCallbacks();
+		loader.postContextChange();
+		if (distributor.getListener() != null) {
+			ResizeEvent event = new ResizeEvent();
+			event.width = fullscreen ? width : this.width;
+			event.height = fullscreen ? height : this.height;
+			distributor.postResize(event);
+		}
 	}
 
 	public long getMonitor() {

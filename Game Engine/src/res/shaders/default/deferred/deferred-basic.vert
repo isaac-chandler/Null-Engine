@@ -15,7 +15,6 @@ uniform mat4 mvp;
 void main() {
 	position = modelMatrix * vec4(inPosition, 1);
 	gl_Position = mvp * vec4(inPosition, 1);
-	gl_Position.y = 1 - gl_Position.y;
 	texCoords = inTexCoords;
 	normal = (modelMatrix * vec4(inNormal, 0)).xyz;
 }

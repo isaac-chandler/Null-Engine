@@ -40,4 +40,14 @@ public class EventAdapter implements EventListener {
 	public boolean charTyped(CharEvent event) {
 		return false;
 	}
+
+	@Override
+	public void postResize(ResizeEvent event) {
+
+	}
+
+	@Override
+	public void preResize() {
+
+	}
 }

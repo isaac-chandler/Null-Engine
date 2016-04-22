@@ -1,8 +1,10 @@
 package nullEngine.gl;
 
+import nullEngine.control.Application;
 import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.shader.postfx.PostProcessingShader;
+import nullEngine.input.ResizeEvent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
@@ -13,9 +15,9 @@ public abstract class PostProcessing {
 
 	private Framebuffer2D buffer;
 
-	public PostProcessing(PostProcessingShader shader, int width, int height) {
+	public PostProcessing(PostProcessingShader shader) {
 		this.shader = shader;
-		buffer = new Framebuffer2D(width, height);
+		buffer = new Framebuffer2D(Application.get().getWidth(), Application.get().getHeight());
 	}
 
 	public boolean isEnabled() {
@@ -39,6 +41,14 @@ public abstract class PostProcessing {
 			return buffer.getColorTextureID();
 		} else
 			return colors;
+	}
+
+	public void postResize(ResizeEvent event) {
+		buffer = new Framebuffer2D(event.width, event.height);
+	}
+
+	public void preResize() {
+		buffer.delete();
 	}
 
 	public abstract void updateUniforms(PostProcessingShader shader);

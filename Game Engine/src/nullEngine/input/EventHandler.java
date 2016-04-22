@@ -70,4 +70,16 @@ public class EventHandler implements EventListener {
 				return true;
 		return false;
 	}
+
+	@Override
+	public void postResize(ResizeEvent event) {
+		for (EventListener listener : listeners)
+			listener.postResize(event);
+	}
+
+	@Override
+	public void preResize() {
+		for (EventListener listener : listeners)
+			listener.preResize();
+	}
 }

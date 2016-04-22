@@ -1,5 +1,6 @@
 package sandbox;
 
+import math.Quaternion;
 import math.Vector4f;
 import nullEngine.NullEngine;
 import nullEngine.control.Application;
@@ -15,7 +16,7 @@ import nullEngine.gl.texture.TextureGenerator;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
 import nullEngine.object.component.DirectionalLight;
-import nullEngine.object.component.FirstPersonCamera;
+import nullEngine.object.component.FlyCam;
 import nullEngine.object.component.ModelComponent;
 import nullEngine.util.logs.Logs;
 
@@ -32,7 +33,7 @@ public class Main {
 			int TEST_STATE = application.addState(test);
 			application.setState(TEST_STATE);
 
-			FirstPersonCamera camera = new FirstPersonCamera();
+			FlyCam camera = new FlyCam();
 
 			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 500f);
 			test.addLayer(testLayer);
@@ -57,8 +58,7 @@ public class Main {
 			material.setShineDamper(32);
 			material.setReflectivity(1);
 
-//			testLayer.setAmbientColor(new Vector4f(1, 1, 1));
-			FogPostProcessing fog = new FogPostProcessing(1280, 720);
+			FogPostProcessing fog = new FogPostProcessing();
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
 			fog.setDensity(0.0005f);
 			testLayer.getRenderer().addPostFX(fog);
@@ -70,6 +70,9 @@ public class Main {
 			testLayer.getRoot().addChild(cameraObject);
 			testLayer.getRoot().addChild(dragon);
 			testLayer.getRoot().addChild(terrain);
+
+			cameraObject.getTransform().setPos(new Vector4f(0, 1.5f, -5));
+			cameraObject.getTransform().setRot(new Quaternion((float) Math.PI, Vector4f.UP));
 
 			testLayer.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
 			testLayer.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
@@ -96,9 +99,9 @@ public class Main {
 			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
 			terrainMaterial.setVector("reflectivity", new Vector4f(0.2f, 0.2f, 0.2f, 0.2f));
 			terrainMaterial.setVector("shineDamper", new Vector4f(8, 8, 8, 8));
-			terrainMaterial.setFloat("tileCount", 100);
+			terrainMaterial.setFloat("tileCount", 200);
 
-			terrain.addComponent(new ModelComponent(terrainMaterial, Terrain.generateFlatTerrain(loader, 800, 128)));
+			terrain.addComponent(new ModelComponent(terrainMaterial, Terrain.generateFlatTerrain(loader, 200, 128)));
 
 			Throwable e = application.start();
 			if (e != null) {

@@ -50,4 +50,14 @@ public class EventDistributor implements EventListener {
 	public boolean charTyped(CharEvent event) {
 		return listener.charTyped(event);
 	}
+
+	@Override
+	public void postResize(ResizeEvent event) {
+		listener.postResize(event);
+	}
+
+	@Override
+	public void preResize() {
+		listener.preResize();
+	}
 }

@@ -178,10 +178,9 @@ public class Application {
 	}
 
 	public void setFullscreen(boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode) {
-		loader.preContextChange();
-		window.setFullscreen(fullscreen, fullscreenVideoMode);
+		window.setFullscreen(fullscreen, fullscreenVideoMode, loader);
 		renderer.viewport(0, 0, getWidth(), getHeight());
-		loader.contextChanged();
+		renderer.init();
 	}
 
 	public Window getWindow() {

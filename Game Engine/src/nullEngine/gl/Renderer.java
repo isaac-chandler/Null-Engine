@@ -2,8 +2,6 @@ package nullEngine.gl;
 
 import math.Matrix4f;
 import nullEngine.object.GameComponent;
-import nullEngine.util.logs.Logs;
-import org.lwjgl.opengl.GL11;
 
 public abstract class Renderer {
 
@@ -13,11 +11,6 @@ public abstract class Renderer {
 	protected Matrix4f projectionMatrix = Matrix4f.IDENTITY;
 	protected Matrix4f viewMatrix = Matrix4f.IDENTITY;
 	protected Matrix4f mvp = new Matrix4f();
-
-	public static void viewport(int x, int y, int width, int height) {
-		Logs.d(String.format("Viewport: %dx%d @%d, %d", width, height, x, y));
-		GL11.glViewport(x, y, width, height);
-	}
 
 	public static Renderer get() {
 		return current;

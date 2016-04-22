@@ -191,7 +191,7 @@ public class Loader {
 		Framebuffer3D.preContextChange();
 	}
 
-	public void contextChanged() {
+	public void postContextChange() {
 		Model.contextChanged(vaos);
 		Framebuffer3D.contextChanged();
 	}

@@ -41,12 +41,13 @@ public class Terrain {
 					int topRight = topLeft + scale;
 					int bottomLeft = ((z + scale) * vertexCount) + x;
 					int bottomRight = bottomLeft + scale;
+					indices[pointer++] = topRight;
+					indices[pointer++] = bottomLeft;
 					indices[pointer++] = topLeft;
-					indices[pointer++] = bottomLeft;
-					indices[pointer++] = topRight;
-					indices[pointer++] = topRight;
-					indices[pointer++] = bottomLeft;
+
 					indices[pointer++] = bottomRight;
+					indices[pointer++] = bottomLeft;
+					indices[pointer++] = topRight;
 					vertexCounts[lod] += 6;
 				}
 			}
