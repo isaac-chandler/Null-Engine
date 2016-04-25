@@ -1,11 +1,11 @@
 <component name="ArtifactManager">
   <artifact name="Engine Sandbox">
-    <output-path>$USER_HOME$/Desktop/workspace/java/Engine Sandbox/out</output-path>
+    <output-path>$PROJECT_DIR$/Engine Sandbox/out</output-path>
     <root id="root">
       <element id="artifact" artifact-name="Engine Sandbox:jar" />
       <element id="directory" name="lib">
         <element id="directory" name="bin">
-          <element id="dir-copy" path="$USER_HOME$/Desktop/workspace/java/Game Engine Workspace/Game Engine/lib/bin" />
+          <element id="dir-copy" path="$PROJECT_DIR$/Game Engine/lib/bin" />
         </element>
       </element>
     </root>

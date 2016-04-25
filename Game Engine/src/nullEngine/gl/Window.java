@@ -1,6 +1,7 @@
 package nullEngine.gl;
 
 import com.sun.istack.internal.Nullable;
+import nullEngine.control.Application;
 import nullEngine.loading.Loader;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
@@ -308,7 +309,7 @@ public class Window {
 			@Override
 			public void invoke(long window) {
 				try {
-
+					Application.get().render();
 				} catch (Exception e) {
 					Logs.e(e);
 				}
