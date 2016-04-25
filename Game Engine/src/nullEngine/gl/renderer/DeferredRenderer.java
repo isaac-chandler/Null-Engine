@@ -13,10 +13,12 @@ import nullEngine.gl.shader.deferred.DeferredAmbientShader;
 import nullEngine.gl.shader.deferred.DeferredBasicShader;
 import nullEngine.gl.shader.deferred.DeferredDirectionalShader;
 import nullEngine.gl.shader.deferred.DeferredShader;
+import nullEngine.input.Input;
 import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.object.component.DirectionalLight;
 import nullEngine.object.component.ModelComponent;
+import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
@@ -78,10 +80,12 @@ public class DeferredRenderer extends Renderer {
 				Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
 				pos.z += model.getModel().getRadius();
 				if (-pos.z <= far) {
-					model.getModel().render(MathUtil.clamp(
-									(int) Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()) + model.getLodBias(),
-									0, model.getModel().getLODCount())
-					);
+					int lod = MathUtil.clamp(
+							(int) Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()) + model.getLodBias(),
+							0, model.getModel().getLODCount() - 1);
+					if (Input.keyPressed(Input.KEY_P))
+						Logs.d(lod);
+					model.getModel().render(lod);
 				}
 			}
 		}

@@ -17,6 +17,8 @@ import nullEngine.gl.shader.deferred.DeferredTerrainShader;
 import nullEngine.gl.shader.postfx.FogPostProcessing;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.gl.texture.TextureGenerator;
+import nullEngine.input.Input;
+import nullEngine.input.KeyEvent;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
 import nullEngine.object.component.DirectionalLight;
@@ -110,6 +112,15 @@ public class Main {
 				@Override
 				public void update(float delta, GameObject object) {
 //					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
+				}
+
+				@Override
+				public boolean keyPressed(KeyEvent event) {
+					if (Input.getKeyNumber(event.key) >= 0) {
+						setLodBias(Input.getKeyNumber(event.key));
+						return true;
+					}
+					return false;
 				}
 			});
 
