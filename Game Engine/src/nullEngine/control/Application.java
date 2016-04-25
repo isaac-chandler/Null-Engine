@@ -14,40 +14,8 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Application {
-
-	private volatile ReentrantLock renderLock = new ReentrantLock(true);
-
-	private Thread updateThread = new Thread() {
-		@Override
-		public void run() {
-			while (running) {
-				if (clock.update()) {
-					renderLock.lock();
-					try {
-						if (GLFW.glfwWindowShouldClose(window.getWindow()) == GLFW.GLFW_TRUE || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
-							break;
-						}
-
-						if (GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_F11) == GLFW.GLFW_PRESS) {
-							setFullscreen(!isFullscreen(), Window.getBestFullscreenVideoMode(Window.getFullscreenVideoModes(window.getMonitor())));
-							GLFW.glfwShowWindow(window.getWindow());
-						}
-
-						update(clock.getDelta());
-					} catch (Throwable e) {
-						exception = e;
-						running = false;
-					} finally {
-						renderLock.unlock();
-					}
-				}
-			}
-			running = false;
-		}
-	};
 
 	private Window window;
 	private MasterRenderer renderer;
@@ -57,8 +25,8 @@ public class Application {
 
 	private Clock clock = new Clock();
 
-	private volatile boolean running = false;
-	private volatile Throwable exception = null;
+	private boolean running = false;
+	private Throwable exception = null;
 
 	private HashMap<Integer, State> states = new HashMap<Integer, State>();
 	private int nextStateID = 1;
@@ -80,7 +48,7 @@ public class Application {
 
 		window = new Window(title, width, height, fullscreen, displayMode, GLFW.glfwGetPrimaryMonitor());
 		GLFW.glfwShowWindow(window.getWindow());
-		GLFW.glfwSwapInterval(1);
+		GLFW.glfwSwapInterval(0);
 
 		loader = new Loader(this);
 		renderer = new MasterRenderer();
@@ -106,11 +74,28 @@ public class Application {
 
 	public Throwable start() {
 		running = true;
-		updateThread.start();
 		try {
 			while (running) {
-				GLFW.glfwPollEvents();
-				render();
+				if (clock.update()) {
+					try {
+						GLFW.glfwPollEvents();
+						if (GLFW.glfwWindowShouldClose(window.getWindow()) == GLFW.GLFW_TRUE || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
+							break;
+						}
+
+						if (GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_F11) == GLFW.GLFW_PRESS) {
+							setFullscreen(!isFullscreen(), Window.getBestFullscreenVideoMode(Window.getFullscreenVideoModes(window.getMonitor())));
+							GLFW.glfwShowWindow(window.getWindow());
+						}
+
+						update(clock.getDelta());
+
+						render();
+					} catch (Throwable e) {
+						exception = e;
+						running = false;
+					}
+				}
 			}
 		} catch (Throwable e) {
 			exception = e;
@@ -120,19 +105,10 @@ public class Application {
 	}
 
 	public void render() {
-		renderLock.lock();
-		try {
-			float start = clock.getTimeSeconds();
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-			currentState.render(renderer);
-			lastFrameTime = clock.getTimeSeconds() - start;
-
-		} catch (Throwable e) {
-			exception = e;
-			running = false;
-		} finally {
-			renderLock.unlock();
-		}
+		float start = clock.getTimeSeconds();
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		currentState.render(renderer);
+		lastFrameTime = clock.getTimeSeconds() - start;
 		GLFW.glfwSwapBuffers(window.getWindow());
 	}
 

@@ -81,7 +81,7 @@ public class Main {
 
 			Material material = new Material();
 			material.setDiffuse(texture);
-			material.setShineDamper(32);
+			material.setShineDamper(16);
 			material.setReflectivity(1);
 
 			FogPostProcessing fog = new FogPostProcessing();
