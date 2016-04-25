@@ -1,21 +1,53 @@
 package nullEngine.control;
 
 import com.sun.istack.internal.Nullable;
-import nullEngine.gl.renderer.MasterRenderer;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWVidMode;
 import nullEngine.exception.InitializationException;
-import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.Window;
 import nullEngine.gl.model.Quad;
+import nullEngine.gl.renderer.MasterRenderer;
+import nullEngine.gl.renderer.Renderer;
 import nullEngine.loading.Loader;
 import nullEngine.util.Clock;
 import nullEngine.util.logs.Logs;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Application {
+
+	private volatile ReentrantLock renderLock = new ReentrantLock(true);
+
+	private Thread updateThread = new Thread() {
+		@Override
+		public void run() {
+			while (running) {
+				if (clock.update()) {
+					renderLock.lock();
+					try {
+						if (GLFW.glfwWindowShouldClose(window.getWindow()) == GLFW.GLFW_TRUE || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
+							break;
+						}
+
+						if (GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_F11) == GLFW.GLFW_PRESS) {
+							setFullscreen(!isFullscreen(), Window.getBestFullscreenVideoMode(Window.getFullscreenVideoModes(window.getMonitor())));
+							GLFW.glfwShowWindow(window.getWindow());
+						}
+
+						update(clock.getDelta());
+					} catch (Throwable e) {
+						exception = e;
+						running = false;
+					} finally {
+						renderLock.unlock();
+					}
+				}
+			}
+			running = false;
+		}
+	};
 
 	private Window window;
 	private MasterRenderer renderer;
@@ -25,8 +57,8 @@ public class Application {
 
 	private Clock clock = new Clock();
 
-	private boolean running = false;
-	private Throwable exception = null;
+	private volatile boolean running = false;
+	private volatile Throwable exception = null;
 
 	private HashMap<Integer, State> states = new HashMap<Integer, State>();
 	private int nextStateID = 1;
@@ -48,6 +80,7 @@ public class Application {
 
 		window = new Window(title, width, height, fullscreen, displayMode, GLFW.glfwGetPrimaryMonitor());
 		GLFW.glfwShowWindow(window.getWindow());
+		GLFW.glfwSwapInterval(1);
 
 		loader = new Loader(this);
 		renderer = new MasterRenderer();
@@ -73,39 +106,33 @@ public class Application {
 
 	public Throwable start() {
 		running = true;
+		updateThread.start();
 		try {
 			while (running) {
-				if (clock.update()) {
-					if (GLFW.glfwWindowShouldClose(window.getWindow()) == GLFW.GLFW_TRUE || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
-						running = false;
-						continue;
-					}
-
-					if (GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_F11) == GLFW.GLFW_PRESS) {
-						setFullscreen(!isFullscreen(), Window.getBestFullscreenVideoMode(Window.getFullscreenVideoModes(window.getMonitor())));
-						GLFW.glfwShowWindow(window.getWindow());
-					}
-
-					GLFW.glfwPollEvents();
-					update(clock.getDelta());
-
-					if (clock.getTotalDelta() > 0.0165) {
-						render();
-						clock.resetTotalDelta();
-					}
-				}
+				GLFW.glfwPollEvents();
+				render();
 			}
 		} catch (Throwable e) {
 			exception = e;
 		}
+		running = false;
 		return exception;
 	}
 
 	public void render() {
-		float start = clock.getTimeSeconds();
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		currentState.render(renderer);
-		lastFrameTime = clock.getTimeSeconds() - start;
+		renderLock.lock();
+		try {
+			float start = clock.getTimeSeconds();
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+			currentState.render(renderer);
+			lastFrameTime = clock.getTimeSeconds() - start;
+
+		} catch (Throwable e) {
+			exception = e;
+			running = false;
+		} finally {
+			renderLock.unlock();
+		}
 		GLFW.glfwSwapBuffers(window.getWindow());
 	}
 

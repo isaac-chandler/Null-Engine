@@ -33,7 +33,7 @@ public class Main {
 		try {
 			NullEngine.init();
 			Logs.setDebug(true);
-			final Application application = new Application(1280, 480, false, "Sandbox");
+			final Application application = new Application(1280, 720, false, "Sandbox");
 			application.bind();
 
 			State test = new State();

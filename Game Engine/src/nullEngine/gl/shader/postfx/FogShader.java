@@ -11,7 +11,7 @@ public class FogShader extends PostProcessingShader {
 	private int location_cutoff;
 
 	private FogShader() {
-		super("default/postfx/fog", "default/postfx/fog");
+		super("default/postfx/basic", "default/postfx/fog");
 	}
 
 	@Override
