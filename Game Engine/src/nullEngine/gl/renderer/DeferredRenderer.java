@@ -13,12 +13,10 @@ import nullEngine.gl.shader.deferred.DeferredAmbientShader;
 import nullEngine.gl.shader.deferred.DeferredBasicShader;
 import nullEngine.gl.shader.deferred.DeferredDirectionalShader;
 import nullEngine.gl.shader.deferred.DeferredShader;
-import nullEngine.input.Input;
 import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.object.component.DirectionalLight;
 import nullEngine.object.component.ModelComponent;
-import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
@@ -30,7 +28,7 @@ public class DeferredRenderer extends Renderer {
 
 	private DeferredShader shader = DeferredBasicShader.INSTANCE;
 
-	private static final float LOD_DROPOFF_FACTOR = 1;
+	private static final float LOD_DROPOFF_FACTOR = 2;
 	private HashMap<Material, ArrayList<ModelComponent>> models = new HashMap<Material, ArrayList<ModelComponent>>();
 	private Vector4f ambientColor = new Vector4f();
 	private ArrayList<DirectionalLight> lights = new ArrayList<DirectionalLight>();
@@ -41,8 +39,6 @@ public class DeferredRenderer extends Renderer {
 	private float near;
 
 	private ArrayList<PostProcessing> postFX = new ArrayList<PostProcessing>();
-
-	private static final Matrix4f FLIP = Matrix4f.setScale(new Vector4f(1, -1, 1), null);
 
 	public DeferredRenderer(int width, int height, float far, float near) {
 		dataBuffer = new FramebufferDeferred(width, height);
@@ -83,8 +79,6 @@ public class DeferredRenderer extends Renderer {
 					int lod = MathUtil.clamp(
 							(int) Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()) + model.getLodBias(),
 							0, model.getModel().getLODCount() - 1);
-					if (Input.keyPressed(Input.KEY_P))
-						Logs.d(lod);
 					model.getModel().render(lod);
 				}
 			}
