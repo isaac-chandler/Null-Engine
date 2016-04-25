@@ -1,5 +1,6 @@
-package nullEngine.gl;
+package nullEngine.gl.renderer;
 
+import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL11;
@@ -24,15 +25,25 @@ public class MasterRenderer extends Renderer {
 	}
 
 	@Override
-	public void render() {
+	public void postRender() {
 
 	}
 
 	public void preRender() {
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+
 	}
 
 	public void cleanup() {
+
+	}
+
+	@Override
+	public void postResize(ResizeEvent event) {
+
+	}
+
+	@Override
+	public void preResize() {
 
 	}
 }

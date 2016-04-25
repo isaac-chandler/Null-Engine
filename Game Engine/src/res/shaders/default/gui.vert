@@ -7,7 +7,10 @@ out vec2 texCoords;
 
 uniform mat4 mvp;
 
+uniform vec2 pos;
+uniform vec2 size;
+
 void main() {
-	gl_Position = mvp * vec4(inPosition, 1);
+	gl_Position = mvp * vec4(inPosition.xy * size + pos, 0, 1);
 	texCoords = inTexCoords;
 }

@@ -1,7 +1,7 @@
 package nullEngine.control;
 
 import math.Matrix4f;
-import nullEngine.gl.Renderer;
+import nullEngine.gl.renderer.Renderer;
 import nullEngine.input.*;
 import nullEngine.object.GameObject;
 import nullEngine.object.RootObject;
@@ -9,6 +9,7 @@ import nullEngine.object.component.Camera;
 
 public abstract class Layer implements EventListener {
 	protected Matrix4f projectionMatrix = new Matrix4f();
+	protected Renderer renderer;
 
 	private Camera camera;
 	private GameObject root = new RootObject(this);
@@ -18,22 +19,19 @@ public abstract class Layer implements EventListener {
 		this.camera = camera;
 	}
 
-	protected abstract void preRender(Renderer renderer);
-
-	protected abstract void postRender(Renderer renderer);
-
-	public void render(Renderer renderer) {
+	public void render(Renderer passRenderer) {
+		Renderer useRenderer = renderer == null ? passRenderer : renderer;
 		if (enabled) {
-			preRender(renderer);
 
 			if (camera != null)
-				renderer.setViewMatrix(camera.getViewMatrix());
+				useRenderer.setViewMatrix(camera.getViewMatrix());
 			else
-				renderer.setViewMatrix(Matrix4f.IDENTITY);
+				useRenderer.setViewMatrix(Matrix4f.IDENTITY);
 
-			renderer.setProjectionMatrix(projectionMatrix);
-			root.render(renderer);
-			postRender(renderer);
+			useRenderer.setProjectionMatrix(projectionMatrix);
+			useRenderer.preRender();
+			root.render(useRenderer);
+			useRenderer.postRender();
 		}
 	}
 
@@ -113,11 +111,13 @@ public abstract class Layer implements EventListener {
 	@Override
 	public void postResize(ResizeEvent event) {
 		root.postResize(event);
+		renderer.postResize(event);
 	}
 
 	@Override
 	public void preResize() {
 		root.preResize();
+		renderer.preResize();
 	}
 
 	public Camera getCamera() {
@@ -126,5 +126,9 @@ public abstract class Layer implements EventListener {
 
 	public void setCamera(Camera camera) {
 		this.camera = camera;
+	}
+
+	public Renderer getRenderer() {
+		return renderer;
 	}
 }

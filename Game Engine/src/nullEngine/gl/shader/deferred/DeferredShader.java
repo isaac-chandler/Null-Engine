@@ -26,14 +26,10 @@ public class DeferredShader extends Shader {
 	@Override
 	protected void getUniformLocations() {
 		location_modelMatrix = getUniformLocation("modelMatrix");
-		location_mvp = getUniformLocation("mvp");
+
 	}
 
-	public void loadModelMatrix(Matrix4f mat) {
-		loadMat4(location_modelMatrix, mat);
-	}
-
-	public void loadMVP(Matrix4f mvp) {
-		loadMat4(location_mvp, mvp);
+	public void loadModelMatrix(Matrix4f modelMatrix) {
+		loadMat4(location_modelMatrix, modelMatrix);
 	}
 }

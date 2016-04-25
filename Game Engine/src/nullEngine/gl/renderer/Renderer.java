@@ -1,6 +1,8 @@
-package nullEngine.gl;
+package nullEngine.gl.renderer;
 
 import math.Matrix4f;
+import nullEngine.gl.shader.Shader;
+import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 
 public abstract class Renderer {
@@ -18,7 +20,7 @@ public abstract class Renderer {
 
 	public abstract void add(GameComponent component);
 
-	public abstract void render();
+	public abstract void postRender();
 
 	public abstract void preRender();
 
@@ -62,6 +64,16 @@ public abstract class Renderer {
 	}
 
 	protected void setMVP() {
-		projectionMatrix.mul(viewMatrix, mvp).mul(modelMatrix);
+		projectionMatrix.mul(viewMatrix, mvp).mul(modelMatrix, mvp);
+		if (Shader.bound() != null)
+			Shader.bound().loadMVP(mvp);
+	}
+
+	public abstract void postResize(ResizeEvent event);
+
+	public abstract void preResize();
+
+	public Matrix4f getMVP() {
+		return mvp;
 	}
 }

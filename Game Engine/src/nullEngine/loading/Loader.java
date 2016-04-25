@@ -2,8 +2,11 @@ package nullEngine.loading;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import nullEngine.control.Application;
+import nullEngine.gl.font.Font;
+import nullEngine.gl.font.Glyph;
 import nullEngine.gl.framebuffer.Framebuffer3D;
 import nullEngine.gl.model.Model;
+import nullEngine.gl.texture.Texture2D;
 import nullEngine.loading.model.NLMLoader;
 import nullEngine.loading.model.OBJLoader;
 import nullEngine.util.Buffers;
@@ -16,6 +19,8 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class Loader {
 
@@ -95,7 +100,7 @@ public class Loader {
 			float x = vertices[i * 3];
 			float y = vertices[i * 3 + 1];
 			float z = vertices[i * 3 + 2];
-			float radius = x * x + y * y + z  * z;
+			float radius = x * x + y * y + z * z;
 			if (radius > biggestRadius)
 				biggestRadius = radius;
 		}
@@ -103,7 +108,7 @@ public class Loader {
 	}
 
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {
-		return loadModel(vertices, texCoords, normals, indices, new int[] {indices.length});
+		return loadModel(vertices, texCoords, normals, indices, new int[]{indices.length});
 	}
 
 	public Model loadModel(String name) {
@@ -134,7 +139,11 @@ public class Loader {
 	}
 
 	public int loadTexture(String file) throws IOException {
-		PNGDecoder decoder = new PNGDecoder(ResourceLoader.getResource("res/textures/" + file + ".png"));
+		return loadTextureCustomPath("res/textures/" + file);
+	}
+
+	private int loadTextureCustomPath(String file) throws IOException {
+		PNGDecoder decoder = new PNGDecoder(ResourceLoader.getResource(file + ".png"));
 
 		int texture = GL11.glGenTextures();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
@@ -170,6 +179,146 @@ public class Loader {
 
 		textures.add(texture);
 		return texture;
+	}
+
+	public Font loadFont(String name, int desiredPadding) throws IOException {
+		Scanner scanner = new Scanner(ResourceLoader.getResource("res/fonts/" + name + ".fnt"));
+
+		String line = scanner.nextLine();
+		line = line.replaceAll("\\s+", " ");
+		String[] tokens = line.split(" ");
+		if (!line.startsWith("info ") && tokens[10].startsWith("padding="))
+			throw new FileFormatException("Not a valid font file");
+
+		String[] padStr = tokens[10].substring(8).replaceAll("\\s", "").split(",");
+		int[] padding = new int[padStr.length];
+		for (int i = 0; i < padStr.length; i++) {
+			padding[i] = Integer.parseInt(padStr[i]);
+		}
+
+
+		line = scanner.nextLine();
+		line = line.replaceAll("\\s+", " ");
+		if (!line.startsWith("common "))
+			throw new FileFormatException("Not a valid font file");
+
+		tokens = line.split(" ");
+		if (!tokens[1].startsWith("lineHeight=") || !tokens[3].startsWith("scaleW=") || !tokens[4].startsWith("scaleH=") || !tokens[5].startsWith("pages="))
+			throw new FileFormatException("Not a valid font file");
+
+		float lineHeight = Integer.parseInt(tokens[1].substring(11)) - padding[0] - padding[1];
+		float width = Integer.parseInt(tokens[3].substring(7));
+		float height = Integer.parseInt(tokens[4].substring(7));
+		int pages = Integer.parseInt(tokens[5].substring(6));
+
+		if (pages != 1)
+			throw new UnsupportedFeatureException("Multi page fonts not supported");
+
+		line = scanner.nextLine();
+		line = line.replaceAll("\\s+", " ");
+		if (!line.startsWith("page "))
+			throw new FileFormatException("Not a valid font file");
+
+		tokens = line.split(" ");
+
+		if (!tokens[2].startsWith("file=\"") || !tokens[2].endsWith(".png\""))
+			throw new FileFormatException("Invlaid texture file");
+
+		String textureFile = tokens[2].substring(6, tokens[2].length() - 5);
+		if (name.contains("/")) {
+			textureFile = name.substring(0, name.lastIndexOf("/") + 1) + textureFile;
+		}
+
+		Texture2D texture = new Texture2D(loadTextureCustomPath("res/fonts/" + textureFile));
+
+		line = scanner.nextLine();
+		line = line.replaceAll("\\s+", " ");
+		if (!line.startsWith("chars "))
+			throw new FileFormatException("Not a valid font file");
+
+		tokens = line.split(" ");
+
+		if (!tokens[1].startsWith("count="))
+			throw new FileFormatException("Not a valid font file");
+
+		int charCount = Integer.parseInt(tokens[1].substring(6));
+		HashMap<Character, Glyph> glyphs = new HashMap<Character, Glyph>(charCount);
+		for (int i = 0; i < charCount; i++) {
+			line = scanner.nextLine();
+			line = line.replaceAll("\\s+", " ");
+			if (!line.startsWith("char "))
+				throw new FileFormatException("Not a valid font file");
+
+			tokens = line.split(" ");
+			if (!tokens[1].startsWith("id=") || !tokens[2].startsWith("x=") || !tokens[3].startsWith("y=") ||
+					!tokens[4].startsWith("width=") || !tokens[5].startsWith("height=") || !tokens[6].startsWith("xoffset=") ||
+					!tokens[7].startsWith("yoffset=") || !tokens[8].startsWith("xadvance="))
+				throw new FileFormatException("Not a valid font file");
+
+			char character = (char) Short.parseShort(tokens[1].substring(3));
+
+			Glyph glyph = new Glyph();
+
+			glyph.texCoordX = Integer.parseInt(tokens[2].substring(2)) + padding[3];
+			glyph.texCoordMaxY = (Integer.parseInt(tokens[3].substring(2)) - padding[0]);
+
+			glyph.texCoordMaxX = glyph.texCoordX + (Integer.parseInt(tokens[4].substring(6)) - padding[1]);
+			glyph.texCoordY = glyph.texCoordMaxY + (Integer.parseInt(tokens[5].substring(7)) + padding[2]);
+
+			glyph.width = Integer.parseInt(tokens[4].substring(6)) - padding[3] - padding[2];
+			glyph.height = Integer.parseInt(tokens[5].substring(7)) - padding[1] - padding[0];
+
+			glyph.xOffset = Integer.parseInt(tokens[6].substring(8)) + padding[3];
+			glyph.yOffset = lineHeight - (Integer.parseInt(tokens[7].substring(8)) + glyph.height + padding[0]);
+
+			glyph.xAdvance = Integer.parseInt(tokens[8].substring(9)) - padding[2] - padding[3];
+
+			glyph.texCoordX /= width;
+			glyph.texCoordY /= height;
+			glyph.texCoordMaxX /= width;
+			glyph.texCoordMaxY /= height;
+
+			glyph.width /= lineHeight;
+			glyph.height /= lineHeight;
+			glyph.xOffset /= lineHeight;
+			glyph.yOffset /= lineHeight;
+			glyph.xAdvance /= lineHeight;
+
+			glyph.character = character;
+
+			glyphs.put(character, glyph);
+		}
+
+		line = scanner.nextLine();
+		line = line.replaceAll("\\s+", " ");
+		if (!line.startsWith("kernings "))
+			throw new FileFormatException("Not a valid font file");
+
+		tokens = line.split(" ");
+
+		if (!tokens[1].startsWith("count="))
+			throw new FileFormatException("Not a valid font file");
+		int kerningCount = Integer.parseInt(tokens[1].substring(6));
+
+		for (int i = 0; i < kerningCount; i++) {
+			line = scanner.nextLine();
+			line = line.replaceAll("\\s+", " ");
+			if (!line.startsWith("kerning "))
+				throw new FileFormatException("Not a valid font file");
+
+			tokens = line.split(" ");
+			if (!tokens[1].startsWith("first=") || !tokens[2].startsWith("second=") || !tokens[3].startsWith("amount="))
+				throw new FileFormatException("Not a valid font file");
+
+			char first = (char) Short.parseShort(tokens[1].substring(6));
+			char second = (char) Short.parseShort(tokens[2].substring(7));
+			float amount = Integer.parseInt(tokens[3].substring(7)) / lineHeight;
+
+			Glyph glyph = glyphs.get(first);
+			glyph.kerning.put(second, amount);
+		}
+
+		return new Font(this, glyphs, texture, desiredPadding, width, lineHeight, (lineHeight - padding[0] - padding[1]) / lineHeight);
 	}
 
 	public void cleanup() {

@@ -15,6 +15,10 @@ public class Clock {
 		return (long) (GLFW.glfwGetTime() * timeRes);
 	}
 
+	public float getTimeSeconds() {
+		return (float) GLFW.glfwGetTime();
+	}
+
 	public boolean update() {
 		if (lastTime == 0)
 			lastTime = getTime();

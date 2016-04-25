@@ -1,18 +1,19 @@
 package nullEngine.loading;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class FileSystemLocation implements ResourceLocation {
 	@Override
 	public InputStream getResource(String name, boolean requireMark) {
 		try {
-			if (requireMark)
-				return new RandomAccessFileInputStream(name);
-			else
+			if (requireMark) {
+				return new FileChannelInputStream(name);
+			} else {
 				return new FileInputStream(name);
-		} catch (FileNotFoundException e) {}
+			}
+		} catch (IOException e) {}
 		return null;
 	}
 

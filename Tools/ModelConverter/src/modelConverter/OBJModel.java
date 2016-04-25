@@ -27,7 +27,7 @@ public class OBJModel {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				lineNum++;
-				line.replaceAll("  +", " ");
+				line = line.replaceAll("\\s+", " ");
 				String[] tokens = line.split(" ");
 				if (tokens.length == 0 || tokens[0].startsWith("#")) {
 					continue;

@@ -6,8 +6,6 @@ public class BasicShader extends Shader {
 
 	public static final BasicShader INSTANCE = new BasicShader();
 
-	private int location_projectionMatrix;
-
 	private BasicShader() {
 		super("default/basic", "default/basic");
 	}
@@ -19,11 +17,9 @@ public class BasicShader extends Shader {
 	}
 
 	@Override
-	protected void getUniformLocations() {
-		location_projectionMatrix = getUniformLocation("projectionMatrix");
-	}
+	protected void getUniformLocations() {}
 
 	public void loadProjectionMatrix(Matrix4f projectionMatrix) {
-		loadMat4(location_projectionMatrix, projectionMatrix);
+		loadMVP(projectionMatrix);
 	}
 }

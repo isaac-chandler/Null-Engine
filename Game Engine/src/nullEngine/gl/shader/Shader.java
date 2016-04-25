@@ -2,13 +2,13 @@ package nullEngine.gl.shader;
 
 import math.Matrix4f;
 import math.Vector4f;
+import nullEngine.exception.ShaderException;
 import nullEngine.gl.Material;
+import nullEngine.loading.ResourceLoader;
+import nullEngine.util.logs.Logs;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import nullEngine.exception.ShaderException;
-import nullEngine.loading.ResourceLoader;
-import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL30;
 
 import java.io.FileNotFoundException;
@@ -21,6 +21,8 @@ import java.util.regex.Pattern;
 
 public abstract class Shader {
 
+	private static Shader current = null;
+
 	private static final Pattern INCLUDE_PATTERN = Pattern.compile("\\s*#include\\s*\"(.*?)\"\\s*");
 	private HashMap<String, Integer> userFloats = new HashMap<String, Integer>();
 	private HashMap<String, Integer> userVectors = new HashMap<String, Integer>();
@@ -31,8 +33,14 @@ public abstract class Shader {
 	private int fragmentShader;
 	private int systemTextures = 0;
 
+	private int location_mvp;
+
 
 	private FloatBuffer matrixbuffer = BufferUtils.createFloatBuffer(16);
+
+	public static Shader bound() {
+		return current;
+	}
 
 	public Shader(String vertex, String fragment) {
 		vertexShader = loadShader(vertex + ".vert", GL20.GL_VERTEX_SHADER);
@@ -53,6 +61,7 @@ public abstract class Shader {
 		if (GL20.glGetProgrami(program, GL20.GL_VALIDATE_STATUS) == GL11.GL_FALSE) {
 			Logs.f("Failed to validate " + vertex + " and " + fragment, new ShaderException(GL20.glGetProgramInfoLog(program, 1024)));
 		}
+		location_mvp = getUniformLocation("mvp");
 		getUniformLocations();
 	}
 
@@ -102,6 +111,10 @@ public abstract class Shader {
 		}
 	}
 
+	public void loadMVP(Matrix4f mvp) {
+		loadMat4(location_mvp, mvp);
+	}
+
 	protected void loadFloat(int location, float value) {
 		GL20.glUniform1f(location, value);
 	}
@@ -133,10 +146,12 @@ public abstract class Shader {
 
 	public void bind() {
 		GL20.glUseProgram(program);
+		current = this;
 	}
 
 	public static void unbind() {
 		GL20.glUseProgram(0);
+		current = null;
 	}
 
 	public void delete() {

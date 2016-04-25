@@ -330,6 +330,7 @@ public class Window {
 							distributor.preResize();
 							distributor.postResize(event);
 						}
+						Logs.d("resized to " + width_ + "x" + height_);
 					}
 				} catch (Exception e) {
 					Logs.e(e);
@@ -509,9 +510,11 @@ public class Window {
 			height = fullscreenVideoMode.height();
 		}
 
-		long newWindow = GLFW.glfwCreateWindow(
-				fullscreen ? width : this.width,
-				fullscreen ? height : this.height, title, fullscreen ? GLFW.glfwGetPrimaryMonitor() : MemoryUtil.NULL, window);
+		width = fullscreen ? width : this.width;
+		height = fullscreen ? height : this.height;
+
+		long newWindow = GLFW.glfwCreateWindow(width, height, title,
+				fullscreen ? GLFW.glfwGetPrimaryMonitor() : MemoryUtil.NULL, window);
 
 		distributor.preResize();
 		loader.preContextChange();
@@ -528,10 +531,11 @@ public class Window {
 		loader.postContextChange();
 		if (distributor.getListener() != null) {
 			ResizeEvent event = new ResizeEvent();
-			event.width = fullscreen ? width : this.width;
-			event.height = fullscreen ? height : this.height;
+			event.width = width;
+			event.height = height;
 			distributor.postResize(event);
 		}
+		Logs.d("resized to " + width + "x" + height);
 	}
 
 	public long getMonitor() {

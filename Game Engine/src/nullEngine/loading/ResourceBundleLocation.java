@@ -19,7 +19,9 @@ public class ResourceBundleLocation implements ResourceLocation {
 
 	public ResourceBundleLocation(String name) {
 		try {
-			is = ResourceLoader.getFileResource("res/bundles/" + name + ".res", true);
+			is = ResourceLoader.getResource("res/bundles/" + name + ".res", true);
+
+			is.mark(is.available());
 
 			int version = is.read();
 			if (version != 1)

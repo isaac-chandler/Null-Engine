@@ -10,7 +10,7 @@ public class FogShader extends PostProcessingShader {
 	private int location_density;
 	private int location_cutoff;
 
-	public FogShader() {
+	private FogShader() {
 		super("default/postfx/fog", "default/postfx/fog");
 	}
 

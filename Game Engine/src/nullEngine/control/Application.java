@@ -1,16 +1,17 @@
 package nullEngine.control;
 
 import com.sun.istack.internal.Nullable;
-import nullEngine.gl.MasterRenderer;
+import nullEngine.gl.renderer.MasterRenderer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import nullEngine.exception.InitializationException;
-import nullEngine.gl.Renderer;
+import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.Window;
 import nullEngine.gl.model.Quad;
 import nullEngine.loading.Loader;
 import nullEngine.util.Clock;
 import nullEngine.util.logs.Logs;
+import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
 
@@ -18,6 +19,7 @@ public class Application {
 
 	private Window window;
 	private MasterRenderer renderer;
+	private float lastFrameTime;
 
 	private Loader loader;
 
@@ -100,8 +102,10 @@ public class Application {
 	}
 
 	public void render() {
-		renderer.preRender();
+		float start = clock.getTimeSeconds();
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		currentState.render(renderer);
+		lastFrameTime = clock.getTimeSeconds() - start;
 		GLFW.glfwSwapBuffers(window.getWindow());
 	}
 
@@ -196,5 +200,9 @@ public class Application {
 
 	public int getWidth() {
 		return window.getWidth();
+	}
+
+	public float getLastFrameTime() {
+		return lastFrameTime;
 	}
 }

@@ -5,7 +5,6 @@ import nullEngine.loading.Loader;
 public class Quad {
 	
 	private static Model model;
-	private static Model back;
 	
 	private static final float[] vertices = new float[] {
 			-1, 1, 0f,

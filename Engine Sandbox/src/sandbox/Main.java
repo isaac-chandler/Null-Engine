@@ -4,11 +4,15 @@ import math.Quaternion;
 import math.Vector4f;
 import nullEngine.NullEngine;
 import nullEngine.control.Application;
-import nullEngine.control.Layer3D;
+import nullEngine.control.LayerDeferred;
+import nullEngine.control.LayerGUI;
 import nullEngine.control.State;
+import nullEngine.gl.Color;
 import nullEngine.gl.Material;
+import nullEngine.gl.font.Font;
 import nullEngine.gl.model.Model;
 import nullEngine.gl.model.Terrain;
+import nullEngine.gl.renderer.DeferredRenderer;
 import nullEngine.gl.shader.deferred.DeferredTerrainShader;
 import nullEngine.gl.shader.postfx.FogPostProcessing;
 import nullEngine.gl.texture.Texture2D;
@@ -17,6 +21,7 @@ import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
 import nullEngine.object.component.DirectionalLight;
 import nullEngine.object.component.FlyCam;
+import nullEngine.object.component.GuiText;
 import nullEngine.object.component.ModelComponent;
 import nullEngine.util.logs.Logs;
 
@@ -26,7 +31,7 @@ public class Main {
 		try {
 			NullEngine.init();
 			Logs.setDebug(true);
-			Application application = new Application(1280, 720, false, "Sandbox");
+			final Application application = new Application(1280, 480, false, "Sandbox");
 			application.bind();
 
 			State test = new State();
@@ -35,13 +40,39 @@ public class Main {
 
 			FlyCam camera = new FlyCam();
 
-			Layer3D testLayer = new Layer3D(camera, (float) Math.toRadians(90f), 0.1f, 125f);
-			test.addLayer(testLayer);
+			LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 125f);
+			LayerGUI gui = new LayerGUI();
+			test.addLayer(gui);
+			test.addLayer(world);
 
 			Loader loader = application.getLoader();
+
+			Font font = loader.loadFont("default/testsdf", 12);
+
+			GuiText text = new GuiText(-1, -0.9f, 0.1f, "0FPS", font) {
+				float totalDelta = 1;
+
+				@Override
+				public void update(float delta, GameObject object) {
+					totalDelta += delta;
+					if (totalDelta >= 0.5f) {
+						float maxMemory = Runtime.getRuntime().maxMemory() / 1048576f;
+						float totalMemory = Runtime.getRuntime().totalMemory() / 1048576f;
+						float freeMemory = Runtime.getRuntime().freeMemory() / 1048576f;
+						setText(String.format("%.1f ms\n%.1f/%.1fMB",
+								application.getLastFrameTime() * 1000,
+								totalMemory - freeMemory, maxMemory));
+						totalDelta -= 1;
+					}
+				}
+			};
+			text.setColor(Color.WHITE);
+			text.setThickness(0.4f, 0.2f);
+
+			gui.getRoot().addComponent(text);
 			loader.setAnisotropyEnabled(true);
-			loader.setAnisotropyAmount(4);
-			loader.setLodBias(-1);
+			loader.setAnisotropyAmount(8);
+			loader.setLodBias(0);
 			final Model model = loader.loadModel("default/dragon");
 
 			Texture2D texture = TextureGenerator.genColored(218, 165, 32, 255);
@@ -54,26 +85,26 @@ public class Main {
 			FogPostProcessing fog = new FogPostProcessing();
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
 			fog.setDensity(0.001f);
-			testLayer.getRenderer().addPostFX(fog);
-			testLayer.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
+			((DeferredRenderer) world.getRenderer()).addPostFX(fog);
+			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();
 			GameObject cameraObject = new GameObject();
 			GameObject terrain = new GameObject();
-			testLayer.getRoot().addChild(cameraObject);
-			testLayer.getRoot().addChild(dragon);
-			testLayer.getRoot().addChild(terrain);
+			world.getRoot().addChild(cameraObject);
+			world.getRoot().addChild(dragon);
+			world.getRoot().addChild(terrain);
 
 			cameraObject.getTransform().setPos(new Vector4f(0, 1.5f, -5));
 			cameraObject.getTransform().setRot(new Quaternion((float) Math.PI, Vector4f.UP));
 
-			testLayer.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
-			testLayer.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
+			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
+			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
 
 
 			cameraObject.addComponent(camera);
 			dragon.getTransform().setPos(new Vector4f(4, 0, 0));
-			dragon.getTransform().setRot(new Quaternion((float)Math.PI / -2, Vector4f.UP));
+			dragon.getTransform().setRot(new Quaternion((float) Math.PI / -2, Vector4f.UP));
 
 			dragon.addComponent(new ModelComponent(material, model) {
 				@Override

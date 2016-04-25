@@ -32,7 +32,7 @@ public class Texture2D {
 		GL11.glDeleteTextures(id);
 	}
 
-	public Object getID() {
+	public int getID() {
 		return id;
 	}
 }

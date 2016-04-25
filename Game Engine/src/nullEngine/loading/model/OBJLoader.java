@@ -23,7 +23,7 @@ public class OBJLoader {
 			Scanner scanner = new Scanner(ResourceLoader.getResource("res/models/" + name));
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
-				line.replaceAll("  +", " ");
+				line = line.replaceAll("\\s+", " ");
 				String[] tokens = line.split(" ");
 				if (tokens.length == 0 || tokens[0].startsWith("#")) {
 					continue;

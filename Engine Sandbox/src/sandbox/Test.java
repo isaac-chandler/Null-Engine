@@ -1,7 +1,10 @@
 package sandbox;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 public class Test {
-	public static void main(String[] args) {
-		System.out.println((byte) 255);
+	public static void main(String[] args) throws IOException {
+		new HashMap<Character, Float>().get(null);
 	}
 }
