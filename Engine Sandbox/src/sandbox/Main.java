@@ -11,20 +11,17 @@ import nullEngine.gl.Color;
 import nullEngine.gl.Material;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.model.Model;
-import nullEngine.gl.model.Terrain;
 import nullEngine.gl.renderer.DeferredRenderer;
 import nullEngine.gl.shader.deferred.DeferredTerrainShader;
 import nullEngine.gl.shader.postfx.FogPostProcessing;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.gl.texture.TextureGenerator;
+import nullEngine.input.EventAdapter;
 import nullEngine.input.Input;
 import nullEngine.input.KeyEvent;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
-import nullEngine.object.component.DirectionalLight;
-import nullEngine.object.component.FlyCam;
-import nullEngine.object.component.GuiText;
-import nullEngine.object.component.ModelComponent;
+import nullEngine.object.component.*;
 import nullEngine.util.logs.Logs;
 
 public class Main {
@@ -40,14 +37,28 @@ public class Main {
 			int TEST_STATE = application.addState(test);
 			application.setState(TEST_STATE);
 
-			FlyCam camera = new FlyCam();
+			final FlyCam camera = new FlyCam();
 
-			LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 125f);
+			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 125f);
 			LayerGUI gui = new LayerGUI();
 			test.addLayer(gui);
 			test.addLayer(world);
 
+			test.addListener(new EventAdapter() {
+				@Override
+				public boolean keyPressed(KeyEvent event) {
+					if (event.key == Input.KEY_T) {
+						((DeferredRenderer) world.getRenderer()).setWireframe(!((DeferredRenderer) world.getRenderer()).isWireframe());
+						return true;
+					}
+					return false;
+				}
+			});
+
 			Loader loader = application.getLoader();
+			loader.setAnisotropyEnabled(true);
+			loader.setAnisotropyAmount(8);
+			loader.setLodBias(0);
 
 			Font font = loader.loadFont("default/testsdf", 12);
 
@@ -70,16 +81,11 @@ public class Main {
 			};
 			text.setColor(Color.WHITE);
 			text.setThickness(0.4f, 0.2f);
-
-			gui.getRoot().addComponent(text);
-			loader.setAnisotropyEnabled(true);
-			loader.setAnisotropyAmount(8);
-			loader.setLodBias(0);
 			final Model model = loader.loadModel("default/dragon");
 
 			Texture2D texture = TextureGenerator.genColored(218, 165, 32, 255);
 
-			Material material = new Material();
+			final Material material = new Material();
 			material.setDiffuse(texture);
 			material.setShineDamper(16);
 			material.setReflectivity(1);
@@ -91,7 +97,7 @@ public class Main {
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();
-			GameObject cameraObject = new GameObject();
+			final GameObject cameraObject = new GameObject();
 			GameObject terrain = new GameObject();
 			world.getRoot().addChild(cameraObject);
 			world.getRoot().addChild(dragon);
@@ -133,9 +139,12 @@ public class Main {
 			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
 			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.1f, 0));
 			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 4, 1));
-			terrainMaterial.setFloat("tileCount", 100);
+			terrainMaterial.setFloat("tileCount", 150);
+			terrainMaterial.setFloat("maxHeight", 10);
+			terrainMaterial.setTexture("height", new Texture2D(loader.loadTexture("default/heightMap")));
+			material.setVector("cameraPos", cameraObject.getTransform().getWorldPos());
 
-			terrain.addComponent(new ModelComponent(terrainMaterial, Terrain.generateFlatTerrain(loader, 200, 128)));
+			terrain.addChild(new GeoclipmapTerrain(terrainMaterial, 300, 64, 4, loader, cameraObject));
 
 			Throwable e = application.start();
 			if (e != null) {

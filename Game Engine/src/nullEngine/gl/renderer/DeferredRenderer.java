@@ -38,6 +38,8 @@ public class DeferredRenderer extends Renderer {
 	private float far;
 	private float near;
 
+	private boolean wireframe = false;
+
 	private ArrayList<PostProcessing> postFX = new ArrayList<PostProcessing>();
 
 	public DeferredRenderer(int width, int height, float far, float near) {
@@ -67,21 +69,29 @@ public class DeferredRenderer extends Renderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
+		if (wireframe) {
+			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+		}
 		for (Map.Entry<Material, ArrayList<ModelComponent>> components : models.entrySet()) {
 			shader = components.getKey().getShader();
 			shader.bind();
 			shader.loadMaterial(components.getKey());
+
 			for (ModelComponent model : components.getValue()) {
 				setModelMatrix(model.getParent().getTransform().getMatrix());
 				Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
-				pos.z += model.getModel().getRadius();
-				if (-pos.z <= far) {
+				float radius = modelMatrix.transform(new Vector4f(model.getModel().getRadius(), 0, 0, 0)).length();
+				pos.z += radius;
+				if (-pos.z <= far || components.getKey().isAlwaysRender()) {
 					int lod = MathUtil.clamp(
 							(int) Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()) + model.getLodBias(),
 							0, model.getModel().getLODCount() - 1);
 					model.getModel().render(lod);
 				}
 			}
+		}
+		if (wireframe) {
+			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
 		}
 		models.clear();
 
@@ -164,5 +174,13 @@ public class DeferredRenderer extends Renderer {
 		lightBuffer.delete();
 		for (PostProcessing effect : postFX)
 			effect.preResize();
+	}
+
+	public boolean isWireframe() {
+		return wireframe;
+	}
+
+	public void setWireframe(boolean wireframe) {
+		this.wireframe = wireframe;
 	}
 }

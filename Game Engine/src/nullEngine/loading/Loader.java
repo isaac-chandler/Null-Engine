@@ -70,6 +70,15 @@ public class Loader {
 		return vbo;
 	}
 
+	public int createVBO(float[] data) {
+		FloatBuffer buf = Buffers.createBuffer(data);
+		int vbo = GL15.glGenBuffers();
+		vbos.add(vbo);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buf, GL15.GL_STATIC_DRAW);
+		return vbo;
+	}
+
 	private int indexBuffer(int[] indices) {
 		IntBuffer buf = Buffers.createBuffer(indices);
 		int ibo = GL15.glGenBuffers();
@@ -105,6 +114,22 @@ public class Loader {
 				biggestRadius = radius;
 		}
 		return new Model(vao, vertexCounts, vertexOffsets, ibo, vertexVBO, texCoordVBO, normalVBO, (float) Math.sqrt(biggestRadius));
+	}
+
+	public Model loadModel(int vertexVBO, float radius, int texCoordVBO, int normalVBO, int[] indices) {
+		int vao = createVAO();
+		int ibo = indexBuffer(indices);
+		vaos.add(vao);
+
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexVBO);
+		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, texCoordVBO);
+		GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, normalVBO);
+		GL20.glVertexAttribPointer(2, 3, GL11.GL_FLOAT, false, 0, 0);
+		GL30.glBindVertexArray(0);
+
+		return new Model(vao, new int[] {indices.length}, new int[] {0}, ibo, vertexVBO, texCoordVBO, normalVBO, radius);
 	}
 
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {

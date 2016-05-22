@@ -65,7 +65,7 @@ public class Transform {
 
 	public Matrix4f getMatrix() {
 		if (parent != null)
-			return matrix.mul(matrix, parent.getMatrix(), null);
+			return Matrix4f.mul(parent.getMatrix(), matrix, null);
 		return matrix;
 	}
 
@@ -81,7 +81,7 @@ public class Transform {
 		return rot;
 	}
 
-	private void updateMatrix() {
+	public void updateMatrix() {
 		Matrix4f.setTransformation(scale, rot, pos, matrix);
 	}
 }

@@ -15,6 +15,30 @@ public class Matrix4f implements Serializable {
 			m20 = 0, m21 = 0, m22 = 1, m23 = 0,
 			m30 = 0, m31 = 0, m32 = 0, m33 = 1;
 
+	public Matrix4f(Matrix4f mat) {
+		this.m00 = mat.m00;
+		this.m01 = mat.m01;
+		this.m02 = mat.m02;
+		this.m03 = mat.m03;
+
+		this.m10 = mat.m10;
+		this.m11 = mat.m11;
+		this.m12 = mat.m12;
+		this.m13 = mat.m13;
+
+		this.m20 = mat.m20;
+		this.m21 = mat.m21;
+		this.m22 = mat.m22;
+		this.m23 = mat.m23;
+
+		this.m30 = mat.m30;
+		this.m31 = mat.m31;
+		this.m32 = mat.m32;
+		this.m33 = mat.m33;
+	}
+
+	public Matrix4f() {}
+
 	public static Matrix4f mul(Matrix4f left, Matrix4f right, Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();

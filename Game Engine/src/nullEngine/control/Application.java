@@ -208,4 +208,12 @@ public class Application {
 	public float getLastFrameTime() {
 		return lastFrameTime;
 	}
+
+	public float getScreenCoordX(float x) {
+		return 2 * x / getWidth() - 1;
+	}
+
+	public float getScreenCoordY(float y) {
+		return 2 * y / getHeight() - 1;
+	}
 }

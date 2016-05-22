@@ -10,6 +10,7 @@ import nullEngine.loading.Loader;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO multi character mesh generation, built in string formatting
 public class Font {
 
 	private float yAdvance;
@@ -60,6 +61,7 @@ public class Font {
 		return glyphs.containsKey(character) || character == '\n' || character == '\r';
 	}
 
+	//TODO fix kerning
 	public void drawString(String text) {
 		if (Shader.bound() instanceof TextShader) {
 			TextShader shader = (TextShader) Shader.bound();

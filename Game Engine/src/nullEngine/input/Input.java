@@ -161,5 +161,13 @@ public class Input {
 
 		return -1;
 	}
+
+	public static int getMouseX() {
+		return inputData.getCursorX();
+	}
+
+	public static int getMouseY() {
+		return inputData.getCursorY();
+	}
 }
 

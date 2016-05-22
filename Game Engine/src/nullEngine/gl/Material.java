@@ -11,7 +11,10 @@ public class Material {
 	private HashMap<String, Float> floats;
 	private HashMap<String, Vector4f> vectors;
 	private HashMap<String, Texture2D> textures;
+
 	private boolean usingLighting = true;
+	private boolean alwaysRender = false;
+
 	private DeferredShader shader = DeferredBasicShader.INSTANCE;
 
 	private static HashMap<String, Float> defaultFloats = new HashMap<String, Float>();
@@ -98,5 +101,13 @@ public class Material {
 
 	public void setShader(DeferredShader shader) {
 		this.shader = shader;
+	}
+
+	public boolean isAlwaysRender() {
+		return alwaysRender;
+	}
+
+	public void setAlwaysRender(boolean alwaysRender) {
+		this.alwaysRender = alwaysRender;
 	}
 }
