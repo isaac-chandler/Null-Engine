@@ -12,8 +12,8 @@ uniform mat4 modelMatrix;
 uniform mat4 mvp;
 
 uniform sampler2D height;
+uniform sampler2D normals;
 
-uniform float maxHeight;
 uniform float size;
 
 void main() {
@@ -21,9 +21,9 @@ void main() {
 
 	texCoords = (position.xz / size + 1) / 2;
 
-	position.y = (texture(height, texCoords).r - 0.5) * maxHeight * 2;
+	position.y = texture(height, texCoords).r;
 
 	gl_Position = mvp * vec4(inPosition.x, position.y, inPosition.z, 1);
-	normal = (modelMatrix * vec4(inNormal, 0)).xyz;
+	normal = texture(normals, vec2(texCoords.x, 1 - texCoords.y)).xyz;
 }
 

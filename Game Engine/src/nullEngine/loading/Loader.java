@@ -9,11 +9,13 @@ import nullEngine.gl.model.Model;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.loading.model.NLMLoader;
 import nullEngine.loading.model.OBJLoader;
+import nullEngine.object.component.HeightMap;
 import nullEngine.util.Buffers;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 
+import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -129,7 +131,7 @@ public class Loader {
 		GL20.glVertexAttribPointer(2, 3, GL11.GL_FLOAT, false, 0, 0);
 		GL30.glBindVertexArray(0);
 
-		return new Model(vao, new int[] {indices.length}, new int[] {0}, ibo, vertexVBO, texCoordVBO, normalVBO, radius);
+		return new Model(vao, new int[]{indices.length}, new int[]{0}, ibo, vertexVBO, texCoordVBO, normalVBO, radius);
 	}
 
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {
@@ -368,5 +370,14 @@ public class Loader {
 	public void postContextChange() {
 		Model.contextChanged(vaos);
 		Framebuffer3D.contextChanged();
+	}
+
+
+	public HeightMap generateHeightMap(String name, float maxHeight) throws IOException {
+		return new HeightMap(this, ImageIO.read(ResourceLoader.getResource("res/textures/" + name + ".png")), maxHeight);
+	}
+
+	public void addTexture(int texture) {
+		textures.add(texture);
 	}
 }

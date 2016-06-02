@@ -34,7 +34,8 @@ void main() {
 	float shineDamper0 = shineDamper.a * aTextureAmt + shineDamper.r * blendColor.r + shineDamper.g * blendColor.g + shineDamper.b * blendColor.b;
 
 	outColor = aColor + rColor + gColor + bColor;
+//	outColor = vec4(normal, 1);
 	outPosition = position;
-	outNormal = vec4(0, 1, 0, 1);
+	outNormal = vec4(normal, 1);
 	outSpecular = vec4(reflectivity0, shineDamper0, 0, 1);
 }

@@ -25,7 +25,11 @@ public class GuiRenderer extends Renderer {
 
 	@Override
 	public void postRender() {
-		Framebuffer2D.unbind();
+		if (Application.get().getRenderTarget() != null) {
+			Application.get().getRenderTarget().bind();
+		} else {
+			Framebuffer2D.unbind();
+		}
 		GL11.glDisable(GL11.GL_BLEND);
 		BasicShader.INSTANCE.bind();
 		BasicShader.INSTANCE.loadProjectionMatrix(Matrix4f.IDENTITY);

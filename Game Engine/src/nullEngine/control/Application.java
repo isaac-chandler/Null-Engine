@@ -3,16 +3,26 @@ package nullEngine.control;
 import com.sun.istack.internal.Nullable;
 import nullEngine.exception.InitializationException;
 import nullEngine.gl.Window;
+import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.renderer.MasterRenderer;
 import nullEngine.gl.renderer.Renderer;
+import nullEngine.input.ResizeEvent;
 import nullEngine.loading.Loader;
 import nullEngine.util.Clock;
 import nullEngine.util.logs.Logs;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 
 public class Application {
@@ -33,6 +43,13 @@ public class Application {
 	private State currentState;
 
 	private static Application current;
+	private boolean screenshot;
+
+	public Framebuffer2D getRenderTarget() {
+		return renderTarget;
+	}
+
+	private Framebuffer2D renderTarget = null;
 
 	public static Application get() {
 		return current;
@@ -110,6 +127,9 @@ public class Application {
 		currentState.render(renderer);
 		lastFrameTime = clock.getTimeSeconds() - start;
 		GLFW.glfwSwapBuffers(window.getWindow());
+		if (screenshot) {
+			screenshotImpl();
+		}
 	}
 
 	public void update(float delta) {
@@ -215,5 +235,43 @@ public class Application {
 
 	public float getScreenCoordY(float y) {
 		return 2 * y / getHeight() - 1;
+	}
+
+	public void screenshot() {
+		screenshot = true;
+	}
+
+	private void screenshotImpl() {
+		screenshot = false;
+		File out = new File("saves/screenshot.png");
+		int i = 1;
+		while (out.exists()) {
+			out = new File("saves/screenshot" + i++ + ".png");
+		}
+		out.getParentFile().mkdirs();
+		try {
+			FileOutputStream fos = new FileOutputStream(out);
+
+			GL11.glReadBuffer(GL11.GL_FRONT);
+			ByteBuffer buf = BufferUtils.createByteBuffer(getWidth() * getHeight() * 3);
+			GL11.glReadPixels(0, 0, window.getWidth(), getWidth(), GL12.GL_BGR, GL11.GL_UNSIGNED_BYTE, buf);
+			BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+			for (int y = getHeight() - 1; y >= 0; y--) {
+				buf.get(((DataBufferByte) img.getRaster().getDataBuffer()).getData(), getWidth() * 3 * y, getWidth() * 3);
+			}
+
+			ImageIO.write(img, "PNG", fos);
+			fos.close();
+		} catch (java.io.IOException e) {
+			Logs.e(e);
+		}
+	}
+
+	public void preResize() {
+
+	}
+
+	public void postResize(ResizeEvent event) {
+
 	}
 }

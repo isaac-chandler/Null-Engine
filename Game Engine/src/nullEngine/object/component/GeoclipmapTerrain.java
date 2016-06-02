@@ -1,5 +1,6 @@
 package nullEngine.object.component;
 
+import math.MathUtil;
 import math.Vector4f;
 import nullEngine.gl.Material;
 import nullEngine.gl.model.Model;
@@ -11,6 +12,8 @@ public class GeoclipmapTerrain extends GameObject {
 
 	private Material material;
 	private GameObject cameraObject;
+	private HeightMap heightMap;
+	private float size;
 
 	private static class ModelObject extends GameObject {
 		public ModelObject(Model model, Material material, float scale) {
@@ -257,17 +260,53 @@ public class GeoclipmapTerrain extends GameObject {
 		super.render(renderer);
 	}
 
-	public GeoclipmapTerrain(Material material, float size, int detail, int levels, Loader loader, GameObject cameraObject) {
+	public float getTerrainHeight(float x, float z) {
+		float squareSize = size / (heightMap.getResolution() - 1);
+		while (x >= size / 2)
+			x -= size;
+		while (z >= size / 2)
+			z -= size;
+
+		while (x < -size / 2)
+			x += size;
+		while (z < -size / 2)
+			z += size;
+
+		x += size / 2;
+		z += size / 2;
+		int gridX = (int) (x / squareSize);
+		int gridZ = (int) (z / squareSize);
+
+		float xCoord = x % squareSize / squareSize;
+		float zCoord = z % squareSize / squareSize;
+
+		if (xCoord <= (1 - zCoord)) {
+			return MathUtil.barryCentric(new Vector4f(0, heightMap.getHeight(gridX, gridZ), 0), new Vector4f(1,
+					heightMap.getHeight(gridX + 1, gridZ), 0), new Vector4f(0,
+					heightMap.getHeight(gridX, gridZ + 1), 1), xCoord, zCoord);
+		} else {
+			return MathUtil.barryCentric(new Vector4f(1, heightMap.getHeight(gridX + 1, gridZ), 0), new Vector4f(1,
+					heightMap.getHeight(gridX + 1, gridZ + 1), 1), new Vector4f(0,
+					heightMap.getHeight(gridX, gridZ + 1), 1), xCoord, zCoord);
+		}
+	}
+
+	public GeoclipmapTerrain(Material material, HeightMap heightMap, float size, int detail, int levels, Loader loader, GameObject cameraObject) {
 		if (((detail & (detail - 1)) != 0) || detail < 4) {
 			throw new IllegalArgumentException("n must be 2^x where x is an integer greater than 2");
 		}
 
 		this.material = material;
 		this.cameraObject = cameraObject;
+		this.heightMap = heightMap;
+		this.size = size;
 
 		float scale = size / (1 << (levels - 1));
 
 		material.setFloat("size", size / 2);
+		material.setFloat("maxHeight", heightMap.getMaxHeight());
+		material.setTexture("height", heightMap.getHeightMap());
+		material.setTexture("normals", heightMap.getNormalMap());
 
 		int vbo = generateBlockVertices(detail, loader);
 		int texCoords = loader.createVBO(new float[(detail + 1) * (detail + 1) * 2]);

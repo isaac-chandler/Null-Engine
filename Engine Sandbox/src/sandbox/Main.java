@@ -33,22 +33,25 @@ public class Main {
 			final Application application = new Application(1280, 720, false, "Sandbox");
 			application.bind();
 
-			State test = new State();
-			int TEST_STATE = application.addState(test);
+			State state = new State();
+			int TEST_STATE = application.addState(state);
 			application.setState(TEST_STATE);
 
 			final FlyCam camera = new FlyCam();
 
 			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 125f);
 			LayerGUI gui = new LayerGUI();
-			test.addLayer(gui);
-			test.addLayer(world);
+			state.addLayer(gui);
+			state.addLayer(world);
 
-			test.addListener(new EventAdapter() {
+			state.addListener(new EventAdapter() {
 				@Override
 				public boolean keyPressed(KeyEvent event) {
 					if (event.key == Input.KEY_T) {
 						((DeferredRenderer) world.getRenderer()).setWireframe(!((DeferredRenderer) world.getRenderer()).isWireframe());
+						return true;
+					} else if (event.key == Input.KEY_F1) {
+						application.screenshot();
 						return true;
 					}
 					return false;
@@ -81,6 +84,11 @@ public class Main {
 			};
 			text.setColor(Color.WHITE);
 			text.setThickness(0.4f, 0.2f);
+			gui.getRoot().addComponent(text);
+
+
+
+
 			final Model model = loader.loadModel("default/dragon");
 
 			Texture2D texture = TextureGenerator.genColored(218, 165, 32, 255);
@@ -98,10 +106,10 @@ public class Main {
 
 			GameObject dragon = new GameObject();
 			final GameObject cameraObject = new GameObject();
-			GameObject terrain = new GameObject();
+			GameObject terrainObject = new GameObject();
 			world.getRoot().addChild(cameraObject);
 			world.getRoot().addChild(dragon);
-			world.getRoot().addChild(terrain);
+			world.getRoot().addChild(terrainObject);
 
 			cameraObject.getTransform().setPos(new Vector4f(0, 1.5f, -5));
 			cameraObject.getTransform().setRot(new Quaternion((float) Math.PI, Vector4f.UP));
@@ -109,9 +117,23 @@ public class Main {
 			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
 			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
 
+			Material terrainMaterial = new Material();
+			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE);
+			terrainMaterial.setTexture("aTexture", new Texture2D(loader.loadTexture("default/grass")));
+			terrainMaterial.setTexture("rTexture", new Texture2D(loader.loadTexture("default/dirt")));
+			terrainMaterial.setTexture("gTexture", new Texture2D(loader.loadTexture("default/flowers")));
+			terrainMaterial.setTexture("bTexture", new Texture2D(loader.loadTexture("default/path")));
+			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
+			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.1f, 0));
+			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 4, 1));
+			terrainMaterial.setFloat("tileCount", 150);
+			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 40);
+			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap, 300, 128, 5, loader, cameraObject);
+			terrainObject.addChild(terrain);
+
 
 			cameraObject.addComponent(camera);
-			dragon.getTransform().setPos(new Vector4f(4, 0, 0));
+			dragon.getTransform().setPos(new Vector4f(8, terrain.getTerrainHeight(8, -14), -14));
 			dragon.getTransform().setRot(new Quaternion((float) Math.PI / -2, Vector4f.UP));
 
 			dragon.addComponent(new ModelComponent(material, model) {
@@ -130,21 +152,7 @@ public class Main {
 				}
 			});
 
-			Material terrainMaterial = new Material();
-			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE);
-			terrainMaterial.setTexture("aTexture", new Texture2D(loader.loadTexture("default/grass")));
-			terrainMaterial.setTexture("rTexture", new Texture2D(loader.loadTexture("default/dirt")));
-			terrainMaterial.setTexture("gTexture", new Texture2D(loader.loadTexture("default/flowers")));
-			terrainMaterial.setTexture("bTexture", new Texture2D(loader.loadTexture("default/path")));
-			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
-			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.1f, 0));
-			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 4, 1));
-			terrainMaterial.setFloat("tileCount", 150);
-			terrainMaterial.setFloat("maxHeight", 10);
-			terrainMaterial.setTexture("height", new Texture2D(loader.loadTexture("default/heightMap")));
-			material.setVector("cameraPos", cameraObject.getTransform().getWorldPos());
 
-			terrain.addChild(new GeoclipmapTerrain(terrainMaterial, 300, 64, 4, loader, cameraObject));
 
 			Throwable e = application.start();
 			if (e != null) {

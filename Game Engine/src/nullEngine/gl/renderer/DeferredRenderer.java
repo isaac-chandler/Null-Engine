@@ -3,6 +3,7 @@ package nullEngine.gl.renderer;
 import math.MathUtil;
 import math.Matrix4f;
 import math.Vector4f;
+import nullEngine.control.Application;
 import nullEngine.gl.Material;
 import nullEngine.gl.PostProcessing;
 import nullEngine.gl.framebuffer.Framebuffer2D;
@@ -28,7 +29,7 @@ public class DeferredRenderer extends Renderer {
 
 	private DeferredShader shader = DeferredBasicShader.INSTANCE;
 
-	private static final float LOD_DROPOFF_FACTOR = 2;
+	private static final float LOD_DROPOFF_FACTOR = 0.75f;
 	private HashMap<Material, ArrayList<ModelComponent>> models = new HashMap<Material, ArrayList<ModelComponent>>();
 	private Vector4f ambientColor = new Vector4f();
 	private ArrayList<DirectionalLight> lights = new ArrayList<DirectionalLight>();
@@ -126,7 +127,11 @@ public class DeferredRenderer extends Renderer {
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		Framebuffer2D.unbind();
+		if (Application.get().getRenderTarget() != null) {
+			Application.get().getRenderTarget().bind();
+		} else {
+			Framebuffer2D.unbind();
+		}
 		BasicShader.INSTANCE.bind();
 		BasicShader.INSTANCE.loadProjectionMatrix(Matrix4f.IDENTITY);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);

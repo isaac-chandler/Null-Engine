@@ -1,6 +1,7 @@
 package nullEngine.gl;
 
 import com.sun.istack.internal.Nullable;
+import nullEngine.control.Application;
 import nullEngine.exception.InitializationException;
 import nullEngine.input.*;
 import nullEngine.loading.Loader;
@@ -328,7 +329,9 @@ public class Window {
 							event.width = width_;
 							event.height = height_;
 							distributor.preResize();
+							Application.get().preResize();
 							distributor.postResize(event);
+							Application.get().postResize(event);
 						}
 						Logs.d("resized to " + width_ + "x" + height_);
 					}
@@ -517,6 +520,7 @@ public class Window {
 				fullscreen ? GLFW.glfwGetPrimaryMonitor() : MemoryUtil.NULL, window);
 
 		distributor.preResize();
+		Application.get().preResize();
 		loader.preContextChange();
 		free();
 		window = newWindow;
@@ -534,6 +538,7 @@ public class Window {
 			event.width = width;
 			event.height = height;
 			distributor.postResize(event);
+			Application.get().postResize(event);
 		}
 		Logs.d("resized to " + width + "x" + height);
 	}
