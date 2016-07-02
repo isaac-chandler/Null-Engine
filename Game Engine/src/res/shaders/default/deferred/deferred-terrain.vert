@@ -24,6 +24,6 @@ void main() {
 	position.y = texture(height, texCoords).r;
 
 	gl_Position = mvp * vec4(inPosition.x, position.y, inPosition.z, 1);
-	normal = texture(normals, vec2(texCoords.x, 1 - texCoords.y)).xyz;
+	normal = texture(normals, texCoords).xyz;
 }
 

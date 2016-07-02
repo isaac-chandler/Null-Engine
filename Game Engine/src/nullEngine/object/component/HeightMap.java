@@ -7,7 +7,6 @@ import nullEngine.loading.FileFormatException;
 import nullEngine.loading.Loader;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL30;
 
 import java.awt.image.BufferedImage;
@@ -78,10 +77,9 @@ public class HeightMap {
 		NormalGenShader.INSTANCE.bind();
 		NormalGenShader.INSTANCE.updateUniforms(maxHeight, map.getWidth());
 
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, heightMap.getID());
+		heightMap.bind();
 		Quad.get().render();
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		Texture2D.unbind();
 
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 		GL30.glDeleteFramebuffers(framebuffer);

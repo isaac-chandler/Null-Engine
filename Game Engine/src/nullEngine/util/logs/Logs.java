@@ -33,6 +33,8 @@ public class Logs {
 	private static SimpleDateFormat fileNameFormat;
 	private static SimpleDateFormat logTimeFormat;
 
+	private static Profiler builtinProfiler = new Profiler("BUILTIN");
+
 	static {
 		oldSystemOut = System.out;
 		oldSystemErr = System.err;
@@ -61,10 +63,6 @@ public class Logs {
 				logFolder.delete();
 			logFolder.mkdir();
 		}
-
-		//set log format
-		if (logFormat != null)
-			Logs.logFormat = logFormat;
 
 		//set log file
 		log = logFolder.getAbsolutePath() + "/log-" + fileNameFormat.format(startTime) + ".txt";
@@ -340,6 +338,30 @@ public class Logs {
 		}
 	}
 
+	public static void profileStart() {
+		builtinProfiler.start();
+	}
+
+	public static void profilePrint() {
+		builtinProfiler.print();
+	}
+
+	public static void setBuiltinProfiler(Profiler profiler) {
+		builtinProfiler = profiler;
+	}
+
+	public static void setBuiltinProfilerName(String name) {
+		builtinProfiler.setName(name);
+	}
+
+	public static String getBuiltinProfilerName() {
+		return builtinProfiler.getName();
+	}
+
+	public static long getBuiltinProfilerStart() {
+		return builtinProfiler.getStart();
+	}
+
 	/**
 	 * Set the folder to save the logs
 	 *
@@ -393,5 +415,35 @@ public class Logs {
 
 	public static PrintStream getSystemOut() {
 		return oldSystemOut;
+	}
+
+	public static class Profiler {
+		private long start;
+		private String name;
+
+		public Profiler(String name) {
+			this.name = name;
+		}
+
+		public void start() {
+			start = System.nanoTime();
+		}
+
+		public void print() {
+			if (Logs.debug)
+				Logs.print(formatMessage("PROFILER", name + " " + ((System.nanoTime() - start) / 1e9)));
+		}
+
+		public long getStart() {
+			return start;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
 	}
 }

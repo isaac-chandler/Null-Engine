@@ -61,7 +61,6 @@ public class Font {
 		return glyphs.containsKey(character) || character == '\n' || character == '\r';
 	}
 
-	//TODO fix kerning
 	public void drawString(String text) {
 		if (Shader.bound() instanceof TextShader) {
 			TextShader shader = (TextShader) Shader.bound();
@@ -72,11 +71,12 @@ public class Font {
 			text = text.replace("\r\n", "\n").replace("\r", "\n");
 			texture.bind();
 
-			Glyph previous = null;
+			char next = text.charAt(0);
 			for (int i = 0; i < text.length(); i++) {
 				char character = text.charAt(i);
 
-				Glyph glyph = glyphs.get(character);
+				Glyph glyph = glyphs.get(next);
+					next = i < text.length() - 1 ? text.charAt(i + 1) : '\0';
 
 				if (character == '\n') {
 					cursorX = 0;
@@ -87,12 +87,11 @@ public class Font {
 					shader.loadOffset(cursorX, cursorY);
 					glyph.model.render();
 					cursorX += glyph.xAdvance;
-					if (previous != null && previous.kerning.get(character) != null) {
-						cursorX += previous.kerning.get(character);
+					Float kerning = glyph.kerning.get(next);
+					if (next != '\0' && kerning != null) {
+						cursorX += kerning;
 					}
 				}
-
-				previous = glyph;
 			}
 		}
 	}

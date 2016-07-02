@@ -22,7 +22,7 @@ public class NormalGenShader extends Shader {
 	@Override
 	protected void getUniformLocations() {
 		location_maxHeight = getUniformLocation("maxHeight");
-		location_offset = getUniformLocation("offset");
+//		location_offset = getUniformLocation("offset");
 	}
 
 	public void loadProjectionMatrix(Matrix4f projectionMatrix) {
@@ -32,6 +32,6 @@ public class NormalGenShader extends Shader {
 	public void updateUniforms(float maxHeight, int size) {
 		loadMVP(Matrix4f.IDENTITY);
 		loadFloat(location_maxHeight, maxHeight);
-		loadVec2(location_offset, 1.0f / size, 0);
+//		loadVec2(location_offset, 0, 1.0f / size);
 	}
 }

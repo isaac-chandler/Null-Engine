@@ -37,5 +37,6 @@ void main() {
 //	outColor = vec4(normal, 1);
 	outPosition = position;
 	outNormal = vec4(normal, 1);
+//	outNormal = vec4(0, 1, 0, 1);
 	outSpecular = vec4(reflectivity0, shineDamper0, 0, 1);
 }

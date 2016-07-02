@@ -83,11 +83,8 @@ public class Main {
 				}
 			};
 			text.setColor(Color.WHITE);
-			text.setThickness(0.4f, 0.2f);
+			text.setThickness(0.35f, 0.15f);
 			gui.getRoot().addComponent(text);
-
-
-
 
 			final Model model = loader.loadModel("default/dragon");
 
@@ -100,7 +97,8 @@ public class Main {
 
 			FogPostProcessing fog = new FogPostProcessing();
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
-			fog.setDensity(0.001f);
+			fog.setDensity(0.0003f);
+			fog.setCutoff(0.1f);
 			((DeferredRenderer) world.getRenderer()).addPostFX(fog);
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
