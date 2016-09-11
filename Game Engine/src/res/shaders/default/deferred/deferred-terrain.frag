@@ -21,6 +21,8 @@ uniform vec4 shineDamper;
 uniform sampler2D blend;
 uniform float tileCount;
 
+uniform sampler2D normals;
+
 void main() {
 	vec4 blendColor = texture(blend, texCoords);
 	float aTextureAmt = clamp(1 - (blendColor.r + blendColor.g + blendColor.b), 0, 1);
@@ -34,9 +36,7 @@ void main() {
 	float shineDamper0 = shineDamper.a * aTextureAmt + shineDamper.r * blendColor.r + shineDamper.g * blendColor.g + shineDamper.b * blendColor.b;
 
 	outColor = aColor + rColor + gColor + bColor;
-//	outColor = vec4(normal, 1);
 	outPosition = position;
 	outNormal = vec4(normal, 1);
-//	outNormal = vec4(0, 1, 0, 1);
 	outSpecular = vec4(reflectivity0, shineDamper0, 0, 1);
 }

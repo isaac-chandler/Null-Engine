@@ -6,11 +6,15 @@ import nullEngine.gl.shader.Shader;
 public class DeferredShader extends Shader {
 
 	private int location_modelMatrix;
-	private int location_mvp;
+
+	public DeferredShader(String vertex, String geometry, String fragment) {
+		super(vertex, geometry, fragment);
+	}
 
 	public DeferredShader(String vertex, String fragment) {
 		super(vertex, fragment);
 	}
+
 
 	@Override
 	protected void bindAttributes() {

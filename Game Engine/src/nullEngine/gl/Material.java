@@ -7,7 +7,7 @@ import nullEngine.gl.texture.Texture2D;
 
 import java.util.HashMap;
 
-public class Material {
+public class Material implements Cloneable {
 	private HashMap<String, Float> floats;
 	private HashMap<String, Vector4f> vectors;
 	private HashMap<String, Texture2D> textures;
@@ -21,11 +21,14 @@ public class Material {
 	private static HashMap<String, Vector4f> defaultVectors = new HashMap<String, Vector4f>();
 	private static HashMap<String, Texture2D> defaultTextures = new HashMap<String, Texture2D>();
 
+	private Material(Object a) {}
+
 	public Material() {
 		floats = (HashMap<String, Float>) defaultFloats.clone();
 		vectors = (HashMap<String, Vector4f>) defaultVectors.clone();
 		textures = (HashMap<String, Texture2D>) defaultTextures.clone();
 	}
+
 
 	public void setFloat(String key, float f) {
 		floats.put(key, f);
@@ -109,5 +112,17 @@ public class Material {
 
 	public void setAlwaysRender(boolean alwaysRender) {
 		this.alwaysRender = alwaysRender;
+	}
+
+	@Override
+	public Material clone() {
+		Material clone = new Material(null);
+		clone.floats = (HashMap<String, Float>) floats.clone();
+		clone.vectors = (HashMap<String, Vector4f>) vectors.clone();
+		clone.textures = (HashMap<String, Texture2D>) textures.clone();
+		clone.usingLighting = usingLighting;
+		clone.alwaysRender = alwaysRender;
+		clone.shader = shader;
+		return clone;
 	}
 }

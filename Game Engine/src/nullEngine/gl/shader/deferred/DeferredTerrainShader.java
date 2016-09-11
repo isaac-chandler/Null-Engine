@@ -20,7 +20,7 @@ public class DeferredTerrainShader extends DeferredShader {
 		addUserTexture("gTexture");
 		addUserTexture("bTexture");
 		addUserTexture("height");
-		addUserTexture("normals");
 		addUserFloat("size");
+		addUserFloat("offset");
 	}
 }

@@ -10,6 +10,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL32;
 
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;
@@ -31,6 +32,7 @@ public abstract class Shader {
 	private int program;
 	private int vertexShader;
 	private int fragmentShader;
+	private int geometryShader = -1;
 	private int systemTextures = 0;
 
 	private int location_mvp;
@@ -42,27 +44,40 @@ public abstract class Shader {
 		return current;
 	}
 
-	public Shader(String vertex, String fragment) {
+	public Shader(String vertex, String geometry, String fragment) {
 		vertexShader = loadShader(vertex + ".vert", GL20.GL_VERTEX_SHADER);
 		fragmentShader = loadShader(fragment + ".frag", GL20.GL_FRAGMENT_SHADER);
+		if (geometry != null)
+			geometryShader = loadShader(geometry + ".geom", GL32.GL_GEOMETRY_SHADER);
 
 		program = GL20.glCreateProgram();
 		GL20.glAttachShader(program, vertexShader);
 		GL20.glAttachShader(program, fragmentShader);
+		if (geometryShader != -1)
+			GL20.glAttachShader(program, geometryShader);
 
 		bindAttributes();
 
 		GL20.glLinkProgram(program);
 		if (GL20.glGetProgrami(program, GL20.GL_LINK_STATUS) == GL11.GL_FALSE) {
-			Logs.f("Failed to link " + vertex + " and " + fragment, new ShaderException(GL20.glGetProgramInfoLog(program, 1024)));
+			int length = GL20.glGetProgrami(program, GL20.GL_INFO_LOG_LENGTH);
+			String names = geometryShader == -1 ? vertex + " and " + fragment : vertex + ", " + geometry + " and " + fragment;
+			Logs.f("Failed to link " + names, new ShaderException(GL20.glGetProgramInfoLog(program, length)));
 		}
 
 		GL20.glValidateProgram(program);
 		if (GL20.glGetProgrami(program, GL20.GL_VALIDATE_STATUS) == GL11.GL_FALSE) {
-			Logs.f("Failed to validate " + vertex + " and " + fragment, new ShaderException(GL20.glGetProgramInfoLog(program, 1024)));
+			int length = GL20.glGetProgrami(program, GL20.GL_INFO_LOG_LENGTH);
+			String names = geometryShader == -1 ? vertex + " and " + fragment : vertex + ", " + geometry + " and " + fragment;
+			Logs.f("Failed to validate " + names, new ShaderException(GL20.glGetProgramInfoLog(program, length)));
 		}
+
 		location_mvp = getUniformLocation("mvp");
 		getUniformLocations();
+	}
+
+	public Shader(String vertex, String fragment) {
+		this(vertex, null, fragment);
 	}
 
 	protected abstract void bindAttributes();
@@ -204,7 +219,8 @@ public abstract class Shader {
 		GL20.glShaderSource(shader, src);
 		GL20.glCompileShader(shader);
 		if (GL20.glGetShaderi(shader, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
-			Logs.f("Failed to compile shader " + name, new ShaderException(GL20.glGetShaderInfoLog(shader, 1024)));
+			int length = GL20.glGetShaderi(shader, GL20.GL_INFO_LOG_LENGTH);
+			Logs.f("Failed to compile shader " + name, new ShaderException(GL20.glGetShaderInfoLog(shader, length)));
 		}
 
 		return shader;

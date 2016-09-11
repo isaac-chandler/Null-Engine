@@ -24,8 +24,8 @@ public class GeoclipmapTerrain extends GameObject {
 
 	private static int generateBlockVertices(int m, Loader loader) {
 		float[] vertices = new float[(m + 1) * (m + 1) * 3];
-		for (int z = 0; z < m + 1; z++) {
-			for (int x = 0; x < m + 1; x++) {
+		for (int z = 0; z <= m; z++) {
+			for (int x = 0; x <= m; x++) {
 				vertices[(z * (m + 1) + x) * 3] = (float) x / m - 0.5f;
 				vertices[(z * (m + 1) + x) * 3 + 2] = (float) z / m - 0.5f;
 			}
@@ -291,6 +291,7 @@ public class GeoclipmapTerrain extends GameObject {
 		}
 	}
 
+	//TODO use multiple normal maps for terrain, 1 per LOD
 	public GeoclipmapTerrain(Material material, HeightMap heightMap, float size, int detail, int levels, Loader loader, GameObject cameraObject) {
 		if (((detail & (detail - 1)) != 0) || detail < 4) {
 			throw new IllegalArgumentException("n must be 2^x where x is an integer greater than 2");
@@ -304,9 +305,15 @@ public class GeoclipmapTerrain extends GameObject {
 		float scale = size / (1 << (levels - 1));
 
 		material.setFloat("size", size / 2);
-		material.setFloat("maxHeight", heightMap.getMaxHeight());
 		material.setTexture("height", heightMap.getHeightMap());
-		material.setTexture("normals", heightMap.getNormalMap());
+
+		Material[] materials = new Material[levels];
+		float offset = 1.0f / detail;
+		for (int i = 0; i < levels; i++) {
+			materials[levels - i - 1] = material.clone();
+			materials[levels - i - 1].setFloat("offset", offset);
+			offset /= 2;
+		}
 
 		int vbo = generateBlockVertices(detail, loader);
 		int texCoords = loader.createVBO(new float[(detail + 1) * (detail + 1) * 2]);
@@ -315,11 +322,11 @@ public class GeoclipmapTerrain extends GameObject {
 		Model block = generateBlock(detail, vbo, texCoords, normals, loader);
 		Model ring = generateRing(detail, vbo, texCoords, normals, loader);
 
-		addChild(new ModelObject(block, material, scale));
+		addChild(new ModelObject(block, materials[0], scale));
 
 		for (int  i = 1; i < levels; i++) {
 			scale *= 2;
-			addChild(new ModelObject(ring, material, scale));
+			addChild(new ModelObject(ring, materials[i], scale));
 		}
 	}
 }

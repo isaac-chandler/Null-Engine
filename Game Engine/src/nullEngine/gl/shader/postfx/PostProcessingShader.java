@@ -7,6 +7,10 @@ public class PostProcessingShader extends Shader {
 	private int location_colors;
 	private int location_depth;
 
+	public PostProcessingShader(String vertex, String geometry, String fragment) {
+		super(vertex, geometry, fragment);
+	}
+
 	public PostProcessingShader(String vertex, String fragment) {
 		super(vertex, fragment);
 	}

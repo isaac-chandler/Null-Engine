@@ -39,7 +39,7 @@ public class Main {
 
 			final FlyCam camera = new FlyCam();
 
-			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 125f);
+			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 2000f);
 			LayerGUI gui = new LayerGUI();
 			state.addLayer(gui);
 			state.addLayer(world);
@@ -99,7 +99,7 @@ public class Main {
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
 			fog.setDensity(0.0003f);
 			fog.setCutoff(0.1f);
-			((DeferredRenderer) world.getRenderer()).addPostFX(fog);
+//			((DeferredRenderer) world.getRenderer()).addPostFX(fog);
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();
