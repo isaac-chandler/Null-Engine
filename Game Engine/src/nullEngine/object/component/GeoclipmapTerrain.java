@@ -291,7 +291,6 @@ public class GeoclipmapTerrain extends GameObject {
 		}
 	}
 
-	//TODO use multiple normal maps for terrain, 1 per LOD
 	public GeoclipmapTerrain(Material material, HeightMap heightMap, float size, int detail, int levels, Loader loader, GameObject cameraObject) {
 		if (((detail & (detail - 1)) != 0) || detail < 4) {
 			throw new IllegalArgumentException("n must be 2^x where x is an integer greater than 2");
