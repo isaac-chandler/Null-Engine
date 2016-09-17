@@ -12,6 +12,7 @@ import nullEngine.gl.Material;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.model.Model;
 import nullEngine.gl.renderer.DeferredRenderer;
+import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.shader.deferred.DeferredTerrainShader;
 import nullEngine.gl.shader.postfx.FogPostProcessing;
 import nullEngine.gl.texture.Texture2D;
@@ -97,9 +98,9 @@ public class Main {
 
 			FogPostProcessing fog = new FogPostProcessing();
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
-			fog.setDensity(0.0003f);
-			fog.setCutoff(0.1f);
-//			((DeferredRenderer) world.getRenderer()).addPostFX(fog);
+			fog.setDensity(0.004f);
+			fog.setGradient(4f);
+			((DeferredRenderer) world.getRenderer()).addPostFX(fog);
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();
@@ -112,8 +113,19 @@ public class Main {
 			cameraObject.getTransform().setPos(new Vector4f(0, 1.5f, -5));
 			cameraObject.getTransform().setRot(new Quaternion((float) Math.PI, Vector4f.UP));
 
-			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
-			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
+			GameObject lightObject = new GameObject();
+			lightObject.addComponent(new SpotLight(Color.WHITE, new Vector4f(0, -1, 0), 0.001f, 0, 0.6f, (float) (Math.PI / 4)) {
+				@Override
+				public void render(Renderer renderer, GameObject object) {
+					setDirection(cameraObject.getTransform().getRot().getForward(getDirection()).mul(-1));
+					object.getTransform().setPos(cameraObject.getTransform().getWorldPos());
+					super.render(renderer, object);
+				}
+			});
+			lightObject.getTransform().setPos(new Vector4f(8, 50, -14));
+			world.getRoot().addChild(lightObject);
+//			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
+//			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
 
 			Material terrainMaterial = new Material();
 			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE);
@@ -124,13 +136,30 @@ public class Main {
 			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
 			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.1f, 0));
 			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 4, 1));
-			terrainMaterial.setFloat("tileCount", 150);
-			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 40);
-			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap, 300, 128, 5, loader, cameraObject);
+			terrainMaterial.setFloat("tileCount", 220);
+			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 80);
+			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap, 600, 128, 6, loader, cameraObject);
 			terrainObject.addChild(terrain);
 
 
 			cameraObject.addComponent(camera);
+			application.setCursorEnabled(false);
+			cameraObject.addListener(new EventAdapter() {
+				boolean enabled = true;
+
+				@Override
+				public boolean keyPressed(KeyEvent event) {
+					if (event.key == Input.KEY_F1) {
+						enabled = !enabled;
+						application.setCursorEnabled(!enabled);
+						camera.setCanRotate(enabled);
+						camera.setCanMove(enabled);
+						return true;
+
+					}
+					return false;
+				}
+			});
 			dragon.getTransform().setPos(new Vector4f(8, terrain.getTerrainHeight(8, -14), -14));
 			dragon.getTransform().setRot(new Quaternion((float) Math.PI / -2, Vector4f.UP));
 
@@ -149,7 +178,6 @@ public class Main {
 					return false;
 				}
 			});
-
 
 
 			Throwable e = application.start();

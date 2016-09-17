@@ -142,8 +142,16 @@ public abstract class Shader {
 		GL20.glUniform3f(location, vec.x, vec.y, vec.z);
 	}
 
+	public void loadVec3(int location, float x, float y, float z) {
+		GL20.glUniform3f(location, x, y, z);
+	}
+
 	public void loadVec4(int location, Vector4f vec) {
 		GL20.glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
+	}
+
+	public void loadVec4(int location, float x, float y, float z, float w) {
+		GL20.glUniform4f(location, x, y, z, w);
 	}
 
 	public void loadInt(int location, int value) {

@@ -1,5 +1,6 @@
 package nullEngine.gl;
 
+import math.Matrix4f;
 import nullEngine.control.Application;
 import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.model.Quad;
@@ -28,14 +29,21 @@ public abstract class PostProcessing {
 		this.enabled = enabled;
 	}
 
-	public int render(int colors, int depth) {
+	public int render(int colors, int positions, int normals, int specular, int depth, Matrix4f viewMatrix) {
 		if (enabled) {
 			shader.bind();
+			shader.updateViewMatrix(viewMatrix);
 			updateUniforms(shader);
 			buffer.bind();
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, colors);
 			GL13.glActiveTexture(GL13.GL_TEXTURE1);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, positions);
+			GL13.glActiveTexture(GL13.GL_TEXTURE2);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, normals);
+			GL13.glActiveTexture(GL13.GL_TEXTURE3);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, specular);
+			GL13.glActiveTexture(GL13.GL_TEXTURE4);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, depth);
 			Quad.get().lazyRender(0);
 			return buffer.getColorTextureID();

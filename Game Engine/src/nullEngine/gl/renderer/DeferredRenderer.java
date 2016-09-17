@@ -10,14 +10,13 @@ import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.framebuffer.FramebufferDeferred;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.shader.BasicShader;
-import nullEngine.gl.shader.deferred.DeferredAmbientShader;
-import nullEngine.gl.shader.deferred.DeferredBasicShader;
-import nullEngine.gl.shader.deferred.DeferredDirectionalShader;
-import nullEngine.gl.shader.deferred.DeferredShader;
+import nullEngine.gl.shader.deferred.*;
 import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.object.component.DirectionalLight;
 import nullEngine.object.component.ModelComponent;
+import nullEngine.object.component.PointLight;
+import nullEngine.object.component.SpotLight;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
@@ -32,7 +31,9 @@ public class DeferredRenderer extends Renderer {
 	private static final float LOD_DROPOFF_FACTOR = 0.75f;
 	private HashMap<Material, ArrayList<ModelComponent>> models = new HashMap<Material, ArrayList<ModelComponent>>();
 	private Vector4f ambientColor = new Vector4f();
-	private ArrayList<DirectionalLight> lights = new ArrayList<DirectionalLight>();
+	private ArrayList<DirectionalLight> directionalLights = new ArrayList<DirectionalLight>();
+	private ArrayList<PointLight> pointLights = new ArrayList<PointLight>();
+	private ArrayList<SpotLight> spotLights = new ArrayList<SpotLight>();
 
 	private FramebufferDeferred dataBuffer;
 	private Framebuffer2D lightBuffer;
@@ -60,7 +61,11 @@ public class DeferredRenderer extends Renderer {
 			}
 			list.add(model);
 		} else if (component instanceof DirectionalLight) {
-			lights.add((DirectionalLight) component);
+			directionalLights.add((DirectionalLight) component);
+		} else if (component instanceof PointLight) {
+			pointLights.add((PointLight) component);
+		} else if (component instanceof SpotLight) {
+			spotLights.add((SpotLight) component);
 		}
 	}
 
@@ -109,19 +114,35 @@ public class DeferredRenderer extends Renderer {
 
 		dataBuffer.render();
 
-		DeferredDirectionalShader.INSTANCE.bind();
-		DeferredDirectionalShader.INSTANCE.loadViewMatrix(viewMatrix);
-		for (DirectionalLight light : lights) {
-			DeferredDirectionalShader.INSTANCE.loadLight(light);
+		DeferredDirectionalLightShader.INSTANCE.bind();
+		DeferredDirectionalLightShader.INSTANCE.loadViewMatrix(viewMatrix);
+		for (DirectionalLight light : directionalLights) {
+			DeferredDirectionalLightShader.INSTANCE.loadLight(light);
 			dataBuffer.render();
 		}
-		lights.clear();
+		directionalLights.clear();
+
+		DeferredPointLightShader.INSTANCE.bind();
+		DeferredPointLightShader.INSTANCE.loadViewMatrix(viewMatrix);
+		for (PointLight light : pointLights) {
+			DeferredPointLightShader.INSTANCE.loadLight(light);
+			dataBuffer.render();
+		}
+		pointLights.clear();
+
+		DeferredSpotLightShader.INSTANCE.bind();
+		DeferredSpotLightShader.INSTANCE.loadViewMatrix(viewMatrix);
+		for (SpotLight light : spotLights) {
+			DeferredSpotLightShader.INSTANCE.loadLight(light);
+			dataBuffer.render();
+		}
+		spotLights.clear();
 
 		GL11.glDisable(GL11.GL_BLEND);
 		int out = lightBuffer.getColorTextureID();
 		Quad.get().preRender();
 		for (PostProcessing effect : postFX) {
-			out = effect.render(out, dataBuffer.getDepthTexutreID());
+			out = effect.render(out, dataBuffer.getPositionTextureID(), dataBuffer.getNormalTextureID(), dataBuffer.getSpecularTextureID(), dataBuffer.getDepthTexutreID(), viewMatrix);
 		}
 		Quad.get().postRender();
 

@@ -1,6 +1,5 @@
 package nullEngine.loading;
 
-import de.matthiasmann.twl.utils.PNGDecoder;
 import nullEngine.control.Application;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.font.Glyph;
@@ -14,9 +13,12 @@ import nullEngine.util.Buffers;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
+import org.lwjgl.stb.*;
+import org.lwjgl.system.MemoryUtil;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -170,7 +172,51 @@ public class Loader {
 	}
 
 	private int loadTextureCustomPath(String file) throws IOException {
-		PNGDecoder decoder = new PNGDecoder(ResourceLoader.getResource(file + ".png"));
+		final InputStream inputStream = ResourceLoader.getResource(file + ".png");
+		STBIIOCallbacks callbacks = STBIIOCallbacks.malloc();
+		callbacks.eof(new STBIEOFCallback() {
+			@Override
+			public int invoke(long user) {
+				try {
+					return inputStream.available() == 0 ? 1 : 0;
+				} catch (IOException e) {
+					Logs.f(e);
+					return 0;
+				}
+			}
+		});
+		callbacks.read(new STBIReadCallback() {
+			@Override
+			public int invoke(long user, long data, int size) {
+				byte[] read = new byte[size];
+				try {
+					int numRead = inputStream.read(read);
+					for (int i = 0; i < numRead; i++) {
+						MemoryUtil.memPutByte(data + i, read[i]);
+					}
+					return numRead;
+				} catch (IOException e) {
+					Logs.f(e);
+					return 0;
+				}
+			}
+		});
+		callbacks.skip(new STBISkipCallback() {
+			@Override
+			public void invoke(long user, int n) {
+				try {
+					inputStream.skip(n);
+				} catch (IOException e) {
+					Logs.f(e);
+				}
+			}
+		});
+
+		IntBuffer x = BufferUtils.createIntBuffer(1);
+		IntBuffer y = BufferUtils.createIntBuffer(1);
+		IntBuffer comp = BufferUtils.createIntBuffer(1);
+		ByteBuffer buf = STBImage.stbi_load_from_callbacks(callbacks, null, x, y, comp, 4);
+
 
 		int texture = GL11.glGenTextures();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
@@ -186,19 +232,9 @@ public class Loader {
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, lodBias);
 		}
 
-		if (decoder.hasAlpha()) {
-			ByteBuffer buf = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
-			decoder.decode(buf, decoder.getWidth() * 4, PNGDecoder.Format.RGBA);
-			buf.flip();
+		buf.flip();
 
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
-		} else {
-			ByteBuffer buf = BufferUtils.createByteBuffer(3 * decoder.getWidth() * decoder.getHeight());
-			decoder.decode(buf, decoder.getWidth() * 3, PNGDecoder.Format.RGB);
-			buf.flip();
-
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, decoder.getWidth(), decoder.getHeight(), 0, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, buf);
-		}
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, x.get(0), y.get(0), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
 
 		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 

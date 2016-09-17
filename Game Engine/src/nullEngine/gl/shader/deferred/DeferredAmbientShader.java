@@ -2,7 +2,7 @@ package nullEngine.gl.shader.deferred;
 
 import math.Vector4f;
 
-public class DeferredAmbientShader extends DeferredLightingShader {
+public class DeferredAmbientShader extends DeferredLightShader {
 
 	public static final DeferredAmbientShader INSTANCE = new DeferredAmbientShader();
 

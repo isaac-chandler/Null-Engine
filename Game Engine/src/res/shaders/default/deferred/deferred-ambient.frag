@@ -12,5 +12,6 @@ uniform sampler2D normals;
 uniform sampler2D specular;
 
 void main() {
-	outColor = texture(colors, texCoord) * ambientColor;
+	vec4 color = texture(colors, texCoord);
+	outColor = vec4(color.rgb * ambientColor, color.a);
 }

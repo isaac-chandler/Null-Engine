@@ -116,9 +116,6 @@ public class Window {
 		);
 		GLFW.glfwMakeContextCurrent(window);
 		GLFW.glfwSwapInterval(0);
-		//TODO temporary code
-		ignoreNextCursorEvent = true;
-		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 		glCapabilities = GL.createCapabilities();
 		initCallbacks();
 	}
@@ -188,9 +185,10 @@ public class Window {
 					event.x = inputData.cursorX((int) xpos);
 					event.y = inputData.cursorY((int) ypos);
 					event.mods = inputData.mods();
-					if (ignoreNextCursorEvent)
+					if (ignoreNextCursorEvent) {
+						Logs.d("Ignored cursor event");
 						ignoreNextCursorEvent = false;
-					else
+					} else
 						distributor.mouseMoved(event);
 				} catch (Exception e) {
 					Logs.e(e);
@@ -527,9 +525,6 @@ public class Window {
 
 		GLFW.glfwMakeContextCurrent(window);
 		GLFW.glfwSwapInterval(0);
-		//TODO temporary code
-		ignoreNextCursorEvent = true;
-		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
 		glCapabilities = GL.createCapabilities();
 		initCallbacks();
 		loader.postContextChange();
@@ -559,5 +554,14 @@ public class Window {
 
 	public EventDistributor getDistributor() {
 		return distributor;
+	}
+
+	public boolean getCursorEnabled() {
+		return GLFW.glfwGetInputMode(window, GLFW.GLFW_CURSOR) == GLFW.GLFW_CURSOR_NORMAL;
+	}
+
+	public void setCursorEnabled(boolean enabled) {
+		ignoreNextCursorEvent = true;
+		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, enabled ? GLFW.GLFW_CURSOR_NORMAL : GLFW.GLFW_CURSOR_DISABLED);
 	}
 }

@@ -274,4 +274,12 @@ public class Application {
 	public void postResize(ResizeEvent event) {
 
 	}
+
+	public boolean getCursorEnabled() {
+		return window.getCursorEnabled();
+	}
+
+	public void setCursorEnabled(boolean enabled) {
+		window.setCursorEnabled(enabled);
+	}
 }

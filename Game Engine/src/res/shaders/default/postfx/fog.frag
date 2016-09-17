@@ -1,16 +1,22 @@
 #version 150
 in vec2 texCoord;
+in vec3 cameraPos;
 
 out vec4 outColor;
 
 uniform sampler2D colors;
+uniform sampler2D positions;
+uniform sampler2D normals;
+uniform sampler2D specular;
 uniform sampler2D depth;
 
 uniform vec3 skyColor;
 uniform float density;
-uniform float cutoff;
+uniform float gradient;
 
 void main() {
-	float dist = texture(depth, texCoord).r;
-	outColor = mix(texture(colors, texCoord), vec4(skyColor, 1), pow(dist, 1 / density) * step(cutoff, dist));
+	float dist = length(cameraPos - texture(positions, texCoord).xyz);
+	float visibility = clamp(exp(-pow(dist * density, gradient)), 0, 1);
+	vec4 color = texture(colors, texCoord);
+	outColor = mix(vec4(skyColor, 1), color, visibility * color.a);
 }

@@ -2,14 +2,18 @@ package nullEngine.gl.shader.deferred;
 
 import nullEngine.gl.shader.Shader;
 
-public class DeferredLightingShader extends Shader {
+public class DeferredLightShader extends Shader {
 	private int location_colors;
 	private int location_positions;
 	private int location_normals;
 	private int location_specular;
 
-	public DeferredLightingShader(String vertex, String fragment) {
+	public DeferredLightShader(String vertex, String fragment) {
 		super(vertex, fragment);
+	}
+
+	public DeferredLightShader(String vertex, String geometry, String fragment) {
+		super(vertex, geometry, fragment);
 	}
 
 	@Override

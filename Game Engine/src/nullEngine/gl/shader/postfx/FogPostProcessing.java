@@ -6,8 +6,8 @@ import nullEngine.gl.PostProcessing;
 public class FogPostProcessing extends PostProcessing {
 
 	private Vector4f skyColor = new Vector4f();
-	private float density = 0.001f;
-	private float cutoff = 0.3f;
+	private float density = 0.0035f;
+	private float gradient = 5f;
 
 	public FogPostProcessing() {
 		super(FogShader.INSTANCE);
@@ -21,12 +21,12 @@ public class FogPostProcessing extends PostProcessing {
 		this.density = density;
 	}
 
-	public void setCutoff(float cutoff) {
-		this.cutoff = cutoff;
+	public void setGradient(float gradient) {
+		this.gradient = gradient;
 	}
 
 	@Override
 	public void updateUniforms(PostProcessingShader shader) {
-		((FogShader) shader).loadSkyData(skyColor, density, cutoff);
+		((FogShader) shader).loadSkyData(skyColor, density, gradient);
 	}
 }

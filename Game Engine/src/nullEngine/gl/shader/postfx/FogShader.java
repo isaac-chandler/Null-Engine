@@ -8,7 +8,7 @@ public class FogShader extends PostProcessingShader {
 
 	private int location_skyColor;
 	private int location_density;
-	private int location_cutoff;
+	private int location_gradient;
 
 	private FogShader() {
 		super("default/postfx/basic", "default/postfx/fog");
@@ -19,13 +19,13 @@ public class FogShader extends PostProcessingShader {
 		super.getUniformLocations();
 		location_skyColor = getUniformLocation("skyColor");
 		location_density = getUniformLocation("density");
-		location_cutoff = getUniformLocation("cutoff");
+		location_gradient = getUniformLocation("gradient");
 	}
 
-	public void loadSkyData(Vector4f skyColor, float density, float cutoff) {
+	public void loadSkyData(Vector4f skyColor, float density, float gradient) {
 		loadVec3(location_skyColor, skyColor);
 		loadFloat(location_density, density);
-		loadFloat(location_cutoff, cutoff);
+		loadFloat(location_gradient, gradient);
 	}
 
 
