@@ -1,12 +1,11 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="Engine Sandbox:jar">
-    <output-path>$USER_HOME$/Desktop/workspace/java/Game Engine/out/artifacts/Engine_Sandbox_jar</output-path>
+    <output-path>$PROJECT_DIR$/../Game Engine/out/artifacts/Engine_Sandbox_jar</output-path>
     <root id="archive" name="Engine Sandbox.jar">
       <element id="module-output" name="Engine Sandbox" />
       <element id="module-output" name="Game Engine" />
       <element id="module-output" name="Math" />
-      <element id="extracted-dir" path="$USER_HOME$/Desktop/workspace/java/Game Engine Workspace/Game Engine/lib/jar/lwjgl.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/Desktop/workspace/java/Game Engine Workspace/Game Engine/lib/jar/PNGDecoder.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Game Engine/lib/jar/lwjgl.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
