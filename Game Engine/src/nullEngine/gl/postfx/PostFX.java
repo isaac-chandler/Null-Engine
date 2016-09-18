@@ -18,7 +18,7 @@ public abstract class PostFX implements PostFXOutput {
 
 	private boolean renderedThisFrame = false;
 
-	private Framebuffer2D buffer;
+	protected Framebuffer2D buffer;
 
 	public PostFX(PostFXShader shader, PostFXOutput[] inputs, int hScaleDown, int vScaleDown) {
 		this.shader = shader;

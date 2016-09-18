@@ -11,7 +11,8 @@ import nullEngine.gl.Color;
 import nullEngine.gl.Material;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.model.Model;
-import nullEngine.gl.postfx.BlurPostFX;
+import nullEngine.gl.postfx.BrightFilterBloomPostFX;
+import nullEngine.gl.postfx.ContrastPostFX;
 import nullEngine.gl.postfx.FogPostFX;
 import nullEngine.gl.renderer.DeferredRenderer;
 import nullEngine.gl.shader.deferred.DeferredTerrainShader;
@@ -103,7 +104,8 @@ public class Main {
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
 			fog.setDensity(0.004f);
 			fog.setGradient(4f);
-			renderer.setPostFX(new BlurPostFX(fog));
+			renderer.setPostFX(new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.3f), 0.3f));
+//			renderer.setPostFX(new BlurPostFX(fog));
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();

@@ -24,6 +24,7 @@ public class FogShader extends PostFXShader {
 		location_skyColor = getUniformLocation("skyColor");
 		location_density = getUniformLocation("density");
 		location_gradient = getUniformLocation("gradient");
+		setSystemTextures(2);
 	}
 
 	@Override
@@ -31,7 +32,6 @@ public class FogShader extends PostFXShader {
 		super.bind();
 		loadInt(location_colors, 0);
 		loadInt(location_positions, 1);
-		setSystemTextures(2);
 	}
 
 	public void loadSkyData(Vector4f skyColor, float density, float gradient) {
