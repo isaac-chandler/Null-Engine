@@ -13,6 +13,7 @@ public class DeferredTerrainShader extends DeferredShader {
 		super.getUniformLocations();
 		addUserVector("reflectivity");
 		addUserVector("shineDamper");
+		addUserVector("lightingAmount");
 		addUserFloat("tileCount");
 		addUserTexture("blend");
 		addUserTexture("aTexture");

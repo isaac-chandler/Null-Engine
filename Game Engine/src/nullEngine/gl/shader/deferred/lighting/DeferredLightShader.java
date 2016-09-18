@@ -1,4 +1,4 @@
-package nullEngine.gl.shader.deferred;
+package nullEngine.gl.shader.deferred.lighting;
 
 import nullEngine.gl.shader.Shader;
 

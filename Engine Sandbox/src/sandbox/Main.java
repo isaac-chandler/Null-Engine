@@ -11,10 +11,10 @@ import nullEngine.gl.Color;
 import nullEngine.gl.Material;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.model.Model;
+import nullEngine.gl.postfx.BlurPostFX;
+import nullEngine.gl.postfx.FogPostFX;
 import nullEngine.gl.renderer.DeferredRenderer;
-import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.shader.deferred.DeferredTerrainShader;
-import nullEngine.gl.shader.postfx.FogPostProcessing;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.gl.texture.TextureGenerator;
 import nullEngine.input.EventAdapter;
@@ -64,6 +64,8 @@ public class Main {
 			loader.setAnisotropyAmount(8);
 			loader.setLodBias(0);
 
+			Material.setDefaultFloat("lightingAmount", 1);
+
 			Font font = loader.loadFont("default/testsdf", 12);
 
 			GuiText text = new GuiText(-1, -0.9f, 0.1f, "0FPS", font) {
@@ -96,11 +98,12 @@ public class Main {
 			material.setShineDamper(16);
 			material.setReflectivity(1);
 
-			FogPostProcessing fog = new FogPostProcessing();
+			DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer());
+			FogPostFX fog = new FogPostFX(renderer.getLightOutput(), renderer.getPositionOutput());
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
 			fog.setDensity(0.004f);
 			fog.setGradient(4f);
-			((DeferredRenderer) world.getRenderer()).addPostFX(fog);
+			renderer.setPostFX(new BlurPostFX(fog));
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();
@@ -113,19 +116,19 @@ public class Main {
 			cameraObject.getTransform().setPos(new Vector4f(0, 1.5f, -5));
 			cameraObject.getTransform().setRot(new Quaternion((float) Math.PI, Vector4f.UP));
 
-			GameObject lightObject = new GameObject();
-			lightObject.addComponent(new SpotLight(Color.WHITE, new Vector4f(0, -1, 0), 0.001f, 0, 0.6f, (float) (Math.PI / 4)) {
-				@Override
-				public void render(Renderer renderer, GameObject object) {
-					setDirection(cameraObject.getTransform().getRot().getForward(getDirection()).mul(-1));
-					object.getTransform().setPos(cameraObject.getTransform().getWorldPos());
-					super.render(renderer, object);
-				}
-			});
-			lightObject.getTransform().setPos(new Vector4f(8, 50, -14));
-			world.getRoot().addChild(lightObject);
+//			GameObject lightObject = new GameObject();
+//			lightObject.addComponent(new SpotLight(Color.WHITE, new Vector4f(0, -1, 0), 0.001f, 0, 0.6f, (float) (Math.PI / 4)) {
+//				@Override
+//				public void render(Renderer renderer, GameObject object) {
+//					setDirection(cameraObject.getTransform().getRot().getForward(getDirection()).mul(-1));
+//					object.getTransform().setPos(cameraObject.getTransform().getWorldPos());
+//					super.render(renderer, object);
+//				}
+//			});
+//			lightObject.getTransform().setPos(new Vector4f(8, 50, -14));
+//			world.getRoot().addChild(lightObject);
 //			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
-//			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
+			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
 
 			Material terrainMaterial = new Material();
 			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE);
@@ -136,6 +139,7 @@ public class Main {
 			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
 			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.1f, 0));
 			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 4, 1));
+			terrainMaterial.setVector("lightingAmount", new Vector4f(1, 1, 1, 1));
 			terrainMaterial.setFloat("tileCount", 220);
 			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 80);
 			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap, 600, 128, 6, loader, cameraObject);

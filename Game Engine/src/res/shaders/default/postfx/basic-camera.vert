@@ -6,8 +6,10 @@ in vec2 inTexCoords;
 uniform mat4 viewMatrix;
 
 out vec2 texCoord;
+out vec3 cameraPos;
 
 void main() {
 	gl_Position = vec4(inPosition, 1);
+	cameraPos = (inverse(viewMatrix) * vec4(0, 0, 0, 1)).xyz;
 	texCoord = inTexCoords;
 }

@@ -1,16 +1,18 @@
-package nullEngine.gl.shader.postfx;
+package nullEngine.gl.postfx;
 
 import math.Vector4f;
-import nullEngine.gl.PostProcessing;
+import nullEngine.gl.shader.postfx.FogShader;
+import nullEngine.gl.shader.postfx.PostFXShader;
 
-public class FogPostProcessing extends PostProcessing {
+public class FogPostFX extends PostFX {
 
 	private Vector4f skyColor = new Vector4f();
 	private float density = 0.0035f;
 	private float gradient = 5f;
 
-	public FogPostProcessing() {
-		super(FogShader.INSTANCE);
+	public FogPostFX(PostFXOutput colors, PostFXOutput positions) {
+		super(FogShader.INSTANCE, new PostFXOutput[]{colors, positions});
+
 	}
 
 	public void setSkyColor(Vector4f skyColor) {
@@ -26,7 +28,7 @@ public class FogPostProcessing extends PostProcessing {
 	}
 
 	@Override
-	public void updateUniforms(PostProcessingShader shader) {
+	public void updateUniforms(PostFXShader shader) {
 		((FogShader) shader).loadSkyData(skyColor, density, gradient);
 	}
 }

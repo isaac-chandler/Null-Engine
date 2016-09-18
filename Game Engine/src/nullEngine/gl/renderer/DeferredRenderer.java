@@ -5,12 +5,18 @@ import math.Matrix4f;
 import math.Vector4f;
 import nullEngine.control.Application;
 import nullEngine.gl.Material;
-import nullEngine.gl.PostProcessing;
 import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.framebuffer.FramebufferDeferred;
 import nullEngine.gl.model.Quad;
+import nullEngine.gl.postfx.PostFXOutput;
+import nullEngine.gl.postfx.TextureOutput;
 import nullEngine.gl.shader.BasicShader;
-import nullEngine.gl.shader.deferred.*;
+import nullEngine.gl.shader.deferred.DeferredBasicShader;
+import nullEngine.gl.shader.deferred.DeferredShader;
+import nullEngine.gl.shader.deferred.lighting.DeferredAmbientShader;
+import nullEngine.gl.shader.deferred.lighting.DeferredDirectionalLightShader;
+import nullEngine.gl.shader.deferred.lighting.DeferredPointLightShader;
+import nullEngine.gl.shader.deferred.lighting.DeferredSpotLightShader;
 import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.object.component.DirectionalLight;
@@ -42,11 +48,24 @@ public class DeferredRenderer extends Renderer {
 
 	private boolean wireframe = false;
 
-	private ArrayList<PostProcessing> postFX = new ArrayList<PostProcessing>();
+	private PostFXOutput postFX;
+	private TextureOutput colorOutput;
+	private TextureOutput positionOutput;
+	private TextureOutput normalOutput;
+	private TextureOutput specularOutput;
+	private TextureOutput depthOutput;
+	private TextureOutput lightOutput;
 
 	public DeferredRenderer(int width, int height, float far, float near) {
 		dataBuffer = new FramebufferDeferred(width, height);
 		lightBuffer = new Framebuffer2D(width, height);
+		colorOutput = new TextureOutput(dataBuffer.getColorTextureID());
+		positionOutput = new TextureOutput(dataBuffer.getPositionTextureID());
+		normalOutput = new TextureOutput(dataBuffer.getNormalTextureID());
+		specularOutput = new TextureOutput(dataBuffer.getSpecularTextureID());
+		depthOutput = new TextureOutput(dataBuffer.getDepthTexutreID());
+		lightOutput = new TextureOutput(lightBuffer.getColorTextureID());
+		postFX = lightOutput;
 		this.far = far;
 		this.near = near;
 	}
@@ -139,11 +158,10 @@ public class DeferredRenderer extends Renderer {
 		spotLights.clear();
 
 		GL11.glDisable(GL11.GL_BLEND);
-		int out = lightBuffer.getColorTextureID();
 		Quad.get().preRender();
-		for (PostProcessing effect : postFX) {
-			out = effect.render(out, dataBuffer.getPositionTextureID(), dataBuffer.getNormalTextureID(), dataBuffer.getSpecularTextureID(), dataBuffer.getDepthTexutreID(), viewMatrix);
-		}
+		postFX.preRender();
+		postFX.render(viewMatrix);
+		int out = postFX.getTextureID();
 		Quad.get().postRender();
 
 		GL11.glEnable(GL11.GL_BLEND);
@@ -182,24 +200,28 @@ public class DeferredRenderer extends Renderer {
 		shader.loadModelMatrix(modelMatrix);
 	}
 
-	public void addPostFX(PostProcessing effect) {
-		postFX.add(effect);
+	public void setPostFX(PostFXOutput postFX) {
+		this.postFX = postFX;
 	}
 
 	@Override
 	public void postResize(ResizeEvent event) {
 		dataBuffer = new FramebufferDeferred(event.width, event.height);
 		lightBuffer = new Framebuffer2D(event.width, event.height);
-		for (PostProcessing effect : postFX)
-			effect.postResize(event);
+		colorOutput.setTextureID(dataBuffer.getColorTextureID());
+		positionOutput.setTextureID(dataBuffer.getPositionTextureID());
+		normalOutput.setTextureID(dataBuffer.getNormalTextureID());
+		specularOutput.setTextureID(dataBuffer.getSpecularTextureID());
+		depthOutput.setTextureID(dataBuffer.getDepthTexutreID());
+		lightOutput.setTextureID(lightBuffer.getColorTextureID());
+		postFX.postResize(event);
 	}
 
 	@Override
 	public void preResize() {
 		dataBuffer.delete();
 		lightBuffer.delete();
-		for (PostProcessing effect : postFX)
-			effect.preResize();
+		postFX.preResize();
 	}
 
 	public boolean isWireframe() {
@@ -208,5 +230,29 @@ public class DeferredRenderer extends Renderer {
 
 	public void setWireframe(boolean wireframe) {
 		this.wireframe = wireframe;
+	}
+
+	public TextureOutput getColorOutput() {
+		return colorOutput;
+	}
+
+	public TextureOutput getPositionOutput() {
+		return positionOutput;
+	}
+
+	public TextureOutput getNormalOutput() {
+		return normalOutput;
+	}
+
+	public TextureOutput getSpecularOutput() {
+		return specularOutput;
+	}
+
+	public TextureOutput getDepthOutput() {
+		return depthOutput;
+	}
+
+	public TextureOutput getLightOutput() {
+		return lightOutput;
 	}
 }

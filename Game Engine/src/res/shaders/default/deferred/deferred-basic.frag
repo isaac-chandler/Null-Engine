@@ -15,10 +15,11 @@ out vec4 outCameraDirection;
 uniform sampler2D diffuse;
 uniform float reflectivity;
 uniform float shineDamper;
+uniform float lightingAmount;
 
 void main() {
 	outColor = texture(diffuse, texCoords);
 	outPosition = position;
 	outNormal = vec4(normalize(normal), 1);
-	outSpecular = vec4(reflectivity, shineDamper, 0, 1);
+	outSpecular = vec4(reflectivity, shineDamper, lightingAmount, 1);
 }

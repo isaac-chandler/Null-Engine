@@ -1,4 +1,4 @@
-package nullEngine.gl.shader.deferred;
+package nullEngine.gl.shader.deferred.lighting;
 
 import math.Matrix4f;
 import nullEngine.object.component.DirectionalLight;
@@ -12,7 +12,7 @@ public class DeferredDirectionalLightShader extends DeferredLightShader {
 	private int location_viewMatrix;
 
 	private DeferredDirectionalLightShader() {
-		super("default/deferred/deferred-directional", "default/deferred/deferred-directional");
+		super("default/deferred/lighting/deferred-directional", "default/deferred/lighting/deferred-directional");
 	}
 
 	@Override

@@ -34,5 +34,5 @@ void main() {
 	float specularFactor = pow(max(0, dot(toCamera, lightOut)), specularVal.y);
 	specularFactor *= specularVal.x * spotFactor / dimmer;
 
-	outColor = vec4(texture(colors, texCoord).rgb * (diffuse * lightColor) + specularFactor * lightColor, 0);
+	outColor = vec4(texture(colors, texCoord).rgb * (diffuse * lightColor) + specularFactor * lightColor, 0) * specularVal.z;
 }

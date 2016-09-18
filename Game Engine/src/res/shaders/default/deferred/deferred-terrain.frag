@@ -18,6 +18,7 @@ uniform sampler2D gTexture;
 uniform sampler2D bTexture;
 uniform vec4 reflectivity;
 uniform vec4 shineDamper;
+uniform vec4 lightingAmount;
 uniform sampler2D blend;
 uniform float tileCount;
 
@@ -34,9 +35,10 @@ void main() {
 
 	float reflectivity0 = reflectivity.a * aTextureAmt + reflectivity.r * blendColor.r + reflectivity.g * blendColor.g + reflectivity.b * blendColor.b;
 	float shineDamper0 = shineDamper.a * aTextureAmt + shineDamper.r * blendColor.r + shineDamper.g * blendColor.g + shineDamper.b * blendColor.b;
+	float lightingAmount0 = lightingAmount.a * aTextureAmt + lightingAmount.r * blendColor.r + lightingAmount.g * blendColor.g + lightingAmount.b * blendColor.b;
 
 	outColor = aColor + rColor + gColor + bColor;
 	outPosition = position;
 	outNormal = vec4(normal, 1);
-	outSpecular = vec4(reflectivity0, shineDamper0, 0, 1);
+	outSpecular = vec4(reflectivity0, shineDamper0, lightingAmount0, 1);
 }

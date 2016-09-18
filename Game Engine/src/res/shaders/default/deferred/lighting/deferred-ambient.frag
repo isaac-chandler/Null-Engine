@@ -13,5 +13,6 @@ uniform sampler2D specular;
 
 void main() {
 	vec4 color = texture(colors, texCoord);
-	outColor = vec4(color.rgb * ambientColor, color.a);
+	float lightingAmount = texture(specular, texCoord).b;
+	outColor = vec4(color.rgb * mix(vec3(1, 1, 1), ambientColor, lightingAmount), color.a);
 }

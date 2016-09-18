@@ -15,5 +15,6 @@ public class DeferredBasicShader extends DeferredShader {
 		addUserTexture("diffuse");
 		addUserFloat("reflectivity");
 		addUserFloat("shineDamper");
+		addUserFloat("lightingAmount");
 	}
 }

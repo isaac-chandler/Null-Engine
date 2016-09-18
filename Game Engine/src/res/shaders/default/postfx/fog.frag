@@ -6,9 +6,6 @@ out vec4 outColor;
 
 uniform sampler2D colors;
 uniform sampler2D positions;
-uniform sampler2D normals;
-uniform sampler2D specular;
-uniform sampler2D depth;
 
 uniform vec3 skyColor;
 uniform float density;
