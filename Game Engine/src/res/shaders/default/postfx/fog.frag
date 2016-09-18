@@ -1,4 +1,4 @@
-#version 150
+#version 150 core
 in vec2 texCoord;
 in vec3 cameraPos;
 
