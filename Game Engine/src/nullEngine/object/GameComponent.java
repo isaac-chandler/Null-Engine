@@ -1,6 +1,6 @@
 package nullEngine.object;
 
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.base.renderer.Renderer;
 import nullEngine.input.*;
 
 public abstract class GameComponent implements EventListener {

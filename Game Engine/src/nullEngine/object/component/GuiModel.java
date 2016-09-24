@@ -1,10 +1,10 @@
 package nullEngine.object.component;
 
-import nullEngine.gl.model.Model;
-import nullEngine.gl.model.Quad;
-import nullEngine.gl.renderer.Renderer;
-import nullEngine.gl.texture.Texture2D;
-import nullEngine.gl.texture.TextureGenerator;
+import nullEngine.graphics.base.model.Model;
+import nullEngine.graphics.base.model.Quad;
+import nullEngine.graphics.base.renderer.Renderer;
+import nullEngine.graphics.base.texture.Texture2D;
+import nullEngine.graphics.base.texture.TextureGenerator;
 import nullEngine.object.GameObject;
 
 public class GuiModel extends GuiComponent {

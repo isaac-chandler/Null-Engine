@@ -1,8 +1,8 @@
 package nullEngine.object.component;
 
-import nullEngine.gl.Material;
-import nullEngine.gl.renderer.Renderer;
-import nullEngine.gl.model.Model;
+import nullEngine.graphics.base.Material;
+import nullEngine.graphics.base.renderer.Renderer;
+import nullEngine.graphics.base.model.Model;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
 

@@ -1,7 +1,7 @@
 package nullEngine.object;
 
 import nullEngine.control.Layer;
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.base.renderer.Renderer;
 import nullEngine.input.EventHandler;
 
 import java.util.ArrayList;

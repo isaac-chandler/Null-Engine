@@ -1,7 +1,7 @@
 package nullEngine.object.component;
 
-import nullEngine.gl.model.Quad;
-import nullEngine.gl.texture.Texture2D;
+import nullEngine.graphics.base.model.Quad;
+import nullEngine.graphics.base.texture.Texture2D;
 
 public class GuiTexture extends GuiModel {
 

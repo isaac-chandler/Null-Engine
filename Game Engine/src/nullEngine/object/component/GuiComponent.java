@@ -1,10 +1,10 @@
 package nullEngine.object.component;
 
 import math.Vector4f;
-import nullEngine.gl.Color;
-import nullEngine.gl.renderer.Renderer;
-import nullEngine.gl.shader.GuiShader;
-import nullEngine.gl.shader.Shader;
+import nullEngine.graphics.base.Color;
+import nullEngine.graphics.base.renderer.Renderer;
+import nullEngine.graphics.base.shader.GuiShader;
+import nullEngine.graphics.base.shader.Shader;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
 

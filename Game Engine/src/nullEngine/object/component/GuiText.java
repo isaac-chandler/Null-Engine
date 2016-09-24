@@ -1,11 +1,11 @@
 package nullEngine.object.component;
 
 import math.Vector4f;
-import nullEngine.gl.Color;
-import nullEngine.gl.font.Font;
-import nullEngine.gl.renderer.Renderer;
-import nullEngine.gl.shader.GuiBasicShader;
-import nullEngine.gl.shader.GuiTextShader;
+import nullEngine.graphics.base.Color;
+import nullEngine.graphics.base.font.Font;
+import nullEngine.graphics.base.renderer.Renderer;
+import nullEngine.graphics.base.shader.GuiBasicShader;
+import nullEngine.graphics.base.shader.GuiTextShader;
 import nullEngine.object.GameObject;
 
 public class GuiText extends GuiComponent {

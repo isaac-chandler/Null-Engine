@@ -2,9 +2,9 @@ package nullEngine.object.component;
 
 import math.MathUtil;
 import math.Vector4f;
-import nullEngine.gl.Material;
-import nullEngine.gl.model.Model;
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.base.Material;
+import nullEngine.graphics.base.model.Model;
+import nullEngine.graphics.base.renderer.Renderer;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
 

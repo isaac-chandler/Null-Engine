@@ -1,7 +1,7 @@
 package nullEngine.control;
 
 import math.Matrix4f;
-import nullEngine.gl.renderer.GuiRenderer;
+import nullEngine.graphics.base.renderer.GuiRenderer;
 
 public class LayerGUI extends Layer {
 

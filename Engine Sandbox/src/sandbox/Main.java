@@ -7,17 +7,17 @@ import nullEngine.control.Application;
 import nullEngine.control.LayerDeferred;
 import nullEngine.control.LayerGUI;
 import nullEngine.control.State;
-import nullEngine.gl.Color;
-import nullEngine.gl.Material;
-import nullEngine.gl.font.Font;
-import nullEngine.gl.model.Model;
-import nullEngine.gl.postfx.BrightFilterBloomPostFX;
-import nullEngine.gl.postfx.ContrastPostFX;
-import nullEngine.gl.postfx.FogPostFX;
-import nullEngine.gl.renderer.DeferredRenderer;
-import nullEngine.gl.shader.deferred.DeferredTerrainShader;
-import nullEngine.gl.texture.Texture2D;
-import nullEngine.gl.texture.TextureGenerator;
+import nullEngine.graphics.base.Color;
+import nullEngine.graphics.base.Material;
+import nullEngine.graphics.base.font.Font;
+import nullEngine.graphics.base.model.Model;
+import nullEngine.graphics.base.postfx.BrightFilterBloomPostFX;
+import nullEngine.graphics.base.postfx.ContrastPostFX;
+import nullEngine.graphics.base.postfx.FogPostFX;
+import nullEngine.graphics.base.renderer.DeferredRenderer;
+import nullEngine.graphics.base.shader.deferred.DeferredTerrainShader;
+import nullEngine.graphics.base.texture.Texture2D;
+import nullEngine.graphics.base.texture.TextureGenerator;
 import nullEngine.input.EventAdapter;
 import nullEngine.input.Input;
 import nullEngine.input.KeyEvent;
@@ -184,7 +184,6 @@ public class Main {
 					return false;
 				}
 			});
-
 
 			Throwable e = application.start();
 			if (e != null) {

@@ -1,6 +1,6 @@
 package nullEngine.loading.model;
 
-import nullEngine.gl.model.Model;
+import nullEngine.graphics.base.model.Model;
 import nullEngine.loading.FileFormatException;
 import nullEngine.loading.Loader;
 import nullEngine.loading.ResourceLoader;

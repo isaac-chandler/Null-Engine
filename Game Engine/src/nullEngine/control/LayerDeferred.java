@@ -1,7 +1,7 @@
 package nullEngine.control;
 
 import math.Vector4f;
-import nullEngine.gl.renderer.DeferredRenderer;
+import nullEngine.graphics.base.renderer.DeferredRenderer;
 import nullEngine.input.ResizeEvent;
 import nullEngine.object.component.Camera;
 

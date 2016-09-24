@@ -2,11 +2,11 @@ package nullEngine.control;
 
 import com.sun.istack.internal.Nullable;
 import nullEngine.exception.InitializationException;
-import nullEngine.gl.Window;
-import nullEngine.gl.framebuffer.Framebuffer2D;
-import nullEngine.gl.model.Quad;
-import nullEngine.gl.renderer.MasterRenderer;
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.base.Window;
+import nullEngine.graphics.base.framebuffer.Framebuffer2D;
+import nullEngine.graphics.base.model.Quad;
+import nullEngine.graphics.base.renderer.MasterRenderer;
+import nullEngine.graphics.base.renderer.Renderer;
 import nullEngine.input.ResizeEvent;
 import nullEngine.loading.Loader;
 import nullEngine.util.Clock;

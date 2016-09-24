@@ -1,7 +1,7 @@
 package nullEngine.control;
 
 import math.Matrix4f;
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.base.renderer.Renderer;
 import nullEngine.input.*;
 import nullEngine.object.GameObject;
 import nullEngine.object.RootObject;

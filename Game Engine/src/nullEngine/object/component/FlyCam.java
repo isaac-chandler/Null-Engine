@@ -3,7 +3,7 @@ package nullEngine.object.component;
 import math.Matrix4f;
 import math.Quaternion;
 import math.Vector4f;
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.base.renderer.Renderer;
 import nullEngine.input.Input;
 import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;

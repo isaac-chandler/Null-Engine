@@ -1,7 +1,7 @@
 package nullEngine.object.component;
 
 import math.Vector4f;
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.base.renderer.Renderer;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
 

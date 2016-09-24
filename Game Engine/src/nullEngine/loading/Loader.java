@@ -2,11 +2,11 @@ package nullEngine.loading;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import nullEngine.control.Application;
-import nullEngine.gl.font.Font;
-import nullEngine.gl.font.Glyph;
-import nullEngine.gl.framebuffer.Framebuffer3D;
-import nullEngine.gl.model.Model;
-import nullEngine.gl.texture.Texture2D;
+import nullEngine.graphics.base.font.Font;
+import nullEngine.graphics.base.font.Glyph;
+import nullEngine.graphics.base.framebuffer.Framebuffer3D;
+import nullEngine.graphics.base.model.Model;
+import nullEngine.graphics.base.texture.Texture2D;
 import nullEngine.loading.model.NLMLoader;
 import nullEngine.loading.model.OBJLoader;
 import nullEngine.object.component.HeightMap;

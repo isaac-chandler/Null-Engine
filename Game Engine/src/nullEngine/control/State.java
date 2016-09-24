@@ -1,6 +1,6 @@
 package nullEngine.control;
 
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.base.renderer.Renderer;
 import nullEngine.input.EventHandler;
 import org.lwjgl.opengl.GL11;
 
