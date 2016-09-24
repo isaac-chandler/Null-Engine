@@ -14,6 +14,7 @@ import nullEngine.gl.model.Model;
 import nullEngine.gl.postfx.BrightFilterBloomPostFX;
 import nullEngine.gl.postfx.ContrastPostFX;
 import nullEngine.gl.postfx.FogPostFX;
+import nullEngine.gl.postfx.PostFX;
 import nullEngine.gl.renderer.DeferredRenderer;
 import nullEngine.gl.shader.deferred.DeferredTerrainShader;
 import nullEngine.gl.texture.Texture2D;
@@ -99,12 +100,14 @@ public class Main {
 			material.setShineDamper(16);
 			material.setReflectivity(1);
 
-			DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer());
+			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer());
 			FogPostFX fog = new FogPostFX(renderer.getLightOutput(), renderer.getPositionOutput());
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
 			fog.setDensity(0.004f);
 			fog.setGradient(4f);
-			renderer.setPostFX(new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.3f), 0.3f));
+			final PostFX bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.3f), 0.3f);
+			final PostFX noBloom = new ContrastPostFX(fog, 0.3f);
+			renderer.setPostFX(bloom);
 //			renderer.setPostFX(new BlurPostFX(fog));
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
@@ -170,6 +173,8 @@ public class Main {
 			dragon.getTransform().setRot(new Quaternion((float) Math.PI / -2, Vector4f.UP));
 
 			dragon.addComponent(new ModelComponent(material, model) {
+				boolean bloomEnabled = true;
+
 				@Override
 				public void update(float delta, GameObject object) {
 //					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
@@ -180,6 +185,8 @@ public class Main {
 					if (Input.getKeyNumber(event.key) >= 0) {
 						setLodBias(Input.getKeyNumber(event.key));
 						return true;
+					} else if (event.key == Input.KEY_B) {
+						renderer.setPostFX((bloomEnabled = !bloomEnabled) ? bloom : noBloom);
 					}
 					return false;
 				}
