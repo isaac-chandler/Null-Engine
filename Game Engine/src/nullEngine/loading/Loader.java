@@ -187,15 +187,17 @@ public class Loader {
 		}
 
 		if (decoder.hasAlpha()) {
+			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
 			ByteBuffer buf = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
 			decoder.decode(buf, decoder.getWidth() * 4, PNGDecoder.Format.RGBA);
 			buf.flip();
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
+			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, decoder.getWidth(), decoder.getHeight(), GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
 		} else {
+			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, decoder.getWidth(), decoder.getHeight(), 0, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
 			ByteBuffer buf = BufferUtils.createByteBuffer(3 * decoder.getWidth() * decoder.getHeight());
 			decoder.decode(buf, decoder.getWidth() * 3, PNGDecoder.Format.RGB);
 			buf.flip();
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, decoder.getWidth(), decoder.getHeight(), 0, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, buf);
+			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, decoder.getWidth(), decoder.getHeight(), GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, buf);
 		}
 
 		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
