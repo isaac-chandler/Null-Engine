@@ -39,6 +39,7 @@ public class NLMLoader {
 		for (int  i = 0; i < lodCount; i++) {
 			vertexCounts[i] = StreamUtils.readInt(is);
 			totalIndices += vertexCounts[i];
+			System.out.println(vertexCounts[i] / 3);
 		}
 
 		int[] indices = new int[totalIndices];

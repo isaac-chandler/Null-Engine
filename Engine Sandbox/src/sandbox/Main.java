@@ -71,7 +71,7 @@ public class Main {
 			Font font = loader.loadFont("default/testsdf", 12);
 
 			GuiText text = new GuiText(-1, -0.9f, 0.1f, "0FPS", font) {
-				float totalDelta = 1;
+				private float totalDelta = 1;
 
 				@Override
 				public void update(float delta, GameObject object) {
@@ -88,7 +88,7 @@ public class Main {
 				}
 			};
 			text.setColor(Color.WHITE);
-			text.setThickness(0.35f, 0.15f);
+			text.setThickness(0.3f, 0.3f);
 			gui.getRoot().addComponent(text);
 
 			final Model model = loader.loadModel("default/dragon");

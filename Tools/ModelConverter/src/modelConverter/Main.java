@@ -1,5 +1,7 @@
 package modelConverter;
 
+import modelConverter.obj.OBJModel;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,9 +33,26 @@ public class Main {
 			System.exit(1);
 		}
 
+		Simplifier simplifier = new OctTreeSimplifier();
+
+		for (String arg : args) {
+			if (arg.matches("\\-simplifier=[a-z]+")) {
+				String s = arg.substring(12);
+				if (s.equals("voxel"))
+					simplifier = new VoxelSimpilier();
+				else if (s.equals("octtree"))
+					simplifier = new OctTreeSimplifier();
+				else {
+					System.err.println("Simplifier must be one of: voxel, octtree");
+					System.exit(1);
+				}
+			}
+		}
+
 		int lodCount = 5;
-		double lodBias = 1;
+		double lodBias = simplifier.getDefaultLodBias();
 		boolean cw = false;
+		boolean lodChain = simplifier.getDefaultShouldLodChain();
 
 		for (String arg : args) {
 			if (arg.matches("\\-lodcount=\\d+")) {
@@ -48,6 +67,12 @@ public class Main {
 					System.err.println("Level of detail bias cannot be less than 1");
 					System.exit(1);
 				}
+			} else if (arg.matches("\\-lodchain=[a-z]+")) {
+				lodChain = Boolean.parseBoolean(arg.substring(10));
+				if (lodBias < 1) {
+					System.err.println("Level of detail bias cannot be less than 1");
+					System.exit(1);
+				}
 			} else if (arg.equals("-cw") || arg.equals("-clockwise")) {
 				cw = true;
 			} else if (arg.equals("-ccw") || arg.equals("-counterclockwise") || arg.equals("-acw") || arg.equals("-anticlockwise")) {
@@ -58,26 +83,31 @@ public class Main {
 		File out = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.')) + ".nlm");
 
 		OBJModel loader = new OBJModel(file, cw);
-		ArrayList<Float> positions = new ArrayList<Float>(loader.newPositions);
-		ArrayList<Float> texCoords = new ArrayList<Float>(loader.newTexCoords);
-		ArrayList<Float> normals = new ArrayList<Float>(loader.newNormals);
-		ArrayList<Integer> indices = new ArrayList<Integer>(loader.newIndices.length);
-		for (int  i : loader.newIndices)
+		ArrayList<Float> positions = new ArrayList<Float>(loader.positions);
+		ArrayList<Float> texCoords = new ArrayList<Float>(loader.texCoords);
+		ArrayList<Float> normals = new ArrayList<Float>(loader.normals);
+		ArrayList<Integer> indices = new ArrayList<Integer>(loader.indices.length);
+		for (int  i : loader.indices)
 			indices.add(i);
 		int[] vertexCounts = new int[lodCount];
-		vertexCounts[0] = loader.newIndices.length;
+		vertexCounts[0] = loader.indices.length;
 
+		double currentBias = lodBias;
 		for (int i = 1; i < lodCount; i ++) {
 			System.out.println("Simpilifying (" + ((100 / (lodCount - 1)) * (i - 1)) + "%)...");
 			int offset = positions.size() / 3;
-			loader.simplify(lodBias);
-			positions.addAll(loader.newPositions);
-			texCoords.addAll(loader.newTexCoords);
-			normals.addAll(loader.newNormals);
-			for (int j : loader.newIndices) {
+			OBJModel model = simplifier.simplify(currentBias, loader);
+			if (lodChain)
+				loader = model;
+			else
+				currentBias *= lodBias;
+			positions.addAll(model.positions);
+			texCoords.addAll(model.texCoords);
+			normals.addAll(model.normals);
+			for (int j : model.indices) {
 				indices.add(j + offset);
 			}
-			vertexCounts[i] = loader.newIndices.length;
+			vertexCounts[i] = model.indices.length;
 		}
 
 		System.out.println("Simplifying (100%)...");
