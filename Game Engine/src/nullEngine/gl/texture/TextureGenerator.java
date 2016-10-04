@@ -2,27 +2,27 @@ package nullEngine.gl.texture;
 
 import math.Vector4f;
 import nullEngine.gl.Color;
+import nullEngine.managing.ResourceManager;
+import nullEngine.managing.TextureResouce;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 
 public class TextureGenerator {
-
-	private static final HashMap<Integer, Integer> coloredTextures = new HashMap<Integer, Integer>();
-
 	public static final Texture2D WHITE = genColored(255, 255, 255, 255);
 
-	public static Texture2D genColored(Vector4f color) {
-		return genColored((int) (color.x * 255), (int) (color.y * 255), (int) (color.z * 255), (int) (color.w * 255));
+	public static Texture2D genColored(Vector4f color, boolean forceUnique) {
+		return genColored((int) (color.x * 255), (int) (color.y * 255), (int) (color.z * 255), (int) (color.w * 255), forceUnique);
 	}
 
-	public static Texture2D genColored(Color color) {
-		if (coloredTextures.get(color.getValue()) != null) {
-			return new Texture2D(coloredTextures.get(color.getValue()));
-		} else {
+	public static Texture2D genColored(Vector4f color) {
+		return genColored((int) (color.x * 255), (int) (color.y * 255), (int) (color.z * 255), (int) (color.w * 255), false);
+	}
 
+	public static Texture2D genColored(Color color, boolean forceUnique) {
+		TextureResouce resource;
+		if (forceUnique || (resource = (TextureResouce) ResourceManager.getResource("texture:" + ":rgba" + color.getValue())) == null) {
 			ByteBuffer buf = BufferUtils.createByteBuffer(16);
 
 			for (int i = 0; i < 4; i++) {
@@ -47,13 +47,22 @@ public class TextureGenerator {
 
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
-			coloredTextures.put(color.getValue(), id);
-
-			return new Texture2D(id);
+			resource = forceUnique ? new TextureResouce(id) : new TextureResouce(":rgba" + color.getValue(), id);
 		}
+		resource.addReference();
+
+		return new Texture2D(resource);
+	}
+
+	public static Texture2D genColored(Color color) {
+		return genColored(color, false);
+	}
+
+	public static Texture2D genColored(int r, int g, int b, int a, boolean forceUnique) {
+		return genColored(new Color((byte) r, (byte) g, (byte) b, (byte) a), forceUnique);
 	}
 
 	public static Texture2D genColored(int r, int g, int b, int a) {
-		return genColored(new Color((byte) r, (byte) g, (byte) b, (byte) a));
+		return genColored(new Color((byte) r, (byte) g, (byte) b, (byte) a), false);
 	}
 }

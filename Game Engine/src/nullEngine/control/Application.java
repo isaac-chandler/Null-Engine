@@ -9,6 +9,7 @@ import nullEngine.gl.renderer.MasterRenderer;
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.input.ResizeEvent;
 import nullEngine.loading.Loader;
+import nullEngine.managing.ResourceManager;
 import nullEngine.util.Clock;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.BufferUtils;
@@ -149,6 +150,7 @@ public class Application {
 		Logs.d("Cleaning up");
 		stop();
 		loader.cleanup();
+		ResourceManager.deleteAll();
 		renderer.cleanup();
 		window.free();
 		Logs.d("Cleanup successful");
@@ -167,6 +169,12 @@ public class Application {
 			loader.cleanup();
 		} catch (Exception e) {
 			Logs.e("Failed loader cleanup", e);
+		}
+
+		try {
+			ResourceManager.deleteAll();
+		} catch (Exception e) {
+			Logs.e("Failed resource manager cleanup", e);
 		}
 
 		try {

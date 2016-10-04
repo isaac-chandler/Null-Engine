@@ -4,7 +4,7 @@ import math.Matrix4f;
 import math.Vector4f;
 import nullEngine.exception.ShaderException;
 import nullEngine.gl.Material;
-import nullEngine.loading.ResourceLoader;
+import nullEngine.loading.filesys.ResourceLoader;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;

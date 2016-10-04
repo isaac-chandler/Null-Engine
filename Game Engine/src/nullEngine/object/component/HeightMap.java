@@ -1,8 +1,8 @@
 package nullEngine.object.component;
 
 import nullEngine.gl.texture.Texture2D;
-import nullEngine.loading.FileFormatException;
-import nullEngine.loading.Loader;
+import nullEngine.loading.filesys.FileFormatException;
+import nullEngine.managing.TextureResouce;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -16,16 +16,16 @@ public class HeightMap {
 	private Texture2D heightMap;
 	private float maxHeight;
 
-	public HeightMap(Loader loader, BufferedImage map, float maxHeight) throws FileFormatException {
+	public HeightMap(BufferedImage map, float maxHeight) throws FileFormatException {
 		this.map = map;
 		if (map.getHeight() != map.getWidth() || (map.getWidth() & (map.getWidth() - 1)) != 0) {
 			throw new FileFormatException("Height map must be a power of 2 square");
 		}
 		this.maxHeight = maxHeight;
-		heightMap = new Texture2D(genHeightMap(loader));
+		heightMap = new Texture2D(genHeightMap());
 	}
 
-	private int genHeightMap(Loader loader) {
+	private TextureResouce genHeightMap() {
 		int texture = GL11.glGenTextures();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 
@@ -49,8 +49,10 @@ public class HeightMap {
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
-		loader.addTexture(texture);
-		return texture;
+		TextureResouce resource = new TextureResouce(texture);
+		resource.addReference();
+
+		return resource;
 	}
 
 	private static final float MAX = 256 * 256 * 256;

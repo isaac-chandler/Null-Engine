@@ -13,20 +13,20 @@ public class ResourceManager {
 	}
 
 	public static void add(ManagedResource resource) {
-		String name = resource.getType() + ":" + resource.getName();
+		String name = resource.fullName;
 		resources.put(name, resource);
 	}
 
 	public static void delete(ManagedResource resource) {
-		resource.getDeleter().deleteResource(resource);
-		Logs.d("Deleting " + resource.getType() + ":" + resource.getName());
-		resources.remove(resource.getType() + ":" + resource.getName());
+		resource.delete();
+		Logs.d("Deleting " + resource.fullName);
+		resources.remove(resource.fullName);
 	}
 
 	public static void deleteAll() {
 		for (Map.Entry<String, ManagedResource> resource : resources.entrySet()) {
 			Logs.d("Cleanup: deleting " + resource.getKey());
-			resource.getValue().getDeleter().deleteResource(resource.getValue());
+			resource.getValue().delete();
 		}
 		resources.clear();
 	}

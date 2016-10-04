@@ -2,7 +2,7 @@ package nullEngine.loading.model;
 
 import nullEngine.gl.model.Model;
 import nullEngine.loading.Loader;
-import nullEngine.loading.ResourceLoader;
+import nullEngine.loading.filesys.ResourceLoader;
 import nullEngine.util.logs.Logs;
 
 import java.io.FileNotFoundException;

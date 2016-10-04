@@ -1,5 +1,7 @@
-package nullEngine.loading;
+package nullEngine.loading.filesys;
 
+import nullEngine.loading.filesys.ResourceLoader;
+import nullEngine.loading.filesys.ResourceLocation;
 import nullEngine.util.StreamUtils;
 import nullEngine.util.logs.Logs;
 

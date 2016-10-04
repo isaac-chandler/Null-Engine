@@ -137,11 +137,11 @@ public class Main {
 
 			Material terrainMaterial = new Material();
 			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE);
-			terrainMaterial.setTexture("aTexture", new Texture2D(loader.loadTexture("default/grass")));
-			terrainMaterial.setTexture("rTexture", new Texture2D(loader.loadTexture("default/dirt")));
-			terrainMaterial.setTexture("gTexture", new Texture2D(loader.loadTexture("default/flowers")));
-			terrainMaterial.setTexture("bTexture", new Texture2D(loader.loadTexture("default/path")));
-			terrainMaterial.setTexture("blend", new Texture2D(loader.loadTexture("default/blend")));
+			terrainMaterial.setTexture("aTexture", loader.loadTexture("default/grass"));
+			terrainMaterial.setTexture("rTexture", loader.loadTexture("default/dirt"));
+			terrainMaterial.setTexture("gTexture", loader.loadTexture("default/flowers"));
+			terrainMaterial.setTexture("bTexture", loader.loadTexture("default/path"));
+			terrainMaterial.setTexture("blend", loader.loadTexture("default/blend"));
 			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.1f, 0));
 			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 4, 1));
 			terrainMaterial.setVector("lightingAmount", new Vector4f(1, 1, 1, 1));

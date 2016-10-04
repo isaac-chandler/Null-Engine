@@ -1,23 +1,24 @@
 package nullEngine.loading;
 
-import de.matthiasmann.twl.utils.PNGDecoder;
 import nullEngine.control.Application;
+import nullEngine.exception.UnsupportedFeatureException;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.font.Glyph;
 import nullEngine.gl.framebuffer.Framebuffer3D;
 import nullEngine.gl.model.Model;
 import nullEngine.gl.texture.Texture2D;
+import nullEngine.loading.filesys.FileFormatException;
+import nullEngine.loading.filesys.ResourceLoader;
 import nullEngine.loading.model.NLMLoader;
 import nullEngine.loading.model.OBJLoader;
+import nullEngine.loading.texture.PNGLoader;
 import nullEngine.object.component.HeightMap;
 import nullEngine.util.Buffers;
 import nullEngine.util.logs.Logs;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class Loader {
 
 	private ArrayList<Integer> vaos = new ArrayList<Integer>();
 	private ArrayList<Integer> vbos = new ArrayList<Integer>();
-	private ArrayList<Integer> textures = new ArrayList<Integer>();
 
 	public Loader(Application application) {
 		this.application = application;
@@ -165,47 +165,16 @@ public class Loader {
 		return ret;
 	}
 
-	public int loadTexture(String file) throws IOException {
-		return loadTextureCustomPath("res/textures/" + file);
+	public Texture2D loadTexture(String file) throws IOException {
+		return loadTextureCustomPath("res/textures/" + file, false);
 	}
 
-	private int loadTextureCustomPath(String file) throws IOException {
-		PNGDecoder decoder = new PNGDecoder(ResourceLoader.getResource(file + ".png"));
+	public Texture2D loadTexture(String file, boolean forceUnique) throws IOException {
+		return loadTextureCustomPath("res/textures/" + file, forceUnique);
+	}
 
-		int texture = GL11.glGenTextures();
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
-
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
-		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, lodBias);
-
-		if (capabilities.GL_EXT_texture_filter_anisotropic && anisotropyEnabled) {
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropyAmount);
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, lodBias);
-		}
-
-		if (decoder.hasAlpha()) {
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			ByteBuffer buf = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
-			decoder.decode(buf, decoder.getWidth() * 4, PNGDecoder.Format.RGBA);
-			buf.flip();
-			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, decoder.getWidth(), decoder.getHeight(), GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
-		} else {
-			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, decoder.getWidth(), decoder.getHeight(), 0, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			ByteBuffer buf = BufferUtils.createByteBuffer(3 * decoder.getWidth() * decoder.getHeight());
-			decoder.decode(buf, decoder.getWidth() * 3, PNGDecoder.Format.RGB);
-			buf.flip();
-			GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, decoder.getWidth(), decoder.getHeight(), GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, buf);
-		}
-
-		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-
-		textures.add(texture);
-		return texture;
+	private Texture2D loadTextureCustomPath(String file, boolean forceUnique) throws IOException {
+		return PNGLoader.loadTexture(file + ".png", lodBias, anisotropyEnabled && capabilities.GL_EXT_texture_filter_anisotropic, anisotropyAmount, forceUnique);
 	}
 
 	public Font loadFont(String name, int desiredPadding) throws IOException {
@@ -256,7 +225,7 @@ public class Loader {
 			textureFile = name.substring(0, name.lastIndexOf("/") + 1) + textureFile;
 		}
 
-		Texture2D texture = new Texture2D(loadTextureCustomPath("res/fonts/" + textureFile));
+		Texture2D texture = loadTextureCustomPath("res/fonts/" + textureFile, false);
 
 		line = scanner.nextLine();
 		line = line.replaceAll("\\s+", " ");
@@ -354,8 +323,6 @@ public class Loader {
 			GL15.glDeleteBuffers(vbo);
 		for (int vao : vaos)
 			GL30.glDeleteVertexArrays(vao);
-		for (int texture : textures)
-			GL11.glDeleteTextures(texture);
 	}
 
 	public void preContextChange() {
@@ -374,10 +341,6 @@ public class Loader {
 
 
 	public HeightMap generateHeightMap(String name, float maxHeight) throws IOException {
-		return new HeightMap(this, ImageIO.read(ResourceLoader.getResource("res/textures/" + name + ".png")), maxHeight);
-	}
-
-	public void addTexture(int texture) {
-		textures.add(texture);
+		return new HeightMap(ImageIO.read(ResourceLoader.getResource("res/textures/" + name + ".png")), maxHeight);
 	}
 }

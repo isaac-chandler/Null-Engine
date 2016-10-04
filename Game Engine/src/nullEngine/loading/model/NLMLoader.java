@@ -1,9 +1,9 @@
 package nullEngine.loading.model;
 
 import nullEngine.gl.model.Model;
-import nullEngine.loading.FileFormatException;
+import nullEngine.loading.filesys.FileFormatException;
 import nullEngine.loading.Loader;
-import nullEngine.loading.ResourceLoader;
+import nullEngine.loading.filesys.ResourceLoader;
 import nullEngine.util.StreamUtils;
 import nullEngine.util.logs.Logs;
 
@@ -39,7 +39,6 @@ public class NLMLoader {
 		for (int  i = 0; i < lodCount; i++) {
 			vertexCounts[i] = StreamUtils.readInt(is);
 			totalIndices += vertexCounts[i];
-			System.out.println(vertexCounts[i] / 3);
 		}
 
 		int[] indices = new int[totalIndices];

@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 public class MasterRenderer extends Renderer {
 
 	public static void viewport(int x, int y, int width, int height) {
-		Logs.d(String.format("Viewport: %dx%d @%d, %d", width, height, x, y));
+		Logs.i(String.format("Viewport: %dx%d @%d, %d", width, height, x, y));
 		GL11.glViewport(x, y, width, height);
 	}
 

@@ -331,7 +331,7 @@ public class Window {
 							distributor.postResize(event);
 							Application.get().postResize(event);
 						}
-						Logs.d("resized to " + width_ + "x" + height_);
+						Logs.i("resized to " + width_ + "x" + height_);
 					}
 				} catch (Exception e) {
 					Logs.e(e);
