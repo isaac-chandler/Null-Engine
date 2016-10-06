@@ -2,10 +2,12 @@ package nullEngine.object;
 
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.input.*;
+import util.BitFieldInt;
 
 public abstract class GameComponent implements EventListener {
 
 	private GameObject parent;
+	public boolean enabled = true;
 
 	public void init(GameObject parent) {
 		this.parent = parent;
@@ -15,7 +17,7 @@ public abstract class GameComponent implements EventListener {
 		return parent;
 	}
 
-	public abstract void render(Renderer renderer, GameObject object);
+	public abstract void render(Renderer renderer, GameObject object, BitFieldInt flags);
 
 	public abstract void update(float delta, GameObject object);
 

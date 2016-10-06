@@ -10,6 +10,7 @@ import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
+import util.BitFieldInt;
 
 public class GuiRenderer extends Renderer {
 	private Framebuffer2D framebuffer;
@@ -24,7 +25,7 @@ public class GuiRenderer extends Renderer {
 	}
 
 	@Override
-	public void postRender() {
+	public void postRender(BitFieldInt flags) {
 		if (Application.get().getRenderTarget() != null) {
 			Application.get().getRenderTarget().bind();
 		} else {
@@ -41,7 +42,7 @@ public class GuiRenderer extends Renderer {
 	}
 
 	@Override
-	public void preRender() {
+	public void preRender(BitFieldInt flags) {
 		GuiBasicShader.INSTANCE.bind();
 		framebuffer.bind();
 		GL11.glEnable(GL11.GL_BLEND);

@@ -6,6 +6,7 @@ import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.gl.texture.TextureGenerator;
 import nullEngine.object.GameObject;
+import util.BitFieldInt;
 
 public class GuiModel extends GuiComponent {
 
@@ -19,8 +20,8 @@ public class GuiModel extends GuiComponent {
 	}
 
 	@Override
-	public void render(Renderer renderer, GameObject object) {
-		super.render(renderer, object);
+	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+		super.render(renderer, object, flags);
 		texture.bind();
 		model.render();
 	}

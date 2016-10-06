@@ -16,16 +16,21 @@ import nullEngine.gl.postfx.ContrastPostFX;
 import nullEngine.gl.postfx.FogPostFX;
 import nullEngine.gl.postfx.PostFX;
 import nullEngine.gl.renderer.DeferredRenderer;
+import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.shader.deferred.DeferredTerrainShader;
+import nullEngine.gl.shader.mousePick.MousePickTerrainShader;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.gl.texture.TextureGenerator;
 import nullEngine.input.EventAdapter;
 import nullEngine.input.Input;
 import nullEngine.input.KeyEvent;
+import nullEngine.input.MousePickInfo;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
 import nullEngine.object.component.*;
 import nullEngine.util.logs.Logs;
+import org.lwjgl.opengl.GL11;
+import util.BitFieldInt;
 
 public class Main {
 
@@ -42,7 +47,7 @@ public class Main {
 
 			final FlyCam camera = new FlyCam();
 
-			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 2000f);
+			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 300f);
 			LayerGUI gui = new LayerGUI();
 			state.addLayer(gui);
 			state.addLayer(world);
@@ -68,7 +73,7 @@ public class Main {
 
 			Material.setDefaultFloat("lightingAmount", 1);
 
-			Font font = loader.loadFont("default/testsdf", 12);
+			Font font = loader.loadFont("default/testsdf", 14);
 
 			GuiText text = new GuiText(-1, -0.9f, 0.1f, "0FPS", font) {
 				private float totalDelta = 1;
@@ -88,8 +93,11 @@ public class Main {
 				}
 			};
 			text.setColor(Color.WHITE);
-			text.setThickness(0.3f, 0.3f);
+			text.setBorderColor(Color.BLACK);
+			text.setThickness(0.25f, 0.35f);
+			text.setBorderThickness(0.4f, 0.4f);
 			gui.getRoot().addComponent(text);
+			Logs.d(GL11.glGetString(GL11.GL_RENDERER));
 
 			final Model model = loader.loadModel("default/dragon");
 
@@ -108,7 +116,6 @@ public class Main {
 			final PostFX bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.3f), 0.3f);
 			final PostFX noBloom = new ContrastPostFX(fog, 0.3f);
 			renderer.setPostFX(bloom);
-//			renderer.setPostFX(new BlurPostFX(fog));
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
 
 			GameObject dragon = new GameObject();
@@ -136,7 +143,8 @@ public class Main {
 			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
 
 			Material terrainMaterial = new Material();
-			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE);
+			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE, Material.DEFERRED_SHADER_INDEX);
+			terrainMaterial.setShader(MousePickTerrainShader.INSTANCE, Material.MOUSE_PICKING_SHADER_INDEX);
 			terrainMaterial.setTexture("aTexture", loader.loadTexture("default/grass"));
 			terrainMaterial.setTexture("rTexture", loader.loadTexture("default/dirt"));
 			terrainMaterial.setTexture("gTexture", loader.loadTexture("default/flowers"));
@@ -147,22 +155,24 @@ public class Main {
 			terrainMaterial.setVector("lightingAmount", new Vector4f(1, 1, 1, 1));
 			terrainMaterial.setFloat("tileCount", 220);
 			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 80);
+			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = true;
 			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap, 600, 128, 6, loader, cameraObject);
+			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = false;
 			terrainObject.addChild(terrain);
 
 
 			cameraObject.addComponent(camera);
 			application.setCursorEnabled(false);
 			cameraObject.addListener(new EventAdapter() {
-				boolean enabled = true;
+				boolean cameraEnabled = true;
 
 				@Override
 				public boolean keyPressed(KeyEvent event) {
 					if (event.key == Input.KEY_F1) {
-						enabled = !enabled;
-						application.setCursorEnabled(!enabled);
-						camera.setCanRotate(enabled);
-						camera.setCanMove(enabled);
+						cameraEnabled = !cameraEnabled;
+						application.setCursorEnabled(!cameraEnabled);
+						camera.setCanRotate(cameraEnabled);
+						camera.setCanMove(cameraEnabled);
 						return true;
 
 					}
@@ -173,11 +183,34 @@ public class Main {
 			dragon.getTransform().setRot(new Quaternion((float) Math.PI / -2, Vector4f.UP));
 
 			dragon.addComponent(new ModelComponent(material, model) {
-				boolean bloomEnabled = true;
+				private boolean bloomEnabled = true;
+				private boolean hasHadFrame = false;
+				private boolean render = true;
 
 				@Override
 				public void update(float delta, GameObject object) {
 //					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
+					if (application.getCursorEnabled() && hasHadFrame) {
+						MousePickInfo info = new MousePickInfo();
+						if (renderer.mousePick(Input.getMouseX(), application.getHeight() - Input.getMouseY() - 1, info)) {
+							render = true;
+							object.getTransform().setPos(info.worldPosition);
+						} else {
+							render = false;
+						}
+					}
+					hasHadFrame = false;
+				}
+
+				@Override
+				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+					if (render) {
+						super.render(renderer, object, flags);
+					}
+					if (application.getCursorEnabled()) {
+						hasHadFrame = true;
+						world.mousePickNextFrame();
+					}
 				}
 
 				@Override

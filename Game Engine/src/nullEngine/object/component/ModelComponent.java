@@ -1,16 +1,21 @@
 package nullEngine.object.component;
 
+import nullEngine.control.Layer;
 import nullEngine.gl.Material;
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.model.Model;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
+import util.BitFieldInt;
 
 public class ModelComponent extends GameComponent {
+
+	public static boolean MOUSE_PICKING_ENABLED_DEFAULT = false;
 
 	private Material material;
 	private Model model;
 	private int lodBias = 0;
+	public boolean enableMousePicking = MOUSE_PICKING_ENABLED_DEFAULT;
 
 	public ModelComponent(Material material, Model model) {
 		this.material = material;
@@ -42,8 +47,9 @@ public class ModelComponent extends GameComponent {
 	}
 
 	@Override
-	public void render(Renderer renderer, GameObject object) {
-		renderer.add(this);
+	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT) && enableMousePicking || flags.get(Layer.DEFERRED_RENDER_BIT))
+			renderer.add(this);
 	}
 
 	@Override

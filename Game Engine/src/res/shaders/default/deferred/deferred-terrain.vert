@@ -12,7 +12,6 @@ uniform mat4 modelMatrix;
 uniform mat4 mvp;
 
 uniform sampler2D height;
-uniform sampler2D normals;
 
 uniform float size;
 uniform float offset;

@@ -1,9 +1,8 @@
 package nullEngine.gl.shader.deferred;
 
-import math.Matrix4f;
-import nullEngine.gl.shader.Shader;
+import nullEngine.gl.shader.ModelMatrixShader;
 
-public class DeferredShader extends Shader {
+public class DeferredShader extends ModelMatrixShader {
 
 	private int location_modelMatrix;
 
@@ -25,15 +24,5 @@ public class DeferredShader extends Shader {
 		bindFragData(1, "outPosition");
 		bindFragData(2, "outNormal");
 		bindFragData(3, "outSpecular");
-	}
-
-	@Override
-	protected void getUniformLocations() {
-		location_modelMatrix = getUniformLocation("modelMatrix");
-
-	}
-
-	public void loadModelMatrix(Matrix4f modelMatrix) {
-		loadMat4(location_modelMatrix, modelMatrix);
 	}
 }

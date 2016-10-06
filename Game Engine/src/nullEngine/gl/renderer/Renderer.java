@@ -4,6 +4,7 @@ import math.Matrix4f;
 import nullEngine.gl.shader.Shader;
 import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
+import util.BitFieldInt;
 
 public abstract class Renderer {
 
@@ -20,9 +21,9 @@ public abstract class Renderer {
 
 	public abstract void add(GameComponent component);
 
-	public abstract void postRender();
+	public abstract void postRender(BitFieldInt flags);
 
-	public abstract void preRender();
+	public abstract void preRender(BitFieldInt flags);
 
 	public abstract void cleanup();
 

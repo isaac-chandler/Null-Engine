@@ -1,9 +1,11 @@
 package nullEngine.object.component;
 
 import math.Vector4f;
+import nullEngine.control.Layer;
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
+import util.BitFieldInt;
 
 public class SpotLight extends GameComponent {
 	private Vector4f lightColor;
@@ -21,7 +23,8 @@ public class SpotLight extends GameComponent {
 	}
 
 	@Override
-	public void render(Renderer renderer, GameObject object) {
+	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+		if (flags.get(Layer.DEFERRED_RENDER_BIT))
 		renderer.add(this);
 	}
 

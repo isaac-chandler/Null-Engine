@@ -23,7 +23,9 @@ void main() {
 	float dimmer = attenuation.x * dist * dist + attenuation.y * dist + attenuation.z;
 	lightDir = normalize(lightDir);
 	float spotFactor = dot(lightDir, direction);
-	spotFactor = step(attenuation.w, spotFactor) * (1.0 - (1 - spotFactor) / (1 - attenuation.w));
+	if (attenuation.w > spotFactor) {
+		spotFactor = (1.0 - (1 - spotFactor) / (1 - attenuation.w));
+	}
 	float diffuse = max(0, dot(unitNormal, -lightDir)) * spotFactor / dimmer;
 
 	vec3 toCamera = normalize(cameraPos - position);

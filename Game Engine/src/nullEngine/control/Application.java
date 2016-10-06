@@ -45,6 +45,8 @@ public class Application {
 
 	private static Application current;
 	private boolean screenshot;
+	private int startTimerQuery;
+	private int endTimerQuery;
 
 	public Framebuffer2D getRenderTarget() {
 		return renderTarget;
@@ -66,7 +68,7 @@ public class Application {
 
 		window = new Window(title, width, height, fullscreen, displayMode, GLFW.glfwGetPrimaryMonitor());
 		GLFW.glfwShowWindow(window.getWindow());
-		GLFW.glfwSwapInterval(0);
+		window.setVsync(false);
 
 		loader = new Loader(this);
 		renderer = new MasterRenderer();
@@ -126,8 +128,8 @@ public class Application {
 		float start = clock.getTimeSeconds();
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		currentState.render(renderer);
-		lastFrameTime = clock.getTimeSeconds() - start;
 		GLFW.glfwSwapBuffers(window.getWindow());
+		lastFrameTime = clock.getTimeSeconds() - start;
 		if (screenshot) {
 			screenshotImpl();
 		}

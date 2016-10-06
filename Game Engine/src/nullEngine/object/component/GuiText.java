@@ -7,6 +7,7 @@ import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.shader.GuiBasicShader;
 import nullEngine.gl.shader.GuiTextShader;
 import nullEngine.object.GameObject;
+import util.BitFieldInt;
 
 public class GuiText extends GuiComponent {
 
@@ -29,14 +30,14 @@ public class GuiText extends GuiComponent {
 	}
 
 	@Override
-	public void render(Renderer renderer, GameObject object) {
+	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
 		GuiTextShader.INSTANCE.bind();
 		GuiTextShader.INSTANCE.loadMVP(renderer.getMVP());
 		GuiTextShader.INSTANCE.loadThickness(width, edge);
 		GuiTextShader.INSTANCE.loadBorderThickness(borderWidth, borderEdge);
 		GuiTextShader.INSTANCE.loadBorderColor(borderColor);
 		GuiTextShader.INSTANCE.loadBorderOffset(borderOffsetX, borderOffsetY);
-		super.render(renderer, object);
+		super.render(renderer, object, flags);
 		font.drawString(text);
 		GuiBasicShader.INSTANCE.bind();
 	}

@@ -19,7 +19,6 @@ import java.lang.reflect.Field;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class Window {
@@ -32,6 +31,7 @@ public class Window {
 
 	private boolean fullscreen;
 	private boolean vsync = false;
+	private boolean cursorEnabled = true;
 
 	private GLFWCharModsCallback        charModsCallback;
 	private GLFWCursorEnterCallback     cursorEnterCallback;
@@ -118,6 +118,7 @@ public class Window {
 		GLFW.glfwSwapInterval(0);
 		glCapabilities = GL.createCapabilities();
 		initCallbacks();
+		setCursorEnabled(cursorEnabled);
 	}
 
 	public GLCapabilities getGLCapabilities() {
@@ -366,7 +367,7 @@ public class Window {
 		GLFW.glfwDestroyWindow(window);
 	}
 
-	public static List<GLFWVidMode> getFullscreenVideoModes() {
+	public static ArrayList<GLFWVidMode> getFullscreenVideoModes() {
 		PointerBuffer monitors = GLFW.glfwGetMonitors();
 
 		ArrayList<GLFWVidMode> modes = new ArrayList<GLFWVidMode>();
@@ -535,6 +536,7 @@ public class Window {
 			distributor.postResize(event);
 			Application.get().postResize(event);
 		}
+		setCursorEnabled(cursorEnabled);
 		Logs.d("resized to " + width + "x" + height);
 	}
 
@@ -561,6 +563,7 @@ public class Window {
 	}
 
 	public void setCursorEnabled(boolean enabled) {
+		this.cursorEnabled = enabled;
 		ignoreNextCursorEvent = true;
 		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, enabled ? GLFW.GLFW_CURSOR_NORMAL : GLFW.GLFW_CURSOR_DISABLED);
 	}

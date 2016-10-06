@@ -7,6 +7,7 @@ import nullEngine.gl.shader.GuiShader;
 import nullEngine.gl.shader.Shader;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
+import util.BitFieldInt;
 
 public class GuiComponent extends GameComponent {
 
@@ -21,7 +22,7 @@ public class GuiComponent extends GameComponent {
 	}
 
 	@Override
-	public void render(Renderer renderer, GameObject object) {
+	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
 		if (Shader.bound() instanceof GuiShader) {
 			GuiShader shader = (GuiShader) Shader.bound();
 			shader.loadColor(color);

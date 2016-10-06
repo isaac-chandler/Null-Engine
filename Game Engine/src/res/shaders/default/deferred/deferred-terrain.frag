@@ -10,7 +10,6 @@ out vec4 outColor;
 out vec4 outPosition;
 out vec4 outNormal;
 out vec4 outSpecular;
-out vec4 outCameraDirection;
 
 uniform sampler2D aTexture;
 uniform sampler2D rTexture;

@@ -17,8 +17,8 @@ public class BitFieldInt {
 	}
 
 	public boolean get(int index) {
-		if (index >= capacity) {
-			throw new ArrayIndexOutOfBoundsException(index);
+		if (index / SIZE >= arr.length) {
+			return false;
 		}
 
 		int field = arr[index / SIZE];

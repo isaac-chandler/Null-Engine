@@ -9,7 +9,7 @@ public class BrightFilterBloomPostFX extends PostFX {
 	private float strength;
 
 	public BrightFilterBloomPostFX(PostFXOutput colors, float strength) {
-		super(AddShader.INSTANCE, new PostFXOutput[]{colors, new BlurPostFX(new BlurPostFX(new BrightFilterPostFX(colors), 2), 8)});
+		super(AddShader.INSTANCE, new PostFXOutput[]{colors, new BlurPostFX(new BrightFilterPostFX(colors), 8)});
 		this.strength = strength;
 	}
 

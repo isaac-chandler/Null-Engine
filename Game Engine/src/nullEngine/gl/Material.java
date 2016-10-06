@@ -1,13 +1,21 @@
 package nullEngine.gl;
 
 import math.Vector4f;
+import nullEngine.gl.shader.BasicShader;
+import nullEngine.gl.shader.Shader;
 import nullEngine.gl.shader.deferred.DeferredBasicShader;
-import nullEngine.gl.shader.deferred.DeferredShader;
+import nullEngine.gl.shader.mousePick.MousePickBasicShader;
 import nullEngine.gl.texture.Texture2D;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Material implements Cloneable {
+
+	public static final int BASIC_SHADER_INDEX = 0;
+	public static final int DEFERRED_SHADER_INDEX = 1;
+	public static final int MOUSE_PICKING_SHADER_INDEX = 2;
+
 	private HashMap<String, Float> floats;
 	private HashMap<String, Vector4f> vectors;
 	private HashMap<String, Texture2D> textures;
@@ -15,18 +23,22 @@ public class Material implements Cloneable {
 	private boolean usingLighting = true;
 	private boolean alwaysRender = false;
 
-	private DeferredShader shader = DeferredBasicShader.INSTANCE;
+	private ArrayList<Shader> shaders = new ArrayList<Shader>();
 
 	private static HashMap<String, Float> defaultFloats = new HashMap<String, Float>();
 	private static HashMap<String, Vector4f> defaultVectors = new HashMap<String, Vector4f>();
 	private static HashMap<String, Texture2D> defaultTextures = new HashMap<String, Texture2D>();
 
-	private Material(Object a) {}
+	private Material(Object a) {
+	}
 
 	public Material() {
 		floats = (HashMap<String, Float>) defaultFloats.clone();
 		vectors = (HashMap<String, Vector4f>) defaultVectors.clone();
 		textures = (HashMap<String, Texture2D>) defaultTextures.clone();
+		setShader(BasicShader.INSTANCE, BASIC_SHADER_INDEX);
+		setShader(DeferredBasicShader.INSTANCE, DEFERRED_SHADER_INDEX);
+		setShader(MousePickBasicShader.INSTANCE, MOUSE_PICKING_SHADER_INDEX);
 	}
 
 
@@ -98,12 +110,15 @@ public class Material implements Cloneable {
 		this.usingLighting = usingLighting;
 	}
 
-	public DeferredShader getShader() {
-		return shader;
+	public Shader getShader(int i) {
+		return shaders.get(i);
 	}
 
-	public void setShader(DeferredShader shader) {
-		this.shader = shader;
+	public void setShader(Shader shader, int i) {
+		if (shaders.size() <= i)
+			shaders.add(i, shader);
+		else
+			shaders.set(i, shader);
 	}
 
 	public boolean isAlwaysRender() {
@@ -122,7 +137,7 @@ public class Material implements Cloneable {
 		clone.textures = (HashMap<String, Texture2D>) textures.clone();
 		clone.usingLighting = usingLighting;
 		clone.alwaysRender = alwaysRender;
-		clone.shader = shader;
+		clone.shaders = (ArrayList<Shader>) shaders.clone();
 		return clone;
 	}
 }

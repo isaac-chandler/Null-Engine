@@ -4,6 +4,7 @@ import nullEngine.input.ResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL11;
+import util.BitFieldInt;
 
 public class MasterRenderer extends Renderer {
 
@@ -25,11 +26,11 @@ public class MasterRenderer extends Renderer {
 	}
 
 	@Override
-	public void postRender() {
+	public void postRender(BitFieldInt flags) {
 
 	}
 
-	public void preRender() {
+	public void preRender(BitFieldInt flags) {
 
 	}
 

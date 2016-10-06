@@ -3,6 +3,7 @@ package nullEngine.object;
 import nullEngine.control.Layer;
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.input.EventHandler;
+import util.BitFieldInt;
 
 import java.util.ArrayList;
 
@@ -30,18 +31,22 @@ public class GameObject extends EventHandler {
 		component.init(this);
 	}
 
-	public void render(Renderer renderer) {
+	public void render(Renderer renderer, BitFieldInt flags) {
 		renderer.setModelMatrix(transform.getMatrix());
 		for (GameComponent component : components) {
-			component.render(renderer, this);
-		} for (GameObject child : children)
-			child.render(renderer);
+			if (component.enabled)
+				component.render(renderer, this, flags);
+		}
+		for (GameObject child : children)
+			child.render(renderer, flags);
 	}
 
 	public void update(float delta) {
 		for (GameComponent component : components) {
-			component.update(delta, this);
-		} for (GameObject child : children)
+			if (component.enabled)
+				component.update(delta, this);
+		}
+		for (GameObject child : children)
 			child.update(delta);
 	}
 
@@ -51,5 +56,17 @@ public class GameObject extends EventHandler {
 
 	public Layer getLayer() {
 		return parent.getLayer();
+	}
+
+	public ArrayList<GameObject> getChildren() {
+		return children;
+	}
+
+	public ArrayList<GameComponent> getComponents() {
+		return components;
+	}
+
+	public GameObject getParent() {
+		return parent;
 	}
 }

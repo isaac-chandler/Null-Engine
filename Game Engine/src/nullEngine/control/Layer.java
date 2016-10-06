@@ -6,14 +6,20 @@ import nullEngine.input.*;
 import nullEngine.object.GameObject;
 import nullEngine.object.RootObject;
 import nullEngine.object.component.Camera;
+import util.BitFieldInt;
 
 public abstract class Layer implements EventListener {
+
+	public static final int DEFERRED_RENDER_BIT = 0;
+	public static final int MOUSE_PICK_RENDER_BIT = 1;
+
 	protected Matrix4f projectionMatrix = new Matrix4f();
 	protected Renderer renderer;
 
 	private Camera camera;
 	private GameObject root = new RootObject(this);
-	private boolean enabled = true;
+	public boolean enabled = true;
+	protected BitFieldInt flags = new BitFieldInt();
 
 	public Layer(Camera camera) {
 		this.camera = camera;
@@ -29,9 +35,9 @@ public abstract class Layer implements EventListener {
 				useRenderer.setViewMatrix(Matrix4f.IDENTITY);
 
 			useRenderer.setProjectionMatrix(projectionMatrix);
-			useRenderer.preRender();
-			root.render(useRenderer);
-			useRenderer.postRender();
+			useRenderer.preRender(flags);
+			root.render(useRenderer, flags);
+			useRenderer.postRender(flags);
 		}
 	}
 
@@ -130,5 +136,9 @@ public abstract class Layer implements EventListener {
 
 	public Renderer getRenderer() {
 		return renderer;
+	}
+
+	public void setFlag(int flag, boolean value) {
+		flags.set(flag, value);
 	}
 }

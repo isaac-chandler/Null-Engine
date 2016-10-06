@@ -7,17 +7,21 @@ import nullEngine.gl.model.Model;
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
+import util.BitFieldInt;
 
 public class GeoclipmapTerrain extends GameObject {
 
-	private Material material;
+	private Material[] materials;
 	private GameObject cameraObject;
 	private HeightMap heightMap;
 	private float size;
 
 	private static class ModelObject extends GameObject {
+		public ModelComponent component;
+
 		public ModelObject(Model model, Material material, float scale) {
-			addComponent(new ModelComponent(material, model));
+			component = new ModelComponent(material, model);
+			addComponent(component);
 			getTransform().setScale(new Vector4f(scale, 1, scale));
 		}
 	}
@@ -255,9 +259,9 @@ public class GeoclipmapTerrain extends GameObject {
 	private static final Vector4f MUL = new Vector4f(1, 0, 1);
 
 	@Override
-	public void render(Renderer renderer) {
+	public void render(Renderer renderer, BitFieldInt flags) {
 		getTransform().setPos(cameraObject.getTransform().getWorldPos().mul(MUL, null));
-		super.render(renderer);
+		super.render(renderer, flags);
 	}
 
 	public float getTerrainHeight(float x, float z) {
@@ -296,7 +300,6 @@ public class GeoclipmapTerrain extends GameObject {
 			throw new IllegalArgumentException("n must be 2^x where x is an integer greater than 2");
 		}
 
-		this.material = material;
 		this.cameraObject = cameraObject;
 		this.heightMap = heightMap;
 		this.size = size;
@@ -306,7 +309,7 @@ public class GeoclipmapTerrain extends GameObject {
 		material.setFloat("size", size / 2);
 		material.setTexture("height", heightMap.getHeightMap());
 
-		Material[] materials = new Material[levels];
+		materials = new Material[levels];
 		float offset = 1.0f / detail;
 		for (int i = 0; i < levels; i++) {
 			materials[levels - i - 1] = material.clone();

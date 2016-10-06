@@ -7,6 +7,7 @@ import nullEngine.gl.renderer.Renderer;
 import nullEngine.input.Input;
 import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;
+import util.BitFieldInt;
 
 public class FlyCam extends Camera {
 
@@ -38,7 +39,7 @@ public class FlyCam extends Camera {
 	}
 
 	@Override
-	public void render(Renderer renderer, GameObject object) {
+	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
 
 	}
 
