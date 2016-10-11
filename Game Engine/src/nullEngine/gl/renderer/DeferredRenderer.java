@@ -266,7 +266,6 @@ public class DeferredRenderer extends Renderer {
 		buf.order(ByteOrder.BIG_ENDIAN);
 		int hitId = buf.asIntBuffer().get(0) - 1;
 		buf.order(previous);
-		Logs.d(hitId);
 		if (hitId < orderedMousePickModels.size() && hitId >= 0) {
 			info.model = orderedMousePickModels.get(hitId);
 		} else {

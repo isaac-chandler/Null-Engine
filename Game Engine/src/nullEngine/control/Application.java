@@ -45,8 +45,6 @@ public class Application {
 
 	private static Application current;
 	private boolean screenshot;
-	private int startTimerQuery;
-	private int endTimerQuery;
 
 	public Framebuffer2D getRenderTarget() {
 		return renderTarget;
@@ -248,6 +246,10 @@ public class Application {
 	}
 
 	public void screenshot() {
+		Logs.d("Screenshot requested");
+		if (screenshot) {
+			Logs.w("Unnecessary screenshot request");
+		}
 		screenshot = true;
 	}
 
@@ -272,6 +274,7 @@ public class Application {
 
 			ImageIO.write(img, "PNG", fos);
 			fos.close();
+			Logs.d("Took screenshot");
 		} catch (java.io.IOException e) {
 			Logs.e(e);
 		}
