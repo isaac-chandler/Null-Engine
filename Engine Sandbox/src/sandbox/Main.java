@@ -168,7 +168,7 @@ public class Main {
 
 				@Override
 				public boolean keyPressed(KeyEvent event) {
-					if (event.key == Input.KEY_F1) {
+					if (event.key == Input.KEY_LEFT_ALT) {
 						cameraEnabled = !cameraEnabled;
 						application.setCursorEnabled(!cameraEnabled);
 						camera.setCanRotate(cameraEnabled);
