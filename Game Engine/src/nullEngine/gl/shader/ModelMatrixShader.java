@@ -10,14 +10,6 @@ public abstract class ModelMatrixShader extends Shader {
 		super(shader);
 	}
 
-	public ModelMatrixShader(String vertex, String geometry, String fragment) {
-		super(vertex, geometry, fragment);
-	}
-
-	public ModelMatrixShader(String vertex, String fragment) {
-		super(vertex, fragment);
-	}
-
 
 	@Override
 	protected void getUniformLocations() {

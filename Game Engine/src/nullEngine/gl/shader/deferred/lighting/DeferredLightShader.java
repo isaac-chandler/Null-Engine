@@ -12,14 +12,6 @@ public class DeferredLightShader extends Shader {
 		super(shader);
 	}
 
-	public DeferredLightShader(String vertex, String fragment) {
-		super(vertex, fragment);
-	}
-
-	public DeferredLightShader(String vertex, String geometry, String fragment) {
-		super(vertex, geometry, fragment);
-	}
-
 	@Override
 	protected void bindAttributes() {
 		bindAttribute(0, "inPosition");

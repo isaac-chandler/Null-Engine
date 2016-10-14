@@ -7,16 +7,8 @@ public class GuiShader extends Shader {
 	private int location_pos;
 	private int location_size;
 
-	public GuiShader(String vertex, String fragment) {
-		super(vertex, fragment);
-	}
-
 	public GuiShader(String shader) {
 		super(shader);
-	}
-
-	public GuiShader(String vertex, String geometry, String fragment) {
-		super(vertex, geometry, fragment);
 	}
 
 	@Override

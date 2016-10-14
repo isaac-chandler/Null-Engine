@@ -10,14 +10,6 @@ public class DeferredShader extends ModelMatrixShader {
 		super(shader);
 	}
 
-	public DeferredShader(String vertex, String geometry, String fragment) {
-		super(vertex, geometry, fragment);
-	}
-
-	public DeferredShader(String vertex, String fragment) {
-		super(vertex, fragment);
-	}
-
 
 	@Override
 	protected void bindAttributes() {

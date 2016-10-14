@@ -68,19 +68,6 @@ public abstract class Shader {
 		if (geometrySrc != null)
 			geometryShader = loadShader(geometry, geometrySrc, GL32.GL_GEOMETRY_SHADER);
 
-		create(vertex, geometry, fragment);
-	}
-
-	public Shader(String vertex, String geometry, String fragment) {
-		vertexShader = loadShader(vertex + ".vert", null, GL20.GL_VERTEX_SHADER);
-		fragmentShader = loadShader(fragment + ".frag", null, GL20.GL_FRAGMENT_SHADER);
-		if (geometry != null)
-			geometryShader = loadShader(geometry + ".geom", null, GL32.GL_GEOMETRY_SHADER);
-
-		create(vertex, geometry, fragment);
-	}
-
-	private void create(String vertex, String geometry, String fragment) {
 		program = GL20.glCreateProgram();
 		GL20.glAttachShader(program, vertexShader);
 		GL20.glAttachShader(program, fragmentShader);
@@ -105,10 +92,6 @@ public abstract class Shader {
 
 		location_mvp = getUniformLocation("mvp");
 		getUniformLocations();
-	}
-
-	public Shader(String vertex, String fragment) {
-		this(vertex, null, fragment);
 	}
 
 	protected abstract void bindAttributes();
@@ -304,9 +287,6 @@ public abstract class Shader {
 	}
 
 	private static int loadShader(String name, String src, int type) {
-		if (src == null)
-			src = loadShaderSource(name);
-
 		int shader = GL20.glCreateShader(type);
 		GL20.glShaderSource(shader, src);
 		GL20.glCompileShader(shader);

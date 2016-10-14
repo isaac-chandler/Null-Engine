@@ -11,14 +11,6 @@ public class PostFXShader extends Shader {
 		super(shader);
 	}
 
-	public PostFXShader(String vertex, String geometry, String fragment) {
-		super(vertex, geometry, fragment);
-	}
-
-	public PostFXShader(String vertex, String fragment) {
-		super(vertex, fragment);
-	}
-
 	@Override
 	protected void getUniformLocations() {
 		location_viewMatrix = getUniformLocation("viewMatrix");

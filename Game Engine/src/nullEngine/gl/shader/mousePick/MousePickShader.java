@@ -10,14 +10,6 @@ public class MousePickShader extends ModelMatrixShader {
 		super(shader);
 	}
 
-	public MousePickShader(String vertex, String geometry, String fragment) {
-		super(vertex, geometry, fragment);
-	}
-
-	public MousePickShader(String vertex, String fragment) {
-		super(vertex, fragment);
-	}
-
 	@Override
 	protected void bindAttributes() {
 		bindAttribute(0, "inPosition");
