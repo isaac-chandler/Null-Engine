@@ -6,6 +6,10 @@ public class MousePickShader extends ModelMatrixShader {
 
 	private int location_color;
 
+	public MousePickShader(String shader) {
+		super(shader);
+	}
+
 	public MousePickShader(String vertex, String geometry, String fragment) {
 		super(vertex, geometry, fragment);
 	}

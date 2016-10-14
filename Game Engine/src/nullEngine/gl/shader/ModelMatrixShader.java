@@ -6,6 +6,10 @@ public abstract class ModelMatrixShader extends Shader {
 
 	private int location_modelMatrix;
 
+	public ModelMatrixShader(String shader) {
+		super(shader);
+	}
+
 	public ModelMatrixShader(String vertex, String geometry, String fragment) {
 		super(vertex, geometry, fragment);
 	}

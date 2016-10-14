@@ -5,7 +5,7 @@ public class DeferredTerrainShader extends DeferredShader {
 	public static final DeferredTerrainShader INSTANCE = new DeferredTerrainShader();
 
 	private DeferredTerrainShader() {
-		super("default/deferred/deferred-terrain", "default/deferred/deferred-terrain");
+		super("default/deferred/deferred-terrain");
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class SpotLight extends GameComponent {
 	@Override
 	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
 		if (flags.get(Layer.DEFERRED_RENDER_BIT))
-		renderer.add(this);
+			renderer.add(this);
 	}
 
 	@Override

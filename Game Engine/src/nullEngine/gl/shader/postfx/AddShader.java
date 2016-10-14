@@ -9,7 +9,7 @@ public class AddShader extends PostFXShader {
 	private int location_strength;
 
 	private AddShader() {
-		super("default/postfx/basic", "default/postfx/add");
+		super("default/postfx/add");
 	}
 
 	@Override

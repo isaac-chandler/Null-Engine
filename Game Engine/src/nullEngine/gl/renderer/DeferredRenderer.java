@@ -15,7 +15,7 @@ import nullEngine.gl.postfx.TextureOutput;
 import nullEngine.gl.shader.BasicShader;
 import nullEngine.gl.shader.ModelMatrixShader;
 import nullEngine.gl.shader.deferred.DeferredBasicShader;
-import nullEngine.gl.shader.deferred.lighting.DeferredAmbientShader;
+import nullEngine.gl.shader.deferred.lighting.DeferredAmbientLightShader;
 import nullEngine.gl.shader.deferred.lighting.DeferredDirectionalLightShader;
 import nullEngine.gl.shader.deferred.lighting.DeferredPointLightShader;
 import nullEngine.gl.shader.deferred.lighting.DeferredSpotLightShader;
@@ -161,8 +161,8 @@ public class DeferredRenderer extends Renderer {
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
 
-			DeferredAmbientShader.INSTANCE.bind();
-			DeferredAmbientShader.INSTANCE.loadAmbientColor(ambientColor);
+			DeferredAmbientLightShader.INSTANCE.bind();
+			DeferredAmbientLightShader.INSTANCE.loadAmbientColor(ambientColor);
 
 			dataBuffer.render();
 
@@ -186,7 +186,7 @@ public class DeferredRenderer extends Renderer {
 				pointLights.clear();
 			}
 
-			if (spotLights.size() > 1) {
+			if (spotLights.size() > 0) {
 				DeferredSpotLightShader.INSTANCE.bind();
 				DeferredSpotLightShader.INSTANCE.loadViewMatrix(viewMatrix);
 				for (SpotLight light : spotLights) {
@@ -201,7 +201,6 @@ public class DeferredRenderer extends Renderer {
 			postFX.preRender();
 			postFX.render(viewMatrix);
 			int out = postFX.getTextureID();
-//			int out = mousePickBuffer.getColorTextureID();
 			Quad.get().postRender();
 
 			GL11.glEnable(GL11.GL_BLEND);

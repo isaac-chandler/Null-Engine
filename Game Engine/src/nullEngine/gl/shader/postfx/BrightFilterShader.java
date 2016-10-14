@@ -7,7 +7,7 @@ public class BrightFilterShader extends PostFXShader {
 	private int location_colors;
 
 	private BrightFilterShader() {
-		super("default/postfx/basic", "default/postfx/bright-filter");
+		super("default/postfx/bright-filter");
 	}
 
 	@Override

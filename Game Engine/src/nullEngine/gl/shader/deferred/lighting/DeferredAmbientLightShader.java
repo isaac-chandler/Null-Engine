@@ -2,14 +2,14 @@ package nullEngine.gl.shader.deferred.lighting;
 
 import math.Vector4f;
 
-public class DeferredAmbientShader extends DeferredLightShader {
+public class DeferredAmbientLightShader extends DeferredLightShader {
 
-	public static final DeferredAmbientShader INSTANCE = new DeferredAmbientShader();
+	public static final DeferredAmbientLightShader INSTANCE = new DeferredAmbientLightShader();
 
 	private int location_ambientColor;
 
-	private DeferredAmbientShader() {
-		super("default/deferred/lighting/deferred-ambient", "default/deferred/lighting/deferred-ambient");
+	private DeferredAmbientLightShader() {
+		super("default/deferred/lighting/deferred-ambient");
 	}
 
 	@Override

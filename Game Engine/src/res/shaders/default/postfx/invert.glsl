@@ -1,3 +1,8 @@
+#VS
+#include <basic.vert>
+#VS
+
+#FS
 #version 150 core
 in vec2 texCoord;
 
@@ -9,3 +14,4 @@ void main() {
 	outColor = texture(colors, texCoord);
 	outColor = vec4(1 - outColor.rgb, outColor.a);
 }
+#FS

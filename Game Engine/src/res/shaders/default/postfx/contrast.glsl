@@ -1,3 +1,8 @@
+#VS
+#include "default/postfx/basic.vert"
+#VS
+
+#FS
 #version 150 core
 in vec2 texCoord;
 
@@ -5,9 +10,10 @@ out vec4 outColor;
 
 uniform sampler2D colors;
 
-uniform mat4 matrix;
+uniform float contrast;
 
 void main() {
 	outColor = texture(colors, texCoord);
-	outColor = outColor * matrix;
+	outColor.rgb = (outColor.rgb - 0.5) * (1 + contrast) + 0.5;
 }
+#FS

@@ -1,3 +1,18 @@
+#VS
+#version 150 core
+
+in vec3 inPosition;
+in vec2 inTexCoord;
+
+out vec2 texCoord;
+
+void main() {
+	gl_Position = vec4(inPosition, 1);
+	texCoord = inTexCoord;
+}
+#VS
+
+#FS
 #version 150 core
 
 in vec2 texCoord;
@@ -16,3 +31,4 @@ void main() {
 	float lightingAmount = texture(specular, texCoord).b;
 	outColor = vec4(color.rgb * mix(vec3(1, 1, 1), ambientColor, lightingAmount), color.a);
 }
+#FS

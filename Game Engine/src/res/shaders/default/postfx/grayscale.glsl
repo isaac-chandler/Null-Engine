@@ -1,3 +1,8 @@
+#VS
+#include <basic.vert>
+#VS
+
+#FS
 #version 150 core
 in vec2 texCoord;
 
@@ -12,3 +17,4 @@ void main() {
 	float brightness = dot(outColor.rgb, weights);
 	outColor = vec4(brightness, brightness, brightness, outColor.a);
 }
+#FS

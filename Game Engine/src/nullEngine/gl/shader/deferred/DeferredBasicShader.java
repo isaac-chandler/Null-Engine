@@ -6,7 +6,7 @@ public class DeferredBasicShader extends DeferredShader {
 	public static final DeferredBasicShader INSTANCE = new DeferredBasicShader();
 
 	private DeferredBasicShader() {
-		super("default/deferred/deferred-basic", "default/deferred/deferred-basic");
+		super("default/deferred/deferred-basic");
 	}
 
 	@Override

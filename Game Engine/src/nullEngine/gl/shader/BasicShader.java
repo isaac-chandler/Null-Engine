@@ -7,7 +7,7 @@ public class BasicShader extends Shader {
 	public static final BasicShader INSTANCE = new BasicShader();
 
 	private BasicShader() {
-		super("default/basic", "default/basic");
+		super("default/basic");
 	}
 
 	@Override

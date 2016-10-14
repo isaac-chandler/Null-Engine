@@ -14,7 +14,7 @@ public class DeferredSpotLightShader extends DeferredLightShader {
 	private int location_modelMatrix;
 
 	private DeferredSpotLightShader() {
-		super("default/deferred/lighting/deferred-point", "default/deferred/lighting/deferred-spot");
+		super("default/deferred/lighting/deferred-spot");
 	}
 
 	@Override

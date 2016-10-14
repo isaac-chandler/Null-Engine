@@ -24,7 +24,8 @@ public abstract class Shader {
 
 	private static Shader current = null;
 
-	private static final Pattern INCLUDE_PATTERN = Pattern.compile("\\s*#include\\s*\"(.*?)\"\\s*");
+	private static final Pattern GLOBAL_INCLUDE_PATTERN = Pattern.compile("\\s*#include\\s*\"(.*?)\"\\s*");
+	private static final Pattern LOCAL_INCLUDE_PATTERN = Pattern.compile("\\s*#include\\s*<(.*?)>\\s*");
 	private HashMap<String, Integer> userFloats = new HashMap<String, Integer>();
 	private HashMap<String, Integer> userVectors = new HashMap<String, Integer>();
 	private HashMap<String, Integer> userTextures = new HashMap<String, Integer>();
@@ -44,12 +45,42 @@ public abstract class Shader {
 		return current;
 	}
 
-	public Shader(String vertex, String geometry, String fragment) {
-		vertexShader = loadShader(vertex + ".vert", GL20.GL_VERTEX_SHADER);
-		fragmentShader = loadShader(fragment + ".frag", GL20.GL_FRAGMENT_SHADER);
-		if (geometry != null)
-			geometryShader = loadShader(geometry + ".geom", GL32.GL_GEOMETRY_SHADER);
+	public Shader(String shader) {
+		shader += ".glsl";
+		String src = loadLongShaderSource(shader);
+		Scanner in = new Scanner(src);
 
+		String vertex = shader + " - vertex";
+		String fragment = shader + " - fragment";
+		String geometry = shader + " - geometry";
+		String vertexSrc = createShaderSource(shader, getBlock(shader, "VS", in));
+		if (vertexSrc == null)
+			Logs.f(new ShaderException("Shader " + shader + " does not have a vertex shader"));
+
+		String fragmentSrc = createShaderSource(shader, getBlock(shader, "FS", in));
+		if (fragmentSrc == null)
+			Logs.f(new ShaderException("Shader " + shader + " does not have a vertex shader"));
+
+		String geometrySrc = createShaderSource(shader, getBlock(shader, "GS", in));
+
+		vertexShader = loadShader(vertex, vertexSrc, GL20.GL_VERTEX_SHADER);
+		fragmentShader = loadShader(fragment, fragmentSrc, GL20.GL_FRAGMENT_SHADER);
+		if (geometrySrc != null)
+			geometryShader = loadShader(geometry, geometrySrc, GL32.GL_GEOMETRY_SHADER);
+
+		create(vertex, geometry, fragment);
+	}
+
+	public Shader(String vertex, String geometry, String fragment) {
+		vertexShader = loadShader(vertex + ".vert", null, GL20.GL_VERTEX_SHADER);
+		fragmentShader = loadShader(fragment + ".frag", null, GL20.GL_FRAGMENT_SHADER);
+		if (geometry != null)
+			geometryShader = loadShader(geometry + ".geom", null, GL32.GL_GEOMETRY_SHADER);
+
+		create(vertex, geometry, fragment);
+	}
+
+	private void create(String vertex, String geometry, String fragment) {
 		program = GL20.glCreateProgram();
 		GL20.glAttachShader(program, vertexShader);
 		GL20.glAttachShader(program, fragmentShader);
@@ -193,23 +224,27 @@ public abstract class Shader {
 		try {
 			StringBuilder src = new StringBuilder();
 
+
 			Scanner in = new Scanner(ResourceLoader.getResource("res/shaders/" + name));
 
 			String s;
-			Matcher m;
 
 			while (in.hasNextLine()) {
 				s = in.nextLine();
 
-				m = INCLUDE_PATTERN.matcher(s);
+				Matcher mGlobal = GLOBAL_INCLUDE_PATTERN.matcher(s);
+				Matcher mLocal = LOCAL_INCLUDE_PATTERN.matcher(s);
 
-				if (m.find()) {
-					Logs.d("including " + m.group(1) + " in " + name);
-					s = loadShaderSource(m.group(1));
+				if (mGlobal.find()) {
+					src.append(getGlobalInclude(name, mGlobal.group(1)));
+					src.append('\n');
+				} else if (mLocal.find()) {
+					src.append(getLocalInclude(name, mLocal.group(1)));
+					src.append('\n');
+				} else {
+					src.append(s);
+					src.append('\n');
 				}
-
-				src.append(s);
-				src.append("\n");
 			}
 			in.close();
 
@@ -220,8 +255,57 @@ public abstract class Shader {
 		}
 	}
 
-	private static int loadShader(String name, int type) {
-		String src = loadShaderSource(name);
+	private static String getGlobalInclude(String name, String include) {
+		Logs.d("including " + include + " in " + name);
+		if (include.endsWith(".glsl")) {
+			String block =  include.substring(0, include.indexOf(":"));
+			String file = include.substring(include.indexOf(":") + 1);
+			String src = loadShaderSource(file);
+			return createShaderSource(include, getBlock(include, block, new Scanner(src)));
+		} else {
+			return loadShaderSource(include);
+		}
+	}
+
+	private static String getLocalInclude(String name, String include) {
+		Logs.d("including " + include + " in " + name);
+		if (include.endsWith(".glsl")) {
+			String block =  include.substring(0, include.indexOf(":"));
+			String file = name.substring(0, name.lastIndexOf("/") + 1) + include.substring(include.indexOf(":") + 1);
+			String src = loadShaderSource(file);
+			return createShaderSource(include, getBlock(include, block, new Scanner(src)));
+		} else {
+			include = name.substring(0, name.lastIndexOf("/") + 1) + include;
+			return loadShaderSource(include);
+		}
+	}
+
+	private static String loadLongShaderSource(String name) {
+		try {
+			StringBuilder src = new StringBuilder();
+
+			Scanner in = new Scanner(ResourceLoader.getResource("res/shaders/" + name));
+
+			String s;
+
+			while (in.hasNextLine()) {
+				s = in.nextLine();
+
+				src.append(s);
+				src.append('\n');
+			}
+			in.close();
+
+			return src.toString();
+		} catch (FileNotFoundException e) {
+			Logs.f(e);
+			return null;
+		}
+	}
+
+	private static int loadShader(String name, String src, int type) {
+		if (src == null)
+			src = loadShaderSource(name);
 
 		int shader = GL20.glCreateShader(type);
 		GL20.glShaderSource(shader, src);
@@ -234,7 +318,74 @@ public abstract class Shader {
 		return shader;
 	}
 
+	private static Block getBlock(String name, String type, Scanner scanner) {
+		scanner.reset();
+		int lineNum = 0;
+
+		while (scanner.hasNextLine()) {
+			lineNum++;
+			String line = scanner.nextLine().replaceAll("\\s", "");
+			if (line.equals("#" + type)) {
+				StringBuilder sb = new StringBuilder();
+				while (scanner.hasNext()) {
+					line = scanner.nextLine();
+
+					if (line.replaceAll("\\s", "").equals("#" + type)) {
+						return new Block(sb.toString(), lineNum);
+					} else {
+						sb.append(line);
+						sb.append('\n');
+					}
+				}
+				Logs.w("Block " + type + " not closed in  shader " + name);
+				return new Block(sb.toString(), lineNum);
+			}
+		}
+		return null;
+	}
+
+	private static String createShaderSource(String name, Block block) {
+		if (block == null)
+			return null;
+
+		Scanner in = new Scanner(block.src);
+		StringBuilder src = new StringBuilder();
+
+		String s;
+
+		while (in.hasNextLine()) {
+			s = in.nextLine();
+
+			Matcher mGlobal = GLOBAL_INCLUDE_PATTERN.matcher(s);
+			Matcher mLocal = LOCAL_INCLUDE_PATTERN.matcher(s);
+
+			if (mGlobal.find()) {
+				src.append(getGlobalInclude(name, mGlobal.group(1)));
+				src.append('\n');
+			} else if (mLocal.find()) {
+				src.append(getLocalInclude(name, mLocal.group(1)));
+				src.append('\n');
+			} else {
+				src.append(s);
+				src.append('\n');
+			}
+		}
+		in.close();
+
+		return src.toString();
+	}
+
 	public int getProgram() {
 		return program;
+	}
+
+	private static class Block {
+		public String src;
+		public int line;
+
+		public Block(String src, int line) {
+			this.src = src;
+			this.line = line;
+		}
 	}
 }

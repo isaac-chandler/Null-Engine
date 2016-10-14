@@ -6,6 +6,10 @@ public class DeferredShader extends ModelMatrixShader {
 
 	private int location_modelMatrix;
 
+	public DeferredShader(String shader) {
+		super(shader);
+	}
+
 	public DeferredShader(String vertex, String geometry, String fragment) {
 		super(vertex, geometry, fragment);
 	}

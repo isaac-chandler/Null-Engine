@@ -8,7 +8,7 @@ public class VBlurShader extends PostFXShader {
 	private int location_pixelSize;
 
 	private VBlurShader() {
-		super("default/postfx/vblur", "default/postfx/blur");
+		super("default/postfx/vblur");
 	}
 
 	@Override

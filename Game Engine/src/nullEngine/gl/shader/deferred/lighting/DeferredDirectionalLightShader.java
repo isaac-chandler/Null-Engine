@@ -12,7 +12,7 @@ public class DeferredDirectionalLightShader extends DeferredLightShader {
 	private int location_viewMatrix;
 
 	private DeferredDirectionalLightShader() {
-		super("default/deferred/lighting/deferred-directional", "default/deferred/lighting/deferred-directional");
+		super("default/deferred/lighting/deferred-directional");
 	}
 
 	@Override

@@ -39,6 +39,7 @@ public class Main {
 			NullEngine.init();
 			Logs.setDebug(true);
 			final Application application = new Application(1280, 720, false, "Sandbox");
+			application.getWindow().setVsync(true);
 			application.bind();
 
 			State state = new State();
@@ -131,10 +132,10 @@ public class Main {
 //			GameObject lightObject = new GameObject();
 //			lightObject.addComponent(new SpotLight(Color.WHITE, new Vector4f(0, -1, 0), 0.001f, 0, 0.6f, (float) (Math.PI / 4)) {
 //				@Override
-//				public void render(Renderer renderer, GameObject object) {
+//				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
 //					setDirection(cameraObject.getTransform().getRot().getForward(getDirection()).mul(-1));
 //					object.getTransform().setPos(cameraObject.getTransform().getWorldPos());
-//					super.render(renderer, object);
+//					super.render(renderer, object, flags);
 //				}
 //			});
 //			lightObject.getTransform().setPos(new Vector4f(8, 50, -14));

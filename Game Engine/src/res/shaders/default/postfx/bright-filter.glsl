@@ -1,3 +1,8 @@
+#VS
+#include "default/postfx/basic.vert"
+#VS
+
+#FS
 #version 150 core
 in vec2 texCoord;
 
@@ -12,3 +17,4 @@ void main() {
 	float brightness = dot(outColor.rgb, weights);
 	outColor = vec4(outColor.rgb * brightness, outColor.a);
 }
+#FS

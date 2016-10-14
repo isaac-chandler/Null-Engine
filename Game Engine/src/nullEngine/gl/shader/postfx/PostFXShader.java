@@ -7,6 +7,10 @@ public class PostFXShader extends Shader {
 
 	private int location_viewMatrix;
 
+	public PostFXShader(String shader) {
+		super(shader);
+	}
+
 	public PostFXShader(String vertex, String geometry, String fragment) {
 		super(vertex, geometry, fragment);
 	}

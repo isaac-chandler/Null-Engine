@@ -7,7 +7,7 @@ public class InvertShader extends PostFXShader {
 	private int location_colors;
 
 	private InvertShader() {
-		super("default/postfx/basic", "default/postfx/invert");
+		super("default/postfx/invert");
 	}
 
 	@Override

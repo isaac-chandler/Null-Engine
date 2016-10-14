@@ -14,7 +14,7 @@ public class GuiTextShader extends GuiShader implements TextShader {
 	private int location_borderOffset;
 
 	private GuiTextShader() {
-		super("default/text", "default/text");
+		super("default/text");
 	}
 
 	@Override

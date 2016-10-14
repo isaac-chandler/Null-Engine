@@ -5,6 +5,6 @@ public class MousePickBasicShader extends MousePickShader {
 	public static final MousePickBasicShader INSTANCE = new MousePickBasicShader();
 
 	public MousePickBasicShader() {
-		super("default/mousePick/mousePick-basic", "default/mousePick/mousePick-basic");
+		super("default/mousePick/mousePick-basic");
 	}
 }

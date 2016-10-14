@@ -1,3 +1,4 @@
+#VS
 #version 150 core
 
 in vec3 inPosition;
@@ -21,4 +22,8 @@ void main() {
 
 	gl_Position = mvp * vec4(inPosition.x, worldPosition.y, inPosition.z, 1);
 }
+#VS
 
+#FS
+#include <FS:mousePick-basic.glsl>
+#FS

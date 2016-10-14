@@ -5,7 +5,7 @@ public class MousePickTerrainShader extends MousePickShader {
 	public static final MousePickTerrainShader INSTANCE = new MousePickTerrainShader();
 
 	public MousePickTerrainShader() {
-		super("default/mousePick/mousePick-terrain", "default/mousePick/mousePick-basic");
+		super("default/mousePick/mousePick-terrain");
 	}
 
 	@Override

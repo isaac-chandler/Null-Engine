@@ -13,7 +13,7 @@ public class FogShader extends PostFXShader {
 	private int location_gradient;
 
 	private FogShader() {
-		super("default/postfx/basic-camera", "default/postfx/fog");
+		super("default/postfx/fog");
 	}
 
 	@Override

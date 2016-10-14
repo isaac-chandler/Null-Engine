@@ -1,3 +1,4 @@
+#VS
 #version 150 core
 
 in vec3 inPosition;
@@ -22,3 +23,8 @@ void main() {
 	texCoord[9] = clamp(inTexCoords + vec2(4 * pixelSize, 0), 0, 1);
 	texCoord[10] = clamp(inTexCoords + vec2(5 * pixelSize, 0), 0, 1);
 }
+#VS
+
+#FS
+#include <blur.frag>
+#FS

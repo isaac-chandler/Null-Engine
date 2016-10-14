@@ -8,7 +8,7 @@ public class HBlurShader extends PostFXShader {
 	private int location_pixelSize;
 
 	private HBlurShader() {
-		super("default/postfx/hblur", "default/postfx/blur");
+		super("default/postfx/hblur");
 	}
 
 	@Override

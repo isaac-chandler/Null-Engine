@@ -8,7 +8,7 @@ public class ContrastShader extends PostFXShader {
 	private int location_contrast;
 
 	private ContrastShader() {
-		super("default/postfx/basic", "default/postfx/contrast");
+		super("default/postfx/contrast");
 	}
 
 	@Override

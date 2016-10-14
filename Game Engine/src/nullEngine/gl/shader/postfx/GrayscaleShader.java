@@ -7,7 +7,7 @@ public class GrayscaleShader extends PostFXShader {
 	private int location_colors;
 
 	private GrayscaleShader() {
-		super("default/postfx/basic", "default/postfx/grayscale");
+		super("default/postfx/grayscale");
 	}
 
 	@Override

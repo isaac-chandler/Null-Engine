@@ -1,3 +1,8 @@
+#VS
+#include <basic-camera.vert>
+#VS
+
+#FS
 #version 150 core
 in vec2 texCoord;
 in vec3 cameraPos;
@@ -17,3 +22,4 @@ void main() {
 	vec4 color = texture(colors, texCoord);
 	outColor = mix(vec4(skyColor, 1), color, visibility * color.a);
 }
+#FS

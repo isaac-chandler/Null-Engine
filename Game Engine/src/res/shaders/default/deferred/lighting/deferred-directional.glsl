@@ -1,3 +1,22 @@
+#VS
+#version 150 core
+
+in vec3 inPosition;
+in vec2 inTexCoord;
+
+out vec2 texCoord;
+out vec3 cameraPos;
+
+uniform mat4 viewMatrix;
+
+void main() {
+	gl_Position = vec4(inPosition, 1);
+	texCoord = inTexCoord;
+	cameraPos = (inverse(viewMatrix) * vec4(0, 0, 0, 1)).xyz;
+}
+#VS
+
+#FS
 #version 150 core
 
 in vec2 texCoord;
@@ -28,3 +47,4 @@ void main() {
 
 	outColor = vec4(texture(colors, texCoord).rgb * (diffuse * lightColor) + (specularFactor * lightColor), 0) * specularVal.z;
 }
+#FS

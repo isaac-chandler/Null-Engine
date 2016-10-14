@@ -8,6 +8,10 @@ public class DeferredLightShader extends Shader {
 	private int location_normals;
 	private int location_specular;
 
+	public DeferredLightShader(String shader) {
+		super(shader);
+	}
+
 	public DeferredLightShader(String vertex, String fragment) {
 		super(vertex, fragment);
 	}

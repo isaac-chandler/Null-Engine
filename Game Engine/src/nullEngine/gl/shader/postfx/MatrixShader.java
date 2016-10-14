@@ -10,7 +10,7 @@ public class MatrixShader extends PostFXShader {
 	private int location_contrast;
 
 	private MatrixShader() {
-		super("default/postfx/basic", "default/postfx/matrix");
+		super("default/postfx/matrix");
 	}
 
 	@Override

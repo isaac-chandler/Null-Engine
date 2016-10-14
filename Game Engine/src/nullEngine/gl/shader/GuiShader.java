@@ -11,6 +11,14 @@ public class GuiShader extends Shader {
 		super(vertex, fragment);
 	}
 
+	public GuiShader(String shader) {
+		super(shader);
+	}
+
+	public GuiShader(String vertex, String geometry, String fragment) {
+		super(vertex, geometry, fragment);
+	}
+
 	@Override
 	protected void bindAttributes() {
 		bindAttribute(0, "inPosition");
