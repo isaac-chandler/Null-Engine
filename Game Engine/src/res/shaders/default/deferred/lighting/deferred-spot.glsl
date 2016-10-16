@@ -5,6 +5,10 @@
 #FS
 #version 150 core
 
+#include <DIFF:lighting.glsl>
+#include <SPEC:lighting.glsl>
+#include <ATTEN:lighting.glsl>
+
 in vec2 texCoord;
 in vec3 cameraPos;
 in vec3 lightPos;
@@ -23,23 +27,21 @@ uniform sampler2D specular;
 void main() {
 	vec3 position = texture(positions, texCoord).xyz;
 	vec3 unitNormal = texture(normals, texCoord).xyz;
-	vec3 lightDir = position - lightPos;
-	float dist = length(lightDir);
+	vec3 direction = position - lightPos;
+	float dist = length(direction);
 	float dimmer = attenuation.x * dist * dist + attenuation.y * dist + attenuation.z;
-	lightDir = normalize(lightDir);
-	float spotFactor = dot(lightDir, direction);
+	direction = normalize(direction);
+	float spotFactor = dot(direction, direction);
 	if (attenuation.w > spotFactor) {
 		spotFactor = (1.0 - (1 - spotFactor) / (1 - attenuation.w));
 	}
-	float diffuse = max(0, dot(unitNormal, -lightDir)) * spotFactor / dimmer;
+	float diffuse = calcDiff(unitNormal, direction) * spotFactor / dimmer;
 
 	vec3 toCamera = normalize(cameraPos - position);
-	vec3 lightOut = normalize(reflect(lightDir, unitNormal));
 
 	vec4 specularVal = texture(specular, texCoord);
 
-	float specularFactor = pow(max(0, dot(toCamera, lightOut)), specularVal.y);
-	specularFactor *= specularVal.x * spotFactor / dimmer;
+	float specularFactor = calcSpec(toCamera, direction, unitNormal, specularVal.y, specularVal.x) * spotFactor / dimmer;
 
 	outColor = vec4(texture(colors, texCoord).rgb * (diffuse * lightColor) + specularFactor * lightColor, 0) * specularVal.z;
 }

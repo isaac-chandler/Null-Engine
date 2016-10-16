@@ -22,6 +22,10 @@ void main() {
 #FS
 #version 150 core
 
+#include <DIFF:lighting.glsl>
+#include <SPEC:lighting.glsl>
+#include <ATTEN:lighting.glsl>
+
 in vec2 texCoord;
 in vec3 cameraPos;
 in vec3 lightPos;
@@ -41,17 +45,15 @@ void main() {
 	vec3 unitNormal = texture(normals, texCoord).xyz;
 	vec3 direction = position - lightPos;
 	float dist = length(direction);
-	float dimmer = attenuation.x * dist * dist + attenuation.y * dist + attenuation.z;
+	float dimmer = calcAtten(attenuation, dist);
 	direction = normalize(direction);
-	float diffuse = max(0, dot(unitNormal, -direction)) / dimmer;
+	float diffuse = calcDiff(unitNormal, direction) / dimmer;
 
 	vec3 toCamera = normalize(cameraPos - position);
-	vec3 lightOut = normalize(reflect(direction, unitNormal));
 
 	vec4 specularVal = texture(specular, texCoord);
 
-	float specularFactor = pow(max(0, dot(toCamera, lightOut)), specularVal.y);
-	specularFactor *= specularVal.x / dimmer;
+	float specularFactor = calcSpec(toCamera, direction, unitNormal, specularVal.y, specularVal.x) / dimmer;
 
 	outColor = vec4(texture(colors, texCoord).rgb * (diffuse * lightColor) + specularFactor * lightColor, 0) * specularVal.z;
 }

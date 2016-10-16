@@ -19,6 +19,9 @@ void main() {
 #FS
 #version 150 core
 
+#include <DIFF:lighting.glsl>
+#include <SPEC:lighting.glsl>
+
 in vec2 texCoord;
 in vec3 cameraPos;
 
@@ -35,15 +38,13 @@ uniform sampler2D specular;
 void main() {
 	vec3 position = texture(positions, texCoord).xyz;
 	vec3 unitNormal = texture(normals, texCoord).xyz;
-	float diffuse = max(0, dot(unitNormal, -direction));
+	float diffuse = calcDiff(unitNormal, direction);
 
 	vec3 toCamera = normalize(cameraPos - position);
-	vec3 lightOut = normalize(reflect(direction, unitNormal));
 
 	vec4 specularVal = texture(specular, texCoord);
 
-	float specularFactor = pow(max(0, dot(toCamera, lightOut)), specularVal.y);
-	specularFactor *= specularVal.x;
+	float specularFactor = calcSpec(toCamera, direction, unitNormal, specularVal.y, specularVal.x);
 
 	outColor = vec4(texture(colors, texCoord).rgb * (diffuse * lightColor) + (specularFactor * lightColor), 0) * specularVal.z;
 }
