@@ -1,0 +1,53 @@
+<idea-plugin version="2">
+	<id>com.yourcompany.unique.plugin.id</id>
+	<name>Plugin display name here</name>
+	<version>1.0</version>
+	<vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+
+	<description><![CDATA[
+      Enter short description for your plugin here.<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+	<change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+	</change-notes>
+
+	<!-- please see https://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+	<idea-version since-build="131"/>
+
+	<!-- please see https://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+		   on how to target different products -->
+	<!-- uncomment to enable plugin in all products
+	  <depends>com.intellij.modules.lang</depends>
+	  -->
+
+	<extensions defaultExtensionNs="com.intellij">
+		<!-- Add your extensions here -->
+		<fileTypeFactory implementation="nullshader.NullShaderFileTypeFactory"/>
+		<lang.parserDefinition language="Null Shader" implementationClass="nullshader.NullShaderParserDefinition"/>
+		<lang.syntaxHighlighterFactory key="Null Shader" implementationClass="nullshader.NullShaderSyntaxHighlighterFactory"/>
+		<colorSettingsPage implementation="nullshader.NullShaderColorSettingsPage"/>
+		<fileTemplateGroup implementation="nullshader.NullShaderTemplatesFactory"/>
+	</extensions>
+
+	<application-components>
+		<!-- Add your application components here -->
+	</application-components>
+
+	<project-components>
+		<!-- Add your project components here -->
+	</project-components>
+
+	<actions>
+		<!-- Add your actions here -->
+		<action id="NullShaderLanguage.NullShader" class="nullshader.NullShaderAction" text="Null Shader"
+				description="Create new null shader" icon="/icons/cube.png">
+			<add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+		</action>
+	</actions>
+
+
+</idea-plugin>

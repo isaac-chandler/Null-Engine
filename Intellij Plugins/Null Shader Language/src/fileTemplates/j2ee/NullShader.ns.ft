@@ -1,0 +1,15 @@
+$VERSION
+150 core
+$END
+
+$VS
+void main() {
+	
+}
+$END
+
+$FS
+void main() {
+
+}
+$END

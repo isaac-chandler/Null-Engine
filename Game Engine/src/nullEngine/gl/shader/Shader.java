@@ -46,9 +46,15 @@ public abstract class Shader {
 	}
 
 	public Shader(String shader) {
-		shader += ".glsl";
+		shader += ".ns";
 		String src = loadLongShaderSource(shader);
 		Scanner in = new Scanner(src);
+
+		Block version = getBlock(shader, "VERSION", in);
+		if (version == null)
+			Logs.f(new ShaderException("Shader " + shader + " does not have a version declaration"));
+
+		String prefix = "#version " + version.src + "\n";
 
 		String vertex = shader + " - vertex";
 		String fragment = shader + " - fragment";
@@ -56,12 +62,16 @@ public abstract class Shader {
 		String vertexSrc = createShaderSource(shader, getBlock(shader, "VS", in));
 		if (vertexSrc == null)
 			Logs.f(new ShaderException("Shader " + shader + " does not have a vertex shader"));
+		vertexSrc = prefix + vertexSrc;
 
 		String fragmentSrc = createShaderSource(shader, getBlock(shader, "FS", in));
 		if (fragmentSrc == null)
 			Logs.f(new ShaderException("Shader " + shader + " does not have a vertex shader"));
+		fragmentSrc = prefix + fragmentSrc;
 
 		String geometrySrc = createShaderSource(shader, getBlock(shader, "GS", in));
+		if (geometrySrc != null)
+			geometrySrc = prefix + geometrySrc;
 
 		vertexShader = loadShader(vertex, vertexSrc, GL20.GL_VERTEX_SHADER);
 		fragmentShader = loadShader(fragment, fragmentSrc, GL20.GL_FRAGMENT_SHADER);
@@ -240,7 +250,7 @@ public abstract class Shader {
 
 	private static String getGlobalInclude(String name, String include) {
 		Logs.d("including " + include + " in " + name);
-		if (include.endsWith(".glsl")) {
+		if (include.contains(":")) {
 			String block =  include.substring(0, include.indexOf(":"));
 			String file = include.substring(include.indexOf(":") + 1);
 			String src = loadShaderSource(file);
@@ -252,7 +262,7 @@ public abstract class Shader {
 
 	private static String getLocalInclude(String name, String include) {
 		Logs.d("including " + include + " in " + name);
-		if (include.endsWith(".glsl")) {
+		if (include.contains(":")) {
 			String block =  include.substring(0, include.indexOf(":"));
 			String file = name.substring(0, name.lastIndexOf("/") + 1) + include.substring(include.indexOf(":") + 1);
 			String src = loadShaderSource(file);
@@ -301,16 +311,17 @@ public abstract class Shader {
 	private static Block getBlock(String name, String type, Scanner scanner) {
 		scanner.reset();
 		int lineNum = 0;
+		type = type.toLowerCase();
 
 		while (scanner.hasNextLine()) {
 			lineNum++;
-			String line = scanner.nextLine().replaceAll("\\s", "");
-			if (line.equals("#" + type)) {
+			String line = scanner.nextLine().trim();
+			if (line.toLowerCase().equals("$" + type)) {
 				StringBuilder sb = new StringBuilder();
 				while (scanner.hasNext()) {
 					line = scanner.nextLine();
 
-					if (line.replaceAll("\\s", "").equals("#" + type)) {
+					if (line.toLowerCase().trim().equals("$end")) {
 						return new Block(sb.toString(), lineNum);
 					} else {
 						sb.append(line);

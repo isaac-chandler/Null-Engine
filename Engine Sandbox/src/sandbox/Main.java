@@ -156,7 +156,7 @@ public class Main {
 			terrainMaterial.setVector("lightingAmount", new Vector4f(1, 1, 1, 1));
 			terrainMaterial.setFloat("tileCount", 220);
 			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 80);
-			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = true;
+			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = true; //FIXME This is terrible
 			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap, 600, 128, 6, loader, cameraObject);
 			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = false;
 			terrainObject.addChild(terrain);

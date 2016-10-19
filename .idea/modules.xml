@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/Tools/ImageConverter/ImageConverter.iml" filepath="$PROJECT_DIR$/Tools/ImageConverter/ImageConverter.iml" />
       <module fileurl="file://$PROJECT_DIR$/Math/Math.iml" filepath="$PROJECT_DIR$/Math/Math.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tools/ModelConverter/ModelConverter.iml" filepath="$PROJECT_DIR$/Tools/ModelConverter/ModelConverter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Intellij Plugins/Null Shader Language/Null Shader Language.iml" filepath="$PROJECT_DIR$/Intellij Plugins/Null Shader Language/Null Shader Language.iml" />
       <module fileurl="file://$PROJECT_DIR$/Utilities/Utilities.iml" filepath="$PROJECT_DIR$/Utilities/Utilities.iml" />
     </modules>
   </component>

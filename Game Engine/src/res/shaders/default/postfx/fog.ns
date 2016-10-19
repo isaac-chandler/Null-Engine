@@ -1,0 +1,28 @@
+$VERSION
+150 core
+$END
+
+$VS
+#include <basic-camera.nvs>
+$END
+
+$FS
+in vec2 texCoord;
+in vec3 cameraPos;
+
+out vec4 outColor;
+
+uniform sampler2D colors;
+uniform sampler2D positions;
+
+uniform vec3 skyColor;
+uniform float density;
+uniform float gradient;
+
+void main() {
+	float dist = length(cameraPos - texture(positions, texCoord).xyz);
+	float visibility = clamp(exp(-pow(dist * density, gradient)), 0, 1);
+	vec4 color = texture(colors, texCoord);
+	outColor = mix(vec4(skyColor, 1), color, visibility * color.a);
+}
+$END
