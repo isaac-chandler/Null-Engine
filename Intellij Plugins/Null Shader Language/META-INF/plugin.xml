@@ -26,11 +26,14 @@
 
 	<extensions defaultExtensionNs="com.intellij">
 		<!-- Add your extensions here -->
-		<fileTypeFactory implementation="nullshader.NullShaderFileTypeFactory"/>
-		<lang.parserDefinition language="Null Shader" implementationClass="nullshader.NullShaderParserDefinition"/>
-		<lang.syntaxHighlighterFactory key="Null Shader" implementationClass="nullshader.NullShaderSyntaxHighlighterFactory"/>
-		<colorSettingsPage implementation="nullshader.NullShaderColorSettingsPage"/>
-		<fileTemplateGroup implementation="nullshader.NullShaderTemplatesFactory"/>
+		<fileTypeFactory implementation="nullshader.file.NullShaderFileTypeFactory"/>
+		<annotator language="NullShader" implementationClass="nullshader.NullShaderAnnotator"/>
+		<lang.parserDefinition language="NullShader" implementationClass="nullshader.parser.NullShaderParserDefinition"/>
+		<lang.syntaxHighlighterFactory key="NullShader" implementationClass="nullshader.highlighter.NullShaderSyntaxHighlighterFactory"/>
+		<colorSettingsPage implementation="nullshader.highlighter.NullShaderColorSettingsPage"/>
+		<fileTemplateGroup implementation="nullshader.file.NullShaderTemplatesFactory"/>
+		<additionalTextAttributes scheme="Default" file="colorSchemes/NullShaderDefault.xml"/>
+		<additionalTextAttributes scheme="Darcula" file="colorSchemes/NullShaderDarcula.xml"/>
 	</extensions>
 
 	<application-components>
@@ -43,7 +46,7 @@
 
 	<actions>
 		<!-- Add your actions here -->
-		<action id="NullShaderLanguage.NullShader" class="nullshader.NullShaderAction" text="Null Shader"
+		<action id="NullShaderLanguage.CreateNullShader" class="nullshader.CreateNullShaderAction" text="Null Shader"
 				description="Create new null shader" icon="/icons/cube.png">
 			<add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
 		</action>

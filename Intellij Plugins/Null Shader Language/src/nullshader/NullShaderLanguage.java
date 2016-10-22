@@ -7,6 +7,6 @@ public class NullShaderLanguage extends Language {
 	public static final NullShaderLanguage INSTANCE = new NullShaderLanguage();
 
 	protected NullShaderLanguage() {
-		super("Null Shader");
+		super("NullShader");
 	}
 }

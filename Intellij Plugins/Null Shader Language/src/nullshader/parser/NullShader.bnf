@@ -1,0 +1,151 @@
+{
+  parserClass="nullshader.parser.NullShaderParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  extends(".*expr")=expr
+
+  psiClassPrefix="NullShader"
+  psiImplClassSuffix="Impl"
+  psiPackage="nullshader.parser.psi"
+  psiImplPackage="nullshader.parser.psi.impl"
+
+  elementTypeHolderClass="nullshader.parser.psi.NullShaderTypes"
+  elementTypeClass="nullshader.parser.psi.NullShaderElementType"
+  tokenTypeClass="nullshader.parser.psi.NullShaderTokenType"
+}
+
+nullShaderFile ::= translation_unit|block+
+
+private block ::= version_block|glsl_block {recoverWhile=block_recover}
+private block_recover ::= !(BLOCK_START)
+
+version_block ::= BLOCK_START BLOCK_NAME version_info BLOCK_END BLOCK_NAME
+
+glsl_block ::= BLOCK_START BLOCK_NAME translation_unit? BLOCK_END BLOCK_NAME
+
+version_info ::= GLSL_VERSION GLSL_PROFILE?
+
+preprocessor ::= PREPROCESSOR_START p_body PREPROCESSOR_END
+p_body       ::= p_include|p_define|p_undef|p_if|p_ifdef|p_ifndef|p_else|p_elif|p_endif|p_error|p_pragma|p_extension|p_version|p_line
+p_include    ::= PREPROCESSOR_INCLUDE (PREPROCESSOR_LOCAL_FILE|PREPROCESSOR_GLOBAL_FILE)
+p_define     ::= PREPROCESSOR_DEFINE IDENTIFIER (!PREPROCESSOR_END)+
+p_undef      ::= PREPROCESSOR_UNDEF IDENTIFIER
+p_if         ::= PREPROCESSOR_IF (!PREPROCESSOR_END)+
+p_ifdef      ::= PREPROCESSOR_IFDEF IDENTIFIER
+p_ifndef     ::= PREPROCESSOR_IFNDEF IDENTIFIER
+p_else       ::= PREPROCESSOR_ELSE
+p_elif       ::= PREPROCESSOR_ELIF (!PREPROCESSOR_END)+
+p_endif      ::= PREPROCESSOR_ENDIF
+p_error      ::= PREPROCESSOR_ERROR (!PREPROCESSOR_END)+
+p_pragma     ::= PREPROCESSOR_PRAGMA (!PREPROCESSOR_END)+
+p_extension  ::= PREPROCESSOR_EXTENSION IDENTIFIER COLON IDENTIFIER
+p_version    ::= PREPROCESSOR_VERSION version_info
+p_line       ::= PREPROCESSOR_LINE INT INT?
+
+private postfix_group ::= postfix1_expr|postfix2_expr|postfix3_expr|postfix4_expr|postfix5_expr|postfix6_expr
+private primary_group ::= primary1_expr|primary2_expr|primary3_expr|primary4_expr|primary5_expr|primary6_expr|primary7_expr
+
+private expr_recover ::= !(LPAREN|unary_operator|type_specifier)
+
+expression                           ::= expr (COMMA expr)*
+expr                                 ::= assignment_expr|conditional_expr|logic_or_expr|logical_xor_expr|logic_and_expr|or_expr|xor_expr|and_expr|equality_expr|relational_expr|shift_expr|add_expr|mul_expr|unary_expr|postfix_group|primary_group {recoverWhile=expr_recover}
+assignment_expr                      ::= expr assignment_op expr {rightAssociative=true}
+conditional_expr                     ::= expr QUESTION expr COLON expr
+logic_or_expr                        ::= expr OP_LOGIC_OR expr
+logical_xor_expr                     ::= expr OP_LOGIC_XOR expr
+logic_and_expr                       ::= expr OP_LOGIC_AND expr
+or_expr                              ::= expr OP_OR expr
+xor_expr                             ::= expr OP_XOR expr
+and_expr                             ::= expr OP_AND expr
+equality_op                          ::= OP_EQUAL|OP_NOT_EQUAL
+equality_expr                        ::= expr equality_op expr
+relational_op                        ::= OP_LESS|OP_LESS_EQUAL|OP_GREATER|OP_GREATER_EQUAL
+relational_expr                      ::= expr relational_op expr
+shift_op                             ::= OP_LSHIFT|OP_RSHIFT
+shift_expr                           ::= expr shift_op expr
+add_op                               ::= OP_ADD|OP_SUB
+add_expr                             ::= expr add_op expr
+mul_op                               ::= OP_MUL|OP_DIV|OP_MOD
+mul_expr                             ::= expr mul_op expr
+unary_expr                           ::= unary_operator expr
+postfix1_expr                        ::= expr LSQUARE expr RSQUARE
+postfix2_expr                        ::= type_specifier function_call
+postfix3_expr                        ::= expr DOT field_selection
+postfix4_expr                        ::= expr OP_INC
+postfix5_expr                        ::= expr OP_DEC
+postfix6_expr                        ::= expr function_call
+primary1_expr                        ::= IDENTIFIER
+primary2_expr                        ::= INT
+primary3_expr                        ::= UINT
+primary4_expr                        ::= FLOAT
+primary5_expr                        ::= BOOL
+primary6_expr                        ::= DOUBLE
+primary7_expr                        ::= LPAREN expr RPAREN
+function_call                        ::= function_call_or_method
+function_call_or_method              ::= function_call_generic
+function_call_generic                ::= (function_call_header_with_parameters RPAREN)|(function_call_header_no_parameters RPAREN)
+function_call_header_no_parameters   ::= (function_call_header TYPE_VOID)|function_call_header
+function_call_header_with_parameters ::= (function_call_header expr (COMMA expr)*)
+function_call_header                 ::= LPAREN
+unary_operator                       ::= OP_ADD|OP_SUB|OP_LOGIC_NOT|OP_NOT|OP_INC|OP_DEC
+assignment_op                        ::= OP_ASSIGN|OP_ADD_ASSIGN|OP_SUB_ASSIGN|OP_MUL_ASSIGN|OP_DIV_ASSIGN|OP_MOD_ASSIGN|OP_LSHIFT_ASSIGN|OP_RSHIFT_ASSIGN|OP_AND_ASSIGN|OP_XOR_ASSIGN|OP_OR_ASSIGN
+declaration                          ::= (function_prototype SEMICOLON)|(init_declarator_list SEMICOLON)|(KEYWORD_PRECISION precision_qualifier type_specifier SEMICOLON)|(type_qualifier IDENTIFIER LCURLY struct_declaration_list RCURLY (IDENTIFIER|array_specifier)? SEMICOLON)|(type_qualifier IDENTIFIER? SEMICOLON)|(type_qualifier IDENTIFIER identifier_list? SEMICOLON)
+identifier_list                      ::= (COMMA IDENTIFIER)+
+function_prototype                   ::= function_declarator RPAREN
+function_declarator                  ::= function_header|function_header_with_parameters
+function_header_with_parameters      ::= function_header parameter_declaration (COMMA parameter_declaration)*
+function_header                      ::= fully_specified_type IDENTIFIER LPAREN
+parameter_declarator                 ::= type_specifier IDENTIFIER array_specifier?
+parameter_declaration                ::= type_qualifier? (parameter_declarator|parameter_type_specifier)
+parameter_type_specifier             ::= type_specifier
+init_declarator_list                 ::= single_declaration (COMMA IDENTIFIER array_specifier? (OP_ASSIGN initializer)?)*
+single_declaration                   ::= fully_specified_type (IDENTIFIER array_specifier? (OP_ASSIGN initializer)?)?
+fully_specified_type                 ::= type_qualifier? type_specifier
+invariant_qualifier                  ::= KEYWORD_INVARIANT
+interpolation_qualifier              ::= KEYWORD_SMOOTH|KEYWORD_FLAT|KEYWORD_NOPERSPECTIVE
+layout_qualifer                      ::= KEYWORD_LAYOUT LPAREN layout_qualifer_id_list RPAREN
+layout_qualifer_id_list              ::= layout_qualifer_id (COMMA layout_qualifer_id)*
+layout_qualifer_id                   ::= IDENTIFIER|(IDENTIFIER OP_ASSIGN expr)|KEYWORD_SHARED
+precise_qualifier                    ::= KEYWORD_PRECISE
+type_qualifier                       ::= single_type_qualifier+
+single_type_qualifier                ::= storage_qualifier|layout_qualifer|precision_qualifier|interpolation_qualifier|invariant_qualifier|precise_qualifier
+storage_qualifier                    ::= KEYWORD_ATTRIBUTE|KEYWORD_VARYING|KEYWORD_CONST|KEYWORD_INOUT|KEYWORD_IN|KEYWORD_OUT|KEYWORD_CENTROID|KEYWORD_PATCH|KEYWORD_SAMPLE|KEYWORD_UNIFORM|KEYWORD_BUFFER|KEYWORD_SHARED|KEYWORD_COHERENT|KEYWORD_VOLATILE|KEYWORD_RESTRICT|KEYWORD_READONLY|KEYWORD_WRITEONLY|KEYWORD_SUBROUTINE|(KEYWORD_SUBROUTINE LPAREN type_name_list RPAREN)
+type_name_list                       ::= IDENTIFIER (COMMA IDENTIFIER)*
+type_specifier                       ::= type_specifier_non_array array_specifier?
+array_specifier                      ::= (LSQUARE expr? RSQUARE)+
+type_specifier_non_array             ::= struct_specifier|TYPE_VOID|TYPE_FLOAT|TYPE_DOUBLE|TYPE_INT|TYPE_UINT|TYPE_BOOL|TYPE_VEC2|TYPE_VEC3|TYPE_VEC4|TYPE_DVEC2|TYPE_DVEC3|TYPE_DVEC4|TYPE_IVEC2|TYPE_IVEC3|TYPE_IVEC4|TYPE_BVEC2|TYPE_BVEC3|TYPE_BVEC4|TYPE_MAT2|TYPE_MAT3|TYPE_MAT4|TYPE_MAT2X2|TYPE_MAT2X3|TYPE_MAT2X4|TYPE_MAT3X2|TYPE_MAT3X3|TYPE_MAT3X4|TYPE_MAT4X2|TYPE_MAT4X3|TYPE_MAT4X4|TYPE_DMAT2|TYPE_DMAT3|TYPE_DMAT4|TYPE_DMAT2X2|TYPE_DMAT2X3|TYPE_DMAT2X4|TYPE_DMAT3X2|TYPE_DMAT3X3|TYPE_DMAT3X4|TYPE_DMAT4X2|TYPE_DMAT4X3|TYPE_DMAT4X4|TYPE_ATOMIC_UINT|TYPE_IMAGE1D|TYPE_IMAGE2D|TYPE_IMAGE3D|TYPE_IMAGE_CUBE|TYPE_IMAGE2D_RECT|TYPE_IMAGE1D_ARRAY|TYPE_IMAGE2D_ARRAY|TYPE_IMAGE_BUFFER|TYPE_IMAGE2D_MS|TYPE_IMAGE2D_MS_ARRAY|TYPE_IIMAGE1D|TYPE_IIMAGE2D|TYPE_IIMAGE3D|TYPE_IIMAGE_CUBE|TYPE_IIMAGE2D_RECT|TYPE_IIMAGE1D_ARRAY|TYPE_IIMAGE2D_ARRAY|TYPE_IIMAGE_BUFFER|TYPE_IIMAGE2D_MS|TYPE_IIMAGE2D_MS_ARRAY|TYPE_UIMAGE1D|TYPE_UIMAGE2D|TYPE_UIMAGE3D|TYPE_UIMAGE_CUBE|TYPE_UIMAGE2D_RECT|TYPE_UIMAGE1D_ARRAY|TYPE_UIMAGE2D_ARRAY|TYPE_UIMAGE_BUFFER|TYPE_UIMAGE2D_MS|TYPE_UIMAGE2D_MS_ARRAY|TYPE_SAMPLER1D|TYPE_SAMPLER2D|TYPE_SAMPLER3D|TYPE_SAMPLER_CUBE|TYPE_SAMPLER2D_RECT|TYPE_SAMPLER1D_ARRAY|TYPE_SAMPLER2D_ARRAY|TYPE_SAMPLER_BUFFER|TYPE_SAMPLER2D_MS|TYPE_SAMPLER2D_MS_ARRAY|TYPE_SAMPLER1D_SHADOW|TYPE_SAMPLER2D_SHADOW|TYPE_SAMPLER1D_ARRAY_SHADOW|TYPE_SAMPLER2D_ARRAY_SHADOW|TYPE_SAMPLER_CUBE_SHADOW|TYPE_SAMPLER_CUBE_ARRAY_SHADOW|TYPE_ISAMPLER1D|TYPE_ISAMPLER2D|TYPE_ISAMPLER3D|TYPE_ISAMPLER_CUBE|TYPE_ISAMPLER2D_RECT|TYPE_ISAMPLER1D_ARRAY|TYPE_ISAMPLER2D_ARRAY|TYPE_ISAMPLER_BUFFER|TYPE_ISAMPLER2D_MS|TYPE_ISAMPLER2D_MS_ARRAY|TYPE_USAMPLER1D|TYPE_USAMPLER2D|TYPE_USAMPLER3D|TYPE_USAMPLER_CUBE|TYPE_USAMPLER2D_RECT|TYPE_USAMPLER1D_ARRAY|TYPE_USAMPLER2D_ARRAY|TYPE_USAMPLER_BUFFER|TYPE_USAMPLER2D_MS|TYPE_USAMPLER2D_MS_ARRAY
+precision_qualifier                  ::= KEYWORD_HIGHP|KEYWORD_MEDIUMP|KEYWORD_LOWP
+struct_specifier                     ::= TYPE_STRUCT IDENTIFIER? LCURLY struct_declaration_list RCURLY
+struct_declaration_list              ::= struct_declaration+
+struct_declaration                   ::= type_qualifier? type_specifier LCURLY struct_declarator_list RCURLY
+struct_declarator_list               ::= struct_declarator (COMMA struct_declarator)*
+struct_declarator                    ::= IDENTIFIER array_specifier?
+initializer                          ::= expr|(LCURLY initializer_list RCURLY)
+initializer_list                     ::= initializer (COMMA initializer)*
+declaration_statement                ::= declaration
+statement                            ::= compound_statement|simple_statement
+simple_statement                     ::= declaration_statement|expression_statement|selection_statement|switch_statement|case_label|iteration_statement|jump_statement
+compound_statement                   ::= LCURLY statement_list? RCURLY
+statement_no_new_scope               ::= compound_statement_no_new_scope|simple_statement
+compound_statement_no_new_scope      ::= LCURLY statement_list? RCURLY
+statement_list                       ::= statement+
+expression_statement                 ::= expression? SEMICOLON
+selection_statement                  ::= KEYWORD_IF LPAREN expression RPAREN selection_rest_statement
+selection_rest_statement             ::= statement (KEYWORD_ELSE statement)?
+condition                            ::= expression|(fully_specified_type IDENTIFIER OP_ASSIGN initializer)
+switch_statement                     ::= KEYWORD_SWITCH LPAREN expression RPAREN LCURLY switch_statement_list RCURLY
+switch_statement_list                ::= statement_list
+case_label                           ::= (KEYWORD_CASE expression COLON)|(KEYWORD_DEFAULT COLON)
+iteration_statement                  ::= (KEYWORD_WHILE LPAREN condition RPAREN statement_no_new_scope)|(KEYWORD_DO statement KEYWORD_WHILE LPAREN expression RPAREN SEMICOLON)|(KEYWORD_FOR LPAREN for_init_statement for_rest_statement RPAREN statement_no_new_scope)
+for_init_statement                   ::= expression_statement|declaration_statement
+conditionopt                         ::= condition
+for_rest_statement                   ::= conditionopt SEMICOLON expression?
+jump_statement                       ::= ((KEYWORD_CONTINUE|KEYWORD_BREAK|KEYWORD_RETURN|KEYWORD_DISCARD) SEMICOLON)|(KEYWORD_RETURN expression SEMICOLON)
+translation_unit                     ::= external_declaration+
+external_declaration                 ::= function_definition|declaration|preprocessor
+function_definition                  ::= function_prototype compound_statement_no_new_scope
+field_selection                      ::= IDENTIFIER
+
+//UNUSED TOKENS TO STOP LEXER ERRORS
+unused_tokens__ ::= (PREPROCESSOR_CONCAT|RESERVED|PREPROCESSOR_DEFINED|COMMENT)

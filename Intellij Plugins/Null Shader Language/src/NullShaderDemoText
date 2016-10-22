@@ -1,0 +1,23 @@
+$VERSION
+150 core
+$END
+
+$VS
+in vec3 inPosition;
+in mat4 mvp;
+const bool translation = true;
+half
+
+//This is a comment
+
+#define test 1.0lf
+#if defined test
+void main() {
+	if (translation) {
+		gl_Position = mvp * vec4(inPosition, 1.0;
+	} else {
+		gl_Position = mvp * vec4(inPosition, 0);
+	}
+}
+#endif
+$END
