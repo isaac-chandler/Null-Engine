@@ -8,6 +8,7 @@ import com.intellij.psi.PsiElement;
 import nullshader.intention.AddProfileIntention;
 import nullshader.intention.ChangeProfileIntention;
 import nullshader.intention.RemoveProfileIntention;
+import nullshader.parser.psi.NullShaderTypes;
 import nullshader.parser.psi.NullShaderVersionInfo;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,6 +44,8 @@ public class NullShaderAnnotator implements Annotator {
 				ann.registerFix(new AddProfileIntention(element, "core"));
 				ann.registerFix(new AddProfileIntention(element, "compatibility"));
 			}
+		} else if (element.getNode().getElementType().equals(NullShaderTypes.RESERVED)) {
+			holder.createErrorAnnotation(element, element.getText() + " is a reserved name");
 		}
 	}
 }

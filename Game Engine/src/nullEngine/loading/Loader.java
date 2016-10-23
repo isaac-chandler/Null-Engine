@@ -12,7 +12,7 @@ import nullEngine.loading.filesys.ResourceLoader;
 import nullEngine.loading.model.NLMLoader;
 import nullEngine.loading.model.OBJLoader;
 import nullEngine.loading.texture.PNGLoader;
-import nullEngine.object.component.HeightMap;
+import nullEngine.object.wrapper.HeightMap;
 import nullEngine.util.Buffers;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.*;
@@ -177,7 +177,7 @@ public class Loader {
 		return PNGLoader.loadTexture(file + ".png", lodBias, anisotropyEnabled && capabilities.GL_EXT_texture_filter_anisotropic, anisotropyAmount, forceUnique);
 	}
 
-	public Font loadFont(String name, int desiredPadding) throws IOException {
+	public Font loadFont(String name, int padding) throws IOException {
 		Scanner scanner = new Scanner(ResourceLoader.getResource("res/fonts/" + name + ".fnt"));
 
 		String line = scanner.nextLine();
@@ -187,9 +187,9 @@ public class Loader {
 			throw new FileFormatException("Not a valid font file");
 
 		String[] padStr = tokens[10].substring(8).replaceAll("\\s", "").split(",");
-		int[] padding = new int[padStr.length];
+		int[] paddingArr = new int[padStr.length];
 		for (int i = 0; i < padStr.length; i++) {
-			padding[i] = Integer.parseInt(padStr[i]);
+			paddingArr[i] = Integer.parseInt(padStr[i]);
 		}
 
 
@@ -202,7 +202,7 @@ public class Loader {
 		if (!tokens[1].startsWith("lineHeight=") || !tokens[3].startsWith("scaleW=") || !tokens[4].startsWith("scaleH=") || !tokens[5].startsWith("pages="))
 			throw new FileFormatException("Not a valid font file");
 
-		float lineHeight = Integer.parseInt(tokens[1].substring(11)) - padding[0] - padding[1];
+		float lineHeight = Integer.parseInt(tokens[1].substring(11)) - paddingArr[0] - paddingArr[1];
 		float width = Integer.parseInt(tokens[3].substring(7));
 		float height = Integer.parseInt(tokens[4].substring(7));
 		int pages = Integer.parseInt(tokens[5].substring(6));
@@ -255,19 +255,19 @@ public class Loader {
 
 			Glyph glyph = new Glyph();
 
-			glyph.texCoordX = Integer.parseInt(tokens[2].substring(2)) + padding[3];
-			glyph.texCoordMaxY = (Integer.parseInt(tokens[3].substring(2)) - padding[0]);
+			glyph.texCoordX = Integer.parseInt(tokens[2].substring(2)) + paddingArr[3];
+			glyph.texCoordMaxY = (Integer.parseInt(tokens[3].substring(2)) - paddingArr[0]);
 
-			glyph.texCoordMaxX = glyph.texCoordX + (Integer.parseInt(tokens[4].substring(6)) - padding[1]);
-			glyph.texCoordY = glyph.texCoordMaxY + (Integer.parseInt(tokens[5].substring(7)) + padding[2]);
+			glyph.texCoordMaxX = glyph.texCoordX + (Integer.parseInt(tokens[4].substring(6)) - paddingArr[1]);
+			glyph.texCoordY = glyph.texCoordMaxY + (Integer.parseInt(tokens[5].substring(7)) + paddingArr[2]);
 
-			glyph.width = Integer.parseInt(tokens[4].substring(6)) - padding[3] - padding[2];
-			glyph.height = Integer.parseInt(tokens[5].substring(7)) - padding[1] - padding[0];
+			glyph.width = Integer.parseInt(tokens[4].substring(6)) - paddingArr[3] - paddingArr[2];
+			glyph.height = Integer.parseInt(tokens[5].substring(7)) - paddingArr[1] - paddingArr[0];
 
-			glyph.xOffset = Integer.parseInt(tokens[6].substring(8)) + padding[3];
-			glyph.yOffset = lineHeight - (Integer.parseInt(tokens[7].substring(8)) + glyph.height + padding[0]);
+			glyph.xOffset = Integer.parseInt(tokens[6].substring(8)) + paddingArr[3];
+			glyph.yOffset = lineHeight - (Integer.parseInt(tokens[7].substring(8)) + glyph.height + paddingArr[0]);
 
-			glyph.xAdvance = Integer.parseInt(tokens[8].substring(9)) - padding[2] - padding[3];
+			glyph.xAdvance = Integer.parseInt(tokens[8].substring(9)) - paddingArr[2] - paddingArr[3];
 
 			glyph.texCoordX /= width;
 			glyph.texCoordY /= height;
@@ -314,7 +314,7 @@ public class Loader {
 			glyph.kerning.put(second, amount);
 		}
 
-		return new Font(this, glyphs, texture, desiredPadding, width, lineHeight, (lineHeight - padding[0] - padding[1]) / lineHeight);
+		return new Font(this, glyphs, texture, padding, width, lineHeight, (lineHeight - paddingArr[0] - paddingArr[1]) / lineHeight);
 	}
 
 	public void cleanup() {

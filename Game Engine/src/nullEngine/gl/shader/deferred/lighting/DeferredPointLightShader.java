@@ -1,7 +1,7 @@
 package nullEngine.gl.shader.deferred.lighting;
 
 import math.Matrix4f;
-import nullEngine.object.component.PointLight;
+import nullEngine.object.component.light.PointLight;
 
 public class DeferredPointLightShader extends DeferredLightShader {
 

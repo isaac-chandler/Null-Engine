@@ -1,4 +1,4 @@
-package nullEngine.object.component;
+package nullEngine.object.component.gui;
 
 import math.Vector4f;
 import nullEngine.gl.Color;

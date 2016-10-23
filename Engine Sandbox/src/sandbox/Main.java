@@ -27,7 +27,12 @@ import nullEngine.input.KeyEvent;
 import nullEngine.input.MousePickInfo;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
-import nullEngine.object.component.*;
+import nullEngine.object.component.FlyCam;
+import nullEngine.object.component.ModelComponent;
+import nullEngine.object.component.gui.GuiStaticText;
+import nullEngine.object.component.light.DirectionalLight;
+import nullEngine.object.wrapper.GeoclipmapTerrain;
+import nullEngine.object.wrapper.HeightMap;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL11;
 import util.BitFieldInt;
@@ -76,7 +81,7 @@ public class Main {
 
 			Font font = loader.loadFont("default/testsdf", 14);
 
-			GuiText text = new GuiText(-1, -0.9f, 0.1f, "0FPS", font) {
+			GuiStaticText text = new GuiStaticText(-1, -0.9f, 0.1f, "0FPS", font) {
 				private float totalDelta = 1;
 
 				@Override

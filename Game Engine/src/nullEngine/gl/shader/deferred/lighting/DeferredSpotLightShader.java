@@ -1,7 +1,7 @@
 package nullEngine.gl.shader.deferred.lighting;
 
 import math.Matrix4f;
-import nullEngine.object.component.SpotLight;
+import nullEngine.object.component.light.SpotLight;
 
 public class DeferredSpotLightShader extends DeferredLightShader {
 

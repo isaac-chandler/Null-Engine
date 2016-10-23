@@ -1,4 +1,4 @@
-package nullEngine.object.component;
+package nullEngine.object.component.gui;
 
 import nullEngine.gl.model.Model;
 import nullEngine.gl.model.Quad;

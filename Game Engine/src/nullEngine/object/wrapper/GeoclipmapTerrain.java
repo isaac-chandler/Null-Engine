@@ -1,4 +1,4 @@
-package nullEngine.object.component;
+package nullEngine.object.wrapper;
 
 import math.MathUtil;
 import math.Vector4f;
@@ -7,6 +7,7 @@ import nullEngine.gl.model.Model;
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
+import nullEngine.object.component.ModelComponent;
 import util.BitFieldInt;
 
 public class GeoclipmapTerrain extends GameObject {

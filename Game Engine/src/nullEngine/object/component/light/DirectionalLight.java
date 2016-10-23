@@ -1,4 +1,4 @@
-package nullEngine.object.component;
+package nullEngine.object.component.light;
 
 import math.Vector4f;
 import nullEngine.control.Layer;
@@ -7,15 +7,13 @@ import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
 import util.BitFieldInt;
 
-public class PointLight extends GameComponent {
+public class DirectionalLight extends GameComponent {
 	private Vector4f lightColor;
-	private float squared, linear, constant;
+	private Vector4f direction;
 
-	public PointLight(Vector4f lightColor, float squared, float linear, float constant) {
+	public DirectionalLight(Vector4f lightColor, Vector4f direction) {
 		this.lightColor = lightColor;
-		this.squared = squared;
-		this.linear = linear;
-		this.constant = constant;
+		this.direction = direction.normalize(null);
 	}
 
 	@Override
@@ -37,27 +35,11 @@ public class PointLight extends GameComponent {
 		this.lightColor = lightColor;
 	}
 
-	public float getSquared() {
-		return squared;
+	public Vector4f getDirection() {
+		return direction;
 	}
 
-	public void setSquared(float squared) {
-		this.squared = squared;
-	}
-
-	public float getLinear() {
-		return linear;
-	}
-
-	public void setLinear(float linear) {
-		this.linear = linear;
-	}
-
-	public float getConstant() {
-		return constant;
-	}
-
-	public void setConstant(float constant) {
-		this.constant = constant;
+	public void setDirection(Vector4f direction) {
+		this.direction = direction.normalize(null);
 	}
 }

@@ -1,49 +1,52 @@
 <idea-plugin version="2">
-	<id>com.yourcompany.unique.plugin.id</id>
-	<name>Plugin display name here</name>
+	<id>nullengine.nullshader</id>
+	<name>Null Shader Support</name>
 	<version>1.0</version>
-	<vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
-
+	
+	<category>Custom Languages</category>
+	
 	<description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      Support for Null Engine extended GLSL syntax
     ]]></description>
-
+	
 	<change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+     	<p>Version 1.0</p>
+     	<ul>
+			<li>Syntax highlighting</li>
+      		<li>Version error correction</li>
+      </ul>
     ]]>
 	</change-notes>
-
+	
 	<!-- please see https://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
-	<idea-version since-build="131"/>
-
+	<idea-version since-build="139"/>
+	
 	<!-- please see https://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
 		   on how to target different products -->
-	<!-- uncomment to enable plugin in all products
-	  <depends>com.intellij.modules.lang</depends>
-	  -->
-
+	<depends>com.intellij.modules.lang</depends>
+	
 	<extensions defaultExtensionNs="com.intellij">
 		<!-- Add your extensions here -->
 		<fileTypeFactory implementation="nullshader.file.NullShaderFileTypeFactory"/>
 		<annotator language="NullShader" implementationClass="nullshader.NullShaderAnnotator"/>
-		<lang.parserDefinition language="NullShader" implementationClass="nullshader.parser.NullShaderParserDefinition"/>
-		<lang.syntaxHighlighterFactory key="NullShader" implementationClass="nullshader.highlighter.NullShaderSyntaxHighlighterFactory"/>
+		<lang.parserDefinition language="NullShader"
+							   implementationClass="nullshader.parser.NullShaderParserDefinition"/>
+		<lang.syntaxHighlighterFactory key="NullShader"
+									   implementationClass="nullshader.highlighter.NullShaderSyntaxHighlighterFactory"/>
 		<colorSettingsPage implementation="nullshader.highlighter.NullShaderColorSettingsPage"/>
 		<fileTemplateGroup implementation="nullshader.file.NullShaderTemplatesFactory"/>
 		<additionalTextAttributes scheme="Default" file="colorSchemes/NullShaderDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colorSchemes/NullShaderDarcula.xml"/>
 	</extensions>
-
+	
 	<application-components>
 		<!-- Add your application components here -->
 	</application-components>
-
+	
 	<project-components>
 		<!-- Add your project components here -->
 	</project-components>
-
+	
 	<actions>
 		<!-- Add your actions here -->
 		<action id="NullShaderLanguage.CreateNullShader" class="nullshader.CreateNullShaderAction" text="Null Shader"

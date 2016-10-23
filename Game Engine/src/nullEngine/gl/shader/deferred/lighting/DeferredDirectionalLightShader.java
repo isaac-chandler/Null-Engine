@@ -1,7 +1,7 @@
 package nullEngine.gl.shader.deferred.lighting;
 
 import math.Matrix4f;
-import nullEngine.object.component.DirectionalLight;
+import nullEngine.object.component.light.DirectionalLight;
 
 public class DeferredDirectionalLightShader extends DeferredLightShader {
 

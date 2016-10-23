@@ -1,4 +1,4 @@
-package nullEngine.object.component;
+package nullEngine.object.wrapper;
 
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.loading.filesys.FileFormatException;

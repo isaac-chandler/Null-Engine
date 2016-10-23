@@ -1,4 +1,4 @@
-package nullEngine.object.component;
+package nullEngine.object.component.gui;
 
 import math.Vector4f;
 import nullEngine.gl.Color;
@@ -9,7 +9,7 @@ import nullEngine.gl.shader.GuiTextShader;
 import nullEngine.object.GameObject;
 import util.BitFieldInt;
 
-public class GuiText extends GuiComponent {
+public class GuiDynamicText extends GuiComponent {
 
 	private String text;
 	private Font font;
@@ -23,7 +23,7 @@ public class GuiText extends GuiComponent {
 
 	private float borderOffsetX = 0, borderOffsetY = 0;
 
-	public GuiText(float x, float y, float size, String text, Font font) {
+	public GuiDynamicText(float x, float y, float size, String text, Font font) {
 		super(x, y, size, size);
 		this.text = text;
 		this.font = font;
