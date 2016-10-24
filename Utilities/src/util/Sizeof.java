@@ -1,4 +1,4 @@
-package nullEngine.util;
+package util;
 
 public class Sizeof {
 	public static final int BYTE = Byte.SIZE / Byte.SIZE;

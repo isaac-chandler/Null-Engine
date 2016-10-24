@@ -1,8 +1,6 @@
 package nullEngine.loading.filesys;
 
-import nullEngine.loading.filesys.ResourceLoader;
-import nullEngine.loading.filesys.ResourceLocation;
-import nullEngine.util.StreamUtils;
+import util.StreamUtils;
 import nullEngine.util.logs.Logs;
 
 import java.io.ByteArrayInputStream;

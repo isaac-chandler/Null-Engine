@@ -4,7 +4,7 @@ import nullEngine.gl.model.Model;
 import nullEngine.loading.filesys.FileFormatException;
 import nullEngine.loading.Loader;
 import nullEngine.loading.filesys.ResourceLoader;
-import nullEngine.util.StreamUtils;
+import util.StreamUtils;
 import nullEngine.util.logs.Logs;
 
 import java.io.IOException;

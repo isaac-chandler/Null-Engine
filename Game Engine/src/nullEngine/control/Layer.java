@@ -6,6 +6,7 @@ import nullEngine.input.*;
 import nullEngine.object.GameObject;
 import nullEngine.object.RootObject;
 import nullEngine.object.component.Camera;
+import nullEngine.util.logs.Logs;
 import util.BitFieldInt;
 
 public abstract class Layer implements EventListener {

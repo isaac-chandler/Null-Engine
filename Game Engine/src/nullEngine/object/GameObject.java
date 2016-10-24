@@ -32,7 +32,6 @@ public class GameObject extends EventHandler {
 	}
 
 	public void render(Renderer renderer, BitFieldInt flags) {
-		renderer.setModelMatrix(transform.getMatrix());
 		for (GameComponent component : components) {
 			if (component.enabled)
 				component.render(renderer, this, flags);

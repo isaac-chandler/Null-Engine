@@ -1,4 +1,4 @@
-package modelConverter;
+package util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +37,6 @@ public class StreamUtils {
 
 		out.write((len >> 8) & 0xFF);
 		out.write(len & 0xFF);
-
 		out.write(buf);
 	}
 }

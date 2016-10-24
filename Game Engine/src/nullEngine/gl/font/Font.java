@@ -1,11 +1,14 @@
 package nullEngine.gl.font;
 
 import nullEngine.control.Application;
+import nullEngine.gl.model.IndexBuffer;
 import nullEngine.gl.model.Model;
+import nullEngine.gl.model.VertexBuffer;
 import nullEngine.gl.shader.Shader;
 import nullEngine.gl.shader.TextShader;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.loading.Loader;
+import util.Sizeof;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,13 +35,14 @@ public class Font {
 		this.loader = loader;
 
 		for (Map.Entry<Character, Glyph> glyph : glyphs.entrySet()) {
-			glyph.getValue().model = genMeshData(loader, glyph.getValue(), padding, textureSize, lineHeight);
+			glyph.getValue().model = genMeshData(glyph.getValue());
+
 		}
 		this.glyphs = glyphs;
 		space = glyphs.get(' ');
 	}
 
-	private static Model genMeshData(Loader loader, Glyph glyph, int padding, float textureSize, float lineHeight) {
+	private Model genMeshData(Glyph glyph) {
 		float positionPadding = padding / lineHeight;
 		float texCoordPadding = padding / textureSize;
 
@@ -111,6 +115,55 @@ public class Font {
 		normals[offset * 12 + 9] = 0;
 		normals[offset * 12 + 10] = 0;
 		normals[offset * 12 + 11] = -1;
+
+		return offset + 1;
+	}
+
+	private int genMeshData(Glyph glyph, float xOffset, float yOffset, int offset, IndexBuffer indices, VertexBuffer positions, VertexBuffer texCoords, VertexBuffer normals) {
+		float positionPadding = padding / lineHeight;
+		float texCoordPadding = padding / textureSize;
+
+		indices.set(offset * 4, (offset * 6));
+		indices.set(offset * 4 + 1, (offset * 6 + 1));
+		indices.set(offset * 4 + 3, (offset * 6 + 2));
+		indices.set(offset * 4 + 3, (offset * 6 + 3));
+		indices.set(offset * 4 + 1, (offset * 6 + 4));
+		indices.set(offset * 4 + 2, (offset * 6 + 5));
+
+		positions.set(xOffset + glyph.xOffset - positionPadding, (offset * 12));
+		positions.set(yOffset + glyph.yOffset + glyph.height + positionPadding, (offset * 12 + 1));
+		positions.set(0, (offset * 12 + 2));
+		positions.set(xOffset + glyph.xOffset - positionPadding, (offset * 12 + 3));
+		positions.set(yOffset + glyph.yOffset - positionPadding, (offset * 12 + 4));
+		positions.set(0, (offset * 12 + 5));
+		positions.set(xOffset + glyph.xOffset + glyph.width + positionPadding, (offset * 12 + 6));
+		positions.set(yOffset + glyph.yOffset - positionPadding, (offset * 12 + 7));
+		positions.set(0, (offset * 12 + 8));
+		positions.set(xOffset + glyph.xOffset + glyph.width + positionPadding, (offset * 12 + 9));
+		positions.set(yOffset + glyph.yOffset + glyph.height + positionPadding, (offset * 12 + 10));
+		positions.set(0, (offset * 12 + 11));
+
+		texCoords.set(glyph.texCoordX - texCoordPadding, (offset * 8));
+		texCoords.set(glyph.texCoordMaxY + texCoordPadding, (offset * 8 + 1));
+		texCoords.set(glyph.texCoordX - texCoordPadding, (offset * 8 + 2));
+		texCoords.set(glyph.texCoordY + texCoordPadding, (offset * 8 + 3));
+		texCoords.set(glyph.texCoordMaxX + texCoordPadding, (offset * 8 + 4));
+		texCoords.set(glyph.texCoordY + texCoordPadding, (offset * 8 + 5));
+		texCoords.set(glyph.texCoordMaxX + texCoordPadding, (offset * 8 + 6));
+		texCoords.set(glyph.texCoordMaxY + texCoordPadding, (offset * 8 + 7));
+
+		normals.set(0, (offset * 12));
+		normals.set(0, (offset * 12 + 1));
+		normals.set(-1, (offset * 12 + 2));
+		normals.set(0, (offset * 12 + 3));
+		normals.set(0, (offset * 12 + 4));
+		normals.set(-1, (offset * 12 + 5));
+		normals.set(0, (offset * 12 + 6));
+		normals.set(0, (offset * 12 + 7));
+		normals.set(-1, (offset * 12 + 8));
+		normals.set(0, (offset * 12 + 9));
+		normals.set(0, (offset * 12 + 10));
+		normals.set(-1, (offset * 12 + 11));
 
 		return offset + 1;
 	}
@@ -198,6 +251,55 @@ public class Font {
 			}
 		}
 		return loader.loadModel(positions, texCoords, normals, indices);
+	}
+
+	public void updateString(Model model, String text) {
+		VertexBuffer positions = model.getVertexBuffer(0);
+		VertexBuffer texCoords = model.getVertexBuffer(1);
+		VertexBuffer normals = model.getVertexBuffer(2);
+		IndexBuffer indices = model.getIndexBuffer();
+
+		text = text.replace("\r\n", "\n").replace("\r", "\n");
+
+		int count = 0;
+		for (int i = 0; i < text.length(); i++) {
+			char character = text.charAt(i);
+			if (!(character == '\n' || character == ' ' || !glyphs.containsKey(character)))
+				count++;
+		}
+		int oldCount = indices.getCapacity() / 6 / Sizeof.INT;
+
+		if (count < oldCount * 2 || count > oldCount) {
+			indices.setSize(count * 6 * Sizeof.INT);
+			positions.setSize(count * 4 * 3 * Sizeof.FLOAT);
+			texCoords.setSize(count * 4 * 2 * Sizeof.FLOAT);
+			normals.setSize(count * 4 * 3 * Sizeof.FLOAT);
+		}
+
+		float cursorX = 0;
+		float cursorY = 0;
+		char next = text.charAt(0);
+		int index = 0;
+		for (int i = 0; i < text.length(); i++) {
+			char character = text.charAt(i);
+
+			Glyph glyph = glyphs.get(next);
+			next = i < text.length() - 1 ? text.charAt(i + 1) : '\0';
+
+			if (character == '\n') {
+				cursorX = 0;
+				cursorY -= yAdvance;
+			} else if (character == ' ' || glyph == null) {
+				cursorX += space.xAdvance;
+			} else {
+				index = genMeshData(glyph, cursorX, cursorY, index, indices, positions, texCoords, normals);
+				cursorX += glyph.xAdvance;
+				Float kerning = glyph.kerning.get(next);
+				if (next != '\0' && kerning != null) {
+					cursorX += kerning;
+				}
+			}
+		}
 	}
 
 	public Model getModel(char character) {

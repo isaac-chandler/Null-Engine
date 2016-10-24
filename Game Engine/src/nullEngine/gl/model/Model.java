@@ -1,39 +1,58 @@
 package nullEngine.gl.model;
 
-import nullEngine.util.Sizeof;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import nullEngine.managing.ManagedResource;
 import nullEngine.util.logs.Logs;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import util.Sizeof;
 
 import java.util.ArrayList;
 
-public class Model {
+public class Model extends ManagedResource {
 
 	private static final ArrayList<Model> models = new ArrayList<Model>();
+	private static int currentModelID = 0;
+	private int modelID;
 
 	private int vaoID;
 	private int[] vertexCounts;
 	private int[] vertexOffsets;
-	private int ibo;
-	private int vertexVBO;
-	private int texCoordVBO;
-	private int normalVBO;
+	private IndexBuffer ibo;
+	private VertexAttribPointer[] attribs;
 	private float radius;
 
-	public static Model QUAD;
+	private int instances = 1;
 
-	public Model(int vaoID, int[] vertexCounts, int[] vertexOffsets, int ibo, int vertexVBO, int texCoordVBO, int normalVBO, float radius) {
+	public Model(int vaoID, int[] vertexCounts, int[] vertexOffsets, float radius, IndexBuffer ibo, VertexAttribPointer... attribs) {
+		super(String.valueOf(currentModelID), "model", join(ibo, attribs));
+		modelID = currentModelID++;
 		this.vaoID = vaoID;
 		this.vertexCounts = vertexCounts;
 		this.vertexOffsets = vertexOffsets;
 		this.ibo = ibo;
-		this.vertexVBO = vertexVBO;
-		this.texCoordVBO = texCoordVBO;
-		this.normalVBO = normalVBO;
+		this.attribs = attribs;
 		this.radius = radius;
 		models.add(this);
+
+		GL30.glBindVertexArray(vaoID);
+
+		ibo.bind();
+		int attribIdx = 0;
+		for (VertexAttribPointer attrib : attribs) {
+			attribIdx = attrib.bind(attribIdx);
+		}
+	}
+
+	public void setVertexCounts(int[] vertexCounts) {
+		this.vertexCounts = vertexCounts;
+	}
+
+	public void setVertexOffsets(int[] vertexOffsets) {
+		this.vertexOffsets = vertexOffsets;
+	}
+
+	public void setRadius(float radius) {
+		this.radius = radius;
 	}
 
 	public int getVaoID() {
@@ -64,15 +83,12 @@ public class Model {
 
 	public void preRender() {
 		GL30.glBindVertexArray(vaoID);
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		GL20.glEnableVertexAttribArray(2);
+		ibo.update();
+		for (VertexAttribPointer attrib : attribs)
+			attrib.update();
 	}
 
 	public void postRender() {
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
 
@@ -92,10 +108,8 @@ public class Model {
 		}
 	}
 
+	@Override
 	public void delete() {
-		GL15.glDeleteBuffers(vertexVBO);
-		GL15.glDeleteBuffers(texCoordVBO);
-		GL15.glDeleteBuffers(normalVBO);
 		GL30.glDeleteVertexArrays(vaoID);
 		models.remove(this);
 	}
@@ -104,17 +118,24 @@ public class Model {
 		vaoID = GL30.glGenVertexArrays();
 		GL30.glBindVertexArray(vaoID);
 
-		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
-
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexVBO);
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, texCoordVBO);
-		GL20.glVertexAttribPointer(1, 2, GL11.GL_FLOAT, false, 0, 0);
-
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, normalVBO);
-		GL20.glVertexAttribPointer(2, 3, GL11.GL_FLOAT, false, 0, 0);
+		ibo.bind();
+		int attribIdx = 0;
+		for (VertexAttribPointer attrib : attribs) {
+			attribIdx = attrib.bind(attribIdx);
+		}
 
 		GL30.glBindVertexArray(0);
+	}
+
+	public IndexBuffer getIndexBuffer() {
+		return ibo;
+	}
+
+	public VertexAttribPointer getAttrib(int index) {
+		return attribs[index];
+	}
+
+	public VertexBuffer getVertexBuffer(int index) {
+		return attribs[index].getVertexBuffer();
 	}
 }

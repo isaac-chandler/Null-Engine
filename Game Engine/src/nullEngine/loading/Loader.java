@@ -5,7 +5,10 @@ import nullEngine.exception.UnsupportedFeatureException;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.font.Glyph;
 import nullEngine.gl.framebuffer.Framebuffer3D;
+import nullEngine.gl.model.IndexBuffer;
 import nullEngine.gl.model.Model;
+import nullEngine.gl.model.VertexAttribPointer;
+import nullEngine.gl.model.VertexBuffer;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.loading.filesys.FileFormatException;
 import nullEngine.loading.filesys.ResourceLoader;
@@ -13,14 +16,11 @@ import nullEngine.loading.model.NLMLoader;
 import nullEngine.loading.model.OBJLoader;
 import nullEngine.loading.texture.PNGLoader;
 import nullEngine.object.wrapper.HeightMap;
-import nullEngine.util.Buffers;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.*;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -35,7 +35,6 @@ public class Loader {
 	private float lodBias = 0;
 
 	private ArrayList<Integer> vaos = new ArrayList<Integer>();
-	private ArrayList<Integer> vbos = new ArrayList<Integer>();
 
 	public Loader(Application application) {
 		this.application = application;
@@ -58,46 +57,16 @@ public class Loader {
 
 	private int createVAO() {
 		int vao = GL30.glGenVertexArrays();
-		GL30.glBindVertexArray(vao);
+		vaos.add(vao);
 		return vao;
-	}
-
-	private int dataToAttrib(int attrib, float[] data, int size) {
-		FloatBuffer buf = Buffers.createBuffer(data);
-		int vbo = GL15.glGenBuffers();
-		vbos.add(vbo);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buf, GL15.GL_STATIC_DRAW);
-		GL20.glVertexAttribPointer(attrib, size, GL11.GL_FLOAT, false, 0, 0);
-		return vbo;
-	}
-
-	public int createVBO(float[] data) {
-		FloatBuffer buf = Buffers.createBuffer(data);
-		int vbo = GL15.glGenBuffers();
-		vbos.add(vbo);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buf, GL15.GL_STATIC_DRAW);
-		return vbo;
-	}
-
-	private int indexBuffer(int[] indices) {
-		IntBuffer buf = Buffers.createBuffer(indices);
-		int ibo = GL15.glGenBuffers();
-		vbos.add(ibo);
-		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
-		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buf, GL15.GL_STATIC_DRAW);
-		return ibo;
 	}
 
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices, int[] vertexCounts) {
 		int vao = createVAO();
-		int ibo = indexBuffer(indices);
-		vaos.add(vao);
-		int vertexVBO = dataToAttrib(0, vertices, 3);
-		int texCoordVBO = dataToAttrib(1, texCoords, 2);
-		int normalVBO = dataToAttrib(2, normals, 3);
-		GL30.glBindVertexArray(0);
+		IndexBuffer ibo = IndexBuffer.create(indices);
+		VertexBuffer vertexVBO = VertexBuffer.create(vertices);
+		VertexBuffer texCoordVBO = VertexBuffer.create(texCoords);
+		VertexBuffer normalVBO = VertexBuffer.create(normals);
 
 		int[] vertexOffsets = new int[vertexCounts.length];
 		vertexOffsets[0] = 0;
@@ -115,23 +84,15 @@ public class Loader {
 			if (radius > biggestRadius)
 				biggestRadius = radius;
 		}
-		return new Model(vao, vertexCounts, vertexOffsets, ibo, vertexVBO, texCoordVBO, normalVBO, (float) Math.sqrt(biggestRadius));
+		return new Model(vao, vertexCounts, vertexOffsets, (float) Math.sqrt(biggestRadius), ibo,
+				VertexAttribPointer.createVec3AttribPointer(vertexVBO), VertexAttribPointer.createVec2AttribPointer(texCoordVBO), VertexAttribPointer.createVec3AttribPointer(normalVBO));
 	}
 
-	public Model loadModel(int vertexVBO, float radius, int texCoordVBO, int normalVBO, int[] indices) {
+	public Model loadModel(VertexBuffer vertexVBO, VertexBuffer texCoordVBO, VertexBuffer normalVBO, IndexBuffer ibo, int length, float radius) {
 		int vao = createVAO();
-		int ibo = indexBuffer(indices);
-		vaos.add(vao);
 
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertexVBO);
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, texCoordVBO);
-		GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, 0, 0);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, normalVBO);
-		GL20.glVertexAttribPointer(2, 3, GL11.GL_FLOAT, false, 0, 0);
-		GL30.glBindVertexArray(0);
-
-		return new Model(vao, new int[]{indices.length}, new int[]{0}, ibo, vertexVBO, texCoordVBO, normalVBO, radius);
+		return new Model(vao, new int[]{length}, new int[]{0}, radius, ibo,
+				VertexAttribPointer.createVec3AttribPointer(vertexVBO), VertexAttribPointer.createVec2AttribPointer(texCoordVBO), VertexAttribPointer.createVec3AttribPointer(normalVBO));
 	}
 
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {
@@ -319,8 +280,6 @@ public class Loader {
 
 	public void cleanup() {
 		Logs.d("Loader cleaning up");
-		for (int vbo : vbos)
-			GL15.glDeleteBuffers(vbo);
 		for (int vao : vaos)
 			GL30.glDeleteVertexArrays(vao);
 	}

@@ -14,8 +14,29 @@ public abstract class ManagedResource {
 		return this;
 	}
 
-	public ManagedResource(String name, String type, ManagedResource[] dependencies) {
-		fullName = type + ":" + name;
+	public static ManagedResource[] join(ManagedResource value, ManagedResource[] arr) {
+		ManagedResource[] newArr = new ManagedResource[arr.length + 1];
+		newArr[0] = value;
+		System.arraycopy(arr, 0, newArr, 1, arr.length);
+		return newArr;
+	}
+
+	public static ManagedResource[] join(ManagedResource[] arr1, ManagedResource[] arr2) {
+		ManagedResource[] newArr = new ManagedResource[arr1.length + arr2.length];
+		System.arraycopy(arr1, 0, newArr, 0, arr1.length);
+		System.arraycopy(arr2, 0, newArr, arr1.length, arr2.length);
+		return newArr;
+	}
+
+	public static ManagedResource[] join(ManagedResource[] arr, ManagedResource value) {
+		ManagedResource[] newArr = new ManagedResource[arr.length + 1];
+		newArr[arr.length] = value;
+		System.arraycopy(arr, 0, newArr, 0, arr.length);
+		return newArr;
+	}
+
+	public ManagedResource(String name, String type, ManagedResource... dependencies) {
+		this.fullName = type + ":" + name;
 		this.dependencies = dependencies;
 		for (ManagedResource resource : dependencies)
 			resource.addReference();
@@ -43,6 +64,11 @@ public abstract class ManagedResource {
 	protected void finalize() throws Throwable {
 		references = 0;
 		dispose();
+	}
+
+	@Override
+	public String toString() {
+		return fullName;
 	}
 
 	public abstract void delete();

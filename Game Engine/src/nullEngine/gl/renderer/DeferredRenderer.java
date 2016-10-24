@@ -14,6 +14,7 @@ import nullEngine.gl.postfx.PostFXOutput;
 import nullEngine.gl.postfx.TextureOutput;
 import nullEngine.gl.shader.BasicShader;
 import nullEngine.gl.shader.ModelMatrixShader;
+import nullEngine.gl.shader.Shader;
 import nullEngine.gl.shader.deferred.DeferredBasicShader;
 import nullEngine.gl.shader.deferred.lighting.DeferredAmbientLightShader;
 import nullEngine.gl.shader.deferred.lighting.DeferredDirectionalLightShader;
@@ -107,7 +108,7 @@ public class DeferredRenderer extends Renderer {
 			}
 		}
 		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT)) {
-			if (component instanceof  ModelComponent) {
+			if (component instanceof ModelComponent) {
 				ModelComponent model = (ModelComponent) component;
 				ArrayList<ModelComponent> list = mousePickModels.get(model.getMaterial());
 				if (list == null) {
@@ -300,7 +301,8 @@ public class DeferredRenderer extends Renderer {
 	@Override
 	public void setModelMatrix(Matrix4f modelMatrix) {
 		super.setModelMatrix(modelMatrix);
-		shader.loadModelMatrix(modelMatrix);
+		if (Shader.bound() == shader)
+			shader.loadModelMatrix(modelMatrix);
 	}
 
 	public void setPostFX(PostFXOutput postFX) {

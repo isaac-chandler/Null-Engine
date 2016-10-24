@@ -231,7 +231,6 @@ public class Main {
 				}
 			});
 
-
 			Throwable e = application.start();
 			if (e != null) {
 				Logs.e("Caught exception");

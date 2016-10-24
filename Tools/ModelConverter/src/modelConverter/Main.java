@@ -1,6 +1,7 @@
 package modelConverter;
 
 import modelConverter.obj.OBJModel;
+import util.StreamUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -38,9 +38,10 @@ public class GuiStaticText extends GuiComponent {
 	@Override
 	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
 		if (dirty) {
-			if (textModel != null)
-				textModel.delete();
-			textModel = font.createString(text);
+			if (textModel == null)
+				textModel = font.createString(text);
+			else
+				font.updateString(textModel, text);
 			dirty = false;
 		}
 		GuiTextShader.INSTANCE.bind();

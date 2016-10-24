@@ -1,7 +1,6 @@
 package nullEngine.util;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.PointerBuffer;
 
 import java.nio.*;
 
@@ -44,12 +43,6 @@ public class Buffers {
 
 	public static DoubleBuffer createBuffer(double[] arr) {
 		DoubleBuffer buf = BufferUtils.createDoubleBuffer(arr.length);
-		buf.put(arr).flip();
-		return buf;
-	}
-
-	public static PointerBuffer createPointerBuffer(long[] arr) {
-		PointerBuffer buf = BufferUtils.createPointerBuffer(arr.length);
 		buf.put(arr).flip();
 		return buf;
 	}
