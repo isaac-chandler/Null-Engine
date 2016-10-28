@@ -43,7 +43,7 @@ public class GameObject extends EventHandler {
 			child.render(renderer, flags);
 	}
 
-	public void update(float delta) {
+	public void update(double delta) {
 		for (GameComponent component : components) {
 			if (component.enabled)
 				component.update(delta, this);

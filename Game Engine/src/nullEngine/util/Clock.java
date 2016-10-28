@@ -4,26 +4,26 @@ package nullEngine.util;
 import org.lwjgl.glfw.GLFW;
 
 public class Clock {
-	private static final int timeRes = 10000;
+	private static final int timeRes = 100000;
 
-	private float lastTime = 0;
-	private float delta = 0;
-	private float totalDelta = 0;
-	private float timeTowardsSecond = 0;
+	private double lastTime = 0;
+	private double delta = 0;
+	private double totalDelta = 0;
+	private double timeTowardsSecond = 0;
 
 	public long getTime() {
 		return (long) (GLFW.glfwGetTime() * timeRes);
 	}
 
-	public float getTimeSeconds() {
-		return (float) GLFW.glfwGetTime();
+	public double getTimeSeconds() {
+		return GLFW.glfwGetTime();
 	}
 
 	public boolean update() {
 		if (lastTime == 0)
 			lastTime = getTime();
 		if (getTime() - lastTime > 0) {
-			delta = (getTime() - lastTime) / (float) timeRes;
+			delta = (getTime() - lastTime) / (double) timeRes;
 			lastTime = getTime();
 			totalDelta += delta;
 			timeTowardsSecond += delta;
@@ -36,7 +36,7 @@ public class Clock {
 		totalDelta = 0;
 	}
 
-	public float getDelta() {
+	public double getDelta() {
 		return delta;
 	}
 

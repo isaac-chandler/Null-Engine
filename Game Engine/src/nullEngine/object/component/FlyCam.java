@@ -76,7 +76,7 @@ public class FlyCam extends Camera {
 	private static final Vector4f NO_Y = new Vector4f(1, 0, 1, 0);
 
 	@Override
-	public void update(float delta, GameObject object) {
+	public void update(double delta, GameObject object) {
 		if (canMove) {
 			Vector4f motion = new Vector4f();
 			Quaternion rotation = getParent().getTransform().getRot();
@@ -84,24 +84,24 @@ public class FlyCam extends Camera {
 			float speed = Input.keyPressed(Input.KEY_TAB) ? RUN_SPEED : WALK_SPEED;
 
 			if (Input.keyPressed(Input.KEY_W)) {
-				Vector4f.add(motion, rotation.getForward(null).mul(NO_Y).normalize().mul(-speed * delta), motion);
+				Vector4f.add(motion, rotation.getForward(null).mul(NO_Y).normalize().mul(-speed * (float) delta), motion);
 			}
 			if (Input.keyPressed(Input.KEY_S)) {
-				Vector4f.add(motion, rotation.getForward(null).mul(NO_Y).normalize().mul(speed * delta), motion);
+				Vector4f.add(motion, rotation.getForward(null).mul(NO_Y).normalize().mul(speed * (float) delta), motion);
 			}
 
 			if (Input.keyPressed(Input.KEY_D)) {
-				Vector4f.add(motion, rotation.getRight(null).mul(NO_Y).normalize().mul(speed * delta), motion);
+				Vector4f.add(motion, rotation.getRight(null).mul(NO_Y).normalize().mul(speed * (float) delta), motion);
 			}
 			if (Input.keyPressed(Input.KEY_A)) {
-				Vector4f.add(motion, rotation.getRight(null).mul(NO_Y).normalize().mul(-speed * delta), motion);
+				Vector4f.add(motion, rotation.getRight(null).mul(NO_Y).normalize().mul(-speed * (float) delta), motion);
 			}
 
 			if (Input.keyPressed(Input.KEY_SPACE)) {
-				Vector4f.add(motion, rotation.getUp(null).mul(Y_ONLY).normalize().mul(speed * delta), motion);
+				Vector4f.add(motion, rotation.getUp(null).mul(Y_ONLY).normalize().mul(speed * (float) delta), motion);
 			}
 			if (Input.keyPressed(Input.KEY_LEFT_SHIFT)) {
-				Vector4f.add(motion, rotation.getUp(null).mul(Y_ONLY).normalize().mul(-speed * delta), motion);
+				Vector4f.add(motion, rotation.getUp(null).mul(Y_ONLY).normalize().mul(-speed * (float) delta), motion);
 			}
 
 			if (Input.keyPressed(Input.KEY_LEFT_CONTROL))

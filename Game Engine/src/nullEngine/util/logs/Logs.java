@@ -88,7 +88,7 @@ public class Logs {
 	private static String formatMessage(String level, Object message) {
 		String stackString = "";
 		if (containsClass) {
-			StackTraceElement[] stack = new Exception().getStackTrace();
+			StackTraceElement[] stack = new Throwable().getStackTrace();
 			for (int i = 0; i < stack.length; i++) {
 				if (!stack[i].toString().contains("nullengine.util.logs"))
 					stackString = stack[i].toString();
@@ -193,7 +193,7 @@ public class Logs {
 	 * @param message The message that will be printed
 	 * @param e       The exception that will be printed
 	 */
-	public static void exception(Object message, Exception e) {
+	public static void exception(Object message, Throwable e) {
 		err(formatMessage("EXCEPTION", message));
 		exception(e);
 	}
@@ -204,7 +204,7 @@ public class Logs {
 	 * @param message The message that will be printed
 	 * @param e       The exception that will be printed
 	 */
-	public static void e(Object message, Exception e) {
+	public static void e(Object message, Throwable e) {
 		err(formatMessage("EXCEPTION", message));
 		exception(e);
 	}
@@ -214,7 +214,7 @@ public class Logs {
 	 *
 	 * @param e The exception that will be printed
 	 */
-	public static void exception(Exception e) {
+	public static void exception(Throwable e) {
 		e.printStackTrace(oldSystemErr);
 		if (initialized) e.printStackTrace(out);
 	}
@@ -224,7 +224,7 @@ public class Logs {
 	 *
 	 * @param e The exception that will be printed
 	 */
-	public static void e(Exception e) {
+	public static void e(Throwable e) {
 		e.printStackTrace(oldSystemErr);
 		if (initialized) e.printStackTrace(out);
 	}
@@ -257,7 +257,7 @@ public class Logs {
 	 * @param message The message that will be printed
 	 * @param e       The exception that will be printed
 	 */
-	public static void fatal(Object message, Exception e) {
+	public static void fatal(Object message, Throwable e) {
 		err(formatMessage("FATAL", message));
 		fatal(e);
 	}
@@ -268,7 +268,7 @@ public class Logs {
 	 * @param message The message that will be printed
 	 * @param e       The exception that will be printed
 	 */
-	public static void f(Object message, Exception e) {
+	public static void f(Object message, Throwable e) {
 		err(formatMessage("FATAL", message));
 		fatal(e);
 	}
@@ -419,7 +419,7 @@ public class Logs {
 	}
 
 	public static void getStackTrace() {
-		new Exception().printStackTrace();
+		new Throwable().printStackTrace();
 	}
 
 	public static PrintStream getSystemOut() {

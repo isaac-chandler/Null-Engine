@@ -23,7 +23,7 @@ public class DirectionalLight extends GameComponent {
 	}
 
 	@Override
-	public void update(float delta, GameObject object) {
+	public void update(double delta, GameObject object) {
 
 	}
 

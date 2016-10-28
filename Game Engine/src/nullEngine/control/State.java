@@ -22,7 +22,7 @@ public class State extends EventHandler {
 		}
 	}
 
-	public void update(float delta) {
+	public void update(double delta) {
 		for (int i = layers.size() - 1; i >= 0; i--) {
 			layers.get(i).update(delta);
 		}

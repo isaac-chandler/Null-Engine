@@ -33,14 +33,16 @@ public class Application {
 
 	private Window window;
 	private MasterRenderer renderer;
-	private float lastFrameTime;
 
 	private Loader loader;
 
 	private Thread updateThread;
+	private Thread renderThread;
 
 	private Clock renderClock = new Clock();
 	private Clock updateClock;
+	private double lastFrameTime;
+	private double lastUpdateTime;
 
 	private ReadWriteLock runningLock = new ReentrantReadWriteLock();
 	private volatile boolean running = false;
@@ -109,35 +111,33 @@ public class Application {
 						break;
 					}
 					runningLock.readLock().unlock();
+
 					if (updateClock.update()) {
-						try {
-							if (window.getDistributor() instanceof ThreadedEventDistributor)
-								((ThreadedEventDistributor) window.getDistributor()).passEvents();
-							update(updateClock.getDelta());
-						} catch (Throwable e) {
-							exception = e;
-							runningLock.writeLock().lock();
-							running = false;
-							runningLock.writeLock().unlock();
-						}
+						double start = updateClock.getTimeSeconds();
+						if (window.getDistributor() instanceof ThreadedEventDistributor)
+							((ThreadedEventDistributor) window.getDistributor()).passEvents();
+						update(updateClock.getDelta());
+						lastUpdateTime = updateClock.getTimeSeconds() - start;
 					}
 				}
 			} catch (Throwable e) {
 				exception = e;
+			} finally {
+				runningLock.writeLock().lock();
+				running = false;
+				runningLock.writeLock().unlock();
 			}
-			runningLock.writeLock().lock();
-			running = false;
-			runningLock.writeLock().unlock();
 		}
 	};
 
 	//FIXME add thread safety to GameObject and GameComponent
 	public Throwable start() {
-		runningLock.writeLock().lock();
-		running = true;
-		runningLock.writeLock().unlock();
 		try {
+			runningLock.writeLock().lock();
+			running = true;
+			runningLock.writeLock().unlock();
 			Thread.currentThread().setName("RENDER");
+			renderThread = Thread.currentThread();
 			updateThread = new Thread(updateThreadRunnable, "UPDATE");
 			updateThread.start();
 			while (true) {
@@ -147,34 +147,26 @@ public class Application {
 					break;
 				}
 				runningLock.readLock().unlock();
-				if (renderClock.update()) {
-					try {
-						GLFW.glfwPollEvents();
-						if (GLFW.glfwWindowShouldClose(window.getWindow()) == GLFW.GLFW_TRUE || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
-							stop();
-							continue;
-						}
 
-						render();
-					} catch (Throwable e) {
-						exception = e;
-						runningLock.writeLock().lock();
-						running = false;
-						runningLock.writeLock().unlock();
-					}
+				GLFW.glfwPollEvents();
+				if (GLFW.glfwWindowShouldClose(window.getWindow()) == GLFW.GLFW_TRUE || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
+					stop();
 				}
+
+				render();
 			}
 		} catch (Throwable e) {
 			exception = e;
+		} finally {
+			runningLock.writeLock().lock();
+			running = false;
+			runningLock.writeLock().unlock();
 		}
-		runningLock.writeLock().lock();
-		running = false;
-		runningLock.writeLock().unlock();
 		return exception;
 	}
 
 	public void render() {
-		float start = renderClock.getTimeSeconds();
+		double start = renderClock.getTimeSeconds();
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		currentState.render(renderer);
 		GLFW.glfwSwapBuffers(window.getWindow());
@@ -184,7 +176,7 @@ public class Application {
 		}
 	}
 
-	public void update(float delta) {
+	public void update(double delta) {
 		currentState.update(delta);
 	}
 
@@ -286,8 +278,12 @@ public class Application {
 		return window.getWidth();
 	}
 
-	public float getLastFrameTime() {
+	public double getLastFrameTime() {
 		return lastFrameTime;
+	}
+
+	public double getLastUpdateTime() {
+		return lastUpdateTime;
 	}
 
 	public float getScreenCoordX(float x) {

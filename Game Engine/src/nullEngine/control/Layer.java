@@ -38,21 +38,21 @@ public abstract class Layer implements EventListener {
 				useRenderer.setViewMatrix(Matrix4f.IDENTITY);
 
 			useRenderer.setProjectionMatrix(projectionMatrix);
-			matrixLock.lock();
+			synchronized (root) {
 				root.preRender();
-			matrixLock.unlock();
+			}
 			useRenderer.preRender(flags);
 			root.render(useRenderer, flags);
 			useRenderer.postRender(flags);
 		}
 	}
 
-	public void update(float delta) {
+	public void update(double delta) {
 		if (enabled) {
 			root.update(delta);
-			matrixLock.lock();
+			synchronized (root) {
 				root.postUpdate();
-			matrixLock.unlock();
+			}
 		}
 	}
 

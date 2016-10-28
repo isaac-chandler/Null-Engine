@@ -44,7 +44,7 @@ public class Main {
 			NullEngine.init();
 			Logs.setDebug(true);
 			final Application application = new Application(1280, 720, false, "Sandbox");
-			application.getWindow().setVsync(true);
+//			application.getWindow().setVsync(true);
 			application.bind();
 
 			State state = new State();
@@ -81,20 +81,21 @@ public class Main {
 
 			Font font = loader.loadFont("default/testsdf", 14);
 
-			GuiStaticText text = new GuiStaticText(-1, -0.9f, 0.1f, "0FPS", font) {
-				private float totalDelta = 1;
+			GuiStaticText text = new GuiStaticText(-1, -0.85f, 0.1f, "FPS: 0\nUPS:0\n0/0MB", font) {
+				private double totalDelta = 1;
 
 				@Override
-				public void update(float delta, GameObject object) {
+				public void update(double delta, GameObject object) {
 					totalDelta += delta;
-					if (totalDelta >= 0.5f) {
+					if (totalDelta > 0.25) {
 						float maxMemory = Runtime.getRuntime().maxMemory() / 1048576f;
 						float totalMemory = Runtime.getRuntime().totalMemory() / 1048576f;
 						float freeMemory = Runtime.getRuntime().freeMemory() / 1048576f;
-						setText(String.format("%.1f ms\n%.1f/%.1fMB",
-								application.getLastFrameTime() * 1000,
+						setText(String.format("FPS: %d\nUPS: %d\n%.1f/%.1fMB",
+								Math.round(1d / application.getLastFrameTime()),
+								Math.round(1d / application.getLastUpdateTime()),
 								totalMemory - freeMemory, maxMemory));
-						totalDelta -= 1;
+						totalDelta -= 0.25;
 					}
 				}
 			};
@@ -194,7 +195,7 @@ public class Main {
 				private boolean render = true;
 
 				@Override
-				public void update(float delta, GameObject object) {
+				public void update(double delta, GameObject object) {
 //					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
 					if (application.getCursorEnabled() && hasHadFrame) {
 						MousePickInfo info = new MousePickInfo();

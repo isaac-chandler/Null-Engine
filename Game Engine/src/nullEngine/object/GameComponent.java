@@ -19,7 +19,7 @@ public abstract class GameComponent implements EventListener {
 
 	public abstract void render(Renderer renderer, GameObject object, BitFieldInt flags);
 
-	public abstract void update(float delta, GameObject object);
+	public abstract void update(double delta, GameObject object);
 
 	@Override
 	public boolean keyRepeated(KeyEvent event) {
