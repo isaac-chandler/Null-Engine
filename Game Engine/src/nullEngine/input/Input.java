@@ -146,11 +146,11 @@ public class Input {
 	}
 
 	public static boolean keyPressed(int key) {
-		return key < inputData.getKeys().length && inputData.getKeys()[key];
+		return inputData.getKey(key);
 	}
 
 	public static boolean mousePressed(int button) {
-		return button < inputData.getButtons().length && inputData.getButtons()[button];
+		return inputData.getButton(button);
 	}
 
 	public static int getKeyNumber(int key) {

@@ -1,5 +1,6 @@
 package nullEngine.object;
 
+import math.Matrix4f;
 import nullEngine.control.Layer;
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.input.EventHandler;
@@ -11,6 +12,8 @@ public class GameObject extends EventHandler {
 	private ArrayList<GameObject> children = new ArrayList<GameObject>();
 	private ArrayList<GameComponent> components = new ArrayList<GameComponent>();
 	private Transform transform = new Transform();
+	private Matrix4f postUpdateMatrix = new Matrix4f();
+	private Matrix4f preRenderMatrix = new Matrix4f();
 
 	private GameObject parent;
 
@@ -49,6 +52,18 @@ public class GameObject extends EventHandler {
 			child.update(delta);
 	}
 
+	protected void postUpdate() {
+		for (GameObject child : children)
+			child.postUpdate();
+		postUpdateMatrix.set(transform.getMatrix());
+	}
+
+	protected void preRender() {
+		for (GameObject child : children)
+			child.preRender();
+		preRenderMatrix.set(postUpdateMatrix);
+	}
+
 	public Transform getTransform() {
 		return transform;
 	}
@@ -67,5 +82,9 @@ public class GameObject extends EventHandler {
 
 	public GameObject getParent() {
 		return parent;
+	}
+
+	public Matrix4f getRenderMatrix() {
+		return preRenderMatrix;
 	}
 }

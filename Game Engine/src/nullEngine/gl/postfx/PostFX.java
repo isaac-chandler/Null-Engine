@@ -5,7 +5,7 @@ import nullEngine.control.Application;
 import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.shader.postfx.PostFXShader;
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
@@ -63,7 +63,7 @@ public abstract class PostFX implements PostFXOutput {
 	}
 
 	@Override
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 		for (PostFXOutput input : inputs)
 			input.postResize(event);
 		buffer = new Framebuffer2D(event.width / hScaleDown, event.height / vScaleDown);

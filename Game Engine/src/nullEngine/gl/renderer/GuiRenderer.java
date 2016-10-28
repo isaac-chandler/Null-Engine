@@ -6,7 +6,7 @@ import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.shader.BasicShader;
 import nullEngine.gl.shader.GuiBasicShader;
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
 import nullEngine.object.GameComponent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -56,7 +56,7 @@ public class GuiRenderer extends Renderer {
 	}
 
 	@Override
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 		framebuffer = new Framebuffer2D(event.width, event.height);
 	}
 

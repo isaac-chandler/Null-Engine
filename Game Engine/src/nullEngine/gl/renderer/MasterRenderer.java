@@ -1,6 +1,6 @@
 package nullEngine.gl.renderer;
 
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL11;
@@ -39,7 +39,7 @@ public class MasterRenderer extends Renderer {
 	}
 
 	@Override
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 
 	}
 

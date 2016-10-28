@@ -14,4 +14,14 @@ public class RootObject extends GameObject {
 	public Layer getLayer() {
 		return layer;
 	}
+
+	@Override
+	public void postUpdate() {
+		super.postUpdate();
+	}
+
+	@Override
+	public void preRender() {
+		super.preRender();
+	}
 }

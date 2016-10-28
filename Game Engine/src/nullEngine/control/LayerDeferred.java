@@ -3,7 +3,7 @@ package nullEngine.control;
 import math.Vector4f;
 import nullEngine.gl.renderer.DeferredRenderer;
 import nullEngine.gl.renderer.Renderer;
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
 import nullEngine.object.component.Camera;
 
 public class LayerDeferred extends Layer {
@@ -34,7 +34,7 @@ public class LayerDeferred extends Layer {
 	}
 
 	@Override
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 		super.postResize(event);
 		projectionMatrix.setPerspective(fov, (float) event.width / (float) event.height, near, far);
 	}

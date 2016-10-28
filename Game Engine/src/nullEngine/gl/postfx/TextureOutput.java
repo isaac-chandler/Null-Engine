@@ -1,7 +1,7 @@
 package nullEngine.gl.postfx;
 
 import math.Matrix4f;
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
 
 public class TextureOutput implements PostFXOutput {
 	private int textureID;
@@ -29,5 +29,5 @@ public class TextureOutput implements PostFXOutput {
 	public void preResize() {}
 
 	@Override
-	public void postResize(ResizeEvent event) {}
+	public void postResize(PostResizeEvent event) {}
 }

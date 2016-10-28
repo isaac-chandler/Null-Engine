@@ -2,7 +2,7 @@ package nullEngine.gl.renderer;
 
 import math.Matrix4f;
 import nullEngine.gl.shader.Shader;
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
 import nullEngine.object.GameComponent;
 import util.BitFieldInt;
 
@@ -70,7 +70,7 @@ public abstract class Renderer {
 			Shader.bound().loadMVP(mvp);
 	}
 
-	public abstract void postResize(ResizeEvent event);
+	public abstract void postResize(PostResizeEvent event);
 
 	public abstract void preResize();
 

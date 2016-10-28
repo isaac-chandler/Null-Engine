@@ -62,7 +62,7 @@ public abstract class GameComponent implements EventListener {
 	}
 
 	@Override
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 
 	}
 

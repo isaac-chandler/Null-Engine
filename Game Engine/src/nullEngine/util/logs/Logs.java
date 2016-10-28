@@ -25,6 +25,7 @@ public class Logs {
 	private static String log;
 	private static PrintStream out;
 	private static String logFormat;
+	private static boolean containsClass = true;
 	private static long startTime;
 	private static boolean initialized = false;
 	private static boolean debug = false;
@@ -42,7 +43,7 @@ public class Logs {
 		setLogFileFormat("yyyy-MM-dd-HH-mm-ss");
 		setLogFolder("logs");
 		setRecentFile("logs-recent.txt");
-		setLogFormat("[%t][%l][%s] %m\r\n");
+		setLogFormat("[%t][%l][%T] %m\r\n");
 		setWarnIfUseSystemOut(false);
 	}
 
@@ -85,12 +86,19 @@ public class Logs {
 	}
 
 	private static String formatMessage(String level, Object message) {
-		StackTraceElement[] stack = new Exception().getStackTrace();
-		String stackString = stack[2].toString();
+		String stackString = "";
+		if (containsClass) {
+			StackTraceElement[] stack = new Exception().getStackTrace();
+			for (int i = 0; i < stack.length; i++) {
+				if (!stack[i].toString().contains("nullengine.util.logs"))
+					stackString = stack[i].toString();
+			}
+		}
 		return logFormat.replace("%l", level).
 				replace("%t", logTimeFormat.format(new Date(System.currentTimeMillis() - startTime))).
 				replace("%m", String.valueOf(message)).
-				replace("%s", stackString);
+				replace("%s", stackString).
+				replace("%T", Thread.currentThread().getName());
 	}
 
 	/**
@@ -301,6 +309,7 @@ public class Logs {
 	 */
 	public static void setLogFormat(String logFormat) {
 		Logs.logFormat = logFormat;
+		containsClass = logFormat.contains("%s");
 	}
 
 	/**

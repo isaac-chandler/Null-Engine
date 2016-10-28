@@ -1,7 +1,7 @@
 package nullEngine.input;
 
 public class EventDistributor implements EventListener {
-	private EventListener listener;
+	protected EventListener listener;
 
 	public EventListener getListener() {
 		return listener;
@@ -52,7 +52,7 @@ public class EventDistributor implements EventListener {
 	}
 
 	@Override
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 		listener.postResize(event);
 	}
 

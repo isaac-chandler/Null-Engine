@@ -22,7 +22,7 @@ import nullEngine.gl.shader.deferred.lighting.DeferredPointLightShader;
 import nullEngine.gl.shader.deferred.lighting.DeferredSpotLightShader;
 import nullEngine.gl.shader.mousePick.MousePickShader;
 import nullEngine.input.MousePickInfo;
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
 import nullEngine.object.GameComponent;
 import nullEngine.object.component.light.DirectionalLight;
 import nullEngine.object.component.ModelComponent;
@@ -137,7 +137,7 @@ public class DeferredRenderer extends Renderer {
 				shader.loadMaterial(components.getKey());
 
 				for (ModelComponent model : components.getValue()) {
-					setModelMatrix(model.getParent().getTransform().getMatrix());
+					setModelMatrix(model.getParent().getRenderMatrix());
 					Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
 					float radius = modelMatrix.transform(new Vector4f(model.getModel().getRadius(), 0, 0, 0)).length();
 					pos.z += radius;
@@ -233,7 +233,7 @@ public class DeferredRenderer extends Renderer {
 				for (ModelComponent model : components.getValue()) {
 					orderedMousePickModels.add(model);
 					((MousePickShader) shader).loadIdToColor(orderedMousePickModels.size());
-					setModelMatrix(model.getParent().getTransform().getMatrix());
+					setModelMatrix(model.getParent().getRenderMatrix());
 					Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
 					float radius = modelMatrix.transform(new Vector4f(model.getModel().getRadius(), 0, 0, 0)).length();
 					pos.z += radius;
@@ -310,7 +310,7 @@ public class DeferredRenderer extends Renderer {
 	}
 
 	@Override
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 		dataBuffer = new FramebufferDeferred(event.width, event.height);
 		lightBuffer = new Framebuffer2D(event.width, event.height);
 		mousePickBuffer = new FramebufferMousePick(event.width / 4, event.height / 4);

@@ -428,4 +428,23 @@ public class Matrix4f implements Serializable {
 		return String.format("%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n",
 				m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
 	}
+
+	public void set(Matrix4f matrix) {
+		this.m00 = matrix.m00;
+		this.m01 = matrix.m01;
+		this.m02 = matrix.m02;
+		this.m03 = matrix.m03;
+		this.m10 = matrix.m10;
+		this.m11 = matrix.m11;
+		this.m12 = matrix.m12;
+		this.m13 = matrix.m13;
+		this.m20 = matrix.m20;
+		this.m21 = matrix.m21;
+		this.m22 = matrix.m22;
+		this.m23 = matrix.m23;
+		this.m30 = matrix.m30;
+		this.m31 = matrix.m31;
+		this.m32 = matrix.m32;
+		this.m33 = matrix.m33;
+	}
 }

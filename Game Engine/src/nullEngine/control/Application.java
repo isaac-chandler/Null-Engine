@@ -7,7 +7,8 @@ import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.renderer.MasterRenderer;
 import nullEngine.gl.renderer.Renderer;
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
+import nullEngine.input.ThreadedEventDistributor;
 import nullEngine.loading.Loader;
 import nullEngine.managing.ResourceManager;
 import nullEngine.util.Clock;
@@ -25,6 +26,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Application {
 
@@ -34,9 +37,13 @@ public class Application {
 
 	private Loader loader;
 
-	private Clock clock = new Clock();
+	private Thread updateThread;
 
-	private boolean running = false;
+	private Clock renderClock = new Clock();
+	private Clock updateClock;
+
+	private ReadWriteLock runningLock = new ReentrantReadWriteLock();
+	private volatile boolean running = false;
 	private Throwable exception = null;
 
 	private HashMap<Integer, State> states = new HashMap<Integer, State>();
@@ -90,44 +97,88 @@ public class Application {
 		return window.getHeight();
 	}
 
+	private final Runnable updateThreadRunnable = new Runnable() {
+		@Override
+		public void run() {
+			try {
+				updateClock = new Clock();
+				while (true) {
+					runningLock.readLock().lock();
+					if (!running) {
+						runningLock.readLock().unlock();
+						break;
+					}
+					runningLock.readLock().unlock();
+					if (updateClock.update()) {
+						try {
+							if (window.getDistributor() instanceof ThreadedEventDistributor)
+								((ThreadedEventDistributor) window.getDistributor()).passEvents();
+							update(updateClock.getDelta());
+						} catch (Throwable e) {
+							exception = e;
+							runningLock.writeLock().lock();
+							running = false;
+							runningLock.writeLock().unlock();
+						}
+					}
+				}
+			} catch (Throwable e) {
+				exception = e;
+			}
+			runningLock.writeLock().lock();
+			running = false;
+			runningLock.writeLock().unlock();
+		}
+	};
+
+	//FIXME add thread safety to GameObject and GameComponent
 	public Throwable start() {
+		runningLock.writeLock().lock();
 		running = true;
+		runningLock.writeLock().unlock();
 		try {
-			while (running) {
-				if (clock.update()) {
+			Thread.currentThread().setName("RENDER");
+			updateThread = new Thread(updateThreadRunnable, "UPDATE");
+			updateThread.start();
+			while (true) {
+				runningLock.readLock().lock();
+				if (!running) {
+					runningLock.readLock().unlock();
+					break;
+				}
+				runningLock.readLock().unlock();
+				if (renderClock.update()) {
 					try {
 						GLFW.glfwPollEvents();
 						if (GLFW.glfwWindowShouldClose(window.getWindow()) == GLFW.GLFW_TRUE || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
-							break;
+							stop();
+							continue;
 						}
-
-						if (GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_F11) == GLFW.GLFW_PRESS) {
-							setFullscreen(!isFullscreen(), Window.getBestFullscreenVideoMode(Window.getFullscreenVideoModes(window.getMonitor())));
-							GLFW.glfwShowWindow(window.getWindow());
-						}
-
-						update(clock.getDelta());
 
 						render();
 					} catch (Throwable e) {
 						exception = e;
+						runningLock.writeLock().lock();
 						running = false;
+						runningLock.writeLock().unlock();
 					}
 				}
 			}
 		} catch (Throwable e) {
 			exception = e;
 		}
+		runningLock.writeLock().lock();
 		running = false;
+		runningLock.writeLock().unlock();
 		return exception;
 	}
 
 	public void render() {
-		float start = clock.getTimeSeconds();
+		float start = renderClock.getTimeSeconds();
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		currentState.render(renderer);
 		GLFW.glfwSwapBuffers(window.getWindow());
-		lastFrameTime = clock.getTimeSeconds() - start;
+		lastFrameTime = renderClock.getTimeSeconds() - start;
 		if (screenshot) {
 			screenshotImpl();
 		}
@@ -139,7 +190,9 @@ public class Application {
 
 	public void stop(Throwable e) {
 		exception = e;
+		runningLock.writeLock().lock();
 		running = false;
+		runningLock.writeLock().unlock();
 	}
 
 	public void stop() {
@@ -284,7 +337,7 @@ public class Application {
 
 	}
 
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 
 	}
 

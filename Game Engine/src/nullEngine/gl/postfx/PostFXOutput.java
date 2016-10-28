@@ -1,7 +1,7 @@
 package nullEngine.gl.postfx;
 
 import math.Matrix4f;
-import nullEngine.input.ResizeEvent;
+import nullEngine.input.PostResizeEvent;
 
 public interface PostFXOutput {
 
@@ -13,5 +13,5 @@ public interface PostFXOutput {
 
 	void preResize();
 
-	void postResize(ResizeEvent event);
+	void postResize(PostResizeEvent event);
 }

@@ -52,7 +52,7 @@ public class Window {
 
 	private static Window current;
 	private String title;
-	private EventDistributor distributor = new EventDistributor();
+	private EventDistributor distributor = new ThreadedEventDistributor();
 
 	private static Window get() {
 		return current;
@@ -180,9 +180,8 @@ public class Window {
 			@Override
 			public void invoke(long window, double xpos, double ypos) {
 				try {
-					MouseEvent event = new MouseEvent();
+					MouseEvent event = new MouseEvent(Event.EventType.MOUSE_MOVED);
 					event.button = -1;
-					event.buttons = inputData.getButtons();
 					event.x = inputData.cursorX((int) xpos);
 					event.y = inputData.cursorY((int) ypos);
 					event.mods = inputData.mods();
@@ -221,16 +220,22 @@ public class Window {
 			public void invoke(long window, int key, int scancode, int action, int mods) {
 				try {
 					inputData.mods(mods);
-					KeyEvent event = new KeyEvent();
-					event.key = key;
-					event.mods = mods;
 					if (action == GLFW.GLFW_PRESS) {
+						KeyEvent event = new KeyEvent(Event.EventType.KEY_PRESSED);
+						event.key = key;
+						event.mods = mods;
 						inputData.keyPressed(key);
 						distributor.keyPressed(event);
 					} else if (action == GLFW.GLFW_REPEAT) {
+						KeyEvent event = new KeyEvent(Event.EventType.KEY_REPEATED);
+						event.key = key;
+						event.mods = mods;
 						inputData.keyRepeated(key);
 						distributor.keyRepeated(event);
 					} else {
+						KeyEvent event = new KeyEvent(Event.EventType.KEY_RELEASED);
+						event.key = key;
+						event.mods = mods;
 						inputData.keyReleased(key);
 						distributor.keyRepeated(event);
 					}
@@ -244,19 +249,22 @@ public class Window {
 			public void invoke(long window, int button, int action, int mods) {
 				try {
 					inputData.mods(mods);
-					MouseEvent event = new MouseEvent();
-					event.button = button;
-					event.mods = mods;
-					event.x = inputData.getCursorX();
-					event.y = inputData.getCursorY();
 
 					if (action == GLFW.GLFW_PRESS) {
+						MouseEvent event = new MouseEvent(Event.EventType.MOUSE_PRESSED);
+						event.button = button;
+						event.mods = mods;
+						event.x = inputData.getCursorX();
+						event.y = inputData.getCursorY();
 						inputData.mousePressed(button);
-						event.buttons = inputData.getButtons();
 						distributor.mousePressed(event);
 					} else {
+						MouseEvent event = new MouseEvent(Event.EventType.MOUSE_RELEASED);
+						event.button = button;
+						event.mods = mods;
+						event.x = inputData.getCursorX();
+						event.y = inputData.getCursorY();
 						inputData.mouseReleased(button);
-						event.buttons = inputData.getButtons();
 						distributor.mouseReleased(event);
 					}
 				} catch (Exception e) {
@@ -324,7 +332,7 @@ public class Window {
 							height = height_;
 						}
 						if (distributor.getListener() != null) {
-							ResizeEvent event = new ResizeEvent();
+							PostResizeEvent event = new PostResizeEvent();
 							event.width = width_;
 							event.height = height_;
 							distributor.preResize();
@@ -530,7 +538,7 @@ public class Window {
 		initCallbacks();
 		loader.postContextChange();
 		if (distributor.getListener() != null) {
-			ResizeEvent event = new ResizeEvent();
+			PostResizeEvent event = new PostResizeEvent();
 			event.width = width;
 			event.height = height;
 			distributor.postResize(event);

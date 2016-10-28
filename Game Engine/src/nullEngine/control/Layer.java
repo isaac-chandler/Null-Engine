@@ -6,8 +6,9 @@ import nullEngine.input.*;
 import nullEngine.object.GameObject;
 import nullEngine.object.RootObject;
 import nullEngine.object.component.Camera;
-import nullEngine.util.logs.Logs;
 import util.BitFieldInt;
+
+import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class Layer implements EventListener {
 
@@ -17,8 +18,9 @@ public abstract class Layer implements EventListener {
 	protected Matrix4f projectionMatrix = new Matrix4f();
 	protected Renderer renderer;
 
+	private ReentrantLock matrixLock = new ReentrantLock();
 	private Camera camera;
-	private GameObject root = new RootObject(this);
+	private final RootObject root = new RootObject(this);
 	public boolean enabled = true;
 	protected BitFieldInt flags = new BitFieldInt();
 
@@ -36,6 +38,9 @@ public abstract class Layer implements EventListener {
 				useRenderer.setViewMatrix(Matrix4f.IDENTITY);
 
 			useRenderer.setProjectionMatrix(projectionMatrix);
+			matrixLock.lock();
+				root.preRender();
+			matrixLock.unlock();
 			useRenderer.preRender(flags);
 			root.render(useRenderer, flags);
 			useRenderer.postRender(flags);
@@ -43,8 +48,12 @@ public abstract class Layer implements EventListener {
 	}
 
 	public void update(float delta) {
-		if (enabled)
+		if (enabled) {
 			root.update(delta);
+			matrixLock.lock();
+				root.postUpdate();
+			matrixLock.unlock();
+		}
 	}
 
 	public GameObject getRoot() {
@@ -116,7 +125,7 @@ public abstract class Layer implements EventListener {
 	}
 
 	@Override
-	public void postResize(ResizeEvent event) {
+	public void postResize(PostResizeEvent event) {
 		root.postResize(event);
 		renderer.postResize(event);
 	}
