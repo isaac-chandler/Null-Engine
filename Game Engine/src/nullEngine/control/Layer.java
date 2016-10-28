@@ -18,7 +18,7 @@ public abstract class Layer implements EventListener {
 	protected Matrix4f projectionMatrix = new Matrix4f();
 	protected Renderer renderer;
 
-	private ReentrantLock matrixLock = new ReentrantLock();
+	private static volatile ReentrantLock matrixLock = new ReentrantLock();
 	private Camera camera;
 	private final RootObject root = new RootObject(this);
 	public boolean enabled = true;
@@ -38,9 +38,11 @@ public abstract class Layer implements EventListener {
 				useRenderer.setViewMatrix(Matrix4f.IDENTITY);
 
 			useRenderer.setProjectionMatrix(projectionMatrix);
-			synchronized (root) {
+			matrixLock.lock();
+			{
 				root.preRender();
 			}
+			matrixLock.unlock();
 			useRenderer.preRender(flags);
 			root.render(useRenderer, flags);
 			useRenderer.postRender(flags);
@@ -50,9 +52,11 @@ public abstract class Layer implements EventListener {
 	public void update(double delta) {
 		if (enabled) {
 			root.update(delta);
-			synchronized (root) {
+			matrixLock.lock();
+			{
 				root.postUpdate();
 			}
+			matrixLock.unlock();
 		}
 	}
 

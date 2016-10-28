@@ -447,4 +447,8 @@ public class Matrix4f implements Serializable {
 		this.m32 = matrix.m32;
 		this.m33 = matrix.m33;
 	}
+
+	public Vector4f getPos(Vector4f dest) {
+		return transform(Vector4f.ZERO, dest);
+	}
 }

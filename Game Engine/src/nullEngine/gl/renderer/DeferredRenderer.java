@@ -138,7 +138,7 @@ public class DeferredRenderer extends Renderer {
 
 				for (ModelComponent model : components.getValue()) {
 					setModelMatrix(model.getParent().getRenderMatrix());
-					Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
+					Vector4f pos = modelMatrix.getPos(null);
 					float radius = modelMatrix.transform(new Vector4f(model.getModel().getRadius(), 0, 0, 0)).length();
 					pos.z += radius;
 					if (-pos.z <= far || components.getKey().isAlwaysRender()) {
@@ -234,7 +234,7 @@ public class DeferredRenderer extends Renderer {
 					orderedMousePickModels.add(model);
 					((MousePickShader) shader).loadIdToColor(orderedMousePickModels.size());
 					setModelMatrix(model.getParent().getRenderMatrix());
-					Vector4f pos = getViewMatrix().transform(model.getParent().getTransform().getWorldPos(), (Vector4f) null);
+					Vector4f pos = modelMatrix.getPos(null);
 					float radius = modelMatrix.transform(new Vector4f(model.getModel().getRadius(), 0, 0, 0)).length();
 					pos.z += radius;
 					if (-pos.z <= far || components.getKey().isAlwaysRender()) {

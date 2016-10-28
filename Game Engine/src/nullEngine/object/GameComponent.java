@@ -70,4 +70,12 @@ public abstract class GameComponent implements EventListener {
 	public void preResize() {
 
 	}
+
+	public void preRender() {
+
+	}
+
+	public void postUpdate() {
+
+	}
 }

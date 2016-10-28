@@ -17,9 +17,6 @@ public class FlyCam extends Camera {
 	private boolean canMove = true;
 	private boolean canRotate = true;
 
-	private final Matrix4f cacheMatrix = new Matrix4f();
-	private Matrix4f viewMatrix = new Matrix4f();
-
 	@Override
 	public void init(GameObject parent) {
 		super.init(parent);
@@ -31,17 +28,7 @@ public class FlyCam extends Camera {
 	public Matrix4f updateMatrix() {
 		getParent().getTransform().getWorldRot().toRotationMatrix(viewMatrix);
 		Matrix4f.mul(viewMatrix, Matrix4f.setTranslation(getParent().getTransform().getWorldPos().mul(-1, null), null), viewMatrix);
-		synchronized (cacheMatrix) {
-			cacheMatrix.set(viewMatrix);
-		}
 		return viewMatrix;
-	}
-
-	@Override
-	public Matrix4f getViewMatrix() {
-		synchronized (cacheMatrix) {
-			return cacheMatrix;
-		}
 	}
 
 	@Override

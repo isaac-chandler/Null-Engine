@@ -26,6 +26,7 @@ import nullEngine.input.Input;
 import nullEngine.input.KeyEvent;
 import nullEngine.input.MousePickInfo;
 import nullEngine.loading.Loader;
+import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
 import nullEngine.object.component.FlyCam;
 import nullEngine.object.component.ModelComponent;
@@ -43,6 +44,7 @@ public class Main {
 		try {
 			NullEngine.init();
 			Logs.setDebug(true);
+//			Logs.setLogFormat("[%T] %m\n");
 			final Application application = new Application(1280, 720, false, "Sandbox");
 //			application.getWindow().setVsync(true);
 			application.bind();
@@ -170,8 +172,14 @@ public class Main {
 
 			cameraObject.addComponent(camera);
 			application.setCursorEnabled(false);
-			cameraObject.addListener(new EventAdapter() {
+			cameraObject.addComponent(new GameComponent() {
 				boolean cameraEnabled = true;
+
+				@Override
+				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {}
+
+				@Override
+				public void update(double delta, GameObject object) {}
 
 				@Override
 				public boolean keyPressed(KeyEvent event) {
