@@ -1,13 +1,21 @@
 package math;
 
+import com.sun.istack.internal.Nullable;
+
 import java.io.Serializable;
 import java.nio.FloatBuffer;
-import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 4x4 Matrix
+ */
 public class Matrix4f implements Serializable {
+
+	/**
+	 * The identity matrix
+	 */
 	public static final Matrix4f IDENTITY = new Matrix4f();
+
 	private static final Matrix4f internal = new Matrix4f();
-	private static final ReentrantLock internalLock = new ReentrantLock();
 
 	public float
 			m00 = 1, m01 = 0, m02 = 0, m03 = 0,
@@ -15,6 +23,10 @@ public class Matrix4f implements Serializable {
 			m20 = 0, m21 = 0, m22 = 1, m23 = 0,
 			m30 = 0, m31 = 0, m32 = 0, m33 = 1;
 
+	/**
+	 * Create a copy of a matrix
+	 * @param mat The matrix to copy
+	 */
 	public Matrix4f(Matrix4f mat) {
 		this.m00 = mat.m00;
 		this.m01 = mat.m01;
@@ -37,9 +49,19 @@ public class Matrix4f implements Serializable {
 		this.m33 = mat.m33;
 	}
 
+	/**
+	 * Create a new matrix, defaults to the identity matrix
+	 */
 	public Matrix4f() {}
 
-	public static Matrix4f mul(Matrix4f left, Matrix4f right, Matrix4f dest) {
+	/**
+	 * Multiply two matrices
+	 * @param left The left matrix
+	 * @param right The right matrix
+	 * @param dest The destination matrix
+	 * @return The destination matrix or a new matrix if it is <code>null</code>
+	 */
+	public static Matrix4f mul(Matrix4f left, Matrix4f right, @Nullable Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();
 
@@ -86,15 +108,31 @@ public class Matrix4f implements Serializable {
 		return dest;
 	}
 
-	public Matrix4f mul(Matrix4f right, Matrix4f dest) {
+	/**
+	 * @see #mul(Matrix4f, Matrix4f, Matrix4f)
+	 * @param right
+	 * @param dest
+	 * @return
+	 */
+	public Matrix4f mul(Matrix4f right, @Nullable Matrix4f dest) {
 		return mul(this, right, dest);
 	}
 
+	/**
+	 * @see #mul(Matrix4f, Matrix4f, Matrix4f)
+	 * @param right
+	 * @return
+	 */
 	public Matrix4f mul(Matrix4f right) {
 		return mul(this, right, this);
 	}
 
-	public static Matrix4f setIdentity(Matrix4f dest) {
+	/**
+	 * Set a matrix to be the identity
+	 * @param dest The matrix to set
+	 * @return dest or if dest is <code>null</code> than a new matrix
+	 */
+	public static Matrix4f setIdentity(@Nullable Matrix4f dest) {
 		if (dest == null)
 			return new Matrix4f();
 
@@ -117,11 +155,21 @@ public class Matrix4f implements Serializable {
 		return dest;
 	}
 
+	/**
+	 * @see #setIdentity(Matrix4f)
+	 * @return
+	 */
 	public Matrix4f setIdentity() {
 		return setIdentity(this);
 	}
 
-	public static Matrix4f setTranslation(Vector4f pos, Matrix4f dest) {
+	/**
+	 * Set a matrix to be a translation matrix
+	 * @param pos The amount of translation
+	 * @param dest The matrix to set
+	 * @return The destination matrix set to be a translation matrix, if it was null it creates a new matrix
+	 */
+	public static Matrix4f setTranslation(Vector4f pos, @Nullable Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();
 
@@ -144,10 +192,21 @@ public class Matrix4f implements Serializable {
 		return dest;
 	}
 
+	/**
+	 * @see #setTranslation(Vector4f, Matrix4f)
+	 * @param pos
+	 * @return
+	 */
 	public Matrix4f setTranslation(Vector4f pos) {
 		return setTranslation(pos, this);
 	}
 
+	/**
+	 * Set a matrix to be a scale matrix
+	 * @param scale The amount of scaling
+	 * @param dest The matrix to set
+	 * @return The destination matrix set to be a scale matrix, if it was null it creates a new matrix
+	 */
 	public static Matrix4f setScale(Vector4f scale, Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();
@@ -171,10 +230,23 @@ public class Matrix4f implements Serializable {
 		return dest;
 	}
 
+	/**
+	 * @see #setScale(Vector4f, Matrix4f)
+	 * @param scale
+	 * @return
+	 */
 	public Matrix4f setScale(Vector4f scale) {
 		return setScale(scale, this);
 	}
 
+	/**
+	 * Sets a rotation matrix
+	 * @param right the right vector
+	 * @param up the up vector
+	 * @param forward the forward vector
+	 * @param dest the destination matrix
+	 * @return The destination matrix set to be a rotation matrix, if it was null it creates a new matrix
+	 */
 	public static Matrix4f setRotation(Vector4f right, Vector4f up, Vector4f forward, Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();
@@ -198,31 +270,58 @@ public class Matrix4f implements Serializable {
 		return dest;
 	}
 
+	/**
+	 * @see #setRotation(Vector4f, Vector4f, Vector4f, Matrix4f)
+	 * @param right
+	 * @param up
+	 * @param forward
+	 * @return
+	 */
 	public Matrix4f setRotation(Vector4f right, Vector4f up, Vector4f forward) {
 		return setRotation(right, up, forward, this);
 	}
 
+	/**
+	 * Sets a rotation matrix
+	 * @param rot The angles to rotate by
+	 * @param dest the destination matrix
+	 * @return The destination matrix set to be a rotation matrix, if it was null it creates a new matrix
+	 */
 	public synchronized static Matrix4f setRotation(Vector4f rot, Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();
 		else
 			dest.setIdentity();
 
-		internalLock.lock();
 		internal.rotX(rot.x);
 		dest.mul(internal);
 		internal.rotY(rot.y);
 		dest.mul(internal);
 		internal.rotZ(rot.z);
 		dest.mul(internal);
-		internalLock.unlock();
 		return dest;
 	}
 
+	/**
+	 * @see #setRotation(Vector4f, Matrix4f)
+	 * @param rot
+	 * @return
+	 */
 	public Matrix4f setRotation(Vector4f rot) {
 		return setRotation(rot, this);
 	}
 
+	/**
+	 * Create an orthographic projection matrix
+	 * @param left the left plane
+	 * @param right the right plane
+	 * @param bottom the bottom plane
+	 * @param top the top plane
+	 * @param near the near plane
+	 * @param far the far plane
+	 * @param dest The matrix to set
+	 * @return The destination matrix set to be an orthographic projection matrix, if it was null it creates a new matrix
+	 */
 	public static Matrix4f setOrthographic(float left, float right, float bottom, float top, float near, float far, Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();
@@ -250,10 +349,29 @@ public class Matrix4f implements Serializable {
 		return dest;
 	}
 
+	/**
+	 * @see #setOrthographic(float, float, float, float, float, float, Matrix4f)
+	 * @param left
+	 * @param right
+	 * @param bottom
+	 * @param top
+	 * @param near
+	 * @param far
+	 * @return
+	 */
 	public Matrix4f setOrthographic(float left, float right, float bottom, float top, float near, float far) {
 		return setOrthographic(left, right, bottom, top, near, far, this);
 	}
 
+	/**
+	 * Create an perspective projection matrix
+	 * @param fov the vertical field of view
+	 * @param aspect the aspect ration
+	 * @param near the near plane
+	 * @param far the far plane
+	 * @param dest The matrix to set
+	 * @return The destination matrix set to be an perspective projection matrix, if it was null it creates a new matrix
+	 */
 	public static Matrix4f setPerspective(float fov, float aspect, float near, float far, Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();
@@ -282,10 +400,27 @@ public class Matrix4f implements Serializable {
 		return dest;
 	}
 
+	/**
+	 * @see #setPerspective(float, float, float, float, Matrix4f)
+	 * @param fov
+	 * @param aspect
+	 * @param near
+	 * @param far
+	 * @return
+	 */
 	public Matrix4f setPerspective(float fov, float aspect, float near, float far) {
 		return setPerspective(fov, aspect, near, far, this);
 	}
 
+	/**
+	 * /**
+	 * Sets a transformation matrix
+	 * @param scale The amount to scale by
+	 * @param rot The quaternion to rotate by
+	 * @param dest the destination matrix
+	 * @param pos The amount to translate by
+	 * @return The destination matrix set to be a transformation matrix, if it was null it creates a new matrix
+	 */
 	public static synchronized Matrix4f setTransformation(Vector4f scale, Quaternion rot, Vector4f pos, Matrix4f dest) {
 		if (dest == null)
 			dest = new Matrix4f();
@@ -293,17 +428,29 @@ public class Matrix4f implements Serializable {
 			dest.setIdentity();
 
 		dest.setTranslation(pos);
-		internalLock.lock();
 		dest.mul(rot.toRotationMatrix(internal));
 		dest.mul(internal.setScale(scale));
-		internalLock.unlock();
 		return dest;
 	}
 
+	/**
+	 * @see #setTransformation(Vector4f, Quaternion, Vector4f, Matrix4f)
+	 * @param scale
+	 * @param rot
+	 * @param pos
+	 * @return
+	 */
 	public synchronized Matrix4f setTransformation(Vector4f scale, Quaternion rot, Vector4f pos) {
 		return setTransformation(scale, rot, pos, this);
 	}
 
+	/**
+	 * Transform a vector
+	 * @param src The vector to transform
+	 * @param operand The matrix to transform by
+	 * @param dest The destination vector
+	 * @return The destination vector or if it is null, a new vector
+	 */
 	public static Vector4f transform(Vector4f src, Matrix4f operand, Vector4f dest) {
 		if (dest == null)
 			dest = new Vector4f();
@@ -320,14 +467,31 @@ public class Matrix4f implements Serializable {
 		return dest;
 	}
 
+	/**
+	 * @see #transform(Vector4f, Matrix4f, Vector4f)
+	 * @param src
+	 * @param operand
+	 * @return
+	 */
 	public static Vector4f transform(Vector4f src, Matrix4f operand) {
 		return transform(src, operand, src);
 	}
 
+	/**
+	 * @see #transform(Vector4f, Matrix4f, Vector4f)
+	 * @param src
+	 * @param dest
+	 * @return
+	 */
 	public Vector4f transform(Vector4f src, Vector4f dest) {
 		return transform(src, this, dest);
 	}
 
+	/**
+	 * @see #transform(Vector4f, Matrix4f, Vector4f)
+	 * @param src
+	 * @return
+	 */
 	public Vector4f transform(Vector4f src) {
 		return transform(src, this, src);
 	}
@@ -398,6 +562,12 @@ public class Matrix4f implements Serializable {
 		m33 = 1;
 	}
 
+	/**
+	 * Rigth the matrix to a FloatBuffer
+	 * @param buf the buffer to write to
+	 * @return the buffer
+	 * @see java.nio.FloatBuffer
+	 */
 	public FloatBuffer toFloatBuffer(FloatBuffer buf) {
 		buf.put(m00);
 		buf.put(m10);
@@ -423,12 +593,20 @@ public class Matrix4f implements Serializable {
 		return buf;
 	}
 
+	/**
+	 * Convert the matrix to a string
+	 * @return The matrix in string form
+	 */
 	@Override
 	public String toString() {
 		return String.format("%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n%+04f %+04f %+04f %+04f%n",
 				m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
 	}
 
+	/**
+	 * Set the matix to be a copy of another matrix
+	 * @param matrix the matrix to copy
+	 */
 	public void set(Matrix4f matrix) {
 		this.m00 = matrix.m00;
 		this.m01 = matrix.m01;
@@ -448,6 +626,11 @@ public class Matrix4f implements Serializable {
 		this.m33 = matrix.m33;
 	}
 
+	/**
+	 * Get the amount of translation the matrix applies
+	 * @param dest The destination vector
+	 * @return The destination vector or a new vector if it was null
+	 */
 	public Vector4f getPos(Vector4f dest) {
 		return transform(Vector4f.ZERO, dest);
 	}

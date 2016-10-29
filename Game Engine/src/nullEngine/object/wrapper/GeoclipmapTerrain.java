@@ -13,6 +13,7 @@ import nullEngine.object.component.ModelComponent;
 import util.BitFieldInt;
 import util.Sizeof;
 
+//FIXME fix normals again
 public class GeoclipmapTerrain extends GameObject {
 
 	private Material[] materials;
