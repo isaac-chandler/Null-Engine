@@ -86,7 +86,7 @@ public class Main {
 
 			Font font = loader.loadFont("default/testsdf", 14);
 
-			GuiStaticText text = new GuiStaticText(-1, -0.85f, 0.1f, "FPS: 0\nUPS:0\n0/0MB", font) {
+			GuiStaticText text = new GuiStaticText(-1, -0.85f, 0.1f, "FPS: 0\nUPS:0\n0.0/0.0MB", font) {
 				private double totalDelta = 1;
 
 				@Override
