@@ -408,12 +408,16 @@ public class DeferredRenderer extends Renderer {
 
 	public void mousePick(int x, int y, MousePickInfo info, EventListener notify) {
 		if (freePbos == null) {
-			freePbos = new LinkedBlockingQueue<Integer>(MOUSE_PICK_PBO_COUNT);
-			for (int i = 0; i < MOUSE_PICK_PBO_COUNT; i++)
-				freePbos.add(i);
+			initPboQueue();
 		}
 
 		mousePickRequests.add(new MousePickRequest(x / MOUSE_PICK_BUFFER_DOWN_SCALE, y / MOUSE_PICK_BUFFER_DOWN_SCALE, info, this, notify));
+	}
+
+	private void initPboQueue() {
+		freePbos = new LinkedBlockingQueue<Integer>(MOUSE_PICK_PBO_COUNT);
+		for (int i = 0; i < MOUSE_PICK_PBO_COUNT; i++)
+			freePbos.add(i);
 	}
 
 	private void mousePickImpl() {
@@ -484,6 +488,7 @@ public class DeferredRenderer extends Renderer {
 
 	@Override
 	public void postResize(PostResizeEvent event) {
+		initPboQueue();
 		dataBuffer = new FramebufferDeferred(event.width, event.height);
 		lightBuffer = new Framebuffer2D(event.width, event.height);
 		mousePickBuffer = new FramebufferMousePick(event.width / MOUSE_PICK_BUFFER_DOWN_SCALE, event.height / MOUSE_PICK_BUFFER_DOWN_SCALE);
@@ -499,9 +504,6 @@ public class DeferredRenderer extends Renderer {
 	@Override
 	public void preResize() {
 		synchronized (mousePickRequests) {
-			for (MousePickRequest request : mousePickRequests) {
-				request.cancel();
-			}
 			mousePickRequests.clear();
 		}
 		dataBuffer.delete();
