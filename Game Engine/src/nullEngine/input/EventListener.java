@@ -17,6 +17,8 @@ public interface EventListener {
 
 	boolean charTyped(CharEvent event);
 
+	void notified(NotificationEvent event);
+
 	void postResize(PostResizeEvent event);
 
 	void preResize();

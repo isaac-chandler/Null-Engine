@@ -7,6 +7,7 @@ import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.renderer.MasterRenderer;
 import nullEngine.gl.renderer.Renderer;
+import nullEngine.input.Event;
 import nullEngine.input.PostResizeEvent;
 import nullEngine.input.ThreadedEventDistributor;
 import nullEngine.loading.Loader;
@@ -24,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -54,6 +56,10 @@ public class Application {
 
 	private static Application current;
 	private boolean screenshot;
+
+	private boolean changeScreenStateRequest = false;
+	private boolean changeScreenStateFullscreen;
+	private GLFWVidMode changeScreenStateVidMode;
 
 	public Framebuffer2D getRenderTarget() {
 		return renderTarget;
@@ -130,7 +136,6 @@ public class Application {
 		}
 	};
 
-	//FIXME add thread safety to GameObject and GameComponent
 	public Throwable start() {
 		try {
 			runningLock.writeLock().lock();
@@ -153,6 +158,9 @@ public class Application {
 					stop();
 				}
 
+				if (changeScreenStateRequest)
+					setFullscreenImpl();
+
 				render();
 			}
 		} catch (Throwable e) {
@@ -163,6 +171,11 @@ public class Application {
 			runningLock.writeLock().unlock();
 		}
 		return exception;
+	}
+
+	public void queueEvent(Event event) {
+		if (window.getDistributor() instanceof ThreadedEventDistributor)
+			((ThreadedEventDistributor) window.getDistributor()).queueEvent(event);
 	}
 
 	public void render() {
@@ -258,9 +271,17 @@ public class Application {
 	}
 
 	public void setFullscreen(boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode) {
-		window.setFullscreen(fullscreen, fullscreenVideoMode, loader);
-		renderer.viewport(0, 0, getWidth(), getHeight());
-		renderer.init();
+		changeScreenStateRequest = true;
+		changeScreenStateFullscreen = fullscreen;
+		changeScreenStateVidMode = fullscreenVideoMode;
+	}
+
+	private void setFullscreenImpl() {
+		changeScreenStateRequest = false;
+		if (window.setFullscreen(changeScreenStateFullscreen, changeScreenStateVidMode, loader)) {
+			renderer.viewport(0, 0, getWidth(), getHeight());
+			renderer.init();
+		}
 	}
 
 	public Window getWindow() {
@@ -324,7 +345,7 @@ public class Application {
 			ImageIO.write(img, "PNG", fos);
 			fos.close();
 			Logs.d("Took screenshot");
-		} catch (java.io.IOException e) {
+		} catch (IOException e) {
 			Logs.e(e);
 		}
 	}
@@ -343,5 +364,9 @@ public class Application {
 
 	public void setCursorEnabled(boolean enabled) {
 		window.setCursorEnabled(enabled);
+	}
+
+	public GLFWVidMode getBestFullscreenVideoMode() {
+		return Window.getBestFullscreenVideoMode(Window.getFullscreenVideoModes(window.getMonitor()));
 	}
 }

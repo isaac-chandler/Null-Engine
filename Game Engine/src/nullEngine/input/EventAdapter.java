@@ -42,6 +42,11 @@ public class EventAdapter implements EventListener {
 	}
 
 	@Override
+	public void notified(NotificationEvent event) {
+
+	}
+
+	@Override
 	public void postResize(PostResizeEvent event) {
 
 	}

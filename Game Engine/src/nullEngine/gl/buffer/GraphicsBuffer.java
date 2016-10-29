@@ -1,4 +1,4 @@
-package nullEngine.gl.model;
+package nullEngine.gl.buffer;
 
 import nullEngine.managing.ManagedResource;
 import org.lwjgl.opengl.GL15;
@@ -108,10 +108,11 @@ public class GraphicsBuffer extends ManagedResource {
 	}
 
 	@Override
-	public void delete() {
+	public boolean delete() {
 		if (id != 0)
 			GL15.glDeleteBuffers(id);
 		if (data != null)
 			MemoryUtil.memFree(data);
+		return false;
 	}
 }

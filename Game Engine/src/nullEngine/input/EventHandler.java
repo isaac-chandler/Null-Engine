@@ -72,6 +72,11 @@ public class EventHandler implements EventListener {
 	}
 
 	@Override
+	public void notified(NotificationEvent event) {
+
+	}
+
+	@Override
 	public void postResize(PostResizeEvent event) {
 		for (EventListener listener : listeners)
 			listener.postResize(event);

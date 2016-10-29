@@ -1,5 +1,6 @@
 package nullEngine.gl.model;
 
+import nullEngine.gl.buffer.VertexBuffer;
 import nullEngine.managing.ManagedResource;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -72,8 +73,8 @@ public class VertexAttribPointer extends ManagedResource {
 	}
 
 	@Override
-	public void delete() {
-
+	public boolean delete() {
+		return false;
 	}
 
 	public int requiredAttribs() {

@@ -1,4 +1,4 @@
-package nullEngine.gl.model;
+package nullEngine.gl.buffer;
 
 import nullEngine.util.Buffers;
 import org.lwjgl.BufferUtils;

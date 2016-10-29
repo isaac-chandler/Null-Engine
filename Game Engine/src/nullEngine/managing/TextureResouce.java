@@ -19,7 +19,8 @@ public class TextureResouce extends ManagedResource {
 	}
 
 	@Override
-	public void delete() {
+	public boolean delete() {
 		GL11.glDeleteTextures(textureID);
+		return true;
 	}
 }

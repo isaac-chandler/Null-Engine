@@ -6,6 +6,7 @@ import math.Vector4f;
 import nullEngine.control.Application;
 import nullEngine.control.Layer;
 import nullEngine.gl.Material;
+import nullEngine.gl.buffer.PixelBuffer;
 import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.framebuffer.FramebufferDeferred;
 import nullEngine.gl.framebuffer.FramebufferMousePick;
@@ -21,26 +22,32 @@ import nullEngine.gl.shader.deferred.lighting.DeferredDirectionalLightShader;
 import nullEngine.gl.shader.deferred.lighting.DeferredPointLightShader;
 import nullEngine.gl.shader.deferred.lighting.DeferredSpotLightShader;
 import nullEngine.gl.shader.mousePick.MousePickShader;
+import nullEngine.input.EventListener;
 import nullEngine.input.MousePickInfo;
+import nullEngine.input.NotificationEvent;
 import nullEngine.input.PostResizeEvent;
 import nullEngine.object.GameComponent;
-import nullEngine.object.component.light.DirectionalLight;
 import nullEngine.object.component.ModelComponent;
+import nullEngine.object.component.light.DirectionalLight;
 import nullEngine.object.component.light.PointLight;
 import nullEngine.object.component.light.SpotLight;
 import nullEngine.util.logs.Logs;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL32;
 import util.BitFieldInt;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class DeferredRenderer extends Renderer {
 
@@ -53,6 +60,8 @@ public class DeferredRenderer extends Renderer {
 	private ArrayList<DirectionalLight> directionalLights = new ArrayList<DirectionalLight>();
 	private ArrayList<PointLight> pointLights = new ArrayList<PointLight>();
 	private ArrayList<SpotLight> spotLights = new ArrayList<SpotLight>();
+
+	public static final int MOUSE_PICK_BUFFER_DOWN_SCALE = 4;
 
 	private FramebufferDeferred dataBuffer;
 	private Framebuffer2D lightBuffer;
@@ -77,7 +86,7 @@ public class DeferredRenderer extends Renderer {
 	public DeferredRenderer(int width, int height, float far, float near) {
 		dataBuffer = new FramebufferDeferred(width, height);
 		lightBuffer = new Framebuffer2D(width, height);
-		mousePickBuffer = new FramebufferMousePick(width / 4, height / 4);
+		mousePickBuffer = new FramebufferMousePick(width / MOUSE_PICK_BUFFER_DOWN_SCALE, height / MOUSE_PICK_BUFFER_DOWN_SCALE);
 		colorOutput = new TextureOutput(dataBuffer.getColorTextureID());
 		positionOutput = new TextureOutput(dataBuffer.getPositionTextureID());
 		normalOutput = new TextureOutput(dataBuffer.getNormalTextureID());
@@ -223,7 +232,7 @@ public class DeferredRenderer extends Renderer {
 			mousePickBuffer.bind();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-			orderedMousePickModels.clear();
+			orderedMousePickModels = new ArrayList<ModelComponent>(orderedMousePickModels.size());
 
 			for (Map.Entry<Material, ArrayList<ModelComponent>> components : mousePickModels.entrySet()) {
 				shader = (MousePickShader) components.getKey().getShader(Material.MOUSE_PICKING_SHADER_INDEX);
@@ -251,36 +260,192 @@ public class DeferredRenderer extends Renderer {
 			mousePickBuffer.unbind();
 		}
 		if (!rendered) {
-			Logs.e("No recognised flags passed to deferred renderer");
+			Logs.w("No recognised flags passed to deferred renderer");
+		}
+		if (mousePickRequests.size() > 0)
+			mousePickImpl();
+	}
+
+	public static final int MOUSE_PICK_PBO_COUNT = 4;
+	private PixelBuffer[] hitIdPbos = new PixelBuffer[MOUSE_PICK_PBO_COUNT];
+	private PixelBuffer[] worldPositionPbos = new PixelBuffer[MOUSE_PICK_PBO_COUNT];
+	private PixelBuffer[] localPositionPbos = new PixelBuffer[MOUSE_PICK_PBO_COUNT];
+
+	private LinkedBlockingQueue<Integer> freePbos;
+	private List<MousePickRequest> mousePickRequests = Collections.synchronizedList(new ArrayList<MousePickRequest>(MOUSE_PICK_PBO_COUNT));
+
+	private static class MousePickRequest {
+		private final int x;
+		private final int y;
+		public final MousePickInfo info;
+		private final NotificationEvent finished;
+
+		private final DeferredRenderer renderer;
+		private int workingPboIndex = -1;
+		private boolean done = false;
+
+		private long hitIdSync;
+		private long worldPositionSync;
+		private long localPositionSync;
+
+		private final ArrayList<ModelComponent> orderedMousePickModels;
+
+		private static ByteBuffer hitIdDest = null;
+		private static ByteBuffer worldPositionDest = null;
+		private static ByteBuffer localPositionDest = null;
+
+		public MousePickRequest(int x, int y, MousePickInfo info, DeferredRenderer renderer, EventListener notify) {
+			this.x = x;
+			this.y = y;
+			this.info = info;
+			this.renderer = renderer;
+			orderedMousePickModels = renderer.orderedMousePickModels;
+			finished = new NotificationEvent(notify, NotificationEvent.NOTIFICATION_MOUSE_PICK_COMPLETE, info);
+		}
+
+		public boolean isActive() {
+			return workingPboIndex >= 0;
+		}
+
+		public boolean update() {
+			if (isActive()) {
+				if (hitIdSync != -1) {
+					int result = GL32.glClientWaitSync(hitIdSync, 0, 0);
+					if (result == GL32.GL_ALREADY_SIGNALED || result == GL32.GL_CONDITION_SATISFIED) {
+						GL32.glDeleteSync(hitIdSync);
+						hitIdSync = -1;
+						hitIdDest = renderer.getHitIdPbo(workingPboIndex).get(hitIdDest);
+						hitIdDest.order(ByteOrder.BIG_ENDIAN);
+						int hitId = hitIdDest.asIntBuffer().get(0);
+						if (hitId < orderedMousePickModels.size() && hitId >= 0)
+							info.model = orderedMousePickModels.get(hitId);
+					}
+				}
+
+				if (worldPositionSync != -1) {
+					int result = GL32.glClientWaitSync(worldPositionSync, 0, 0);
+					if (result == GL32.GL_ALREADY_SIGNALED || result == GL32.GL_CONDITION_SATISFIED) {
+						GL32.glDeleteSync(worldPositionSync);
+						worldPositionSync = -1;
+						worldPositionDest = renderer.getWorldPositionPbo(workingPboIndex).get(worldPositionDest);
+						FloatBuffer fBuf = worldPositionDest.asFloatBuffer();
+						info.worldPosition = new Vector4f(fBuf.get(0), fBuf.get(1), fBuf.get(2));
+					}
+				}
+
+				if (localPositionSync != -1) {
+					int result = GL32.glClientWaitSync(localPositionSync, 0, 0);
+					if (result == GL32.GL_ALREADY_SIGNALED || result == GL32.GL_CONDITION_SATISFIED) {
+						GL32.glDeleteSync(localPositionSync);
+						localPositionSync = -1;
+						localPositionDest = renderer.getLocalPositionPbo(workingPboIndex).get(localPositionDest);
+						FloatBuffer fBuf = localPositionDest.asFloatBuffer();
+						info.localPosition = new Vector4f(fBuf.get(0), fBuf.get(1), fBuf.get(2));
+					}
+				}
+
+
+				done = hitIdSync == -1 && worldPositionSync == -1 && localPositionSync == -1;
+				if (done) {
+					renderer.freePbos.add(workingPboIndex);
+					workingPboIndex = -1;
+					Application.get().queueEvent(finished);
+				}
+				return done;
+			} else if (!isDone()) {
+				Integer idx = renderer.freePbos.poll();
+				if (idx != null) {
+					workingPboIndex = idx;
+
+					renderer.getHitIdPbo(workingPboIndex).bind();
+					renderer.mousePickBuffer.bind();
+					GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT0);
+					GL11.glReadPixels(x, y, 1, 1, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, 0);
+					hitIdSync = GL32.glFenceSync(GL32.GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+
+					renderer.getWorldPositionPbo(workingPboIndex).bind();
+					GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT1);
+					GL11.glReadPixels(x, y, 1, 1, GL11.GL_RGB, GL11.GL_FLOAT, 0);
+					worldPositionSync = GL32.glFenceSync(GL32.GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+
+					renderer.getLocalPositionPbo(workingPboIndex).bind();
+					GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT2);
+					GL11.glReadPixels(x, y, 1, 1, GL11.GL_RGB, GL11.GL_FLOAT, 0);
+					localPositionSync = GL32.glFenceSync(GL32.GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+					renderer.getLocalPositionPbo(workingPboIndex).unbind();
+				}
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		public void cancel() {
+			if (hitIdSync != -1) {
+				GL32.glDeleteSync(hitIdSync);
+				hitIdSync = -1;
+			}
+
+			if (worldPositionSync != -1) {
+				GL32.glDeleteSync(worldPositionSync);
+				worldPositionSync = -1;
+			}
+
+			if (localPositionSync != -1) {
+				GL32.glDeleteSync(localPositionSync);
+				localPositionSync = -1;
+			}
+
+			if (workingPboIndex != -1) {
+				renderer.freePbos.add(workingPboIndex);
+			}
+		}
+
+		public boolean isDone() {
+			return done;
 		}
 	}
 
-	public boolean mousePick(int x, int y, MousePickInfo info) {
-		x /= 4;
-		y /= 4;
-		mousePickBuffer.bind();
-		GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT0);
-		ByteBuffer buf = BufferUtils.createByteBuffer(12);
-		GL11.glReadPixels(x, y, 1, 1, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
-		ByteOrder previous = buf.order();
-		buf.order(ByteOrder.BIG_ENDIAN);
-		int hitId = buf.asIntBuffer().get(0) - 1;
-		buf.order(previous);
-		if (hitId < orderedMousePickModels.size() && hitId >= 0) {
-			info.model = orderedMousePickModels.get(hitId);
-		} else {
-			return false;
+	public void mousePick(int x, int y, MousePickInfo info, EventListener notify) {
+		if (freePbos == null) {
+			freePbos = new LinkedBlockingQueue<Integer>(MOUSE_PICK_PBO_COUNT);
+			for (int i = 0; i < MOUSE_PICK_PBO_COUNT; i++)
+				freePbos.add(i);
 		}
-		FloatBuffer fBuf = buf.asFloatBuffer();
-		GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT1);
-		GL11.glReadPixels(x, y, 1, 1, GL11.GL_RGB, GL11.GL_FLOAT, buf);
-		info.worldPosition = new Vector4f(fBuf.get(0), fBuf.get(1), fBuf.get(2));
-		GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT2);
-		GL11.glReadPixels(x, y, 1, 1, GL11.GL_RGB, GL11.GL_FLOAT, buf);
-		info.localPosition = new Vector4f(fBuf.get(0), fBuf.get(1), fBuf.get(2));
-		GL11.glReadBuffer(GL11.GL_BACK);
-		mousePickBuffer.unbind();
-		return true;
+
+		mousePickRequests.add(new MousePickRequest(x / MOUSE_PICK_BUFFER_DOWN_SCALE, y / MOUSE_PICK_BUFFER_DOWN_SCALE, info, this, notify));
+	}
+
+	private void mousePickImpl() {
+		synchronized (mousePickRequests) {
+			Iterator<MousePickRequest> itr = mousePickRequests.iterator();
+			while (itr.hasNext()) {
+				MousePickRequest request = itr.next();
+				if (request.update())
+					itr.remove();
+			}
+		}
+	}
+
+	private PixelBuffer getHitIdPbo(int i) {
+		if (hitIdPbos[i] == null) {
+			hitIdPbos[i] = new PixelBuffer(4);
+		}
+		return hitIdPbos[i];
+	}
+
+	private PixelBuffer getWorldPositionPbo(int i) {
+		if (worldPositionPbos[i] == null) {
+			worldPositionPbos[i] = new PixelBuffer(12);
+		}
+		return worldPositionPbos[i];
+	}
+
+	private PixelBuffer getLocalPositionPbo(int i) {
+		if (localPositionPbos[i] == null) {
+			localPositionPbos[i] = new PixelBuffer(12);
+		}
+		return localPositionPbos[i];
 	}
 
 	@Override
@@ -290,6 +455,14 @@ public class DeferredRenderer extends Renderer {
 
 	@Override
 	public void cleanup() {
+		for (int i = 0; i < MOUSE_PICK_PBO_COUNT; i++) {
+			if (hitIdPbos[i] != null)
+				hitIdPbos[i].dispose();
+			if (worldPositionPbos[i] != null)
+				worldPositionPbos[i].dispose();
+			if (localPositionPbos[i] != null)
+				localPositionPbos[i].dispose();
+		}
 		dataBuffer.delete();
 		lightBuffer.delete();
 	}
@@ -313,7 +486,7 @@ public class DeferredRenderer extends Renderer {
 	public void postResize(PostResizeEvent event) {
 		dataBuffer = new FramebufferDeferred(event.width, event.height);
 		lightBuffer = new Framebuffer2D(event.width, event.height);
-		mousePickBuffer = new FramebufferMousePick(event.width / 4, event.height / 4);
+		mousePickBuffer = new FramebufferMousePick(event.width / MOUSE_PICK_BUFFER_DOWN_SCALE, event.height / MOUSE_PICK_BUFFER_DOWN_SCALE);
 		colorOutput.setTextureID(dataBuffer.getColorTextureID());
 		positionOutput.setTextureID(dataBuffer.getPositionTextureID());
 		normalOutput.setTextureID(dataBuffer.getNormalTextureID());
@@ -325,6 +498,12 @@ public class DeferredRenderer extends Renderer {
 
 	@Override
 	public void preResize() {
+		synchronized (mousePickRequests) {
+			for (MousePickRequest request : mousePickRequests) {
+				request.cancel();
+			}
+			mousePickRequests.clear();
+		}
 		dataBuffer.delete();
 		lightBuffer.delete();
 		mousePickBuffer.delete();

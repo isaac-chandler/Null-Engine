@@ -18,15 +18,15 @@ public class ResourceManager {
 	}
 
 	public static void delete(ManagedResource resource) {
-		resource.delete();
-		Logs.d("Deleting " + resource.fullName);
+		if (resource.delete())
+			Logs.d("Deleted " + resource.fullName);
 		resources.remove(resource.fullName);
 	}
 
 	public static void deleteAll() {
 		for (Map.Entry<String, ManagedResource> resource : resources.entrySet()) {
-			Logs.d("Cleanup: deleting " + resource.getKey());
-			resource.getValue().delete();
+			if (resource.getValue().delete())
+				Logs.d("Cleanup: deleted " + resource.getKey());
 		}
 		resources.clear();
 	}

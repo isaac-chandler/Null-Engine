@@ -52,6 +52,11 @@ public class EventDistributor implements EventListener {
 	}
 
 	@Override
+	public void notified(NotificationEvent event) {
+		event.getDestination().notified(event);
+	}
+
+	@Override
 	public void postResize(PostResizeEvent event) {
 		listener.postResize(event);
 	}

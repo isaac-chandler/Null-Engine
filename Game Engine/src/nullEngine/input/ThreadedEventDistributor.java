@@ -14,6 +14,14 @@ public class ThreadedEventDistributor extends EventDistributor {
 		}
 	}
 
+	public void queueEvent(Event event) {
+		try {
+			eventQueue.put(event);
+		} catch (InterruptedException e) {
+			Logs.e(e);
+		}
+	}
+
 	private void passEvent(Event event) {
 
 		if (event.getType().isRenderThread())
@@ -50,8 +58,11 @@ public class ThreadedEventDistributor extends EventDistributor {
 			case PRE_RESIZE:
 				listener.preResize();
 				break;
+			case NOTIFICATION:
+				((NotificationEvent) event).getDestination().notified((NotificationEvent) event);
+				break;
 			default:
-				Logs.w("Received event with unkown type");
+				Logs.w("Received event with unknown type");
 				break;
 		}
 	}
@@ -134,5 +145,14 @@ public class ThreadedEventDistributor extends EventDistributor {
 			Logs.e(e);
 		}
 		return false;
+	}
+
+	@Override
+	public void notified(NotificationEvent event) {
+		try {
+			eventQueue.put(event);
+		} catch (InterruptedException e) {
+			Logs.e(e);
+		}
 	}
 }

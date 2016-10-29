@@ -1,5 +1,7 @@
 package nullEngine.gl.model;
 
+import nullEngine.gl.buffer.IndexBuffer;
+import nullEngine.gl.buffer.VertexBuffer;
 import nullEngine.managing.ManagedResource;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.opengl.GL11;
@@ -109,9 +111,10 @@ public class Model extends ManagedResource {
 	}
 
 	@Override
-	public void delete() {
+	public boolean delete() {
 		GL30.glDeleteVertexArrays(vaoID);
 		models.remove(this);
+		return true;
 	}
 
 	private void recreate() {

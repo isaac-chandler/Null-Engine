@@ -503,9 +503,9 @@ public class Window {
 		return fullscreen;
 	}
 
-	public void setFullscreen(boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode, Loader loader) {
+	public boolean setFullscreen(boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode, Loader loader) {
 		if (this.fullscreen == fullscreen)
-			return;
+			return false;
 
 		this.fullscreen = fullscreen;
 
@@ -533,7 +533,7 @@ public class Window {
 		window = newWindow;
 
 		GLFW.glfwMakeContextCurrent(window);
-		GLFW.glfwSwapInterval(0);
+		GLFW.glfwSwapInterval(vsync ? 1 : 0);
 		glCapabilities = GL.createCapabilities();
 		initCallbacks();
 		loader.postContextChange();
@@ -545,7 +545,9 @@ public class Window {
 			Application.get().postResize(event);
 		}
 		setCursorEnabled(cursorEnabled);
+		GLFW.glfwShowWindow(window);
 		Logs.d("resized to " + width + "x" + height);
+		return true;
 	}
 
 	public long getMonitor() {

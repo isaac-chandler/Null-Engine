@@ -181,6 +181,11 @@ public class GameObject implements EventListener {
 	}
 
 	@Override
+	public void notified(NotificationEvent event) {
+
+	}
+
+	@Override
 	public void postResize(PostResizeEvent event) {
 		for (GameComponent component : components)
 			component.postResize(event);

@@ -71,5 +71,5 @@ public abstract class ManagedResource {
 		return fullName;
 	}
 
-	public abstract void delete();
+	public abstract boolean delete();
 }

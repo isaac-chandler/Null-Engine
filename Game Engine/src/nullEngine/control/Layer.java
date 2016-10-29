@@ -129,6 +129,11 @@ public abstract class Layer implements EventListener {
 	}
 
 	@Override
+	public void notified(NotificationEvent event) {
+
+	}
+
+	@Override
 	public void postResize(PostResizeEvent event) {
 		root.postResize(event);
 		renderer.postResize(event);

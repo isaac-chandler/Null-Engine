@@ -1,9 +1,9 @@
 package nullEngine.gl.font;
 
 import nullEngine.control.Application;
-import nullEngine.gl.model.IndexBuffer;
+import nullEngine.gl.buffer.IndexBuffer;
 import nullEngine.gl.model.Model;
-import nullEngine.gl.model.VertexBuffer;
+import nullEngine.gl.buffer.VertexBuffer;
 import nullEngine.gl.shader.Shader;
 import nullEngine.gl.shader.TextShader;
 import nullEngine.gl.texture.Texture2D;

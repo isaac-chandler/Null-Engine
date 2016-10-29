@@ -24,7 +24,9 @@ import nullEngine.gl.texture.TextureGenerator;
 import nullEngine.input.EventAdapter;
 import nullEngine.input.Input;
 import nullEngine.input.KeyEvent;
+import nullEngine.input.MouseEvent;
 import nullEngine.input.MousePickInfo;
+import nullEngine.input.NotificationEvent;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
@@ -44,9 +46,8 @@ public class Main {
 		try {
 			NullEngine.init();
 			Logs.setDebug(true);
-//			Logs.setLogFormat("[%T] %m\n");
 			final Application application = new Application(1280, 720, false, "Sandbox");
-//			application.getWindow().setVsync(true);
+			application.getWindow().setVsync(true);
 			application.bind();
 
 			State state = new State();
@@ -69,6 +70,8 @@ public class Main {
 					} else if (event.key == Input.KEY_F1) {
 						application.screenshot();
 						return true;
+					} else if (event.key == Input.KEY_F11) {
+						application.setFullscreen(!application.isFullscreen(), application.isFullscreen() ? null : application.getBestFullscreenVideoMode());
 					}
 					return false;
 				}
@@ -176,10 +179,12 @@ public class Main {
 				boolean cameraEnabled = true;
 
 				@Override
-				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {}
+				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+				}
 
 				@Override
-				public void update(double delta, GameObject object) {}
+				public void update(double delta, GameObject object) {
+				}
 
 				@Override
 				public boolean keyPressed(KeyEvent event) {
@@ -199,22 +204,32 @@ public class Main {
 
 			dragon.addComponent(new ModelComponent(material, model) {
 				private boolean bloomEnabled = true;
-				private boolean hasHadFrame = false;
 				private boolean render = true;
 
 				@Override
-				public void update(double delta, GameObject object) {
-//					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
-					if (application.getCursorEnabled() && hasHadFrame) {
-						MousePickInfo info = new MousePickInfo();
-						if (renderer.mousePick(Input.getMouseX(), application.getHeight() - Input.getMouseY() - 1, info)) {
+				public boolean mouseMoved(MouseEvent event) {
+					if (application.getCursorEnabled()) {
+						renderer.mousePick(Input.getMouseX(), application.getHeight() - Input.getMouseY() - 1, new MousePickInfo(), this);
+					}
+					return true;
+				}
+
+				@Override
+				public void notified(NotificationEvent event) {
+					if (event.getNotificationType() == NotificationEvent.NOTIFICATION_MOUSE_PICK_COMPLETE) {
+						MousePickInfo info = (MousePickInfo) event.getData();
+						if (info.model != null) {
 							render = true;
-							object.getTransform().setPos(info.worldPosition);
+							getParent().getTransform().setPos(info.worldPosition);
 						} else {
 							render = false;
 						}
 					}
-					hasHadFrame = false;
+				}
+
+				@Override
+				public void update(double delta, GameObject object) {
+//					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
 				}
 
 				@Override
@@ -223,7 +238,6 @@ public class Main {
 						super.render(renderer, object, flags);
 					}
 					if (application.getCursorEnabled()) {
-						hasHadFrame = true;
 						world.mousePickNextFrame();
 					}
 				}
