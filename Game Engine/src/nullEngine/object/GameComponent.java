@@ -1,7 +1,7 @@
 package nullEngine.object;
 
 import nullEngine.gl.renderer.Renderer;
-import nullEngine.input.*;
+import nullEngine.input.EventAdapter;
 import util.BitFieldInt;
 
 public abstract class GameComponent extends EventAdapter {

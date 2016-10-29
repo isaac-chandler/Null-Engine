@@ -3,7 +3,12 @@ package nullEngine.object;
 import math.Matrix4f;
 import nullEngine.control.Layer;
 import nullEngine.gl.renderer.Renderer;
-import nullEngine.input.*;
+import nullEngine.input.CharEvent;
+import nullEngine.input.EventListener;
+import nullEngine.input.KeyEvent;
+import nullEngine.input.MouseEvent;
+import nullEngine.input.NotificationEvent;
+import nullEngine.input.PostResizeEvent;
 import util.BitFieldInt;
 
 import java.util.ArrayList;

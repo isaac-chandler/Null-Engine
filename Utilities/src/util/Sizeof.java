@@ -1,5 +1,8 @@
 package util;
 
+/**
+ * The size in bytes of types
+ */
 public class Sizeof {
 	public static final int BYTE = Byte.SIZE / Byte.SIZE;
 	public static final int CHAR = Character.SIZE / Byte.SIZE;

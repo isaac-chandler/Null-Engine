@@ -2,8 +2,8 @@ package nullEngine.object.component;
 
 import nullEngine.control.Layer;
 import nullEngine.gl.Material;
-import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.model.Model;
+import nullEngine.gl.renderer.Renderer;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
 import util.BitFieldInt;
