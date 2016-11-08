@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Model Format</title>
+		<link rel="stylesheet" type="text/css" href="Model_Format_Style.css">
+	</head>
+	<body>
+		<h1>Null Engine Model Format Version 1</h1>
+		<h2>Format</h2>
+		<p>
+			All values are in big endian<br>
+			<br>
+			8 bit integer: <em id="Version">version</em> - 2 for current version<sup id="ref1"><a class="footnote" href="#fn1">1</a></sup><br>
+			32 bit integer: <em>vertex count</em> - The number of vertices<br>
+			<em>vertex count</em> <a href="#Vertex"><strong>Vertices</strong></a>: <em>vertices</em> - The vertices<br>
+			<em>vertex count</em> <a href="#Texture_Coordinate"><strong>Texture Coorinates</strong></a>: <em>texture coordinates</em> - The texture coordinates<br>
+			<em>vertex count</em> <a href="#Normal"><strong>Normals</strong></a>: <em>normals</em> - The normals<br>
+			32 bit integer: <em>index count</em> - The number of indices<br>
+			<em>index count</em> 32 bit integers: <em>indices</em> - The indices
+		</p>
+		<div id="Vertex">
+			<h4>Vertex</h4>
+			<p class="tab">
+				Single precision float: <em>x</em> - The x value<br>
+				Single precision float: <em>y</em> - The y value<br>
+				Single precision float: <em>z</em> - The z value
+			</p>
+		</div>
+		<div id="Texture_Coordinate">
+			<h4>Texture Coordinate</h4>
+			<p class="tab">
+				Single precision float: <em>x</em> - The x value<br>
+				Single precision float: <em>y</em> - The y value
+			</p>
+		</div>
+		<div id="Normal">
+			<h4>Normal</h4>
+			<p class="tab">
+				Single precision float: <em>x</em> - The x value<br>
+				Single precision float: <em>y</em> - The y value<br>
+				Single precision float: <em>z</em> - The z value
+			</p>
+		</div>
+		<hr>
+		<p id="fn1">1. For other values of <a href="#Version"><em>version</em></a> see the corresponding specification <a class="footnote" href="#ref1">↩</a></p>
+	</body>
+</html>

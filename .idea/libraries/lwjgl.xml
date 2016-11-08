@@ -1,13 +1,73 @@
 <component name="libraryTable">
   <library name="lwjgl">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Game Engine/lib/jar/lwjgl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-bgfx.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-egl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-glfw.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-jawt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-jemalloc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-lmdb.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-nanovg.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-nfd.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-nuklear.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-openal.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-opencl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-opengl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-opengles.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-ovr.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-par.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-sse.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-stb.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-tinyfd.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-vulkan.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-xxhash.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/Game Engine/lib/javadoc/lwjgl.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-bgfx-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-egl-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-glfw-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-jawt-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-jemalloc-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-lmdb-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-nanovg-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-nfd-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-nuklear-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-openal-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-opencl-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-opengl-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-opengles-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-ovr-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-par-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-sse-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-stb-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-tinyfd-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-vulkan-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-xxhash-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/Game Engine/lib/source/lwjgl.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-bgfx-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-egl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-glfw-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-jawt-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-jemalloc-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-lmdb-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-nanovg-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-nfd-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-nuklear-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-openal-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-opencl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-opengl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-opengles-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-ovr-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-par-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-sse-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-stb-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-tinyfd-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-vulkan-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-xxhash-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

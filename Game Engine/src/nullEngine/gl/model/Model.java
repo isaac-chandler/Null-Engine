@@ -23,8 +23,6 @@ public class Model extends ManagedResource {
 	private VertexAttribPointer[] attribs;
 	private float radius;
 
-	private int instances = 1;
-
 	public Model(int vaoID, int[] vertexCounts, int[] vertexOffsets, float radius, IndexBuffer ibo, VertexAttribPointer... attribs) {
 		super(String.valueOf(currentModelID), "model", join(ibo, attribs));
 		modelID = currentModelID++;

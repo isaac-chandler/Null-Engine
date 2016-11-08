@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Resource Bundle Format</title>
+</head>
+<body>
+<h1>Null Engine Resource Bundle Format Version 1</h1>
+
+<p>
+	All values are in big endian<br>
+	<br>
+	8 bit integer: version - must be 1<br>
+	32 bit integer: <em>file count</em><br>
+	<br>
+	<em>file count</em> <strong>File header</strong>s
+</p>
+
+<h3>File header</h3>
+
+<p>
+	16 bit integer: <em>name length</em> in bytes<br>
+	<em>name length</em> 8 bit integers: file name in UTF8 encoding<br>
+	32 bit integer: data offset from start of file<br>
+	<br>
+	<em>file count</em> <strong>File</strong>s
+</p>
+
+<h3>File</h3>
+
+<p>
+	32 bit integer: <em>file length</em> in bytes<br>
+	<em>file length</em> 8 bit integers: file data
+</p>
+</body>
+</html>

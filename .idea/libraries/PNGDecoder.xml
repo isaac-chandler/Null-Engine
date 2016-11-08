@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="PNGDecoder">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Game Engine/lib/jar/PNGDecoder.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/PNGDecoder.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

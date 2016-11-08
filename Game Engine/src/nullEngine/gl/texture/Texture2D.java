@@ -17,7 +17,7 @@ public class Texture2D {
 
 	public void bind(int i) {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0 + i);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, resource.textureID);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, resource.getTextureID());
 	}
 
 	public static void unbind() {
@@ -34,6 +34,6 @@ public class Texture2D {
 	}
 
 	public int getID() {
-		return resource.textureID;
+		return resource.getTextureID();
 	}
 }

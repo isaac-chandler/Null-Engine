@@ -10,7 +10,16 @@ import nullEngine.util.logs.Logs;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * A class to load <a href="../spec/Model_Format.html" target="_blank">NLM models</a>
+ */
 public class NLMLoader {
+	/**
+	 * Load an NLM model
+	 * @param loader The loader to use
+	 * @param name The name of the file
+	 * @return The model that was loaded
+	 */
 	public static Model loadModel(Loader loader, String name) {
 		try {
 			InputStream is = ResourceLoader.getResource("res/models/" + name);

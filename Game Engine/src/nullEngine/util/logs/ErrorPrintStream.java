@@ -2,6 +2,9 @@ package nullEngine.util.logs;
 
 import java.io.PrintStream;
 
+/**
+ * Class to replace System.err
+ */
 public class ErrorPrintStream extends PrintStream {
 
 	public ErrorPrintStream() {

@@ -10,6 +10,7 @@ import nullEngine.gl.buffer.PixelBuffer;
 import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.framebuffer.FramebufferDeferred;
 import nullEngine.gl.framebuffer.FramebufferMousePick;
+import nullEngine.gl.model.Model;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.postfx.PostFXOutput;
 import nullEngine.gl.postfx.TextureOutput;
@@ -132,6 +133,8 @@ public class DeferredRenderer extends Renderer {
 	public void postRender(BitFieldInt flags) {
 		boolean rendered = false;
 		if (flags.get(Layer.DEFERRED_RENDER_BIT)) {
+			BitFieldInt modelFlags = new BitFieldInt();
+			modelFlags.set(Layer.DEFERRED_RENDER_BIT, true);
 			rendered = true;
 			dataBuffer.bind();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -145,16 +148,17 @@ public class DeferredRenderer extends Renderer {
 				shader.bind();
 				shader.loadMaterial(components.getKey());
 
-				for (ModelComponent model : components.getValue()) {
-					setModelMatrix(model.getParent().getRenderMatrix());
+				for (ModelComponent compnent : components.getValue()) {
+					setModelMatrix(compnent.getObject().getRenderMatrix());
 					Vector4f pos = modelMatrix.getPos(null);
-					float radius = modelMatrix.transform(new Vector4f(model.getModel().getRadius(), 0, 0, 0)).length();
+					Model model = compnent.getModel(modelFlags);
+					float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
 					pos.z += radius;
 					if (-pos.z <= far || components.getKey().isAlwaysRender()) {
 						int lod = MathUtil.clamp(
-								(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()) + model.getLodBias()),
-								0, model.getModel().getLODCount() - 1);
-						model.getModel().render(lod);
+								(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getLODCount()) + compnent.getLodBias()),
+								0, model.getLODCount() - 1);
+						model.render(lod);
 					}
 				}
 			}
@@ -228,6 +232,8 @@ public class DeferredRenderer extends Renderer {
 			GL11.glDisable(GL11.GL_BLEND);
 		}
 		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT)) {
+			BitFieldInt modelFlags = new BitFieldInt();
+			modelFlags.set(Layer.MOUSE_PICK_RENDER_BIT, true);
 			rendered = true;
 			mousePickBuffer.bind();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -239,18 +245,19 @@ public class DeferredRenderer extends Renderer {
 				shader.bind();
 				shader.loadMaterial(components.getKey());
 
-				for (ModelComponent model : components.getValue()) {
-					orderedMousePickModels.add(model);
+				for (ModelComponent component : components.getValue()) {
+					orderedMousePickModels.add(component);
 					((MousePickShader) shader).loadIdToColor(orderedMousePickModels.size());
-					setModelMatrix(model.getParent().getRenderMatrix());
+					setModelMatrix(component.getObject().getRenderMatrix());
 					Vector4f pos = modelMatrix.getPos(null);
-					float radius = modelMatrix.transform(new Vector4f(model.getModel().getRadius(), 0, 0, 0)).length();
+					Model model = component.getModel(modelFlags);
+					float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
 					pos.z += radius;
 					if (-pos.z <= far || components.getKey().isAlwaysRender()) {
 						int lod = MathUtil.clamp(
-								(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getModel().getLODCount()) + model.getLodBias() + MOUSE_PICK_LOD_OFFSET),
-								0, model.getModel().getLODCount() - 1);
-						model.getModel().render(lod);
+								(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getLODCount()) + component.getLodBias() + MOUSE_PICK_LOD_OFFSET),
+								0, model.getLODCount() - 1);
+						model.render(lod);
 					}
 				}
 			}

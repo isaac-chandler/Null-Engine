@@ -13,6 +13,9 @@ import util.BitFieldInt;
 
 import java.util.ArrayList;
 
+/**
+ * Represents an object in the game
+ */
 public class GameObject implements EventListener {
 	private ArrayList<GameObject> children = new ArrayList<GameObject>();
 	private ArrayList<GameComponent> components = new ArrayList<GameComponent>();
@@ -27,16 +30,33 @@ public class GameObject implements EventListener {
 		transform.setParent(parent.getTransform());
 	}
 
+	/**
+	 * Add a child GameObject to this
+	 *
+	 * @param object The GameObject to add
+	 */
 	public void addChild(GameObject object) {
 		children.add(object);
 		object.init(this);
 	}
 
+	/**
+	 * Add a component to this object
+	 *
+	 * @param component the component to add
+	 */
 	public void addComponent(GameComponent component) {
 		components.add(component);
 		component.init(this);
 	}
 
+	/**
+	 * Render this object
+	 *
+	 * @param renderer The renderer that is rendering this object
+	 * @param flags    The render flags
+	 * @see Renderer
+	 */
 	public void render(Renderer renderer, BitFieldInt flags) {
 		for (GameComponent component : components) {
 			if (component.enabled)
@@ -46,6 +66,11 @@ public class GameObject implements EventListener {
 			child.render(renderer, flags);
 	}
 
+	/**
+	 * Update this object
+	 *
+	 * @param delta The time since it was last updated
+	 */
 	public void update(double delta) {
 		for (GameComponent component : components) {
 			if (component.enabled)
@@ -55,6 +80,10 @@ public class GameObject implements EventListener {
 			child.update(delta);
 	}
 
+	/**
+	 * Update the matrix for multithreading synchronization
+	 * <strong>Do not run expensive code here as it is intended for copying data only, otherwise the performance will be bad</strong>
+	 */
 	protected void postUpdate() {
 		for (GameComponent component : components)
 			if (component.enabled)
@@ -64,6 +93,10 @@ public class GameObject implements EventListener {
 		postUpdateMatrix.set(transform.getMatrix());
 	}
 
+	/**
+	 * Update the matrix for multithreading synchronization
+	 * <strong>Do not run expensive code here as it is intended for copying data only, otherwise the performance will be bad</strong>
+	 */
 	protected void preRender() {
 		for (GameComponent component : components)
 			if (component.enabled)
@@ -73,30 +106,65 @@ public class GameObject implements EventListener {
 		preRenderMatrix.set(postUpdateMatrix);
 	}
 
+	/**
+	 * Get the transform of this object
+	 *
+	 * @return The transform
+	 */
 	public Transform getTransform() {
 		return transform;
 	}
 
+	/**
+	 * Get the layer this object belongs to
+	 *
+	 * @return The layer
+	 */
 	public Layer getLayer() {
 		return parent.getLayer();
 	}
 
+	/**
+	 * Get the objects children
+	 *
+	 * @return The children
+	 */
 	public ArrayList<GameObject> getChildren() {
 		return children;
 	}
 
+	/**
+	 * Get the objects components
+	 *
+	 * @return The components
+	 */
 	public ArrayList<GameComponent> getComponents() {
 		return components;
 	}
 
+	/**
+	 * Get the objects parent object
+	 *
+	 * @return The parent
+	 */
 	public GameObject getParent() {
 		return parent;
 	}
 
+	/**
+	 * Get the matrix used for rendering
+	 *
+	 * @return The matrix
+	 */
 	public Matrix4f getRenderMatrix() {
 		return preRenderMatrix;
 	}
 
+	/**
+	 * @param event
+	 * @return
+	 * @see nullEngine.input.EventHandler
+	 */
 	@Override
 	public boolean keyRepeated(KeyEvent event) {
 		for (GameComponent component : components)
@@ -108,6 +176,11 @@ public class GameObject implements EventListener {
 		return false;
 	}
 
+	/**
+	 * @param event
+	 * @return
+	 * @see nullEngine.input.EventHandler
+	 */
 	@Override
 	public boolean keyPressed(KeyEvent event) {
 		for (GameComponent component : components)
@@ -119,6 +192,11 @@ public class GameObject implements EventListener {
 		return false;
 	}
 
+	/**
+	 * @param event
+	 * @return
+	 * @see nullEngine.input.EventHandler
+	 */
 	@Override
 	public boolean keyReleased(KeyEvent event) {
 		for (GameComponent component : components)
@@ -130,6 +208,11 @@ public class GameObject implements EventListener {
 		return false;
 	}
 
+	/**
+	 * @param event
+	 * @return
+	 * @see nullEngine.input.EventHandler
+	 */
 	@Override
 	public boolean mousePressed(MouseEvent event) {
 		for (GameComponent component : components)
@@ -141,6 +224,11 @@ public class GameObject implements EventListener {
 		return false;
 	}
 
+	/**
+	 * @param event
+	 * @return
+	 * @see nullEngine.input.EventHandler
+	 */
 	@Override
 	public boolean mouseReleased(MouseEvent event) {
 		for (GameComponent component : components)
@@ -152,6 +240,11 @@ public class GameObject implements EventListener {
 		return false;
 	}
 
+	/**
+	 * @param event
+	 * @return
+	 * @see nullEngine.input.EventHandler
+	 */
 	@Override
 	public boolean mouseScrolled(MouseEvent event) {
 		for (GameComponent component : components)
@@ -163,6 +256,11 @@ public class GameObject implements EventListener {
 		return false;
 	}
 
+	/**
+	 * @param event
+	 * @return
+	 * @see nullEngine.input.EventHandler
+	 */
 	@Override
 	public boolean mouseMoved(MouseEvent event) {
 		for (GameComponent component : components)
@@ -174,6 +272,11 @@ public class GameObject implements EventListener {
 		return false;
 	}
 
+	/**
+	 * @param event
+	 * @return
+	 * @see nullEngine.input.EventHandler
+	 */
 	@Override
 	public boolean charTyped(CharEvent event) {
 		for (GameComponent component : components)
@@ -185,11 +288,19 @@ public class GameObject implements EventListener {
 		return false;
 	}
 
+	/**
+	 * @param event
+	 * @see nullEngine.input.EventListener
+	 */
 	@Override
 	public void notified(NotificationEvent event) {
 
 	}
 
+	/**
+	 * @param event
+	 * @see nullEngine.input.EventListener
+	 */
 	@Override
 	public void postResize(PostResizeEvent event) {
 		for (GameComponent component : components)
@@ -198,6 +309,9 @@ public class GameObject implements EventListener {
 			child.postResize(event);
 	}
 
+	/**
+	 * @see nullEngine.input.EventListener
+	 */
 	@Override
 	public void preResize() {
 		for (GameComponent component : components)

@@ -25,34 +25,82 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Class for loading resouces
+ */
 public class Loader {
 
-	private Application application;
 	private GLCapabilities capabilities;
 
-	private float anisotropyAmount = 0;
+	private float anisotropyAmount = 1;
 	private boolean anisotropyEnabled = false;
 	private float lodBias = 0;
 
 	private ArrayList<Integer> vaos = new ArrayList<Integer>();
 
+	/**
+	 * Create a new Loader
+	 * @param application The application this loader belongs to
+	 */
 	public Loader(Application application) {
-		this.application = application;
 		capabilities = application.getWindow().getGLCapabilities();
 	}
 
+	/**
+	 * Set wether anisotropic filtering should be enabled
+	 * @param anisotropyEnabled New value
+	 */
 	public void setAnisotropyEnabled(boolean anisotropyEnabled) {
 		this.anisotropyEnabled = anisotropyEnabled;
 	}
 
-	public void setAnisotropyAmount(float anisotropyAmount) {
-		if (capabilities.GL_EXT_texture_filter_anisotropic) {
-			this.anisotropyAmount = Math.min(anisotropyAmount, GL11.glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
-		}
+	/**
+	 * Get wether anisotropic filtering is set to enabled
+	 * @return Wether anisotropiv filtering is enabled
+	 */
+	public boolean isAnisotropyEnabled() {
+		return anisotropyEnabled;
 	}
 
-	public void setLodBias(float lodBias) {
-		this.lodBias = Math.min(GL11.glGetFloat(GL14.GL_MAX_TEXTURE_LOD_BIAS), lodBias);
+	/**
+	 * Get wether anisotropic filtering is supported
+	 * @return Wether anisotropic filtering
+	 * @see GLCapabilities#GL_EXT_texture_filter_anisotropic
+	 */
+	public boolean isAnisotropySupported() {
+		return capabilities.GL_EXT_texture_filter_anisotropic;
+	}
+
+	/**
+	 * Set the maximum amount of anisotropy for each texture
+	 * @param anisotropyAmount The maximum amount of anisotropy
+	 */
+	public void setAnisotropyAmount(float anisotropyAmount) {
+		this.anisotropyAmount = anisotropyAmount;
+	}
+
+	/**
+	 * Get the maximum amount of anisotropy for each texture
+	 * @return The maximum amount of anisotropy
+	 */
+	public float getAnisotropyAmount() {
+		return anisotropyAmount;
+	}
+
+	/**
+	 * Set the lod bias for textures
+	 * @param lodBias The lod bias
+	 */
+	public void setTextureLodBias(float lodBias) {
+		this.lodBias = lodBias;
+	}
+
+	/**
+	 * Get the lod bias for textures
+	 * @return The lod bias for textures
+	 */
+	public float getTextureLodBias() {
+		return lodBias;
 	}
 
 	private int createVAO() {
@@ -61,6 +109,15 @@ public class Loader {
 		return vao;
 	}
 
+	/**
+	 * Load a model with multiple levels of detail
+	 * @param vertices The vertices
+	 * @param texCoords The texture coordinates
+	 * @param normals The normals
+	 * @param indices The indices
+	 * @param vertexCounts The number of vertices in each level of detail
+	 * @return The model that was created
+	 */
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices, int[] vertexCounts) {
 		int vao = createVAO();
 		IndexBuffer ibo = IndexBuffer.create(indices);
@@ -88,6 +145,16 @@ public class Loader {
 				VertexAttribPointer.createVec3AttribPointer(vertexVBO), VertexAttribPointer.createVec2AttribPointer(texCoordVBO), VertexAttribPointer.createVec3AttribPointer(normalVBO));
 	}
 
+	/**
+	 * Load a model from vertex buffers
+	 * @param vertexVBO The vertex buffer
+	 * @param texCoordVBO The texture coordinate buffer
+	 * @param normalVBO The normal buffer
+	 * @param ibo The index buffer
+	 * @param length The number of indices in the index buffer
+	 * @param radius The distance from the farthest point to the origin of the model
+	 * @return The model that was created
+	 */
 	public Model loadModel(VertexBuffer vertexVBO, VertexBuffer texCoordVBO, VertexBuffer normalVBO, IndexBuffer ibo, int length, float radius) {
 		int vao = createVAO();
 
@@ -95,10 +162,27 @@ public class Loader {
 				VertexAttribPointer.createVec3AttribPointer(vertexVBO), VertexAttribPointer.createVec2AttribPointer(texCoordVBO), VertexAttribPointer.createVec3AttribPointer(normalVBO));
 	}
 
+	/**
+	 * Load a model with a single level of detail
+	 * @param vertices The vertices
+	 * @param texCoords The texture coordinates
+	 * @param normals The normals
+	 * @param indices The indices
+	 * @return The model that was created
+	 */
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {
 		return loadModel(vertices, texCoords, normals, indices, new int[]{indices.length});
 	}
 
+	/**
+	 * Load a model from a file
+	 * @param name The file to be loaded from in the folder <em>res/models</em>
+	 *             <ul>
+	 *             <li>If there is no extension or the extension is <em>.nlm</em> the model is loaded using the <a href="spec/Model_Format.html" target="_blank">NLM Model Format</a></li>
+	 *             <li>If the extension is <em>.obj</em> the model is loaded using the OBJ model format</li>
+	 *             </ul>
+	 * @return The model that was loaded
+	 */
 	public Model loadModel(String name) {
 		name = name.lastIndexOf('/') < name.lastIndexOf('.') ? name : name + ".nlm";
 		if (name.endsWith(".obj")) {
@@ -110,34 +194,38 @@ public class Loader {
 		return null;
 	}
 
-	public float[] toFloatArray(ArrayList<Float> list) {
-		float[] ret = new float[list.size()];
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = list.get(i);
-		}
-		return ret;
-	}
-
-	public int[] toIntArray(ArrayList<Integer> list) {
-		int[] ret = new int[list.size()];
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = list.get(i);
-		}
-		return ret;
-	}
-
+	/**
+	 * Load a PNG texture
+	 * @param file The file without the .png extension in <em>res/textures</em> to load
+	 * @return The texture that was laoded
+	 * @throws IOException If the texture failed to load
+	 */
 	public Texture2D loadTexture(String file) throws IOException {
 		return loadTextureCustomPath("res/textures/" + file, false);
 	}
 
+	/**
+	 * Load a PNG texture
+	 * @param file The name of the file without the <em>.png</em> extension in <em>res/textures</em> to load
+	 * @param forceUnique If <code>true</code> make sure the texture isn't just a new reference to a cached texture
+	 * @return The texture that was loaded
+	 * @throws IOException If the texture failed to load
+	 */
 	public Texture2D loadTexture(String file, boolean forceUnique) throws IOException {
 		return loadTextureCustomPath("res/textures/" + file, forceUnique);
 	}
 
 	private Texture2D loadTextureCustomPath(String file, boolean forceUnique) throws IOException {
-		return PNGLoader.loadTexture(file + ".png", lodBias, anisotropyEnabled && capabilities.GL_EXT_texture_filter_anisotropic, anisotropyAmount, forceUnique);
+		return PNGLoader.loadTexture(file + ".png", lodBias, anisotropyEnabled && isAnisotropySupported(), anisotropyAmount, forceUnique);
 	}
 
+	/**
+	 * Load a font
+	 * @param name The name of the file without the <em>.fnt</em> extension in <em>res/fonts</em> to load
+	 * @param padding The amount of padding around each character
+	 * @return The font that was loaded
+	 * @throws IOException If the font failed to load
+	 */
 	public Font loadFont(String name, int padding) throws IOException {
 		Scanner scanner = new Scanner(ResourceLoader.getResource("res/fonts/" + name + ".fnt"));
 
@@ -278,12 +366,9 @@ public class Loader {
 		return new Font(this, glyphs, texture, padding, width, lineHeight, (lineHeight - paddingArr[0] - paddingArr[1]) / lineHeight);
 	}
 
-	public void cleanup() {
-		Logs.d("Loader cleaning up");
-		for (int vao : vaos)
-			GL30.glDeleteVertexArrays(vao);
-	}
-
+	/**
+	 * Called before an OpenGL context change, destroys any vertex arrays and framebuffers
+	 */
 	public void preContextChange() {
 		Logs.d("Cleaning up vertex arrays");
 		for (int vao : vaos)
@@ -293,12 +378,21 @@ public class Loader {
 		Framebuffer3D.preContextChange();
 	}
 
+	/**
+	 * Called after an OpenGL context change, recreates any vertex arrays and framebuffers that were destroyed
+	 */
 	public void postContextChange() {
 		Model.contextChanged(vaos);
 		Framebuffer3D.contextChanged();
 	}
 
-
+	/**
+	 * Load a height map from a texture
+	 * @param name The name of the file without the <em>.png</em> extension in <em>res/textures</em> to load
+	 * @param maxHeight The height of a full white color
+	 * @return The height map that was created
+	 * @throws IOException If the height map failed to load
+	 */
 	public HeightMap generateHeightMap(String name, float maxHeight) throws IOException {
 		return new HeightMap(ImageIO.read(ResourceLoader.getResource("res/textures/" + name + ".png")), maxHeight);
 	}

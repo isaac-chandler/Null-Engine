@@ -10,12 +10,21 @@ import org.lwjgl.opengl.GL30;
 import java.awt.image.BufferedImage;
 import java.nio.FloatBuffer;
 
+/**
+ * A height map for terrains
+ */
 public class HeightMap {
 
 	private BufferedImage map;
 	private Texture2D heightMap;
 	private float maxHeight;
 
+	/**
+	 * Load a height map from an image
+	 * @param map The image
+	 * @param maxHeight The height of a full white color
+	 * @throws FileFormatException If the image is not a power of two square
+	 */
 	public HeightMap(BufferedImage map, float maxHeight) throws FileFormatException {
 		this.map = map;
 		if (map.getHeight() != map.getWidth() || (map.getWidth() & (map.getWidth() - 1)) != 0) {
@@ -57,6 +66,12 @@ public class HeightMap {
 
 	private static final float MAX = 256 * 256 * 256;
 
+	/**
+	 * Get the height
+	 * @param x The x
+	 * @param y The y
+	 * @return The height at (x, y)
+	 */
 	public float getHeight(int x, int y) {
 		x %= map.getWidth();
 		y %= map.getHeight();
@@ -75,14 +90,26 @@ public class HeightMap {
 		return height * maxHeight;
 	}
 
+	/**
+	 * Get the height map texture
+	 * @return The texture
+	 */
 	public Texture2D getHeightMap() {
 		return heightMap;
 	}
 
+	/**
+	 * Get the height of a full white value
+	 * @return The max height
+	 */
 	public float getMaxHeight() {
 		return maxHeight;
 	}
 
+	/**
+	 * The resolution of the image
+	 * @return The resolution
+	 */
 	public int getResolution() {
 		return map.getWidth();
 	}

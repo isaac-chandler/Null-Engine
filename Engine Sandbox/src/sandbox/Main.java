@@ -32,7 +32,7 @@ import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
 import nullEngine.object.component.FlyCam;
 import nullEngine.object.component.ModelComponent;
-import nullEngine.object.component.gui.GuiStaticText;
+import nullEngine.object.component.gui.GuiText;
 import nullEngine.object.component.light.DirectionalLight;
 import nullEngine.object.wrapper.GeoclipmapTerrain;
 import nullEngine.object.wrapper.HeightMap;
@@ -49,7 +49,7 @@ public class Main {
 			final Application application = new Application(1280, 720, false, "Sandbox");
 			application.getWindow().setVsync(true);
 			application.bind();
-
+			
 			State state = new State();
 			int TEST_STATE = application.addState(state);
 			application.setState(TEST_STATE);
@@ -80,13 +80,13 @@ public class Main {
 			Loader loader = application.getLoader();
 			loader.setAnisotropyEnabled(true);
 			loader.setAnisotropyAmount(8);
-			loader.setLodBias(0);
+			loader.setTextureLodBias(0);
 
 			Material.setDefaultFloat("lightingAmount", 1);
 
 			Font font = loader.loadFont("default/testsdf", 14);
 
-			GuiStaticText text = new GuiStaticText(-1, -0.85f, 0.1f, "FPS: 0\nUPS:0\n0.0/0.0MB", font) {
+			GuiText text = new GuiText(-1, -0.85f, 0.1f, "FPS: 0\nUPS:0\n0.0/0.0MB", font) {
 				private double totalDelta = 1;
 
 				@Override
@@ -209,9 +209,9 @@ public class Main {
 				@Override
 				public boolean mouseMoved(MouseEvent event) {
 					if (application.getCursorEnabled()) {
-						renderer.mousePick(Input.getMouseX(), application.getHeight() - Input.getMouseY() - 1, new MousePickInfo(), this);
+						renderer.mousePick(Input.getMouseX(), application.getHeight() - 1 - Input.getMouseY(), new MousePickInfo(), this);
 					}
-					return true;
+					return false;
 				}
 
 				@Override
@@ -220,7 +220,7 @@ public class Main {
 						MousePickInfo info = (MousePickInfo) event.getData();
 						if (info.model != null) {
 							render = true;
-							getParent().getTransform().setPos(info.worldPosition);
+							getObject().getTransform().setPos(info.worldPosition);
 						} else {
 							render = false;
 						}
@@ -230,6 +230,7 @@ public class Main {
 				@Override
 				public void update(double delta, GameObject object) {
 //					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
+
 				}
 
 				@Override
@@ -237,36 +238,40 @@ public class Main {
 					if (render) {
 						super.render(renderer, object, flags);
 					}
+
 					if (application.getCursorEnabled()) {
 						world.mousePickNextFrame();
 					}
 				}
 
-				@Override
-				public boolean keyPressed(KeyEvent event) {
-					if (Input.getKeyNumber(event.key) >= 0) {
-						setLodBias(Input.getKeyNumber(event.key));
-						return true;
-					} else if (event.key == Input.KEY_B) {
-						renderer.setPostFX((bloomEnabled = !bloomEnabled) ? bloom : noBloom);
-					}
-					return false;
+			@Override
+			public boolean keyPressed (KeyEvent event){
+				if (Input.getKeyNumber(event.key) >= 0) {
+					setLodBias(Input.getKeyNumber(event.key));
+					return true;
+				} else if (event.key == Input.KEY_B) {
+					renderer.setPostFX((bloomEnabled = !bloomEnabled) ? bloom : noBloom);
 				}
-			});
-
-			Throwable e = application.start();
-			if (e != null) {
-				Logs.e("Caught exception");
-				e.printStackTrace();
-				application.carefulDestroy();
-			} else {
-				application.destroy();
+				return false;
 			}
+		});
 
-			NullEngine.cleanup();
-		} catch (Exception e) {
-			Logs.e("Something went horribly wrong!", e);
-			Logs.finish();
+		Throwable e = application.start();
+		if (e != null) {
+			Logs.e("Caught exception");
+			e.printStackTrace();
+			application.carefulDestroy();
+		} else {
+			application.destroy();
 		}
+
+		NullEngine.cleanup();
+	} catch(
+	Exception e)
+
+	{
+		Logs.e("Something went horribly wrong!", e);
+		Logs.finish();
 	}
+}
 }

@@ -1,5 +1,6 @@
 package nullEngine.util.logs;
 
+import com.sun.istack.internal.NotNull;
 import nullEngine.control.Application;
 
 import java.io.*;
@@ -47,6 +48,10 @@ public class Logs {
 		setWarnIfUseSystemOut(false);
 	}
 
+	/**
+	 * Set the application to stop if a fatal layer function is called
+	 * @param application The application
+	 */
 	public static void setApplication(Application application) {
 		Logs.application = application;
 	}
@@ -162,10 +167,6 @@ public class Logs {
 	 * @param message The message that will be printed
 	 */
 	public static void i(Object message) {
-		print(formatMessage("INFO", message));
-	}
-
-	static void i2(Object message) {
 		print(formatMessage("INFO", message));
 	}
 
@@ -301,11 +302,12 @@ public class Logs {
 	 * Set the format of all logged messages
 	 *
 	 * @param logFormat The format to use
-	 *                  <br>%c will be replaced with the calling class
+	 *                  <br>%c will be replaced with the location it was called from
 	 *                  <br>%t will be replaced with the time since init was called
-	 *                  <br>%l will be replace with the log level
-	 *                  <br>%m will be replace with the message
-	 *                  <br>the default is [%t][%c][%l] %m\n
+	 *                  <br>%T will be replaced with the thread it is called from
+	 *                  <br>%l will be replaced with the log level
+	 *                  <br>%m will be replaced with the message
+	 *                  <br>the default is [%t][%c][%T] %m\n
 	 */
 	public static void setLogFormat(String logFormat) {
 		Logs.logFormat = logFormat;
@@ -347,26 +349,48 @@ public class Logs {
 		}
 	}
 
+	/**
+	 * Start the built in section profiler
+	 */
 	public static void profileStart() {
 		builtinProfiler.start();
 	}
 
+	/**
+	 * Print the built in section profiler's current time
+	 */
 	public static void profilePrint() {
 		builtinProfiler.print();
 	}
 
-	public static void setBuiltinProfiler(Profiler profiler) {
+	/**
+	 * Set the built in profiler
+	 * @param profiler The new profiler
+	 */
+	public static void setBuiltinProfiler(@NotNull Profiler profiler) {
 		builtinProfiler = profiler;
 	}
 
+	/**
+	 * Set the name of the built in profiler
+	 * @param name The new name
+	 */
 	public static void setBuiltinProfilerName(String name) {
 		builtinProfiler.setName(name);
 	}
 
+	/**
+	 * Get the name of the built in profiler
+	 * @return the name
+	 */
 	public static String getBuiltinProfilerName() {
 		return builtinProfiler.getName();
 	}
 
+	/**
+	 * Get the built in profiler
+	 * @return The profiler
+	 */
 	public static long getBuiltinProfilerStart() {
 		return builtinProfiler.getStart();
 	}
@@ -418,39 +442,71 @@ public class Logs {
 	public static void dummy() {
 	}
 
+	/**
+	 * Print the current stack trace
+	 */
 	public static void getStackTrace() {
 		new Throwable().printStackTrace();
 	}
 
+	/**
+	 * Get the original System.out
+	 * @return The original System.out
+	 */
 	public static PrintStream getSystemOut() {
 		return oldSystemOut;
 	}
 
+	/**
+	 * Profiler to time sections of code
+	 */
 	public static class Profiler {
 		private long start;
 		private String name;
 
+		/**
+		 * Crate a new profiler
+		 * @param name The name to be displayed
+		 */
 		public Profiler(String name) {
 			this.name = name;
 		}
 
+		/**
+		 * Start the profiler
+		 */
 		public void start() {
 			start = System.nanoTime();
 		}
 
+		/**
+		 * Print the time to the console
+		 */
 		public void print() {
 			if (Logs.debug)
 				Logs.print(formatMessage("PROFILER", name + " " + ((System.nanoTime() - start) / 1e9)));
 		}
 
+		/**
+		 * Get the time when ths profiler was started
+		 * @return The time
+		 */
 		public long getStart() {
 			return start;
 		}
 
+		/**
+		 * Get the name of this profi;er
+		 * @return The name
+		 */
 		public String getName() {
 			return name;
 		}
 
+		/**
+		 * Set the name of this profiler
+		 * @param name The new name
+		 */
 		public void setName(String name) {
 			this.name = name;
 		}

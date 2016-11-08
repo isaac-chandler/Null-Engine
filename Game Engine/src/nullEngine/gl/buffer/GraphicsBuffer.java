@@ -62,7 +62,7 @@ public class GraphicsBuffer extends ManagedResource {
 
 	public void forceUpload() {
 		bind();
-		GL15.glBufferData(target, capacity, data, dataHint);
+		GL15.glBufferData(target, data, dataHint);
 		bufferSize = capacity;
 		dirtyMin = dirtyMax = 0;
 	}

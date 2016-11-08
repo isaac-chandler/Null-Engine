@@ -2,6 +2,9 @@ package nullEngine.util.logs;
 
 import java.io.PrintStream;
 
+/**
+ * Class to replace System.out
+ */
 public class OutPrintStream extends PrintStream {
 
 	public OutPrintStream() {
@@ -58,7 +61,7 @@ public class OutPrintStream extends PrintStream {
 			}
 			Logs.d(message);
 		}
-		Logs.i2(new Exception().getStackTrace()[1].toString() + " " + String.valueOf(x));
+		Logs.i(new Exception().getStackTrace()[1].toString() + " " + String.valueOf(x));
 	}
 
 	@Override

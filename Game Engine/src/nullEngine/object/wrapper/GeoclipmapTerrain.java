@@ -14,6 +14,10 @@ import util.BitFieldInt;
 import util.Sizeof;
 
 //FIXME fix normals again
+
+/**
+ * A terrain class that implements the <a href="https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter02.html">Geoclipmapping algorithm</a>
+ */
 public class GeoclipmapTerrain extends GameObject {
 
 	private Material[] materials;
@@ -348,12 +352,23 @@ public class GeoclipmapTerrain extends GameObject {
 
 	private static final Vector4f MUL = new Vector4f(1, 0, 1);
 
+	/**
+	 * Render this terrain
+	 * @param renderer The renderer that is rendering this object
+	 * @param flags    The render flags
+	 */
 	@Override
 	public void render(Renderer renderer, BitFieldInt flags) {
 		getTransform().setPos(cameraObject.getTransform().getWorldPos().mul(MUL, null));
 		super.render(renderer, flags);
 	}
 
+	/**
+	 * Get the terain height
+	 * @param x The x position
+	 * @param z The z position
+	 * @return The terrain height at (x, z)
+	 */
 	public float getTerrainHeight(float x, float z) {
 		float squareSize = size / (heightMap.getResolution() - 1);
 		while (x >= size / 2)
@@ -385,6 +400,16 @@ public class GeoclipmapTerrain extends GameObject {
 		}
 	}
 
+	/**
+	 * Create a new terrain
+	 * @param material The material to be used
+	 * @param heightMap The height map to be used
+	 * @param size The terrain radius
+	 * @param detail The amount of detail in the terrain
+	 * @param levels The number of levels of detail
+	 * @param loader The loader
+	 * @param cameraObject The camera
+	 */
 	public GeoclipmapTerrain(Material material, HeightMap heightMap, float size, int detail, int levels, Loader loader, GameObject cameraObject) {
 		if (((detail & (detail - 1)) != 0) || detail < 4) {
 			throw new IllegalArgumentException("n must be 2^x where x is an integer greater than 2");

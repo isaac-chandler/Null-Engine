@@ -154,7 +154,7 @@ public class Application {
 				runningLock.readLock().unlock();
 
 				GLFW.glfwPollEvents();
-				if (GLFW.glfwWindowShouldClose(window.getWindow()) == GLFW.GLFW_TRUE || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
+				if (GLFW.glfwWindowShouldClose(window.getWindow()) || GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) {
 					stop();
 				}
 
@@ -207,7 +207,6 @@ public class Application {
 	public void destroy() {
 		Logs.d("Cleaning up");
 		stop();
-		loader.cleanup();
 		ResourceManager.deleteAll();
 		renderer.cleanup();
 		window.free();
@@ -221,12 +220,6 @@ public class Application {
 			stop();
 		} catch (Exception e) {
 			Logs.e("Failed game stop call", e);
-		}
-
-		try {
-			loader.cleanup();
-		} catch (Exception e) {
-			Logs.e("Failed loader cleanup", e);
 		}
 
 		try {

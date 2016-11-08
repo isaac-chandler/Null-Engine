@@ -3,7 +3,15 @@ package nullEngine.gl;
 import com.sun.istack.internal.Nullable;
 import nullEngine.control.Application;
 import nullEngine.exception.InitializationException;
-import nullEngine.input.*;
+import nullEngine.input.CharEvent;
+import nullEngine.input.Event;
+import nullEngine.input.EventDistributor;
+import nullEngine.input.Input;
+import nullEngine.input.InputData;
+import nullEngine.input.KeyEvent;
+import nullEngine.input.MouseEvent;
+import nullEngine.input.PostResizeEvent;
+import nullEngine.input.ThreadedEventDistributor;
 import nullEngine.loading.Loader;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.BufferUtils;
@@ -12,14 +20,11 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLCapabilities;
-import org.lwjgl.system.APIUtil;
 import org.lwjgl.system.MemoryUtil;
 
-import java.lang.reflect.Field;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Window {
 
@@ -33,19 +38,19 @@ public class Window {
 	private boolean vsync = false;
 	private boolean cursorEnabled = true;
 
-	private GLFWCharModsCallback        charModsCallback;
-	private GLFWCursorEnterCallback     cursorEnterCallback;
-	private GLFWCursorPosCallback       cursorPosCallback;
-	private GLFWDropCallback            dropCallback;
+	private GLFWCharModsCallback charModsCallback;
+	private GLFWCursorEnterCallback cursorEnterCallback;
+	private GLFWCursorPosCallback cursorPosCallback;
+	private GLFWDropCallback dropCallback;
 	private GLFWFramebufferSizeCallback framebufferSizeCallback;
-	private GLFWKeyCallback             keyCallback;
-	private GLFWMouseButtonCallback     mouseButtonCallback;
-	private GLFWWindowCloseCallback     closeCallback;
-	private GLFWWindowFocusCallback     focusCallback;
-	private GLFWWindowIconifyCallback   iconifyCallback;
-	private GLFWWindowPosCallback       posCallback;
-	private GLFWWindowRefreshCallback   refreshCallback;
-	private GLFWWindowSizeCallback      sizeCallback;
+	private GLFWKeyCallback keyCallback;
+	private GLFWMouseButtonCallback mouseButtonCallback;
+	private GLFWWindowCloseCallback closeCallback;
+	private GLFWWindowFocusCallback focusCallback;
+	private GLFWWindowIconifyCallback iconifyCallback;
+	private GLFWWindowPosCallback posCallback;
+	private GLFWWindowRefreshCallback refreshCallback;
+	private GLFWWindowSizeCallback sizeCallback;
 
 	private GLCapabilities glCapabilities;
 
@@ -64,23 +69,18 @@ public class Window {
 	private static final DoubleBuffer doublebuffer = BufferUtils.createDoubleBuffer(1);
 
 	private static final GLFWErrorCallback errorCallback = new GLFWErrorCallback() {
-		private final Map<Integer, String> errors = APIUtil.apiClassTokens(new APIUtil.TokenFilter() {
-			@Override
-			public boolean accept(Field field, int value) {
-				return 0x10000 < value && value < 0x20000;
-			}
-		}, null, GLFW.class);
 
 		@Override
 		public void invoke(int error, long description) {
-			Logs.f("GLFW error " + errors.get(error), new RuntimeException(MemoryUtil.memDecodeUTF8(description)));
+			Logs.f("GLFW error " + String.format("0x%x", error), new RuntimeException(MemoryUtil.memUTF8(description)));
 		}
+
 	};
 
 	public static void init() throws InitializationException {
-		if (GLFW.glfwInit() != GL11.GL_TRUE) {
+		if (!GLFW.glfwInit())
 			throw new InitializationException("Could not initialize GLFWW");
-		}
+
 		GLFW.glfwDefaultWindowHints();
 		GLFW.glfwSetErrorCallback(errorCallback);
 		GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -165,7 +165,7 @@ public class Window {
 		}.set(window);
 		cursorEnterCallback = new GLFWCursorEnterCallback() {
 			@Override
-			public void invoke(long window, int entered) {
+			public void invoke(long window, boolean entered) {
 				try {
 					GLFW.glfwGetCursorPos(window, doublebuffer, null);
 					inputData.setCursorX((int) doublebuffer.get(0));
@@ -284,7 +284,7 @@ public class Window {
 		}.set(window);
 		focusCallback = new GLFWWindowFocusCallback() {
 			@Override
-			public void invoke(long window, int focused) {
+			public void invoke(long window, boolean focused) {
 				try {
 
 				} catch (Exception e) {
@@ -294,7 +294,7 @@ public class Window {
 		}.set(window);
 		iconifyCallback = new GLFWWindowIconifyCallback() {
 			@Override
-			public void invoke(long window, int iconified) {
+			public void invoke(long window, boolean iconified) {
 				try {
 
 				} catch (Exception e) {
@@ -316,7 +316,7 @@ public class Window {
 			@Override
 			public void invoke(long window) {
 				try {
-					
+
 				} catch (Exception e) {
 					Logs.e(e);
 				}
@@ -404,13 +404,13 @@ public class Window {
 	public static GLFWVidMode getBestFullscreenVideoMode(ArrayList<GLFWVidMode> vidModes) {
 		int bestWidth = 0;
 		int bestHeight = 0;
-		
+
 		ArrayList<GLFWVidMode> sameSize = new ArrayList<GLFWVidMode>();
-		
+
 		for (GLFWVidMode vidMode : vidModes) {
 			if (vidMode.width() < bestWidth || vidMode.height() < bestHeight)
 				continue;
-			
+
 			if (vidMode.width() > bestWidth) {
 				sameSize.clear();
 				bestWidth = vidMode.width();
@@ -421,10 +421,10 @@ public class Window {
 			}
 			sameSize.add(vidMode);
 		}
-		
+
 		int bestRefresh = 0;
 		ArrayList<GLFWVidMode> sameRefresh = new ArrayList<GLFWVidMode>();
-		
+
 		for (GLFWVidMode vidMode : sameSize) {
 			if (vidMode.refreshRate() < bestRefresh)
 				continue;
@@ -435,15 +435,15 @@ public class Window {
 			}
 			sameRefresh.add(vidMode);
 		}
-		
+
 		GLFWVidMode bestVidMode = sameRefresh.get(0);
-		
+
 		for (GLFWVidMode vidMode : sameRefresh) {
 			if (vidMode.redBits() < bestVidMode.redBits() || vidMode.greenBits() < bestVidMode.greenBits() || vidMode.blueBits() < bestVidMode.blueBits())
 				continue;
 			bestVidMode = vidMode;
 		}
-		
+
 		return bestVidMode;
 	}
 
@@ -509,43 +509,69 @@ public class Window {
 
 		this.fullscreen = fullscreen;
 
-		int width = 0, height = 0;
+		int width, height;
 
+		if (distributor.getListener() != null)
+			distributor.preResize();
+		Application.get().preResize();
+
+		ignoreNextCursorEvent = true;
 		if (fullscreen) {
 			GLFW.glfwWindowHint(GLFW.GLFW_RED_BITS, fullscreenVideoMode.redBits());
 			GLFW.glfwWindowHint(GLFW.GLFW_GREEN_BITS, fullscreenVideoMode.greenBits());
 			GLFW.glfwWindowHint(GLFW.GLFW_BLUE_BITS, fullscreenVideoMode.blueBits());
 			GLFW.glfwWindowHint(GLFW.GLFW_REFRESH_RATE, fullscreenVideoMode.refreshRate());
+
 			width = fullscreenVideoMode.width();
 			height = fullscreenVideoMode.height();
+
+			GLFW.glfwSetWindowMonitor(window, GLFW.glfwGetPrimaryMonitor(), 0, 0, width, height, fullscreenVideoMode.refreshRate());
+			GLFW.glfwSwapInterval(vsync ? 1 : 0);
+		} else {
+			width = this.width;
+			height = this.height;
+
+			GLFWVidMode vidMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
+
+			GLFW.glfwSetWindowMonitor(window, MemoryUtil.NULL, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2, width, height, 0);
+
+			GLFW.glfwSwapInterval(vsync ? 1 : 0);
 		}
 
-		width = fullscreen ? width : this.width;
-		height = fullscreen ? height : this.height;
+		PostResizeEvent event = new PostResizeEvent();
+		event.width = width;
+		event.height = height;
 
-		long newWindow = GLFW.glfwCreateWindow(width, height, title,
-				fullscreen ? GLFW.glfwGetPrimaryMonitor() : MemoryUtil.NULL, window);
-
-		distributor.preResize();
-		Application.get().preResize();
-		loader.preContextChange();
-		free();
-		window = newWindow;
-
-		GLFW.glfwMakeContextCurrent(window);
-		GLFW.glfwSwapInterval(vsync ? 1 : 0);
-		glCapabilities = GL.createCapabilities();
-		initCallbacks();
-		loader.postContextChange();
-		if (distributor.getListener() != null) {
-			PostResizeEvent event = new PostResizeEvent();
-			event.width = width;
-			event.height = height;
+		if (distributor.getListener() != null)
 			distributor.postResize(event);
-			Application.get().postResize(event);
-		}
-		setCursorEnabled(cursorEnabled);
-		GLFW.glfwShowWindow(window);
+		Application.get().postResize(event);
+
+//		long newWindow = GLFW.glfwCreateWindow(width, height, title,
+//				fullscreen ? GLFW.glfwGetPrimaryMonitor() : MemoryUtil.NULL, window);
+//
+//		distributor.preResize();
+//		Application.get().preResize();
+//		loader.preContextChange();
+//		free();
+//		window = newWindow;
+//
+//		GLFW.glfwMakeContextCurrent(window);
+//		GLFW.glfwSwapInterval(vsync ? 1 : 0);
+//		glCapabilities = GL.createCapabilities();
+//		initCallbacks();
+//		loader.postContextChange();
+//		if (distributor.getListener() != null) {
+//			PostResizeEvent event = new PostResizeEvent();
+//			event.width = width;
+//			event.height = height;
+//			distributor.postResize(event);
+//			Application.get().postResize(event);
+//		}
+//		setCursorEnabled(cursorEnabled);
+//		GLFW.glfwShowWindow(window);
+//		return true;
+
+
 		Logs.d("resized to " + width + "x" + height);
 		return true;
 	}

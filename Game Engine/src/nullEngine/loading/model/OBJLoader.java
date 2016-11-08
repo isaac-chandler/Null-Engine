@@ -10,7 +10,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * A class to load OBJ models
+ */
 public class OBJLoader {
+
+	/**
+	 * Load an OBJ model
+	 * @param loader The loader to use
+	 * @param name The name of the file
+	 * @return The model that was loaded
+	 */
 	public static Model loadModel(Loader loader, String name) {
 		ArrayList<Float> positions = new ArrayList<Float>();
 		ArrayList<Float> texCoords = new ArrayList<Float>();
@@ -104,11 +114,19 @@ public class OBJLoader {
 				}
 			}
 
-			return loader.loadModel(loader.toFloatArray(newPositions), loader.toFloatArray(newTexCoords), loader.toFloatArray(newNormals), newIndices);
+			return loader.loadModel(toFloatArray(newPositions), toFloatArray(newTexCoords), toFloatArray(newNormals), newIndices);
 		} catch (FileNotFoundException e) {
 			Logs.f(e);
 			return null;
 		}
+	}
+
+	private static float[] toFloatArray(ArrayList<Float> list) {
+		float[] ret = new float[list.size()];
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = list.get(i);
+		}
+		return ret;
 	}
 
 	private static class OBJIndex {

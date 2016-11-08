@@ -37,7 +37,7 @@ public class Main {
 		Simplifier simplifier = new OctTreeSimplifier();
 
 		for (String arg : args) {
-			if (arg.matches("\\-simplifier=[a-z]+")) {
+			if (arg.matches("-simplifier=[a-z]+")) {
 				String s = arg.substring(12);
 				if (s.equals("voxel"))
 					simplifier = new VoxelSimpilier();
@@ -56,19 +56,19 @@ public class Main {
 		boolean lodChain = simplifier.getDefaultShouldLodChain();
 
 		for (String arg : args) {
-			if (arg.matches("\\-lodcount=\\d+")) {
+			if (arg.matches("-lodcount=\\d+")) {
 				lodCount = Byte.parseByte(arg.substring(10));
 				if (lodCount < 1) {
 					System.err.println("Level of detail count cannot be less than 1");
 					System.exit(1);
 				}
-			} else if (arg.matches("\\-lodbias=\\d+\\.?\\d*")) {
+			} else if (arg.matches("-lodbias=\\d+\\.?\\d*")) {
 				lodBias = Double.parseDouble(arg.substring(9));
 				if (lodBias < 1) {
 					System.err.println("Level of detail bias cannot be less than 1");
 					System.exit(1);
 				}
-			} else if (arg.matches("\\-lodchain=[a-z]+")) {
+			} else if (arg.matches("-lodchain=[a-z]+")) {
 				lodChain = Boolean.parseBoolean(arg.substring(10));
 				if (lodBias < 1) {
 					System.err.println("Level of detail bias cannot be less than 1");

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Model Format</title>
+		<link rel="stylesheet" type="text/css" href="Model_Format_Style.css">
+	</head>
+	<body>
+		<h1>Null Engine Model Format Version 2</h1>
+		<h2>Definitions</h2>
+		<ul>
+			<li><em>Level of detail</em> - This is one of the levels used for distance simplifying where the first (index 0) is the most detailed</li>
+		</ul>
+		<h2>Changes From Version 1</h2>
+		<ul>
+			<li>Multiple levels of detail are now supported</li>
+		</ul>
+		<h2>Format</h2>
+		<p>
+			All values are in big endian<br>
+			<br>
+			<span id="Version">8 bit integer: <em>version</em> - 2 for current version<sup id="ref1"><a class="footnote" href="#fn1">1</a></sup></span><br>
+			8 bit integer: <em>lod count</em> - The number of levels of detail<br>
+			<em>lod count</em> <a href="#Level_Of_Detail"><strong>Levels of detail</strong></a>: <em id="Index_Count">lods</em> - The levels of detail<br>
+		</p>
+		<div id="Level_Of_Detail">
+			<h4>Level of Detail</h4>
+			<p class="tab">
+				32 bit integer: <em>vertex count</em> - The number of vertices in this level of detail<br>
+				<em>vertex count</em> <a href="#Vertex"><strong>Vertices</strong></a>: <em>vertices</em> - The vertices this level of detail<br>
+				<em>vertex count</em> <a href="#Texture_Coordinate"><strong>Texture Coorinates</strong></a>: <em>texture coordinates</em> - The texture coordinates for this level of detail<br>
+				<em>vertex count</em> <a href="#Normal"><strong>Normals</strong></a>: <em>normals</em> - The normals for this level of detail<br>
+				32 bit integer: <em>index count</em> - The number of indices in this level of detail<br>
+				<em>index count</em> 32 bit integers: <em>indices</em> - The indices for this level of detail
+			</p>
+		</div>
+		<div id="Vertex">
+			<h4>Vertex</h4>
+			<p class="tab">
+				Single precision float: <em>x</em> - The x value<br>
+				Single precision float: <em>y</em> - The y value<br>
+				Single precision float: <em>z</em> - The z value
+			</p>
+		</div>
+		<div id="Texture_Coordinate">
+			<h4>Texture Coordinate</h4>
+			<p class="tab">
+				Single precision float: <em>x</em> - The x value<br>
+				Single precision float: <em>y</em> - The y value
+			</p>
+		</div>
+		<div id="Normal">
+			<h4>Normal</h4>
+			<p class="tab">
+				Single precision float: <em>x</em> - The x value<br>
+				Single precision float: <em>y</em> - The y value<br>
+				Single precision float: <em>z</em> - The z value
+			</p>
+		</div>
+		<hr>
+		<p id="fn1">1. For other values of <a href="#Version"><em>version</em></a> see the corresponding specification <a class="footnote" href="#ref1">↩</a></p>
+	</body>
+</html>

@@ -25,7 +25,7 @@ public class ResourceBundleLocation implements ResourceLocation {
 
 			int version = is.read();
 			if (version != 1)
-				throw new IOException("Invalid bundle file");
+				throw new IOException("Unsupported bundle file version");
 
 			int fileCount = StreamUtils.readInt(is);
 

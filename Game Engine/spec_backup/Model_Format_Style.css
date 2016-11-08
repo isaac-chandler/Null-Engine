@@ -1,0 +1,33 @@
+.tab {
+	margin-left: 20px;
+}
+
+.footnote {
+	text-decoration: none;
+}
+
+a:link {
+	color: blue;
+}
+
+a:visited {
+	color: blue;
+}
+
+:target {
+	animation: highlight 1s;
+}
+
+@keyframes highlight {
+	0% {
+    	background-color: white;
+    }
+
+	50% {
+		background-color: #ccccff;
+	}
+	
+	100% {
+		background-color: white;
+	}
+}

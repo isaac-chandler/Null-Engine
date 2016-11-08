@@ -18,7 +18,7 @@ public class PixelBuffer extends ManagedResource {
 		this.id = id;
 		this.size = size;
 		bind();
-		GL15.glBufferData(GL21.GL_PIXEL_PACK_BUFFER, size, null, GL15.GL_STREAM_READ);
+		GL15.nglBufferData(GL21.GL_PIXEL_PACK_BUFFER, size, MemoryUtil.NULL, GL15.GL_STREAM_READ);
 		unbind();
 	}
 

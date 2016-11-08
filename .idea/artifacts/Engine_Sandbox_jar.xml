@@ -5,7 +5,7 @@
       <element id="module-output" name="Engine Sandbox" />
       <element id="module-output" name="Game Engine" />
       <element id="module-output" name="Math" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/Game Engine/lib/jar/PNGDecoder.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Game Engine/lib/PNGDecoder.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Game Engine/lib/jar/lwjgl.jar" path-in-jar="/" />
     </root>
   </artifact>

@@ -29,7 +29,7 @@ public class DeferredPointLightShader extends DeferredLightShader {
 	public void loadLight(PointLight light) {
 		loadVec3(location_lightColor, light.getLightColor());
 		loadVec3(location_attenuation, light.getSquared(), light.getLinear(), light.getConstant());
-		loadMat4(location_modelMatrix, light.getParent().getRenderMatrix());
+		loadMat4(location_modelMatrix, light.getObject().getRenderMatrix());
 	}
 
 	public void loadViewMatrix(Matrix4f viewMarix) {

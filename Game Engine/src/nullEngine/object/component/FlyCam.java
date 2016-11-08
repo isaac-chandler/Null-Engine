@@ -9,6 +9,9 @@ import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;
 import util.BitFieldInt;
 
+/**
+ * A first person camera that can fly around
+ */
 public class FlyCam extends Camera {
 
 	private static final float WALK_SPEED = 1.5f;
@@ -17,6 +20,10 @@ public class FlyCam extends Camera {
 	private boolean canMove = true;
 	private boolean canRotate = true;
 
+	/**
+	 * Setup this object
+	 * @param parent This objects parent
+	 */
 	@Override
 	public void init(GameObject parent) {
 		super.init(parent);
@@ -25,22 +32,35 @@ public class FlyCam extends Camera {
 
 	private Quaternion temp = new Quaternion();
 
-	public Matrix4f updateMatrix() {
-		getParent().getTransform().getWorldRot().toRotationMatrix(viewMatrix);
-		Matrix4f.mul(viewMatrix, Matrix4f.setTranslation(getParent().getTransform().getWorldPos().mul(-1, null), null), viewMatrix);
-		return viewMatrix;
+	/**
+	 * Update our matrix
+	 */
+	public void updateMatrix() {
+		getObject().getTransform().getWorldRot().toRotationMatrix(viewMatrix);
+		Matrix4f.mul(viewMatrix, Matrix4f.setTranslation(getObject().getTransform().getWorldPos().mul(-1, null), null), viewMatrix);
 	}
 
+	/**
+	 * Render this component
+	 * @param renderer The renderer that is rendering this object
+	 * @param object   The object this component is attached to
+	 * @param flags    The render flags
+	 */
 	@Override
 	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
 
 	}
 
+	/**
+	 * If camera rotation is enabled, rotate the camera
+	 * @param event The event
+	 * @return Wether the camera rotated
+	 */
 	@Override
 	public boolean mouseMoved(MouseEvent event) {
 		if (canRotate) {
-			Quaternion rotation = getParent().getTransform().getRot();
-			getParent().getTransform().increaseRot(new Quaternion((float) Math.toRadians(event.x / 1f), Vector4f.UP));
+			Quaternion rotation = getObject().getTransform().getRot();
+			getObject().getTransform().increaseRot(new Quaternion((float) Math.toRadians(event.x / 1f), Vector4f.UP));
 			Quaternion.mul(rotation, new Quaternion((float) Math.toRadians(event.y / -1f), rotation.getRight(null)), temp);
 
 			float pitch = (float) Math.toDegrees(Math.atan2(2 * temp.x * temp.w - 2 * temp.y * temp.z, 1 - 2 * temp.x * temp.x - 2 * temp.z * temp.z));
@@ -50,7 +70,7 @@ public class FlyCam extends Camera {
 				rotation.y = temp.y;
 				rotation.z = temp.z;
 				rotation.w = temp.w;
-				getParent().getTransform().setRot(rotation);
+				getObject().getTransform().setRot(rotation);
 			}
 
 			updateMatrix();
@@ -62,11 +82,16 @@ public class FlyCam extends Camera {
 	private static final Vector4f Y_ONLY = new Vector4f(0, 1, 0, 0);
 	private static final Vector4f NO_Y = new Vector4f(1, 0, 1, 0);
 
+	/**
+	 * Update the camera and process the movement
+	 * @param delta  The time since update was last called
+	 * @param object The object this component is attached to
+	 */
 	@Override
 	public void update(double delta, GameObject object) {
 		if (canMove) {
 			Vector4f motion = new Vector4f();
-			Quaternion rotation = getParent().getTransform().getRot();
+			Quaternion rotation = getObject().getTransform().getRot();
 
 			float speed = Input.keyPressed(Input.KEY_TAB) ? RUN_SPEED : WALK_SPEED;
 
@@ -101,18 +126,33 @@ public class FlyCam extends Camera {
 		}
 	}
 
+	/**
+	 * Wether this camera can move
+	 * @return Wether this camera can move
+	 */
 	public boolean getCanMove() {
 		return canMove;
 	}
 
+	/**
+	 * Set wether this camera can move
+	 * @param canMove  Wether this camera can move
+	 */
 	public void setCanMove(boolean canMove) {
 		this.canMove = canMove;
 	}
-
+	/**
+	 * Wether this camera can rotate
+	 * @return Wether this camera can rotate
+	 */
 	public boolean getCanRotate() {
 		return canRotate;
 	}
 
+	/**
+	 * Set ether this camera can rotate
+	 * @param canRotate Wether this camera can rotate
+	 */
 	public void setCanRotate(boolean canRotate) {
 		this.canRotate = canRotate;
 	}
