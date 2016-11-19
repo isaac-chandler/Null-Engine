@@ -75,7 +75,7 @@ public class FramebufferMousePick {
 		depthTexutreID = GL11.glGenTextures();
 		frameBufferID = GL30.glGenFramebuffers();
 
-		colorTextureID = genTexture(width, height);
+		colorTextureID = genTextureDetailed(width, height);
 		worldPositionTextureID = genTextureDetailed(width, height);
 		localPositionTextureID = genTextureDetailed(width, height);
 

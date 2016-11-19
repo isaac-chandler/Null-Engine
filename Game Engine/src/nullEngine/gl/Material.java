@@ -53,6 +53,7 @@ public class Material implements Cloneable {
 		DEFAULT_MATERIAL.setShader(BasicShader.INSTANCE, BASIC_SHADER_INDEX);
 		DEFAULT_MATERIAL.setShader(DeferredBasicShader.INSTANCE, DEFERRED_SHADER_INDEX);
 		DEFAULT_MATERIAL.setShader(MousePickBasicShader.INSTANCE, MOUSE_PICKING_SHADER_INDEX);
+		DEFAULT_MATERIAL.setFloat("lightingAmount", 1);
 	}
 
 	private Material(Material material) {

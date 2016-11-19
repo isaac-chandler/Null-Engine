@@ -1,6 +1,5 @@
 package sandbox;
 
-import math.Quaternion;
 import math.Vector4f;
 import nullEngine.NullEngine;
 import nullEngine.control.Application;
@@ -37,146 +36,147 @@ import nullEngine.object.component.light.DirectionalLight;
 import nullEngine.object.wrapper.GeoclipmapTerrain;
 import nullEngine.object.wrapper.HeightMap;
 import nullEngine.util.logs.Logs;
-import org.lwjgl.opengl.GL11;
 import util.BitFieldInt;
 
 public class Main {
 
 	public static void main(String[] args) {
 		try {
-			NullEngine.init();
-			Logs.setDebug(true);
-			final Application application = new Application(1280, 720, false, "Sandbox");
-			application.getWindow().setVsync(true);
-			application.bind();
-			
-			State state = new State();
-			int TEST_STATE = application.addState(state);
-			application.setState(TEST_STATE);
+			NullEngine.init();   // Initialize the engine
+			Logs.setDebug(true); // Set the logs to output debug info
 
-			final FlyCam camera = new FlyCam();
+			final Application application = new Application(1280, 720, false, "Sandbox"); // Create the application
+			application.getWindow().setVsync(true);                                       // Set up vsyc
+			application.bind();                                                           // Make the application current
 
-			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 300f);
-			LayerGUI gui = new LayerGUI();
-			state.addLayer(gui);
-			state.addLayer(world);
+			State state = new State();                    // Create the state
+			int TEST_STATE = application.addState(state); // Add it to the engine
+			application.setState(TEST_STATE);             // Enter the state
 
-			state.addListener(new EventAdapter() {
+			final FlyCam camera = new FlyCam(); // Create the camera
+
+			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 300f); // Create the layer for the world
+			LayerGUI gui = new LayerGUI();                                                                  // Create the layer for the debug test
+			state.addLayer(gui);                                                                            // Add the GUI first so it is on top
+			state.addLayer(world);                                                                          // Then add the world layer
+
+			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer()); // Get the renderer
+
+			state.addListener(new EventAdapter() { // Add an event listener to the state
 				@Override
 				public boolean keyPressed(KeyEvent event) {
-					if (event.key == Input.KEY_T) {
-						((DeferredRenderer) world.getRenderer()).setWireframe(!((DeferredRenderer) world.getRenderer()).isWireframe());
-						return true;
-					} else if (event.key == Input.KEY_F1) {
-						application.screenshot();
-						return true;
-					} else if (event.key == Input.KEY_F11) {
-						application.setFullscreen(!application.isFullscreen(), application.isFullscreen() ? null : application.getBestFullscreenVideoMode());
+					if (event.key == Input.KEY_T) { // Was the key T?
+						renderer.setWireframe(!renderer.isWireframe()); // Toggle wireframe mode
+						return true;                                    // Eat the event
+					} else if (event.key == Input.KEY_F1) {  // Was the key F1?
+						application.screenshot();            // Take a screenshot
+						return true;                         // Eat the event
+					} else if (event.key == Input.KEY_F11) { // Was the key F11?
+						application.setFullscreen(!application.isFullscreen(), application.isFullscreen() ? null : application.getBestFullscreenVideoMode()); // Toggle fullscreen
+						return true; // Eat the event
 					}
-					return false;
+					return false; // Pass the event on
 				}
 			});
 
-			Loader loader = application.getLoader();
-			loader.setAnisotropyEnabled(true);
+			Loader loader = application.getLoader(); // Get the loader
+
+			loader.setAnisotropyEnabled(true);       // Set up anisotropic filtering
 			loader.setAnisotropyAmount(8);
-			loader.setTextureLodBias(0);
 
-			Material.DEFAULT_MATERIAL.setFloat("lightingAmount", 1);
+			Font font = loader.loadFont("default/testsdf", 14); // Load the font
 
-			Font font = loader.loadFont("default/testsdf", 14);
-
-			GuiText text = new GuiText(-1, -0.85f, 0.1f, "FPS: 0\nUPS:0\n0.0/0.0MB", font) {
+			GuiText text = new GuiText(-1, -0.85f, 0.1f, "FPS: 0\nUPS:0\n0.0/0.0MB", font) { // Create gui text with custom update code
 				private double totalDelta = 1;
 
 				@Override
 				public void update(double delta, GameObject object) {
-					totalDelta += delta;
-					if (totalDelta > 0.25) {
-						float maxMemory = Runtime.getRuntime().maxMemory() / 1048576f;
-						float totalMemory = Runtime.getRuntime().totalMemory() / 1048576f;
-						float freeMemory = Runtime.getRuntime().freeMemory() / 1048576f;
+					totalDelta += delta; // Increase timer
+					if (totalDelta > 0.25) { // Update text 4 times per second
+						float maxMemory = Runtime.getRuntime().maxMemory() / 1048576f;     // Get allocated memory
+						float totalMemory = Runtime.getRuntime().totalMemory() / 1048576f; // Get memory in use
+						float freeMemory = Runtime.getRuntime().freeMemory() / 1048576f;   // Get free memory
+
 						setText(String.format("FPS: %d\nUPS: %d\n%.1f/%.1fMB",
-								Math.round(1d / application.getLastFrameTime()),
-								Math.round(1d / application.getLastUpdateTime()),
-								totalMemory - freeMemory, maxMemory));
-						totalDelta -= 0.25;
+								Math.round(1d / application.getLastFrameTime()),  // Get frame rate
+								Math.round(1d / application.getLastUpdateTime()), // Get update rate
+								totalMemory - freeMemory, maxMemory));            // Memory info
+
+						totalDelta -= 0.25; // Reset timer
 					}
 				}
 			};
-			text.setColor(Color.WHITE);
-			text.setBorderColor(Color.BLACK);
-			text.setThickness(0.25f, 0.35f);
-			text.setBorderThickness(0.4f, 0.4f);
-			gui.getRoot().addComponent(text);
-			Logs.d(GL11.glGetString(GL11.GL_RENDERER));
 
-			final Model dragonModel = loader.loadModel("default/dragon");
+			text.setColor(Color.WHITE);          // Set text color
+			text.setBorderColor(Color.BLACK);    // Set text border
+			text.setThickness(0.25f, 0.35f);     // Set up font thickness
+			text.setBorderThickness(0.4f, 0.4f); // Set up font border thickness
 
-			Texture2D gold = TextureGenerator.genColored(218, 165, 32, 255);
+			gui.getRoot().addComponent(text); // Add the text to the GUI root
 
-			final Material dragonMaterial = new Material();
-			dragonMaterial.setTexture("diffuse", gold);
-			dragonMaterial.setFloat("shineDamper", 32);
-			dragonMaterial.setFloat("reflectivity", 1);
+			final Model dragonModel = loader.loadModel("default/dragon"); // Load the dragon model
 
-			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer());
-			FogPostFX fog = new FogPostFX(renderer.getLightOutput(), renderer.getPositionOutput());
-			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
-			fog.setDensity(0.004f);
-			fog.setGradient(4f);
-			final PostFX bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.2f), 0.3f);
-			final PostFX noBloom = new ContrastPostFX(fog, 0.3f);
-			renderer.setPostFX(bloom);
-			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
+			Texture2D gold = TextureGenerator.genColored(218, 165, 32, 255); // Create the texture for the dragon
 
-			GameObject dragon = new GameObject();
-			final GameObject cameraObject = new GameObject();
-			GameObject terrainObject = new GameObject();
-			world.getRoot().addChild(cameraObject);
-			world.getRoot().addChild(dragon);
-			world.getRoot().addChild(terrainObject);
+			final Material dragonMaterial = new Material(); // Create a material for the dragon
+			dragonMaterial.setTexture("diffuse", gold);     // Set the diffuse color texture
+			dragonMaterial.setFloat("shineDamper", 32);     // Set the specular highlight exponent
+			dragonMaterial.setFloat("reflectivity", 1);     // Set the specular highlight strength
 
-			cameraObject.getTransform().setPos(new Vector4f(0, 1.5f, -5));
-			cameraObject.getTransform().setRot(new Quaternion((float) Math.PI, Vector4f.UP));
+			FogPostFX fog = new FogPostFX(renderer.getLightOutput(), renderer.getPositionOutput()); // Create the fog with input from the lit scene and its positions
+			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f)); // Set the sky color
+			fog.setDensity(0.004f);                                // Set how thick the fog is
+			fog.setGradient(4f);                                   // Set how quickly the fog fades in
+			final PostFX bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.2f), 0.3f); // Create the bloom postfx
+			final PostFX noBloom = new ContrastPostFX(fog, 0.3f);                                  // Create the non bloom postfx
+			renderer.setPostFX(bloom);                                                             // Set default to bloom
+			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));                                 // Set the brightness of the ambient light to 20%
 
-//			GameObject lightObject = new GameObject();
-//			lightObject.addComponent(new SpotLight(Color.WHITE, new Vector4f(0, -1, 0), 0.001f, 0, 0.6f, (float) (Math.PI / 4)) {
-//				@Override
-//				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
-//					setDirection(cameraObject.getTransform().getRot().getForward(getDirection()).mul(-1));
-//					object.getTransform().setPos(cameraObject.getTransform().getWorldPos());
-//					super.render(renderer, object, flags);
-//				}
-//			});
-//			lightObject.getTransform().setPos(new Vector4f(8, 50, -14));
-//			world.getRoot().addChild(lightObject);
-//			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(-5, 0, 20, 0)));
-			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0)));
+			GameObject dragon = new GameObject();             // Create an object for the dragon
+			final GameObject cameraObject = new GameObject(); // Create an object for the camera
+			GameObject terrainObject = new GameObject();      // Create an object for the terrain
+			world.getRoot().addChild(cameraObject);           // Add the objects to the world
+			world.getRoot().addChild(dragon);                 // Add the objects to the world
+			world.getRoot().addChild(terrainObject);          // Add the objects to the world
 
-			Material terrainMaterial = new Material();
-			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE, Material.DEFERRED_SHADER_INDEX);
-			terrainMaterial.setShader(MousePickTerrainShader.INSTANCE, Material.MOUSE_PICKING_SHADER_INDEX);
-			terrainMaterial.setTexture("aTexture", loader.loadTexture("default/grass"));
-			terrainMaterial.setTexture("rTexture", loader.loadTexture("default/dirt"));
-			terrainMaterial.setTexture("gTexture", loader.loadTexture("default/flowers"));
-			terrainMaterial.setTexture("bTexture", loader.loadTexture("default/path"));
-			terrainMaterial.setTexture("blend", loader.loadTexture("default/blend"));
-			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.5f, 0));
-			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 8, 1));
-			terrainMaterial.setVector("lightingAmount", new Vector4f(1, 1, 1, 1));
-			terrainMaterial.setFloat("tileCount", 220);
-			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 80);
-			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = true; //FIXME This is terrible
-			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap, 600, 128, 6, loader, cameraObject);
-			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = false;
-			terrainObject.addChild(terrain);
+			world.getRoot().addComponent(new DirectionalLight(new Vector4f(1, 1, 1), new Vector4f(0, -1, 0, 0))); // Add a directional light pointing straight down
 
+			Material terrainMaterial = new Material();                                                       // Create a material for the terrain
 
-			cameraObject.addComponent(camera);
-			application.setCursorEnabled(false);
-			cameraObject.addComponent(new GameComponent() {
-				boolean cameraEnabled = true;
+			terrainMaterial.setShader(DeferredTerrainShader.INSTANCE, Material.DEFERRED_SHADER_INDEX);       // Use terrain shaders instead of defaults
+			terrainMaterial.setShader(MousePickTerrainShader.INSTANCE, Material.MOUSE_PICKING_SHADER_INDEX); // Use terrain shaders instead of defaults
+			terrainMaterial.setTexture("rTexture", loader.loadTexture("default/dirt"));                      // Set red channel texture
+			terrainMaterial.setTexture("gTexture", loader.loadTexture("default/flowers"));                   // Set green channel texture
+			terrainMaterial.setTexture("bTexture", loader.loadTexture("default/path"));                      // Set  blue channel texture
+			terrainMaterial.setTexture("aTexture", loader.loadTexture("default/grass"));                     // Set alpha channel texture
+			terrainMaterial.setTexture("blend", loader.loadTexture("default/blend"));                        // Set texture blending map
+			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.5f, 0));                          // Set specular strength of path to 0.5 and others to 0
+			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 8, 1));                              // Set specular exponent of path to 8 and others to 1
+			terrainMaterial.setVector("lightingAmount", new Vector4f(1, 1, 1, 1));                           // Set lighting amount for all textures to 1
+			terrainMaterial.setFloat("tileCount", 220);                                                      // Set how many times the textures are tiled across the whole terrain to 220
+
+			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 60);       // Load the terrain height map
+
+			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = true;                           // Set mouse picking to be enabled for the terrain FIXME This is terrible
+
+			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap,  // Creae the terrain
+					600,           // Terrain should have 600 side length
+					128,           // 128x128 square of triangles for each level of detail
+					6,             // 6 levels of detail
+					loader,        // Pass it the loader
+					cameraObject); // Pass it the camera object
+
+			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = false; // Set the mouse picking to be disabled for future objects
+
+			terrainObject.addChild(terrain); // Add the terrain to the terrain object
+
+			cameraObject.getTransform().setPos(new Vector4f(0, terrain.getTerrainHeight(0, -5) + 1.5f, -5)); // Set the cameras position to the hiehgt of the terrain + 1.5
+
+			cameraObject.addComponent(camera);   // Add the camera to the camera object
+			application.setCursorEnabled(false); // Hide the cursor
+			cameraObject.addComponent(new GameComponent() { // Add a component to the camera
+				boolean cameraEnabled = true;               // Camera can move by default
+				boolean freeMove = true;                    // Camera isn't locked to ground by default
 
 				@Override
 				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
@@ -184,94 +184,92 @@ public class Main {
 
 				@Override
 				public void update(double delta, GameObject object) {
+					if (!freeMove) { // Is the camera locked to the ground? If so we should set its position to be close to the ground
+						Vector4f pos = getObject().getTransform().getPos();    // Get the camera's current position
+						pos.y = terrain.getTerrainHeight(pos.x, pos.z) + 1.5f; // Set the camera's position to the height of the terrain + 1.5
+						getObject().getTransform().setPos(pos);                // Make sure the camera's position gets updated
+					}
 				}
 
 				@Override
 				public boolean keyPressed(KeyEvent event) {
-					if (event.key == Input.KEY_LEFT_ALT) {
-						cameraEnabled = !cameraEnabled;
-						application.setCursorEnabled(!cameraEnabled);
-						camera.setCanRotate(cameraEnabled);
-						camera.setCanMove(cameraEnabled);
+					if (event.key == Input.KEY_LEFT_ALT) { // Was left alt pressed?
+						cameraEnabled = !cameraEnabled; // Toggle camera enabled
+						application.setCursorEnabled(!cameraEnabled); // If the camera is disabled, enabled the cursor and visa versa
+						camera.setCanRotate(cameraEnabled);           // If the camera is disabled make sure it can't rotate
+						camera.setCanMove(cameraEnabled);             // If the camera is disabled make sure it can't move
 						return true;
 
+					} else if (event.key == Input.KEY_C) { // Was C pressed?
+						freeMove = !freeMove;              // Toggle the camera being locked to the ground
+						return true;                       // Eat the event
 					}
-					return false;
+					return false; // Pass the event on
 				}
 			});
-			dragon.getTransform().setPos(new Vector4f(8, terrain.getTerrainHeight(8, -14), -14));
-			dragon.getTransform().setRot(new Quaternion((float) Math.PI / -2, Vector4f.UP));
+
+			dragon.getTransform().setPos(new Vector4f(8, terrain.getTerrainHeight(8, -14), -14)); // Set the dragon's position to the terrain height
 
 			dragon.addComponent(new ModelComponent(dragonMaterial, dragonModel) {
-				private boolean bloomEnabled = true;
-				private boolean render = true;
+				private boolean bloomEnabled = true; // Bloom is enabled by default TODO Why is this on the dragon?
+				private boolean render = true;       // The dragon should render by default
 
 				@Override
 				public boolean mouseMoved(MouseEvent event) {
-					if (application.getCursorEnabled()) {
-						renderer.mousePick(Input.getMouseX(), application.getHeight() - 1 - Input.getMouseY(), new MousePickInfo(), this);
+					if (application.getCursorEnabled()) { // If the mouse has moved and the cursor is enabled we should move the dragon to the mouse's position
+						renderer.mousePick(Input.getMouseX(), application.getHeight() - 1 - Input.getMouseY(), new MousePickInfo(), this); // Request the renderer to do a mouse pick asychronously
 					}
 					return false;
 				}
 
 				@Override
 				public void notified(NotificationEvent event) {
-					if (event.getNotificationType() == NotificationEvent.NOTIFICATION_MOUSE_PICK_COMPLETE) {
-						MousePickInfo info = (MousePickInfo) event.getData();
-						if (info.model != null) {
-							render = true;
-							getObject().getTransform().setPos(info.worldPosition);
+					if (event.getNotificationType() == NotificationEvent.NOTIFICATION_MOUSE_PICK_COMPLETE && event.getData() instanceof MousePickInfo) { // If the notifiication is a mouse pick complete notification then move the dragon
+						MousePickInfo info = (MousePickInfo) event.getData(); // Get the mouse pick info
+						if (info.model != null) { // Was the mouse over an object?
+							render = true; // It was so make sure the dragon gets rendered
+							getObject().getTransform().setPos(info.worldPosition); // Set the dragon's position to the mouses position
 						} else {
-							render = false;
+							render = false; // The mouse wasn't over an object, presumably it was under the terrain or over the sky so don't render the dragon
 						}
 					}
 				}
 
 				@Override
-				public void update(double delta, GameObject object) {
-//					object.getTransform().increaseRot(new Quaternion(delta / 2, new Vector4f(0, 1, 0)));
+				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+					if (render) // Should we render the dragon?
+						super.render(renderer, object, flags); // Render the dragon normally
 
+					if (application.getCursorEnabled()) // Is the cursor enabled?
+						world.mousePickNextFrame();     // It is so do a mouse pick
 				}
 
 				@Override
-				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
-					if (render) {
-						super.render(renderer, object, flags);
+				public boolean keyPressed(KeyEvent event) {
+					if (Input.getKeyNumber(event.key) >= 0) {      // Was a number pressed?
+						setLodBias(Input.getKeyNumber(event.key)); // Set the level of detail bias for the dragon to the number that was pressed
+						return true;                               // Eat the event
+					} else if (event.key == Input.KEY_B) { // Was B pressed?
+						renderer.setPostFX((bloomEnabled = !bloomEnabled) ? bloom : noBloom); // Toggle the bloom effect
+						return true; // Eat the event
 					}
-
-					if (application.getCursorEnabled()) {
-						world.mousePickNextFrame();
-					}
+					return false; // Pass the event on
 				}
+			});
 
-			@Override
-			public boolean keyPressed (KeyEvent event){
-				if (Input.getKeyNumber(event.key) >= 0) {
-					setLodBias(Input.getKeyNumber(event.key));
-					return true;
-				} else if (event.key == Input.KEY_B) {
-					renderer.setPostFX((bloomEnabled = !bloomEnabled) ? bloom : noBloom);
-				}
-				return false;
+			Throwable e = application.start(); // Start the application
+			if (e != null) { // Was there an exception?
+				Logs.e("Caught exception");   // Log it
+				e.printStackTrace();          // Log the exception
+				application.carefulDestroy(); // make sure to do a careful destroy
+			} else {
+				application.destroy();  // Destroy the application normally
 			}
-		});
 
-		Throwable e = application.start();
-		if (e != null) {
-			Logs.e("Caught exception");
-			e.printStackTrace();
-			application.carefulDestroy();
-		} else {
-			application.destroy();
+			NullEngine.cleanup(); // Clean up the engine
+		} catch (Exception e) { // Something is wrong!
+			Logs.e("Something went horribly wrong!", e); // Log the danger message
+			Logs.finish();                               // Complete the logs
 		}
-
-		NullEngine.cleanup();
-	} catch(
-	Exception e)
-
-	{
-		Logs.e("Something went horribly wrong!", e);
-		Logs.finish();
 	}
-}
 }

@@ -49,6 +49,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -60,11 +61,11 @@ public class DeferredRenderer extends Renderer {
 
 	private static final float LOD_DROPOFF_FACTOR = 2f;
 	private static final float MOUSE_PICK_LOD_OFFSET = 1;
-	private HashMap<Material, ArrayList<ModelComponent>> models = new HashMap<>();
+	private Map<Material, ArrayList<ModelComponent>> models = new HashMap<>();
 	private Vector4f ambientColor = new Vector4f();
-	private ArrayList<DirectionalLight> directionalLights = new ArrayList<>();
-	private ArrayList<PointLight> pointLights = new ArrayList<>();
-	private ArrayList<SpotLight> spotLights = new ArrayList<>();
+	private List<DirectionalLight> directionalLights = new ArrayList<>();
+	private List<PointLight> pointLights = new ArrayList<>();
+	private List<SpotLight> spotLights = new ArrayList<>();
 
 	/**
 	 * The size decrease for the mouse picking frame buffer
@@ -88,8 +89,8 @@ public class DeferredRenderer extends Renderer {
 	private TextureOutput lightOutput;
 
 	private BitFieldInt flags;
-	private HashMap<Material, ArrayList<ModelComponent>> mousePickModels = new HashMap<>();
-	private ArrayList<ModelComponent> orderedMousePickModels = new ArrayList<>();
+	private Map<Material, List<ModelComponent>> mousePickModels = new HashMap<>();
+	private List<ModelComponent> orderedMousePickModels = new ArrayList<>();
 
 	/**
 	 * Create a new deferred renderer
@@ -142,7 +143,7 @@ public class DeferredRenderer extends Renderer {
 		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT)) {
 			if (component instanceof ModelComponent) {
 				ModelComponent model = (ModelComponent) component;
-				ArrayList<ModelComponent> list = mousePickModels.get(model.getMaterial());
+				List<ModelComponent> list = mousePickModels.get(model.getMaterial());
 				if (list == null) {
 					mousePickModels.put(model.getMaterial(), list = new ArrayList<>());
 				}
@@ -264,9 +265,9 @@ public class DeferredRenderer extends Renderer {
 			mousePickBuffer.bind();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-			orderedMousePickModels = new ArrayList<ModelComponent>(orderedMousePickModels.size());
+			orderedMousePickModels = new ArrayList<>(orderedMousePickModels.size());
 
-			for (Map.Entry<Material, ArrayList<ModelComponent>> components : mousePickModels.entrySet()) {
+			for (Map.Entry<Material, List<ModelComponent>> components : mousePickModels.entrySet()) {
 				shader = (MousePickShader) components.getKey().getShader(Material.MOUSE_PICKING_SHADER_INDEX);
 				shader.bind();
 				shader.loadMaterial(components.getKey());
@@ -307,7 +308,7 @@ public class DeferredRenderer extends Renderer {
 	private PixelPackBuffer[] worldPositionPbos = new PixelPackBuffer[MOUSE_PICK_PBO_COUNT];
 	private PixelPackBuffer[] localPositionPbos = new PixelPackBuffer[MOUSE_PICK_PBO_COUNT];
 
-	private LinkedBlockingQueue<Integer> freePbos;
+	private BlockingQueue<Integer> freePbos;
 	private List<MousePickRequest> mousePickRequests = Collections.synchronizedList(new ArrayList<MousePickRequest>(MOUSE_PICK_PBO_COUNT));
 
 	private static class MousePickRequest {
@@ -324,7 +325,7 @@ public class DeferredRenderer extends Renderer {
 		private long worldPositionSync;
 		private long localPositionSync;
 
-		private final ArrayList<ModelComponent> orderedMousePickModels;
+		private final List<ModelComponent> orderedMousePickModels;
 
 		private static ByteBuffer hitIdDest = null;
 		private static ByteBuffer worldPositionDest = null;
@@ -353,8 +354,8 @@ public class DeferredRenderer extends Renderer {
 						hitIdDest = renderer.getHitIdPbo(workingPboIndex).get(hitIdDest);
 						hitIdDest.order(ByteOrder.BIG_ENDIAN);
 						int hitId = hitIdDest.asIntBuffer().get(0);
-						if (hitId < orderedMousePickModels.size() && hitId >= 0)
-							info.model = orderedMousePickModels.get(hitId);
+						if (hitId <= orderedMousePickModels.size() && hitId > 0)
+							info.model = orderedMousePickModels.get(hitId - 1);
 					}
 				}
 
@@ -458,7 +459,7 @@ public class DeferredRenderer extends Renderer {
 	}
 
 	private void initPboQueue() {
-		freePbos = new LinkedBlockingQueue<Integer>(MOUSE_PICK_PBO_COUNT);
+		freePbos = new LinkedBlockingQueue<>(MOUSE_PICK_PBO_COUNT);
 		for (int i = 0; i < MOUSE_PICK_PBO_COUNT; i++)
 			freePbos.add(i);
 	}
