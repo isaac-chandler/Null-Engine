@@ -4,12 +4,21 @@ import nullEngine.control.Application;
 import nullEngine.gl.model.Quad;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL32;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * A framebuffer with a color texture, position texture, normal texture, specular texture and depth texture
+ */
 public class FramebufferDeferred {
 	private int frameBufferID;
 	private int colorTextureID;
@@ -30,9 +39,9 @@ public class FramebufferDeferred {
 		DRAW_BUFFERS.flip();
 	}
 
-	private static final ArrayList<FramebufferDeferred> framebuffers = new ArrayList<FramebufferDeferred>();
+	private static final List<FramebufferDeferred> framebuffers = new ArrayList<>();
 
-	private static int genTexture(int width,int height) {
+	private static int genTexture(int width, int height) {
 		int id = GL11.glGenTextures();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
@@ -44,7 +53,7 @@ public class FramebufferDeferred {
 		return id;
 	}
 
-	private static int genTextureDetailed(int width,int height) {
+	private static int genTextureDetailed(int width, int height) {
 		int id = GL11.glGenTextures();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
@@ -56,7 +65,11 @@ public class FramebufferDeferred {
 		return id;
 	}
 
-
+	/**
+	 * Create a new framebuffer
+	 * @param width The width
+	 * @param height The height
+	 */
 	public FramebufferDeferred(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -96,16 +109,25 @@ public class FramebufferDeferred {
 		framebuffers.add(this);
 	}
 
+	/**
+	 * Bind this framebuffer
+	 */
 	public void bind() {
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferID);
 		GL11.glViewport(0, 0, width, height);
 	}
 
+	/**
+	 * Unbind the framebuffer
+	 */
 	public static void unbind() {
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 		GL11.glViewport(0, 0, Application.get().getWidth(), Application.get().getHeight());
 	}
 
+	/**
+	 * Render this framebuffer
+	 */
 	public void render() {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
@@ -118,6 +140,9 @@ public class FramebufferDeferred {
 		Quad.get().render();
 	}
 
+	/**
+	 * Delete this framebuffer
+	 */
 	public void delete() {
 		GL30.glDeleteFramebuffers(frameBufferID);
 		GL11.glDeleteTextures(colorTextureID);
@@ -128,49 +153,87 @@ public class FramebufferDeferred {
 		framebuffers.remove(this);
 	}
 
+	/**
+	 * Get the frame buffer id
+	 * @return The frame buffer id
+	 */
 	public int getFrameBufferID() {
 		return frameBufferID;
 	}
 
+	/**
+	 * Get the color buffer
+	 * @return The color texture id
+	 */
 	public int getColorTextureID() {
 		return colorTextureID;
 	}
 
+	/**
+	 * Get the position buffer
+	 * @return The position texture id
+	 */
 	public int getPositionTextureID() {
 		return positionTextureID;
 	}
 
+	/**
+	 * Get the normal buffer
+	 * @return The normal texture id
+	 */
 	public int getNormalTextureID() {
 		return normalTextureID;
 	}
 
+	/**
+	 * Get the depth buffer
+	 * @return The depth texture id
+	 */
 	public int getDepthTexutreID() {
 		return depthTexutreID;
 	}
 
+	/**
+	 * Get the specular buffer
+	 * @return The specular texture id
+	 */
 	public int getSpecularTextureID() {
 		return specularTextureID;
 	}
 
+	/**
+	 * Get the width
+	 * @return The width
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * Get the height
+	 * @return The height
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Delete the framebuffers
+	 */
 	public static void preContextChange() {
 		for (FramebufferDeferred framebuffer : framebuffers)
 			GL30.glDeleteFramebuffers(framebuffer.getFrameBufferID());
 	}
 
+	/**
+	 * Recreate the framebuffers
+	 */
 	public static void contextChanged() {
 		for (FramebufferDeferred framebuffer : framebuffers)
-			framebuffer.reload();
+			framebuffer.recreate();
 	}
 
-	private void reload() {
+	private void recreate() {
 		frameBufferID = GL30.glGenFramebuffers();
 
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferID);

@@ -12,13 +12,14 @@ import nullEngine.input.PostResizeEvent;
 import util.BitFieldInt;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents an object in the game
  */
 public class GameObject implements EventListener {
-	private ArrayList<GameObject> children = new ArrayList<GameObject>();
-	private ArrayList<GameComponent> components = new ArrayList<GameComponent>();
+	private List<GameObject> children = new ArrayList<>();
+	private List<GameComponent> components = new ArrayList<>();
 	private Transform transform = new Transform();
 	private Matrix4f postUpdateMatrix = new Matrix4f();
 	private Matrix4f preRenderMatrix = new Matrix4f();
@@ -129,7 +130,7 @@ public class GameObject implements EventListener {
 	 *
 	 * @return The children
 	 */
-	public ArrayList<GameObject> getChildren() {
+	public List<GameObject> getChildren() {
 		return children;
 	}
 
@@ -138,7 +139,7 @@ public class GameObject implements EventListener {
 	 *
 	 * @return The components
 	 */
-	public ArrayList<GameComponent> getComponents() {
+	public List<GameComponent> getComponents() {
 		return components;
 	}
 

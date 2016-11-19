@@ -16,10 +16,11 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Create a new point light
+	 *
 	 * @param lightColor The color of the light
-	 * @param squared The squared factor for attenuation
-	 * @param linear The linear factor for attenuation
-	 * @param constant The constant factor for attenuation
+	 * @param squared    The squared factor for attenuation
+	 * @param linear     The linear factor for attenuation
+	 * @param constant   The constant factor for attenuation
 	 */
 	public PointLight(Vector4f lightColor, float squared, float linear, float constant) {
 		this.lightColor = lightColor;
@@ -30,6 +31,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * If this is a deferred render than add ourselves to the renderer
+	 *
 	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
 	 * @param flags    The render flags
@@ -42,6 +44,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Do nothing
+	 *
 	 * @param delta  The time since update was last called
 	 * @param object The object this component is attached to
 	 */
@@ -52,6 +55,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Gets the light color
+	 *
 	 * @return The light color
 	 */
 	public Vector4f getLightColor() {
@@ -60,6 +64,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Set the light color
+	 *
 	 * @param lightColor The new light color
 	 */
 	public void setLightColor(Vector4f lightColor) {
@@ -68,6 +73,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Get the attenuation squared factor
+	 *
 	 * @return The attenuation squared factor
 	 */
 	public float getSquared() {
@@ -76,6 +82,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Set the attenuation squared factor
+	 *
 	 * @param squared The new attenuation squared factor
 	 */
 	public void setSquared(float squared) {
@@ -84,6 +91,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Get the attenuation linear factor
+	 *
 	 * @return The attenuation linear factor
 	 */
 	public float getLinear() {
@@ -92,6 +100,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Set the attenuation linear factor
+	 *
 	 * @param linear The new attenuation linear factor
 	 */
 	public void setLinear(float linear) {
@@ -100,6 +109,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Get the attenuation constant factor
+	 *
 	 * @return The attenuation constant factor
 	 */
 	public float getConstant() {
@@ -108,6 +118,7 @@ public class PointLight extends GameComponent {
 
 	/**
 	 * Set the attenuation constant factor
+	 *
 	 * @param constant The new attenuation constant factor
 	 */
 	public void setConstant(float constant) {

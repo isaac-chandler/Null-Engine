@@ -10,15 +10,23 @@ import org.lwjgl.opengl.GL30;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Framebuffer with a color texture
+ */
 public class Framebuffer2D {
 	private int frameBufferID;
 	private int colorTextureID;
 	private int width, height;
 
-	private static final ArrayList<Framebuffer2D> framebuffers = new ArrayList<Framebuffer2D>();
+	private static final List<Framebuffer2D> framebuffers = new ArrayList<>();
 
-
+	/**
+	 * Create a new framebuffer
+	 * @param width The width
+	 * @param height The height
+	 */
 	public Framebuffer2D(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -47,55 +55,89 @@ public class Framebuffer2D {
 		framebuffers.add(this);
 	}
 
+	/**
+	 * Bind this framebuffer
+	 */
 	public void bind() {
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferID);
 		GL11.glViewport(0, 0, width, height);
 	}
 
+	/**
+	 * Unbind the framebuffer
+	 */
 	public static void unbind() {
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 		GL11.glViewport(0, 0, Application.get().getWidth(), Application.get().getHeight());
 	}
 
+	/**
+	 * Render this framebuffer
+	 */
 	public void render() {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
 		Quad.get().render();
 	}
 
+	/**
+	 * Delete this framebuffer
+	 */
 	public void delete() {
 		GL30.glDeleteFramebuffers(frameBufferID);
 		GL11.glDeleteTextures(colorTextureID);
 		framebuffers.remove(this);
 	}
 
+	/**
+	 * Get the framebuffer id
+	 * @return The framebuffer id
+	 */
 	public int getFrameBufferID() {
 		return frameBufferID;
 	}
 
+	/**
+	 * Get the color buffer
+	 * @return The color texture id
+	 */
 	public int getColorTextureID() {
 		return colorTextureID;
 	}
 
+	/**
+	 * Get the width
+	 * @return The width
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * Get the height
+	 * @return The height
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Delete the framebuffers
+	 */
 	public static void preContextChange() {
 		for (Framebuffer2D framebuffer : framebuffers)
 			GL30.glDeleteFramebuffers(framebuffer.getFrameBufferID());
 	}
 
+	/**
+	 * Recreate the framebuffers
+	 */
 	public static void contextChanged() {
 		for (Framebuffer2D framebuffer : framebuffers)
-			framebuffer.reload();
+			framebuffer.recreate();
 	}
 
-	private void reload() {
+	private void recreate() {
 		frameBufferID = GL30.glGenFramebuffers();
 
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferID);

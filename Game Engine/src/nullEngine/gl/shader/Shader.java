@@ -20,15 +20,18 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A shader
+ */
 public abstract class Shader {
 
 	private static Shader current = null;
 
 	private static final Pattern GLOBAL_INCLUDE_PATTERN = Pattern.compile("\\s*#include\\s*\"(.*?)\"\\s*");
 	private static final Pattern LOCAL_INCLUDE_PATTERN = Pattern.compile("\\s*#include\\s*<(.*?)>\\s*");
-	private HashMap<String, Integer> userFloats = new HashMap<String, Integer>();
-	private HashMap<String, Integer> userVectors = new HashMap<String, Integer>();
-	private HashMap<String, Integer> userTextures = new HashMap<String, Integer>();
+	private HashMap<String, Integer> userFloats = new HashMap<>();
+	private HashMap<String, Integer> userVectors = new HashMap<>();
+	private HashMap<String, Integer> userTextures = new HashMap<>();
 
 	private int program;
 	private int vertexShader;
@@ -39,12 +42,22 @@ public abstract class Shader {
 	private int location_mvp;
 
 
-	private FloatBuffer matrixbuffer = BufferUtils.createFloatBuffer(16);
+	private static final FloatBuffer matrixbuffer = BufferUtils.createFloatBuffer(16);
 
+	/**
+	 * Get the currently bound shader
+	 *
+	 * @return The currently bound shader
+	 */
 	public static Shader bound() {
 		return current;
 	}
 
+	/**
+	 * Create a new shader from a file
+	 *
+	 * @param shader The file to be loaded from <em>res/shaders</em> without the <em>.ns</em> extension using the <a href="spec/Shading_Language_1.html">Null Engine Shading Language</a>
+	 */
 	public Shader(String shader) {
 		shader += ".ns";
 		String src = loadLongShaderSource(shader);
@@ -104,38 +117,87 @@ public abstract class Shader {
 		getUniformLocations();
 	}
 
+	/**
+	 * Bind the shader attributes
+	 */
 	protected abstract void bindAttributes();
 
+	/**
+	 * Get the uniform locations
+	 */
 	protected abstract void getUniformLocations();
 
+	/**
+	 * Bind an attribute
+	 *
+	 * @param attribute The attribute id
+	 * @param name      The variable name
+	 */
 	protected void bindAttribute(int attribute, String name) {
 		GL20.glBindAttribLocation(program, attribute, name);
 	}
 
+	/**
+	 * Bind fragment data
+	 *
+	 * @param fragData The fragment data id
+	 * @param name     The variable name
+	 */
 	protected void bindFragData(int fragData, String name) {
 		GL30.glBindFragDataLocation(program, fragData, name);
 	}
 
+	/**
+	 * Get a uniform location
+	 *
+	 * @param name The variable name
+	 * @return The location
+	 */
 	protected int getUniformLocation(String name) {
 		return GL20.glGetUniformLocation(program, name);
 	}
 
+	/**
+	 * Set how many textures there are before the start of the material
+	 *
+	 * @param systemTextures
+	 */
 	protected void setSystemTextures(int systemTextures) {
 		this.systemTextures = systemTextures;
 	}
 
+	/**
+	 * Add a float from a material
+	 *
+	 * @param name The variable name
+	 */
 	protected void addUserFloat(String name) {
 		userFloats.put(name, getUniformLocation(name));
 	}
 
+	/**
+	 * Add a vector from a material
+	 *
+	 * @param name The variable name
+	 */
 	protected void addUserVector(String name) {
 		userVectors.put(name, getUniformLocation(name));
 	}
 
+	/**
+	 * Add a texture from a material
+	 *
+	 * @param name The variable name
+	 */
 	protected void addUserTexture(String name) {
 		userTextures.put(name, getUniformLocation(name));
 	}
 
+	/**
+	 * Bind a material
+	 *
+	 * @param material The material
+	 */
 	public void loadMaterial(Material material) {
 		for (Map.Entry<String, Integer> f : userFloats.entrySet())
 			loadFloat(f.getValue(), material.getFloat(f.getKey()));
@@ -150,60 +212,134 @@ public abstract class Shader {
 		}
 	}
 
+	/**
+	 * Bind the model view projection matrix
+	 *
+	 * @param mvp The matrix
+	 */
 	public void loadMVP(Matrix4f mvp) {
 		loadMat4(location_mvp, mvp);
 	}
 
+	/**
+	 * Bind a float
+	 *
+	 * @param location The uniform location
+	 * @param value    The value
+	 */
 	protected void loadFloat(int location, float value) {
 		GL20.glUniform1f(location, value);
 	}
 
+	/**
+	 * Bind a vector 2
+	 *
+	 * @param location The uniform location
+	 * @param x        The x
+	 * @param y        The y
+	 */
 	public void loadVec2(int location, float x, float y) {
 		GL20.glUniform2f(location, x, y);
 	}
 
+	/**
+	 * Bind a vector 3
+	 *
+	 * @param location The uniform location
+	 * @param vec      The value
+	 */
 	public void loadVec3(int location, Vector4f vec) {
 		GL20.glUniform3f(location, vec.x, vec.y, vec.z);
 	}
 
+	/**
+	 * Bind a vector 3
+	 *
+	 * @param location The uniform location
+	 * @param x        The x
+	 * @param y        The y
+	 * @param z        The z
+	 */
 	public void loadVec3(int location, float x, float y, float z) {
 		GL20.glUniform3f(location, x, y, z);
 	}
 
+	/**
+	 * Bind a vector 4
+	 *
+	 * @param location The uniform locaton
+	 * @param vec      The value
+	 */
 	public void loadVec4(int location, Vector4f vec) {
 		GL20.glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
 	}
 
+	/**
+	 * Bind a vector 4
+	 *
+	 * @param location The uniform location
+	 * @param x        The x
+	 * @param y        The y
+	 * @param z        The z
+	 * @param w        The w
+	 */
 	public void loadVec4(int location, float x, float y, float z, float w) {
 		GL20.glUniform4f(location, x, y, z, w);
 	}
 
+	/**
+	 * Bind an int
+	 *
+	 * @param location The uniform location
+	 * @param value    The value
+	 */
 	public void loadInt(int location, int value) {
 		GL20.glUniform1i(location, value);
 	}
 
+	/**
+	 * Bind a 4x4 matrix
+	 *
+	 * @param location The uniform location
+	 * @param mat      The value
+	 */
 	public void loadMat4(int location, Matrix4f mat) {
-		mat.toFloatBuffer(matrixbuffer);
-		GL20.glUniformMatrix4fv(location, true, matrixbuffer);
+		synchronized (matrixbuffer) {
+			mat.toFloatBuffer(matrixbuffer);
+			GL20.glUniformMatrix4fv(location, true, matrixbuffer);
+		}
 	}
 
+	/**
+	 * Bind a boolean
+	 *
+	 * @param location The uniform location
+	 * @param value    The value
+	 */
 	protected void loadBoolean(int location, boolean value) {
 		loadFloat(location, value ? 1 : 0);
 	}
 
+	/**
+	 * Bind this shader
+	 */
 	public void bind() {
 		GL20.glUseProgram(program);
 		current = this;
 	}
 
+	/**
+	 * Unbind the shader
+	 */
 	public static void unbind() {
 		GL20.glUseProgram(0);
 		current = null;
 	}
 
+	/**
+	 * Delete this shader
+	 */
 	public void delete() {
-		unbind();
-
 		GL20.glDetachShader(program, vertexShader);
 		GL20.glDetachShader(program, fragmentShader);
 
@@ -251,7 +387,7 @@ public abstract class Shader {
 	private static String getGlobalInclude(String name, String include) {
 		Logs.d("including " + include + " in " + name);
 		if (include.contains(":")) {
-			String block =  include.substring(0, include.indexOf(":"));
+			String block = include.substring(0, include.indexOf(":"));
 			String file = include.substring(include.indexOf(":") + 1);
 			String src = loadShaderSource(file);
 			return createShaderSource(include, getBlock(include, block, new Scanner(src)));
@@ -263,7 +399,7 @@ public abstract class Shader {
 	private static String getLocalInclude(String name, String include) {
 		Logs.d("including " + include + " in " + name);
 		if (include.contains(":")) {
-			String block =  include.substring(0, include.indexOf(":"));
+			String block = include.substring(0, include.indexOf(":"));
 			String file = name.substring(0, name.lastIndexOf("/") + 1) + include.substring(include.indexOf(":") + 1);
 			String src = loadShaderSource(file);
 			return createShaderSource(include, getBlock(include, block, new Scanner(src)));
@@ -274,6 +410,8 @@ public abstract class Shader {
 	}
 
 	private static String loadLongShaderSource(String name) {
+		//res/shaders/default/deferred/deferred-basic.ns
+		//res/shaders/default/deferred/deferred-basic.ns
 		try {
 			StringBuilder src = new StringBuilder();
 
@@ -366,6 +504,10 @@ public abstract class Shader {
 		return src.toString();
 	}
 
+	/**
+	 * Get the program id
+	 * @return The id
+	 */
 	public int getProgram() {
 		return program;
 	}

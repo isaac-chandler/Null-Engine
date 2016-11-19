@@ -9,6 +9,9 @@ import nullEngine.input.PostResizeEvent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
+/**
+ * Post processing effect
+ */
 public abstract class PostFX implements PostFXOutput {
 	private int hScaleDown;
 	private int vScaleDown;
@@ -18,9 +21,19 @@ public abstract class PostFX implements PostFXOutput {
 
 	private boolean renderedThisFrame = false;
 
+	/**
+	 * The framebuffer
+	 */
 	protected Framebuffer2D buffer;
 
-	public PostFX(PostFXShader shader, PostFXOutput[] inputs, int hScaleDown, int vScaleDown) {
+	/**
+	 * Create a new post processing effect
+	 * @param shader The shader
+	 * @param hScaleDown The horizontal downscale
+	 * @param vScaleDown The vertical downscale
+	 * @param inputs The input textures
+	 */
+	public PostFX(PostFXShader shader, int hScaleDown, int vScaleDown, PostFXOutput... inputs) {
 		this.shader = shader;
 		this.inputs = inputs;
 		this.vScaleDown = vScaleDown;
@@ -28,14 +41,28 @@ public abstract class PostFX implements PostFXOutput {
 		buffer = new Framebuffer2D(Application.get().getWidth() / hScaleDown, Application.get().getHeight() / vScaleDown);
 	}
 
-	public PostFX(PostFXShader shader, PostFXOutput[] inputs, int scaleDown) {
-		this(shader, inputs, scaleDown, scaleDown);
+	/**
+	 * Create a new post processing effect
+	 * @param shader The shader
+	 * @param scaleDown The downscale
+	 * @param inputs The input textures
+	 */
+	public PostFX(PostFXShader shader, int scaleDown, PostFXOutput... inputs) {
+		this(shader, scaleDown, scaleDown, inputs);
 	}
 
-	public PostFX(PostFXShader shader, PostFXOutput[] inputs) {
-		this(shader, inputs, 1, 1);
+	/**
+	 * Create a new post processing effect
+	 * @param shader The shader
+	 * @param inputs The input textures
+	 */
+	public PostFX(PostFXShader shader, PostFXOutput... inputs) {
+		this(shader, 1, 1, inputs);
 	}
 
+	/**
+	 * Set renderedThisFrame to <code>false</code>
+	 */
 	@Override
 	public void preRender() {
 		for (PostFXOutput input : inputs)
@@ -43,6 +70,10 @@ public abstract class PostFX implements PostFXOutput {
 		renderedThisFrame = false;
 	}
 
+	/**
+	 * Render this post processing effect
+	 * @param viewMatrix The view matrix
+	 */
 	@Override
 	public void render(Matrix4f viewMatrix) {
 		if (!renderedThisFrame) {
@@ -62,6 +93,10 @@ public abstract class PostFX implements PostFXOutput {
 		}
 	}
 
+	/**
+	 * Resize the framebuffer
+	 * @param event The event
+	 */
 	@Override
 	public void postResize(PostResizeEvent event) {
 		for (PostFXOutput input : inputs)
@@ -69,6 +104,9 @@ public abstract class PostFX implements PostFXOutput {
 		buffer = new Framebuffer2D(event.width / hScaleDown, event.height / vScaleDown);
 	}
 
+	/**
+	 * Delete the framebuffer
+	 */
 	@Override
 	public void preResize() {
 		for (PostFXOutput input : inputs)
@@ -76,10 +114,18 @@ public abstract class PostFX implements PostFXOutput {
 		buffer.delete();
 	}
 
+	/**
+	 * Get the framebuffer colors
+	 * @return The framebuffer colors
+	 */
 	@Override
 	public int getTextureID() {
 		return buffer.getColorTextureID();
 	}
 
+	/**
+	 * Update the uniforms
+	 * @param shader The shader
+	 */
 	public abstract void updateUniforms(PostFXShader shader);
 }

@@ -17,6 +17,7 @@ public abstract class Camera extends GameComponent {
 
 	/**
 	 * Get the view matrix
+	 *
 	 * @return The view matrix
 	 */
 	public Matrix4f getViewMatrix() {

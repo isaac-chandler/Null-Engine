@@ -1,12 +1,13 @@
 package nullEngine.gl.renderer;
 
+import com.sun.istack.internal.NotNull;
 import math.MathUtil;
 import math.Matrix4f;
 import math.Vector4f;
 import nullEngine.control.Application;
 import nullEngine.control.Layer;
 import nullEngine.gl.Material;
-import nullEngine.gl.buffer.PixelBuffer;
+import nullEngine.gl.buffer.PixelPackBuffer;
 import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.framebuffer.FramebufferDeferred;
 import nullEngine.gl.framebuffer.FramebufferMousePick;
@@ -50,18 +51,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Deferred renderer
+ */
 public class DeferredRenderer extends Renderer {
 
 	private ModelMatrixShader shader = DeferredBasicShader.INSTANCE;
 
 	private static final float LOD_DROPOFF_FACTOR = 2f;
 	private static final float MOUSE_PICK_LOD_OFFSET = 1;
-	private HashMap<Material, ArrayList<ModelComponent>> models = new HashMap<Material, ArrayList<ModelComponent>>();
+	private HashMap<Material, ArrayList<ModelComponent>> models = new HashMap<>();
 	private Vector4f ambientColor = new Vector4f();
-	private ArrayList<DirectionalLight> directionalLights = new ArrayList<DirectionalLight>();
-	private ArrayList<PointLight> pointLights = new ArrayList<PointLight>();
-	private ArrayList<SpotLight> spotLights = new ArrayList<SpotLight>();
+	private ArrayList<DirectionalLight> directionalLights = new ArrayList<>();
+	private ArrayList<PointLight> pointLights = new ArrayList<>();
+	private ArrayList<SpotLight> spotLights = new ArrayList<>();
 
+	/**
+	 * The size decrease for the mouse picking frame buffer
+	 */
 	public static final int MOUSE_PICK_BUFFER_DOWN_SCALE = 4;
 
 	private FramebufferDeferred dataBuffer;
@@ -81,9 +88,16 @@ public class DeferredRenderer extends Renderer {
 	private TextureOutput lightOutput;
 
 	private BitFieldInt flags;
-	private HashMap<Material, ArrayList<ModelComponent>> mousePickModels = new HashMap<Material, ArrayList<ModelComponent>>();
-	private ArrayList<ModelComponent> orderedMousePickModels = new ArrayList<ModelComponent>();
+	private HashMap<Material, ArrayList<ModelComponent>> mousePickModels = new HashMap<>();
+	private ArrayList<ModelComponent> orderedMousePickModels = new ArrayList<>();
 
+	/**
+	 * Create a new deferred renderer
+	 * @param width The width
+	 * @param height The height
+	 * @param far The far plane
+	 * @param near The near plane
+	 */
 	public DeferredRenderer(int width, int height, float far, float near) {
 		dataBuffer = new FramebufferDeferred(width, height);
 		lightBuffer = new Framebuffer2D(width, height);
@@ -99,6 +113,14 @@ public class DeferredRenderer extends Renderer {
 		this.near = near;
 	}
 
+	/**
+	 * Add a game component to be rendered
+	 * <ul>
+	 *     <li>If the game component is a ModelComponent it is rendered as a model</li>
+	 *     <li>If the game component is a light it is used to light the scene</li>
+	 * </ul>
+	 * @param component The component
+	 */
 	@Override
 	public void add(GameComponent component) {
 		if (flags.get(Layer.DEFERRED_RENDER_BIT)) {
@@ -106,7 +128,7 @@ public class DeferredRenderer extends Renderer {
 				ModelComponent model = (ModelComponent) component;
 				ArrayList<ModelComponent> list = models.get(model.getMaterial());
 				if (list == null) {
-					models.put(model.getMaterial(), list = new ArrayList<ModelComponent>());
+					models.put(model.getMaterial(), list = new ArrayList<>());
 				}
 				list.add(model);
 			} else if (component instanceof DirectionalLight) {
@@ -122,13 +144,17 @@ public class DeferredRenderer extends Renderer {
 				ModelComponent model = (ModelComponent) component;
 				ArrayList<ModelComponent> list = mousePickModels.get(model.getMaterial());
 				if (list == null) {
-					mousePickModels.put(model.getMaterial(), list = new ArrayList<ModelComponent>());
+					mousePickModels.put(model.getMaterial(), list = new ArrayList<>());
 				}
 				list.add(model);
 			}
 		}
 	}
 
+	/**
+	 * Render all of the added components
+	 * @param flags The render flags
+	 */
 	@Override
 	public void postRender(BitFieldInt flags) {
 		boolean rendered = false;
@@ -225,7 +251,7 @@ public class DeferredRenderer extends Renderer {
 				Framebuffer2D.unbind();
 			}
 			BasicShader.INSTANCE.bind();
-			BasicShader.INSTANCE.loadProjectionMatrix(Matrix4f.IDENTITY);
+			BasicShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, out);
 			Quad.get().render();
@@ -273,10 +299,13 @@ public class DeferredRenderer extends Renderer {
 			mousePickImpl();
 	}
 
+	/**
+	 * How many pixel buffers the mouse picking system should use
+	 */
 	public static final int MOUSE_PICK_PBO_COUNT = 4;
-	private PixelBuffer[] hitIdPbos = new PixelBuffer[MOUSE_PICK_PBO_COUNT];
-	private PixelBuffer[] worldPositionPbos = new PixelBuffer[MOUSE_PICK_PBO_COUNT];
-	private PixelBuffer[] localPositionPbos = new PixelBuffer[MOUSE_PICK_PBO_COUNT];
+	private PixelPackBuffer[] hitIdPbos = new PixelPackBuffer[MOUSE_PICK_PBO_COUNT];
+	private PixelPackBuffer[] worldPositionPbos = new PixelPackBuffer[MOUSE_PICK_PBO_COUNT];
+	private PixelPackBuffer[] localPositionPbos = new PixelPackBuffer[MOUSE_PICK_PBO_COUNT];
 
 	private LinkedBlockingQueue<Integer> freePbos;
 	private List<MousePickRequest> mousePickRequests = Collections.synchronizedList(new ArrayList<MousePickRequest>(MOUSE_PICK_PBO_COUNT));
@@ -413,7 +442,14 @@ public class DeferredRenderer extends Renderer {
 		}
 	}
 
-	public void mousePick(int x, int y, MousePickInfo info, EventListener notify) {
+	/**
+	 * Request a mouse pick to run asynchronously
+	 * @param x The x
+	 * @param y The y
+	 * @param info The mouse pick info to use
+	 * @param notify The listener to notify when the mouse pick is completed
+	 */
+	public void mousePick(int x, int y, @NotNull MousePickInfo info, @NotNull EventListener notify) {
 		if (freePbos == null) {
 			initPboQueue();
 		}
@@ -438,32 +474,39 @@ public class DeferredRenderer extends Renderer {
 		}
 	}
 
-	private PixelBuffer getHitIdPbo(int i) {
+	private PixelPackBuffer getHitIdPbo(int i) {
 		if (hitIdPbos[i] == null) {
-			hitIdPbos[i] = new PixelBuffer(4);
+			hitIdPbos[i] = new PixelPackBuffer(4);
 		}
 		return hitIdPbos[i];
 	}
 
-	private PixelBuffer getWorldPositionPbo(int i) {
+	private PixelPackBuffer getWorldPositionPbo(int i) {
 		if (worldPositionPbos[i] == null) {
-			worldPositionPbos[i] = new PixelBuffer(12);
+			worldPositionPbos[i] = new PixelPackBuffer(12);
 		}
 		return worldPositionPbos[i];
 	}
 
-	private PixelBuffer getLocalPositionPbo(int i) {
+	private PixelPackBuffer getLocalPositionPbo(int i) {
 		if (localPositionPbos[i] == null) {
-			localPositionPbos[i] = new PixelBuffer(12);
+			localPositionPbos[i] = new PixelPackBuffer(12);
 		}
 		return localPositionPbos[i];
 	}
 
+	/**
+	 * Save the flags
+	 * @param flags The rneder flags
+	 */
 	@Override
 	public void preRender(BitFieldInt flags) {
 		this.flags = flags;
 	}
 
+	/**
+	 * Cleanup after the renderer
+	 */
 	@Override
 	public void cleanup() {
 		for (int i = 0; i < MOUSE_PICK_PBO_COUNT; i++) {
@@ -478,10 +521,18 @@ public class DeferredRenderer extends Renderer {
 		lightBuffer.delete();
 	}
 
+	/**
+	 * Set the ambient lighting color
+	 * @param ambientColor The ambient color
+	 */
 	public void setAmbientColor(Vector4f ambientColor) {
 		this.ambientColor = ambientColor;
 	}
 
+	/**
+	 * Set the model matrix
+	 * @param modelMatrix The model matrix
+	 */
 	@Override
 	public void setModelMatrix(Matrix4f modelMatrix) {
 		super.setModelMatrix(modelMatrix);
@@ -489,10 +540,18 @@ public class DeferredRenderer extends Renderer {
 			shader.loadModelMatrix(modelMatrix);
 	}
 
+	/**
+	 * Set the post processing tree
+	 * @param postFX The tree
+	 */
 	public void setPostFX(PostFXOutput postFX) {
 		this.postFX = postFX;
 	}
 
+	/**
+	 * Recreate the framebuffers
+	 * @param event The event
+	 */
 	@Override
 	public void postResize(PostResizeEvent event) {
 		initPboQueue();
@@ -508,6 +567,9 @@ public class DeferredRenderer extends Renderer {
 		postFX.postResize(event);
 	}
 
+	/**
+	 * Delete the framebuffers
+	 */
 	@Override
 	public void preResize() {
 		synchronized (mousePickRequests) {
@@ -519,34 +581,66 @@ public class DeferredRenderer extends Renderer {
 		postFX.preResize();
 	}
 
+	/**
+	 * Get wether wireframe mode is enabled
+	 * @return Wether wireframe mode is enabled
+	 */
 	public boolean isWireframe() {
 		return wireframe;
 	}
 
+	/**
+	 * Set wether wireframe mode is enabled
+	 * @param wireframe Wether wireframe mode is enabled
+	 */
 	public void setWireframe(boolean wireframe) {
 		this.wireframe = wireframe;
 	}
 
+	/**
+	 * Get the color postfx output
+	 * @return The color postfx output
+	 */
 	public TextureOutput getColorOutput() {
 		return colorOutput;
 	}
 
+	/**
+	 * Get the position postfx output
+	 * @return The position postfx output
+	 */
 	public TextureOutput getPositionOutput() {
 		return positionOutput;
 	}
 
+	/**
+	 * Get the normal postfx output
+	 * @return The normal postfx output
+	 */
 	public TextureOutput getNormalOutput() {
 		return normalOutput;
 	}
 
+	/**
+	 * Get the specular postfx output
+	 * @return The specular postfx output
+	 */
 	public TextureOutput getSpecularOutput() {
 		return specularOutput;
 	}
 
+	/**
+	 * Get the depth postfx output
+	 * @return The depth postfx output
+	 */
 	public TextureOutput getDepthOutput() {
 		return depthOutput;
 	}
 
+	/**
+	 * Get the light postfx output
+	 * @return The light postfx output
+	 */
 	public TextureOutput getLightOutput() {
 		return lightOutput;
 	}

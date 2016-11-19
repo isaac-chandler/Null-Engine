@@ -22,6 +22,7 @@ public abstract class ManagedResource {
 
 	/**
 	 * Add a reference to this resource
+	 *
 	 * @return This ManagedResource
 	 */
 	public ManagedResource addReference() {
@@ -32,8 +33,9 @@ public abstract class ManagedResource {
 
 	/**
 	 * Utility method for joining arrays
+	 *
 	 * @param value The value to add
-	 * @param arr The array to add
+	 * @param arr   The array to add
 	 * @return The combination of the value and the array
 	 */
 	public static ManagedResource[] join(ManagedResource value, ManagedResource[] arr) {
@@ -45,6 +47,7 @@ public abstract class ManagedResource {
 
 	/**
 	 * Utility method for joining arrays
+	 *
 	 * @param arr1 The first array
 	 * @param arr2 The second array
 	 * @return The combination of the value and the array
@@ -58,7 +61,8 @@ public abstract class ManagedResource {
 
 	/**
 	 * Utility method for joining arrays
-	 * @param arr The array to add
+	 *
+	 * @param arr   The array to add
 	 * @param value The value to add
 	 * @return The combination of the array and the value
 	 */
@@ -71,8 +75,9 @@ public abstract class ManagedResource {
 
 	/**
 	 * Create a new managed resource
-	 * @param name The name of this resource
-	 * @param type The type of this resource
+	 *
+	 * @param name         The name of this resource
+	 * @param type         The type of this resource
 	 * @param dependencies The resorurces this requires
 	 */
 	public ManagedResource(String name, String type, ManagedResource... dependencies) {
@@ -110,6 +115,7 @@ public abstract class ManagedResource {
 
 	/**
 	 * Convert this resource to a string
+	 *
 	 * @return The full name of this resource
 	 */
 	@Override
@@ -119,12 +125,14 @@ public abstract class ManagedResource {
 
 	/**
 	 * Delete this resource, DO NOT CALL DIRECTLY
+	 *
 	 * @return <code>true</code> if it should be logged to the debug log when this resource is deleted
 	 */
 	public abstract boolean delete();
 
 	/**
 	 * Get the hash code of this resource
+	 *
 	 * @return The hash code of this resources full name
 	 */
 	@Override

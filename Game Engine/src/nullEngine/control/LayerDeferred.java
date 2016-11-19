@@ -6,11 +6,20 @@ import nullEngine.gl.renderer.Renderer;
 import nullEngine.input.PostResizeEvent;
 import nullEngine.object.component.Camera;
 
+/**
+ * Deferred rendering layer
+ */
 public class LayerDeferred extends Layer {
 
 	private float fov, near, far;
 
-
+	/**
+	 * Create a new deferred layer
+	 * @param camera The camera
+	 * @param fov the field of view in radians
+	 * @param near The near plane
+	 * @param far The far plane
+	 */
 	public LayerDeferred(Camera camera, float fov, float near, float far) {
 		super(camera);
 		flags.set(DEFERRED_RENDER_BIT, true);

@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * A manager for all of the ManagedResources
+ *
  * @see ManagedResource
  */
 public class ResourceManager {
@@ -14,6 +15,7 @@ public class ResourceManager {
 
 	/**
 	 * Get a loaded resource by name
+	 *
 	 * @param name The resource's name
 	 * @return The resource that was found, <code>null</code> if it doesn't exist
 	 */
@@ -23,6 +25,7 @@ public class ResourceManager {
 
 	/**
 	 * Add a resouce to the manager
+	 *
 	 * @param resource The resource
 	 */
 	public static void add(ManagedResource resource) {
@@ -32,6 +35,7 @@ public class ResourceManager {
 
 	/**
 	 * Delete a resource and possibly log it to the debug log
+	 *
 	 * @param resource The resouce to delete
 	 */
 	public static void delete(ManagedResource resource) {

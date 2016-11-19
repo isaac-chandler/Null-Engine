@@ -1,15 +1,28 @@
 package nullEngine.gl.shader.mousePick;
 
 import nullEngine.gl.shader.ModelMatrixShader;
+import nullEngine.gl.shader.Shader;
 
+/**
+ * Mouse picking shader
+ */
 public class MousePickShader extends ModelMatrixShader {
 
 	private int location_color;
 
+	/**
+	 * Create a new mouse pick shader
+	 *
+	 * @param shader The shader name
+	 * @see Shader#Shader(String) Format details
+	 */
 	public MousePickShader(String shader) {
 		super(shader);
 	}
 
+	/**
+	 * Bind the attributes
+	 */
 	@Override
 	protected void bindAttributes() {
 		bindAttribute(0, "inPosition");
@@ -18,12 +31,19 @@ public class MousePickShader extends ModelMatrixShader {
 		bindFragData(2, "outLocalPosition");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
 		location_color = getUniformLocation("color");
 	}
 
+	/**
+	 * Load an id to an rgba color
+	 * @param id The id
+	 */
 	public void loadIdToColor(int id) {
 		int r = id >>> 24;
 		int g = (id >>> 16) & 0xFF;

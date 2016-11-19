@@ -2,8 +2,8 @@ package nullEngine.gl.font;
 
 import nullEngine.control.Application;
 import nullEngine.gl.buffer.IndexBuffer;
-import nullEngine.gl.model.Model;
 import nullEngine.gl.buffer.VertexBuffer;
+import nullEngine.gl.model.Model;
 import nullEngine.gl.shader.Shader;
 import nullEngine.gl.shader.TextShader;
 import nullEngine.gl.texture.Texture2D;
@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 //TODO string formatting
+
+/**
+ * Font class
+ */
 public class Font {
 
 	private int padding;
@@ -22,10 +26,21 @@ public class Font {
 	private float textureSize;
 	private Loader loader;
 	private Glyph space;
-	private HashMap<Character, Glyph> glyphs = new HashMap<Character, Glyph>();
+	private Map<Character, Glyph> glyphs = new HashMap<>();
 
 	private Texture2D texture;
 
+	/**
+	 * Create a new font
+	 *
+	 * @param loader      The loader
+	 * @param glyphs      The glyphs
+	 * @param texture     The texture
+	 * @param padding     The amount of padding around the characters
+	 * @param textureSize The texture size
+	 * @param lineHeight  The line height
+	 * @param yAdvance    The y advance
+	 */
 	public Font(Loader loader, HashMap<Character, Glyph> glyphs, Texture2D texture, int padding, float textureSize, float lineHeight, float yAdvance) {
 		this.texture = texture;
 		this.yAdvance = yAdvance;
@@ -168,14 +183,29 @@ public class Font {
 		return offset + 1;
 	}
 
+	/**
+	 * Get the texture
+	 *
+	 * @return The texture
+	 */
 	public Texture2D getTexture() {
 		return texture;
 	}
 
+	/**
+	 * Get wether a character is supported
+	 * @param character The character
+	 * @return Wether the character is supported
+	 */
 	public boolean isCharacterSupported(char character) {
-		return glyphs.containsKey(character) || character == '\n' || character == '\r';
+		return glyphs.containsKey(character) || character == '\n' || character == '\r' || character == ' ';
 	}
 
+
+	/**
+	 * Draw a string
+	 * @param text The string
+	 */
 	public void drawString(String text) {
 		if (Shader.bound() instanceof TextShader) {
 			TextShader shader = (TextShader) Shader.bound();
@@ -196,21 +226,28 @@ public class Font {
 				if (character == '\n') {
 					cursorX = 0;
 					cursorY -= yAdvance;
-				} else if (character == ' ' || glyph == null) {
-					cursorX += space.xAdvance;
 				} else {
-					shader.loadOffset(cursorX, cursorY);
-					glyph.model.render();
-					cursorX += glyph.xAdvance;
-					Float kerning = glyph.kerning.get(next);
-					if (next != '\0' && kerning != null) {
-						cursorX += kerning;
+					if (glyph == null) glyph = space;
+					if (glyph == space) {
+						cursorX += space.xAdvance;
+					} else {
+						shader.loadOffset(cursorX, cursorY);
+						glyph.model.render();
+						cursorX += glyph.xAdvance;
 					}
+					Float kerning = glyph.kerning.get(next);
+					if (next != '\0' && kerning != null)
+						cursorX += kerning;
 				}
 			}
 		}
 	}
 
+	/**
+	 * Create a string mesh
+	 * @param text The text
+	 * @return The mesh that was created
+	 */
 	public Model createString(String text) {
 		text = text.replace("\r\n", "\n").replace("\r", "\n");
 
@@ -239,20 +276,27 @@ public class Font {
 			if (character == '\n') {
 				cursorX = 0;
 				cursorY -= yAdvance;
-			} else if (character == ' ' || glyph == null) {
-				cursorX += space.xAdvance;
 			} else {
-				index = genMeshData(glyph, cursorX, cursorY, index, indices, positions, texCoords, normals);
-				cursorX += glyph.xAdvance;
-				Float kerning = glyph.kerning.get(next);
-				if (next != '\0' && kerning != null) {
-					cursorX += kerning;
+				if (glyph == null) glyph = space;
+				if (glyph == space) {
+					cursorX += space.xAdvance;
+				} else {
+					index = genMeshData(glyph, cursorX, cursorY, index, indices, positions, texCoords, normals);
+					cursorX += glyph.xAdvance;
 				}
+				Float kerning = glyph.kerning.get(next);
+				if (next != '\0' && kerning != null)
+					cursorX += kerning;
 			}
 		}
 		return loader.loadModel(positions, texCoords, normals, indices);
 	}
 
+	/**
+	 * Update a string mesh
+	 * @param model The current mesh
+	 * @param text The text
+	 */
 	public void updateString(Model model, String text) {
 		VertexBuffer positions = model.getVertexBuffer(0);
 		VertexBuffer texCoords = model.getVertexBuffer(1);
@@ -289,20 +333,27 @@ public class Font {
 			if (character == '\n') {
 				cursorX = 0;
 				cursorY -= yAdvance;
-			} else if (character == ' ' || glyph == null) {
-				cursorX += space.xAdvance;
 			} else {
-				index = genMeshData(glyph, cursorX, cursorY, index, indices, positions, texCoords, normals);
-				cursorX += glyph.xAdvance;
-				Float kerning = glyph.kerning.get(next);
-				if (next != '\0' && kerning != null) {
-					cursorX += kerning;
+				if (glyph == null) glyph = space;
+				if (glyph == space) {
+					cursorX += space.xAdvance;
+				} else {
+					index = genMeshData(glyph, cursorX, cursorY, index, indices, positions, texCoords, normals);
+					cursorX += glyph.xAdvance;
 				}
+				Float kerning = glyph.kerning.get(next);
+				if (next != '\0' && kerning != null)
+					cursorX += kerning;
 			}
 		}
 	}
 
+	/**
+	 * Get the model for a character
+	 * @param character The character
+	 * @return The model
+	 */
 	public Model getModel(char character) {
-		return glyphs.get(character).model;
+		return glyphs.getOrDefault(character, space).model;
 	}
 }

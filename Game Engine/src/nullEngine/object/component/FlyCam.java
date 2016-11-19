@@ -22,6 +22,7 @@ public class FlyCam extends Camera {
 
 	/**
 	 * Setup this object
+	 *
 	 * @param parent This objects parent
 	 */
 	@Override
@@ -42,6 +43,7 @@ public class FlyCam extends Camera {
 
 	/**
 	 * Render this component
+	 *
 	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
 	 * @param flags    The render flags
@@ -53,6 +55,7 @@ public class FlyCam extends Camera {
 
 	/**
 	 * If camera rotation is enabled, rotate the camera
+	 *
 	 * @param event The event
 	 * @return Wether the camera rotated
 	 */
@@ -84,6 +87,7 @@ public class FlyCam extends Camera {
 
 	/**
 	 * Update the camera and process the movement
+	 *
 	 * @param delta  The time since update was last called
 	 * @param object The object this component is attached to
 	 */
@@ -128,6 +132,7 @@ public class FlyCam extends Camera {
 
 	/**
 	 * Wether this camera can move
+	 *
 	 * @return Wether this camera can move
 	 */
 	public boolean getCanMove() {
@@ -136,13 +141,16 @@ public class FlyCam extends Camera {
 
 	/**
 	 * Set wether this camera can move
-	 * @param canMove  Wether this camera can move
+	 *
+	 * @param canMove Wether this camera can move
 	 */
 	public void setCanMove(boolean canMove) {
 		this.canMove = canMove;
 	}
+
 	/**
 	 * Wether this camera can rotate
+	 *
 	 * @return Wether this camera can rotate
 	 */
 	public boolean getCanRotate() {
@@ -151,6 +159,7 @@ public class FlyCam extends Camera {
 
 	/**
 	 * Set ether this camera can rotate
+	 *
 	 * @param canRotate Wether this camera can rotate
 	 */
 	public void setCanRotate(boolean canRotate) {

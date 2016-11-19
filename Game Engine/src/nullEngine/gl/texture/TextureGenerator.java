@@ -9,17 +9,40 @@ import org.lwjgl.opengl.GL11;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Generates textures
+ */
 public class TextureGenerator {
+	/**
+	 * A 2x2 white texture
+	 */
 	public static final Texture2D WHITE = genColored(255, 255, 255, 255);
 
+	/**
+	 * Generate a 2x2 colored texture
+	 * @param color The color
+	 * @param forceUnique Wehter the texture has to be unique or if it can be a copy of a texture with the same color
+	 * @return The texture that was generated
+	 */
 	public static Texture2D genColored(Vector4f color, boolean forceUnique) {
 		return genColored((int) (color.x * 255), (int) (color.y * 255), (int) (color.z * 255), (int) (color.w * 255), forceUnique);
 	}
 
+	/**
+	 * Generate a 2x2 colored texture
+	 * @param color The color
+	 * @return The texture that was generated
+	 */
 	public static Texture2D genColored(Vector4f color) {
 		return genColored((int) (color.x * 255), (int) (color.y * 255), (int) (color.z * 255), (int) (color.w * 255), false);
 	}
 
+	/**
+	 * Generate a 2x2 colored texture
+	 * @param color The color
+	 * @param forceUnique Wehter the texture has to be unique or if it can be a copy of a texture with the same color
+	 * @return The texture that was generated
+	 */
 	public static Texture2D genColored(Color color, boolean forceUnique) {
 		TextureResouce resource;
 		if (forceUnique || (resource = (TextureResouce) ResourceManager.getResource("texture:" + ":rgba" + color.getValue())) == null) {
@@ -54,14 +77,36 @@ public class TextureGenerator {
 		return new Texture2D(resource);
 	}
 
+	/**
+	 * Generate a 2x2 colored texture
+	 * @param color The color
+	 * @return The texture that was generated
+	 */
 	public static Texture2D genColored(Color color) {
 		return genColored(color, false);
 	}
 
+	/**
+	 * Generate a 2x2 colored texture
+	 * @param r The red value
+	 * @param g The green value
+	 * @param b The blue value
+	 * @param a The alpha value
+	 * @param forceUnique Wehter the texture has to be unique or if it can be a copy of a texture with the same color
+	 * @return The texture that was generated
+	 */
 	public static Texture2D genColored(int r, int g, int b, int a, boolean forceUnique) {
 		return genColored(new Color((byte) r, (byte) g, (byte) b, (byte) a), forceUnique);
 	}
 
+	/**
+	 * Generate a 2x2 colored texture
+	 * @param r The red value
+	 * @param g The green value
+	 * @param b The blue value
+	 * @param a The alpha value
+	 * @return The texture that was generated
+	 */
 	public static Texture2D genColored(int r, int g, int b, int a) {
 		return genColored(new Color((byte) r, (byte) g, (byte) b, (byte) a), false);
 	}

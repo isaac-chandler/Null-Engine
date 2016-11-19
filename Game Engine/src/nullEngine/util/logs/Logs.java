@@ -3,7 +3,11 @@ package nullEngine.util.logs;
 import com.sun.istack.internal.NotNull;
 import nullEngine.control.Application;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,6 +54,7 @@ public class Logs {
 
 	/**
 	 * Set the application to stop if a fatal layer function is called
+	 *
 	 * @param application The application
 	 */
 	public static void setApplication(Application application) {
@@ -365,6 +370,7 @@ public class Logs {
 
 	/**
 	 * Set the built in profiler
+	 *
 	 * @param profiler The new profiler
 	 */
 	public static void setBuiltinProfiler(@NotNull Profiler profiler) {
@@ -373,6 +379,7 @@ public class Logs {
 
 	/**
 	 * Set the name of the built in profiler
+	 *
 	 * @param name The new name
 	 */
 	public static void setBuiltinProfilerName(String name) {
@@ -381,6 +388,7 @@ public class Logs {
 
 	/**
 	 * Get the name of the built in profiler
+	 *
 	 * @return the name
 	 */
 	public static String getBuiltinProfilerName() {
@@ -389,6 +397,7 @@ public class Logs {
 
 	/**
 	 * Get the built in profiler
+	 *
 	 * @return The profiler
 	 */
 	public static long getBuiltinProfilerStart() {
@@ -451,6 +460,7 @@ public class Logs {
 
 	/**
 	 * Get the original System.out
+	 *
 	 * @return The original System.out
 	 */
 	public static PrintStream getSystemOut() {
@@ -466,6 +476,7 @@ public class Logs {
 
 		/**
 		 * Crate a new profiler
+		 *
 		 * @param name The name to be displayed
 		 */
 		public Profiler(String name) {
@@ -489,6 +500,7 @@ public class Logs {
 
 		/**
 		 * Get the time when ths profiler was started
+		 *
 		 * @return The time
 		 */
 		public long getStart() {
@@ -497,6 +509,7 @@ public class Logs {
 
 		/**
 		 * Get the name of this profi;er
+		 *
 		 * @return The name
 		 */
 		public String getName() {
@@ -505,6 +518,7 @@ public class Logs {
 
 		/**
 		 * Set the name of this profiler
+		 *
 		 * @param name The new name
 		 */
 		public void setName(String name) {

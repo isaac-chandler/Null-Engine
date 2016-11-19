@@ -2,13 +2,16 @@ package nullEngine.loading;
 
 import nullEngine.control.Application;
 import nullEngine.exception.UnsupportedFeatureException;
+import nullEngine.gl.buffer.IndexBuffer;
+import nullEngine.gl.buffer.VertexBuffer;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.font.Glyph;
+import nullEngine.gl.framebuffer.Framebuffer2D;
 import nullEngine.gl.framebuffer.Framebuffer3D;
-import nullEngine.gl.buffer.IndexBuffer;
+import nullEngine.gl.framebuffer.FramebufferDeferred;
+import nullEngine.gl.framebuffer.FramebufferMousePick;
 import nullEngine.gl.model.Model;
 import nullEngine.gl.model.VertexAttribPointer;
-import nullEngine.gl.buffer.VertexBuffer;
 import nullEngine.gl.texture.Texture2D;
 import nullEngine.loading.filesys.FileFormatException;
 import nullEngine.loading.filesys.ResourceLoader;
@@ -17,12 +20,14 @@ import nullEngine.loading.model.OBJLoader;
 import nullEngine.loading.texture.PNGLoader;
 import nullEngine.object.wrapper.HeightMap;
 import nullEngine.util.logs.Logs;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GLCapabilities;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -36,10 +41,11 @@ public class Loader {
 	private boolean anisotropyEnabled = false;
 	private float lodBias = 0;
 
-	private ArrayList<Integer> vaos = new ArrayList<Integer>();
+	private List<Integer> vaos = new ArrayList<>();
 
 	/**
 	 * Create a new Loader
+	 *
 	 * @param application The application this loader belongs to
 	 */
 	public Loader(Application application) {
@@ -48,6 +54,7 @@ public class Loader {
 
 	/**
 	 * Set wether anisotropic filtering should be enabled
+	 *
 	 * @param anisotropyEnabled New value
 	 */
 	public void setAnisotropyEnabled(boolean anisotropyEnabled) {
@@ -56,6 +63,7 @@ public class Loader {
 
 	/**
 	 * Get wether anisotropic filtering is set to enabled
+	 *
 	 * @return Wether anisotropiv filtering is enabled
 	 */
 	public boolean isAnisotropyEnabled() {
@@ -64,6 +72,7 @@ public class Loader {
 
 	/**
 	 * Get wether anisotropic filtering is supported
+	 *
 	 * @return Wether anisotropic filtering
 	 * @see GLCapabilities#GL_EXT_texture_filter_anisotropic
 	 */
@@ -73,6 +82,7 @@ public class Loader {
 
 	/**
 	 * Set the maximum amount of anisotropy for each texture
+	 *
 	 * @param anisotropyAmount The maximum amount of anisotropy
 	 */
 	public void setAnisotropyAmount(float anisotropyAmount) {
@@ -81,6 +91,7 @@ public class Loader {
 
 	/**
 	 * Get the maximum amount of anisotropy for each texture
+	 *
 	 * @return The maximum amount of anisotropy
 	 */
 	public float getAnisotropyAmount() {
@@ -89,6 +100,7 @@ public class Loader {
 
 	/**
 	 * Set the lod bias for textures
+	 *
 	 * @param lodBias The lod bias
 	 */
 	public void setTextureLodBias(float lodBias) {
@@ -97,6 +109,7 @@ public class Loader {
 
 	/**
 	 * Get the lod bias for textures
+	 *
 	 * @return The lod bias for textures
 	 */
 	public float getTextureLodBias() {
@@ -111,10 +124,11 @@ public class Loader {
 
 	/**
 	 * Load a model with multiple levels of detail
-	 * @param vertices The vertices
-	 * @param texCoords The texture coordinates
-	 * @param normals The normals
-	 * @param indices The indices
+	 *
+	 * @param vertices     The vertices
+	 * @param texCoords    The texture coordinates
+	 * @param normals      The normals
+	 * @param indices      The indices
 	 * @param vertexCounts The number of vertices in each level of detail
 	 * @return The model that was created
 	 */
@@ -147,35 +161,38 @@ public class Loader {
 
 	/**
 	 * Load a model from vertex buffers
-	 * @param vertexVBO The vertex buffer
+	 *
+	 * @param vertexVBO   The vertex buffer
 	 * @param texCoordVBO The texture coordinate buffer
-	 * @param normalVBO The normal buffer
-	 * @param ibo The index buffer
-	 * @param length The number of indices in the index buffer
-	 * @param radius The distance from the farthest point to the origin of the model
+	 * @param normalVBO   The normal buffer
+	 * @param ibo         The index buffer
+	 * @param length      The number of indices in the index buffer
+	 * @param radius      The distance from the farthest point to the origin of the model
 	 * @return The model that was created
 	 */
 	public Model loadModel(VertexBuffer vertexVBO, VertexBuffer texCoordVBO, VertexBuffer normalVBO, IndexBuffer ibo, int length, float radius) {
 		int vao = createVAO();
 
-		return new Model(vao, new int[]{length}, new int[]{0}, radius, ibo,
+		return new Model(vao, new int[] {length}, new int[] {0}, radius, ibo,
 				VertexAttribPointer.createVec3AttribPointer(vertexVBO), VertexAttribPointer.createVec2AttribPointer(texCoordVBO), VertexAttribPointer.createVec3AttribPointer(normalVBO));
 	}
 
 	/**
 	 * Load a model with a single level of detail
-	 * @param vertices The vertices
+	 *
+	 * @param vertices  The vertices
 	 * @param texCoords The texture coordinates
-	 * @param normals The normals
-	 * @param indices The indices
+	 * @param normals   The normals
+	 * @param indices   The indices
 	 * @return The model that was created
 	 */
 	public Model loadModel(float[] vertices, float[] texCoords, float[] normals, int[] indices) {
-		return loadModel(vertices, texCoords, normals, indices, new int[]{indices.length});
+		return loadModel(vertices, texCoords, normals, indices, new int[] {indices.length});
 	}
 
 	/**
 	 * Load a model from a file
+	 *
 	 * @param name The file to be loaded from in the folder <em>res/models</em>
 	 *             <ul>
 	 *             <li>If there is no extension or the extension is <em>.nlm</em> the model is loaded using the <a href="spec/Model_Format.html" target="_blank">NLM Model Format</a></li>
@@ -196,6 +213,7 @@ public class Loader {
 
 	/**
 	 * Load a PNG texture
+	 *
 	 * @param file The file without the .png extension in <em>res/textures</em> to load
 	 * @return The texture that was laoded
 	 * @throws IOException If the texture failed to load
@@ -206,7 +224,8 @@ public class Loader {
 
 	/**
 	 * Load a PNG texture
-	 * @param file The name of the file without the <em>.png</em> extension in <em>res/textures</em> to load
+	 *
+	 * @param file        The name of the file without the <em>.png</em> extension in <em>res/textures</em> to load
 	 * @param forceUnique If <code>true</code> make sure the texture isn't just a new reference to a cached texture
 	 * @return The texture that was loaded
 	 * @throws IOException If the texture failed to load
@@ -221,7 +240,8 @@ public class Loader {
 
 	/**
 	 * Load a font
-	 * @param name The name of the file without the <em>.fnt</em> extension in <em>res/fonts</em> to load
+	 *
+	 * @param name    The name of the file without the <em>.fnt</em> extension in <em>res/fonts</em> to load
 	 * @param padding The amount of padding around each character
 	 * @return The font that was loaded
 	 * @throws IOException If the font failed to load
@@ -383,12 +403,16 @@ public class Loader {
 	 */
 	public void postContextChange() {
 		Model.contextChanged(vaos);
+		Framebuffer2D.contextChanged();
 		Framebuffer3D.contextChanged();
+		FramebufferMousePick.contextChanged();
+		FramebufferDeferred.contextChanged();
 	}
 
 	/**
 	 * Load a height map from a texture
-	 * @param name The name of the file without the <em>.png</em> extension in <em>res/textures</em> to load
+	 *
+	 * @param name      The name of the file without the <em>.png</em> extension in <em>res/textures</em> to load
 	 * @param maxHeight The height of a full white color
 	 * @return The height map that was created
 	 * @throws IOException If the height map failed to load

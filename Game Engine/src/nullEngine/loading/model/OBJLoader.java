@@ -17,8 +17,9 @@ public class OBJLoader {
 
 	/**
 	 * Load an OBJ model
+	 *
 	 * @param loader The loader to use
-	 * @param name The name of the file
+	 * @param name   The name of the file
 	 * @return The model that was loaded
 	 */
 	public static Model loadModel(Loader loader, String name) {
@@ -73,7 +74,7 @@ public class OBJLoader {
 
 				int previous = -1;
 
-				for (int j = 0; j < i; j++ ) {
+				for (int j = 0; j < i; j++) {
 					OBJIndex old = indices.get(j);
 
 					if (current.positionIndex == old.positionIndex && current.texCoordIndex == old.texCoordIndex && current.normalIndex == old.normalIndex) {
@@ -86,8 +87,8 @@ public class OBJLoader {
 					indexMap.put(i, currentIndex);
 
 					newPositions.add(positions.get(current.positionIndex * 3));
-					newPositions.add(positions.get(current.positionIndex  * 3 + 1));
-					newPositions.add(positions.get(current.positionIndex  * 3 + 2));
+					newPositions.add(positions.get(current.positionIndex * 3 + 1));
+					newPositions.add(positions.get(current.positionIndex * 3 + 2));
 
 					if (hasTexCoords) {
 						newTexCoords.add(texCoords.get(current.texCoordIndex * 2));
@@ -98,9 +99,9 @@ public class OBJLoader {
 					}
 
 					if (hasNormals) {
-						newNormals.add(normals.get(current.normalIndex  * 3));
-						newNormals.add(normals.get(current.normalIndex  * 3 + 1));
-						newNormals.add(normals.get(current.normalIndex  * 3 + 2));
+						newNormals.add(normals.get(current.normalIndex * 3));
+						newNormals.add(normals.get(current.normalIndex * 3 + 1));
+						newNormals.add(normals.get(current.normalIndex * 3 + 2));
 					} else {
 						newNormals.add(0f);
 						newNormals.add(0f);

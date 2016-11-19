@@ -12,7 +12,6 @@ import nullEngine.input.KeyEvent;
 import nullEngine.input.MouseEvent;
 import nullEngine.input.PostResizeEvent;
 import nullEngine.input.ThreadedEventDistributor;
-import nullEngine.loading.Loader;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
@@ -26,6 +25,9 @@ import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
+/**
+ * Wrapper for the GLFW windowing system
+ */
 public class Window {
 
 	private InputData inputData = new InputData();
@@ -59,10 +61,6 @@ public class Window {
 	private String title;
 	private EventDistributor distributor = new ThreadedEventDistributor();
 
-	private static Window get() {
-		return current;
-	}
-
 	private boolean ignoreNextCursorEvent = false;
 
 	private static final IntBuffer intBuffer = BufferUtils.createIntBuffer(1);
@@ -77,6 +75,11 @@ public class Window {
 
 	};
 
+	/**
+	 * Set up the windowing system
+	 *
+	 * @throws InitializationException If GLFW failed to initialize
+	 */
 	public static void init() throws InitializationException {
 		if (!GLFW.glfwInit())
 			throw new InitializationException("Could not initialize GLFWW");
@@ -92,11 +95,24 @@ public class Window {
 		errorCallback.set();
 	}
 
+	/**
+	 * Shut down the windowing system
+	 */
 	public static void destroy() {
 		errorCallback.free();
 		GLFW.glfwTerminate();
 	}
 
+	/**
+	 * Create a window
+	 *
+	 * @param title               The window title
+	 * @param width               The window width
+	 * @param height              The window height
+	 * @param fullscreen          Wether it should be a fullscreen window
+	 * @param fullscreenVideoMode The video mode (ignored if fullscreen is <code>false</code>)
+	 * @param monitor             The monitor to put the window on (ignored if fullscreen is <code>false</code>)
+	 */
 	public Window(String title, int width, int height, boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode, long monitor) {
 		this.width = width;
 		this.height = height;
@@ -121,39 +137,69 @@ public class Window {
 		setCursorEnabled(cursorEnabled);
 	}
 
+	/**
+	 * Get the GLCapabilities
+	 *
+	 * @return The OpenGL capabilities
+	 */
 	public GLCapabilities getGLCapabilities() {
 		return glCapabilities;
 	}
 
+	/**
+	 * Get the window handle
+	 *
+	 * @return The window handle
+	 */
 	public long getWindow() {
 		return window;
 	}
 
+	/**
+	 * Get wether vertical sync is enabled
+	 *
+	 * @return Wether vertical sync is enabled
+	 */
 	public boolean isVsync() {
 		return vsync;
 	}
 
+	/**
+	 * Set wether vertical sync is enabled
+	 *
+	 * @param vsync Wether vertical sync is enabled
+	 */
 	public void setVsync(boolean vsync) {
 		GLFW.glfwSwapInterval(vsync ? 1 : 0);
 		this.vsync = vsync;
 	}
 
+	/**
+	 * Get the width
+	 *
+	 * @return The width of the drawing area
+	 */
 	public int getWidth() {
 		GLFW.glfwGetFramebufferSize(window, intBuffer, null);
 		return intBuffer.get(0);
 	}
 
+	/**
+	 * Get the height
+	 *
+	 * @return The height of the drawing area
+	 */
 	public int getHeight() {
 		GLFW.glfwGetFramebufferSize(window, null, intBuffer);
 		return intBuffer.get(0);
 	}
 
-	public void initCallbacks() {
+	private void initCallbacks() {
 		charModsCallback = new GLFWCharModsCallback() {
 			@Override
 			public void invoke(long window, int codepoint, int mods) {
 				try {
-					inputData.mods(mods);
+					inputData.setMods(mods);
 					CharEvent event = new CharEvent();
 					event.character = (char) codepoint;
 					event.mods = mods;
@@ -184,7 +230,7 @@ public class Window {
 					event.button = -1;
 					event.x = inputData.cursorX((int) xpos);
 					event.y = inputData.cursorY((int) ypos);
-					event.mods = inputData.mods();
+					event.mods = inputData.getMods();
 					if (ignoreNextCursorEvent) {
 						Logs.d("Ignored cursor event");
 						ignoreNextCursorEvent = false;
@@ -219,7 +265,7 @@ public class Window {
 			@Override
 			public void invoke(long window, int key, int scancode, int action, int mods) {
 				try {
-					inputData.mods(mods);
+					inputData.setMods(mods);
 					if (action == GLFW.GLFW_PRESS) {
 						KeyEvent event = new KeyEvent(Event.EventType.KEY_PRESSED);
 						event.key = key;
@@ -248,7 +294,7 @@ public class Window {
 			@Override
 			public void invoke(long window, int button, int action, int mods) {
 				try {
-					inputData.mods(mods);
+					inputData.setMods(mods);
 
 					if (action == GLFW.GLFW_PRESS) {
 						MouseEvent event = new MouseEvent(Event.EventType.MOUSE_PRESSED);
@@ -331,7 +377,7 @@ public class Window {
 							width = width_;
 							height = height_;
 						}
-						if (distributor.getListener() != null) {
+						if (distributor.listener != null) {
 							PostResizeEvent event = new PostResizeEvent();
 							event.width = width_;
 							event.height = height_;
@@ -375,10 +421,15 @@ public class Window {
 		GLFW.glfwDestroyWindow(window);
 	}
 
+	/**
+	 * Get all of the available video modes
+	 *
+	 * @return The video modes
+	 */
 	public static ArrayList<GLFWVidMode> getFullscreenVideoModes() {
 		PointerBuffer monitors = GLFW.glfwGetMonitors();
 
-		ArrayList<GLFWVidMode> modes = new ArrayList<GLFWVidMode>();
+		ArrayList<GLFWVidMode> modes = new ArrayList<>();
 
 		for (int i = 0; i < monitors.capacity(); i++) {
 			GLFWVidMode.Buffer vidModes = GLFW.glfwGetVideoModes(monitors.get(i));
@@ -390,8 +441,14 @@ public class Window {
 		return modes;
 	}
 
+	/**
+	 * Get all of the available video modes from a specific monitor
+	 *
+	 * @param monitor The monitor
+	 * @return The video modes
+	 */
 	public static ArrayList<GLFWVidMode> getFullscreenVideoModes(long monitor) {
-		ArrayList<GLFWVidMode> modes = new ArrayList<GLFWVidMode>();
+		ArrayList<GLFWVidMode> modes = new ArrayList<>();
 
 		GLFWVidMode.Buffer vidModes = GLFW.glfwGetVideoModes(monitor);
 		for (int i = 0; i < vidModes.capacity(); i++) {
@@ -401,11 +458,17 @@ public class Window {
 		return modes;
 	}
 
+	/**
+	 * Get the best video mode
+	 *
+	 * @param vidModes The video modes to choose from
+	 * @return The video mode
+	 */
 	public static GLFWVidMode getBestFullscreenVideoMode(ArrayList<GLFWVidMode> vidModes) {
 		int bestWidth = 0;
 		int bestHeight = 0;
 
-		ArrayList<GLFWVidMode> sameSize = new ArrayList<GLFWVidMode>();
+		ArrayList<GLFWVidMode> sameSize = new ArrayList<>();
 
 		for (GLFWVidMode vidMode : vidModes) {
 			if (vidMode.width() < bestWidth || vidMode.height() < bestHeight)
@@ -423,7 +486,7 @@ public class Window {
 		}
 
 		int bestRefresh = 0;
-		ArrayList<GLFWVidMode> sameRefresh = new ArrayList<GLFWVidMode>();
+		ArrayList<GLFWVidMode> sameRefresh = new ArrayList<>();
 
 		for (GLFWVidMode vidMode : sameSize) {
 			if (vidMode.refreshRate() < bestRefresh)
@@ -447,11 +510,17 @@ public class Window {
 		return bestVidMode;
 	}
 
+	/**
+	 * Get the worst video mode
+	 *
+	 * @param vidModes The video modes to choose from
+	 * @return The video mode
+	 */
 	public static GLFWVidMode getWorstFullscreenVideoMode(ArrayList<GLFWVidMode> vidModes) {
 		int worstWidth = 0;
 		int worstHeight = 0;
 
-		ArrayList<GLFWVidMode> sameSize = new ArrayList<GLFWVidMode>();
+		ArrayList<GLFWVidMode> sameSize = new ArrayList<>();
 
 		for (GLFWVidMode vidMode : vidModes) {
 			if (vidMode.width() > worstWidth || vidMode.height() > worstHeight)
@@ -469,7 +538,7 @@ public class Window {
 		}
 
 		int worstRefresh = 0;
-		ArrayList<GLFWVidMode> sameRefresh = new ArrayList<GLFWVidMode>();
+		ArrayList<GLFWVidMode> sameRefresh = new ArrayList<>();
 
 		for (GLFWVidMode vidMode : sameSize) {
 			if (vidMode.refreshRate() > worstRefresh)
@@ -493,25 +562,36 @@ public class Window {
 		return worstVidMode;
 	}
 
+	/**
+	 * Make this window the current window for input and OpenGL
+	 */
 	public void bind() {
 		current = this;
 		GLFW.glfwMakeContextCurrent(window);
 		Input.setInputData(inputData);
 	}
 
+	/**
+	 * Get wether this window is fullscreen
+	 *
+	 * @return Wether this window is fullscreen
+	 */
 	public boolean isFullscreen() {
 		return fullscreen;
 	}
 
-	public boolean setFullscreen(boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode, Loader loader) {
-		if (this.fullscreen == fullscreen)
-			return false;
-
+	/**
+	 * Set wether this window is fullscreen
+	 *
+	 * @param fullscreen          Wether this window is fullscreen
+	 * @param fullscreenVideoMode The video mode (ignored if fullscreen is <code>false</code>)
+	 */
+	public void setFullscreen(boolean fullscreen, @Nullable GLFWVidMode fullscreenVideoMode) {
 		this.fullscreen = fullscreen;
 
 		int width, height;
 
-		if (distributor.getListener() != null)
+		if (distributor.listener != null)
 			distributor.preResize();
 		Application.get().preResize();
 
@@ -542,7 +622,7 @@ public class Window {
 		event.width = width;
 		event.height = height;
 
-		if (distributor.getListener() != null)
+		if (distributor.listener != null)
 			distributor.postResize(event);
 		Application.get().postResize(event);
 
@@ -573,34 +653,59 @@ public class Window {
 
 
 		Logs.d("resized to " + width + "x" + height);
-		return true;
 	}
 
+	/**
+	 * Get the monitor this window is on
+	 * @return The monitor
+	 */
 	public long getMonitor() {
 		long monitor = GLFW.glfwGetWindowMonitor(window);
 		return monitor == 0 ? GLFW.glfwGetPrimaryMonitor() : monitor;
 	}
 
+	/**
+	 * Get this windows title
+	 * @return The title
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * Set this windows title
+	 * @param title The new title
+	 */
 	public void setTitle(String title) {
 		GLFW.glfwSetWindowTitle(window, title);
 		this.title = title;
 	}
 
+	/**
+	 * Get the event distributor
+	 * @return The event distributor
+	 */
 	public EventDistributor getDistributor() {
 		return distributor;
 	}
 
+	/**
+	 * Get wether the cursor is enabled
+	 * @return Wether the cursor is enabled
+	 */
 	public boolean getCursorEnabled() {
 		return GLFW.glfwGetInputMode(window, GLFW.GLFW_CURSOR) == GLFW.GLFW_CURSOR_NORMAL;
 	}
 
+	/**
+	 * Set wether the cursor is enabled
+	 * @param enabled Wether the cursor is enabled
+	 */
 	public void setCursorEnabled(boolean enabled) {
-		this.cursorEnabled = enabled;
-		ignoreNextCursorEvent = true;
-		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, enabled ? GLFW.GLFW_CURSOR_NORMAL : GLFW.GLFW_CURSOR_DISABLED);
+		if (enabled != this.cursorEnabled) {
+			this.cursorEnabled = enabled;
+			ignoreNextCursorEvent = true;
+			GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, cursorEnabled ? GLFW.GLFW_CURSOR_NORMAL : GLFW.GLFW_CURSOR_DISABLED);
+		}
 	}
 }

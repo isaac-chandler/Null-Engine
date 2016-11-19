@@ -20,11 +20,12 @@ import java.nio.ByteBuffer;
 public class PNGLoader {
 	/**
 	 * Load a PNG texture
-	 * @param file The file to load
-	 * @param lodBias The texture level of detail bias
+	 *
+	 * @param file              The file to load
+	 * @param lodBias           The texture level of detail bias
 	 * @param anisotropyEnabled Wether anisotropic filtering should be enabled
-	 * @param anisotropyAmount The maximum amount of anisotropy
-	 * @param forceUnique If <code>true</code> make sure the texture isn't just a new reference to a cached texture
+	 * @param anisotropyAmount  The maximum amount of anisotropy
+	 * @param forceUnique       If <code>true</code> make sure the texture isn't just a new reference to a cached texture
 	 * @return The texture that was loaded
 	 * @throws IOException If the texture failed to load
 	 */

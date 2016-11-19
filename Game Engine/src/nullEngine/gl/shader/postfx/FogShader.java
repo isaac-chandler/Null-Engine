@@ -2,8 +2,14 @@ package nullEngine.gl.shader.postfx;
 
 import math.Vector4f;
 
+/**
+ * PostFX fog shader
+ */
 public class FogShader extends PostFXShader {
 
+	/**
+	 * Singleton instance
+	 */
 	public static final FogShader INSTANCE = new FogShader();
 
 	private int location_colors;
@@ -16,6 +22,9 @@ public class FogShader extends PostFXShader {
 		super("default/postfx/fog");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -27,6 +36,9 @@ public class FogShader extends PostFXShader {
 		setSystemTextures(2);
 	}
 
+	/**
+	 * Bind this shader
+	 */
 	@Override
 	public void bind() {
 		super.bind();
@@ -34,6 +46,12 @@ public class FogShader extends PostFXShader {
 		loadInt(location_positions, 1);
 	}
 
+	/**
+	 * Load the sky data
+	 * @param skyColor The sky color
+	 * @param density The fog density
+	 * @param gradient The fog gradient
+	 */
 	public void loadSkyData(Vector4f skyColor, float density, float gradient) {
 		loadVec3(location_skyColor, skyColor);
 		loadFloat(location_density, density);

@@ -2,11 +2,19 @@ package nullEngine.input;
 
 import nullEngine.util.logs.Logs;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Distributes events to the assigned event listener, ensures the events are passed from the correct thread
+ */
 public class ThreadedEventDistributor extends EventDistributor {
-	private volatile LinkedBlockingQueue<Event> eventQueue = new LinkedBlockingQueue<Event>();
+	private volatile BlockingQueue<Event> eventQueue = new LinkedBlockingQueue<>();
 
+	/**
+	 * Pass the queued events to the listener
+	 * Call from UPDATE thread
+	 */
 	public void passEvents() {
 		Event event;
 		while ((event = eventQueue.poll()) != null) {
@@ -14,6 +22,11 @@ public class ThreadedEventDistributor extends EventDistributor {
 		}
 	}
 
+	/**
+	 * Put an event in the event queue
+	 *
+	 * @param event The event
+	 */
 	public void queueEvent(Event event) {
 		try {
 			eventQueue.put(event);
@@ -67,6 +80,12 @@ public class ThreadedEventDistributor extends EventDistributor {
 		}
 	}
 
+	/**
+	 * Adds a key repeated event to the queue
+	 *
+	 * @param event The event
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean keyRepeated(KeyEvent event) {
 		try {
@@ -77,6 +96,12 @@ public class ThreadedEventDistributor extends EventDistributor {
 		return false;
 	}
 
+	/**
+	 * Adds a key pressed event to the queue
+	 *
+	 * @param event The event
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean keyPressed(KeyEvent event) {
 		try {
@@ -87,6 +112,12 @@ public class ThreadedEventDistributor extends EventDistributor {
 		return false;
 	}
 
+	/**
+	 * Adds a key released event to the queue
+	 *
+	 * @param event The event
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean keyReleased(KeyEvent event) {
 		try {
@@ -97,6 +128,12 @@ public class ThreadedEventDistributor extends EventDistributor {
 		return false;
 	}
 
+	/**
+	 * Adds a mouse pressed event to the queue
+	 *
+	 * @param event The event
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean mousePressed(MouseEvent event) {
 		try {
@@ -107,6 +144,12 @@ public class ThreadedEventDistributor extends EventDistributor {
 		return false;
 	}
 
+	/**
+	 * Adds a mouse released event to the queue
+	 *
+	 * @param event The event
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean mouseReleased(MouseEvent event) {
 		try {
@@ -117,6 +160,12 @@ public class ThreadedEventDistributor extends EventDistributor {
 		return false;
 	}
 
+	/**
+	 * Adds a mouse scrolled event to the queue
+	 *
+	 * @param event The event
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean mouseScrolled(MouseEvent event) {
 		try {
@@ -127,6 +176,12 @@ public class ThreadedEventDistributor extends EventDistributor {
 		return false;
 	}
 
+	/**
+	 * Adds a mouse moved event to the queue
+	 *
+	 * @param event The event
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean mouseMoved(MouseEvent event) {
 		try {
@@ -137,6 +192,12 @@ public class ThreadedEventDistributor extends EventDistributor {
 		return false;
 	}
 
+	/**
+	 * Adds a character typed event to the queue
+	 *
+	 * @param event The event
+	 * @return <code>false</code>
+	 */
 	@Override
 	public boolean charTyped(CharEvent event) {
 		try {
@@ -147,6 +208,11 @@ public class ThreadedEventDistributor extends EventDistributor {
 		return false;
 	}
 
+	/**
+	 * Adds a notified event to the queue
+	 *
+	 * @param event The event
+	 */
 	@Override
 	public void notified(NotificationEvent event) {
 		try {

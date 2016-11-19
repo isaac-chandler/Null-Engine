@@ -1,7 +1,13 @@
 package nullEngine.gl.shader.postfx;
 
+/**
+ * PostFX bright filter shader
+ */
 public class BrightFilterShader extends PostFXShader {
 
+	/**
+	 * Singleton instance
+	 */
 	public static final BrightFilterShader INSTANCE = new BrightFilterShader();
 
 	private int location_colors;
@@ -10,6 +16,9 @@ public class BrightFilterShader extends PostFXShader {
 		super("default/postfx/bright-filter");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -17,6 +26,9 @@ public class BrightFilterShader extends PostFXShader {
 		setSystemTextures(1);
 	}
 
+	/**
+	 * Bind this shader
+	 */
 	@Override
 	public void bind() {
 		super.bind();

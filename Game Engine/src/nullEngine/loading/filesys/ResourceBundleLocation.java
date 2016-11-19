@@ -1,22 +1,26 @@
 package nullEngine.loading.filesys;
 
-import util.StreamUtils;
 import nullEngine.util.logs.Logs;
+import util.StreamUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-/*
-
-*/
-
+/**
+ * Loads resources from a bundle
+ */
 public class ResourceBundleLocation implements ResourceLocation {
 
 	private InputStream is;
 	private HashMap<String, Integer> fileOffsets;
 
+	/**
+	 * Create a new ReourceBundleLocation
+	 *
+	 * @param name The name of the resouce bundle without the <em>.res</em> extension in the <em>res/bundles</em> folder
+	 */
 	public ResourceBundleLocation(String name) {
 		try {
 			is = ResourceLoader.getResource("res/bundles/" + name + ".res", true);
@@ -29,7 +33,7 @@ public class ResourceBundleLocation implements ResourceLocation {
 
 			int fileCount = StreamUtils.readInt(is);
 
-			fileOffsets = new HashMap<String, Integer>(fileCount);
+			fileOffsets = new HashMap<>(fileCount);
 
 			for (int i = 0; i < fileCount; i++) {
 				String file = StreamUtils.readString(is);
@@ -40,6 +44,14 @@ public class ResourceBundleLocation implements ResourceLocation {
 		}
 	}
 
+	/**
+	 * Attempt to get a resouce in the resource bundle
+	 *
+	 * @param name        The name of the resource
+	 * @param requireMark Wether the InputStream requires markSupported()
+	 * @return The input stream that is loaded or <code>null</code> if the resouce wasn't found
+	 * @see InputStream#markSupported()
+	 */
 	@Override
 	public InputStream getResource(String name, boolean requireMark) {
 		if (fileOffsets.containsKey(name)) {
@@ -52,11 +64,15 @@ public class ResourceBundleLocation implements ResourceLocation {
 				is.read(buf);
 
 				return new ByteArrayInputStream(buf);
-			} catch (IOException e) {}
+			} catch (IOException e) {
+			}
 		}
 		return null;
 	}
 
+	/**
+	 * Clean up after this resource location
+	 */
 	@Override
 	public void close() {
 		try {

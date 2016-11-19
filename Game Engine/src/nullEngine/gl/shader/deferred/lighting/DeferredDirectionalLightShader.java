@@ -3,8 +3,14 @@ package nullEngine.gl.shader.deferred.lighting;
 import math.Matrix4f;
 import nullEngine.object.component.light.DirectionalLight;
 
+/**
+ * Deferred firectional light shader
+ */
 public class DeferredDirectionalLightShader extends DeferredLightShader {
 
+	/**
+	 * Singleton instance
+	 */
 	public static final DeferredDirectionalLightShader INSTANCE = new DeferredDirectionalLightShader();
 
 	private int location_lightColor;
@@ -15,6 +21,9 @@ public class DeferredDirectionalLightShader extends DeferredLightShader {
 		super("default/deferred/lighting/deferred-directional");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -23,11 +32,19 @@ public class DeferredDirectionalLightShader extends DeferredLightShader {
 		location_viewMatrix = getUniformLocation("viewMatrix");
 	}
 
+	/**
+	 * Load a light
+	 * @param light The light
+	 */
 	public void loadLight(DirectionalLight light) {
 		loadVec3(location_direction, light.getDirection());
 		loadVec3(location_lightColor, light.getLightColor());
 	}
 
+	/**
+	 * load the view matrix
+	 * @param viewMarix The view matrix
+	 */
 	public void loadViewMatrix(Matrix4f viewMarix) {
 		loadMat4(location_viewMatrix, viewMarix);
 	}

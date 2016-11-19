@@ -34,8 +34,9 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Create new text on the GUI
-	 * @param x The x
-	 * @param y The y
+	 *
+	 * @param x    The x
+	 * @param y    The y
 	 * @param size The text size
 	 * @param text The text to display
 	 * @param font The font to use
@@ -49,6 +50,7 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Render this text
+	 *
 	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
 	 * @param flags    The render flags
@@ -77,6 +79,7 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Get the text
+	 *
 	 * @return The text
 	 */
 	public String getText() {
@@ -85,6 +88,7 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Set the text
+	 *
 	 * @param text The new text
 	 */
 	public void setText(String text) {
@@ -94,6 +98,7 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Get the font
+	 *
 	 * @return The fint
 	 */
 	public Font getFont() {
@@ -102,6 +107,7 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Set the font
+	 *
 	 * @param font The new font
 	 */
 	public void setFont(Font font) {
@@ -111,6 +117,7 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Set the border color
+	 *
 	 * @param borderColor The new border color
 	 */
 	public void setBorderColor(Vector4f borderColor) {
@@ -119,8 +126,9 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Set the thickness of the text
+	 *
 	 * @param width The full brightness width
-	 * @param edge The fade width
+	 * @param edge  The fade width
 	 */
 	public void setThickness(float width, float edge) {
 		this.width = width;
@@ -129,8 +137,9 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Set the thickness of the border
+	 *
 	 * @param width The full brightness width of the border
-	 * @param edge The fade width of the border
+	 * @param edge  The fade width of the border
 	 */
 	public void setBorderThickness(float width, float edge) {
 		borderWidth = width;
@@ -139,6 +148,7 @@ public class GuiText extends GuiComponent {
 
 	/**
 	 * Set the offset of the border (useful for drop shadows)
+	 *
 	 * @param x The x offset
 	 * @param y The y offset
 	 */

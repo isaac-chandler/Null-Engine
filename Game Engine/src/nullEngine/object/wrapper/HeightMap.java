@@ -21,7 +21,8 @@ public class HeightMap {
 
 	/**
 	 * Load a height map from an image
-	 * @param map The image
+	 *
+	 * @param map       The image
 	 * @param maxHeight The height of a full white color
 	 * @throws FileFormatException If the image is not a power of two square
 	 */
@@ -68,6 +69,7 @@ public class HeightMap {
 
 	/**
 	 * Get the height
+	 *
 	 * @param x The x
 	 * @param y The y
 	 * @return The height at (x, y)
@@ -76,11 +78,11 @@ public class HeightMap {
 		x %= map.getWidth();
 		y %= map.getHeight();
 
-		while(x < 0) {
+		while (x < 0) {
 			x += map.getWidth();
 		}
 
-		while(y < 0) {
+		while (y < 0) {
 			y += map.getHeight();
 		}
 
@@ -92,6 +94,7 @@ public class HeightMap {
 
 	/**
 	 * Get the height map texture
+	 *
 	 * @return The texture
 	 */
 	public Texture2D getHeightMap() {
@@ -100,6 +103,7 @@ public class HeightMap {
 
 	/**
 	 * Get the height of a full white value
+	 *
 	 * @return The max height
 	 */
 	public float getMaxHeight() {
@@ -108,6 +112,7 @@ public class HeightMap {
 
 	/**
 	 * The resolution of the image
+	 *
 	 * @return The resolution
 	 */
 	public int getResolution() {

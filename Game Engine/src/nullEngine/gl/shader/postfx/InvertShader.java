@@ -1,7 +1,13 @@
 package nullEngine.gl.shader.postfx;
 
+/**
+ * PostFX invert colors shader
+ */
 public class InvertShader extends PostFXShader {
 
+	/**
+	 * Singleton instance
+	 */
 	public static final InvertShader INSTANCE = new InvertShader();
 
 	private int location_colors;
@@ -10,6 +16,9 @@ public class InvertShader extends PostFXShader {
 		super("default/postfx/invert");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -17,6 +26,9 @@ public class InvertShader extends PostFXShader {
 		setSystemTextures(1);
 	}
 
+	/**
+	 * Bind this shader
+	 */
 	@Override
 	public void bind() {
 		super.bind();

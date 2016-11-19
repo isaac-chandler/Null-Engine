@@ -5,6 +5,7 @@ float calcDiff(vec3 normal, vec3 direction) {
 $END
 
 $SPEC
+#define BLINN_PHONG
 float calcSpec(vec3 toCamera, vec3 direction, vec3 normal, float shineDamper, float strength) {
 	#ifndef BLINN_PHONG
 		vec3 lightOut = normalize(reflect(direction, normal));

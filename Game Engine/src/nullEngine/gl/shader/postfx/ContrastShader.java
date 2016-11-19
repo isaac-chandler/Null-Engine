@@ -1,7 +1,13 @@
 package nullEngine.gl.shader.postfx;
 
+/**
+ * PostFX contrast shader
+ */
 public class ContrastShader extends PostFXShader {
 
+	/**
+	 * Singleton instance
+	 */
 	public static final ContrastShader INSTANCE = new ContrastShader();
 
 	private int location_colors;
@@ -11,6 +17,9 @@ public class ContrastShader extends PostFXShader {
 		super("default/postfx/contrast");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -19,13 +28,20 @@ public class ContrastShader extends PostFXShader {
 		setSystemTextures(1);
 	}
 
+	/**
+	 * Bind this shader
+	 */
 	@Override
 	public void bind() {
 		super.bind();
 		loadInt(location_colors, 0);
 	}
 
-	public void updateUniforms(float contrast) {
+	/**
+	 * Bind the contrast
+	 * @param contrast The contrast
+	 */
+	public void loadContrast(float contrast) {
 		loadFloat(location_contrast, contrast);
 	}
 }

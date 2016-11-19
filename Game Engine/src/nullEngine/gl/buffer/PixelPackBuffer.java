@@ -8,12 +8,15 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 
-public class PixelBuffer extends ManagedResource {
+/**
+ * Pixel pack buffer
+ */
+public class PixelPackBuffer extends ManagedResource {
 
 	private int id = 0;
 	private int size;
 
-	private PixelBuffer(int id, int size) {
+	private PixelPackBuffer(int id, int size) {
 		super(String.valueOf(id), "pbo");
 		this.id = id;
 		this.size = size;
@@ -22,14 +25,26 @@ public class PixelBuffer extends ManagedResource {
 		unbind();
 	}
 
-	public PixelBuffer(int size) {
+	/**
+	 * Create a pixel pack buffer
+	 * @param size The size
+	 */
+	public PixelPackBuffer(int size) {
 		this(GL15.glGenBuffers(), size);
 	}
 
+	/**
+	 * Bind this buffer
+	 */
 	public void bind() {
 		GL15.glBindBuffer(GL21.GL_PIXEL_PACK_BUFFER, id);
 	}
 
+	/**
+	 * Get this buffer
+	 * @param dest The destination buffer
+	 * @return The detination buffer or a new buffer it it was <code>null</code>
+	 */
 	public ByteBuffer get(ByteBuffer dest) {
 		if (dest == null)
 			dest = BufferUtils.createByteBuffer(size);
@@ -41,10 +56,17 @@ public class PixelBuffer extends ManagedResource {
 		return dest;
 	}
 
+	/**
+	 * Unbind this buffer
+	 */
 	public void unbind() {
 		GL15.glBindBuffer(GL21.GL_PIXEL_PACK_BUFFER, 0);
 	}
 
+	/**
+	 * Delete this buffer
+	 * @return <code>true</code>
+	 */
 	@Override
 	public boolean delete() {
 		GL15.glDeleteBuffers(id);

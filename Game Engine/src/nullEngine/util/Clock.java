@@ -23,6 +23,7 @@ public class Clock {
 
 	/**
 	 * Get the current time
+	 *
 	 * @return The current time on the GLFW timer in units of <code>TIME_RES</code>
 	 * @see #TIME_RES
 	 * @see GLFW#glfwGetTime()
@@ -33,6 +34,7 @@ public class Clock {
 
 	/**
 	 * Get the time in seconds
+	 *
 	 * @return The time returned by the GLFW timer
 	 * @see GLFW#glfwGetTime()
 	 */
@@ -42,6 +44,7 @@ public class Clock {
 
 	/**
 	 * Update the timer with the new time
+	 *
 	 * @return <code>true</code> if the time since update was last called is greater than <code>TIME_RES</code>
 	 * @see #TIME_RES
 	 */
@@ -67,6 +70,7 @@ public class Clock {
 
 	/**
 	 * Get the delta time
+	 *
 	 * @return The delta time since <code>update()</code> last returned <code>true</code>
 	 * @see #update()
 	 */
@@ -76,6 +80,7 @@ public class Clock {
 
 	/**
 	 * Get the total delta
+	 *
 	 * @return The delta time since <code>resetTotalDelta()</code> was last called
 	 * @see #resetTotalDelta()
 	 */
@@ -85,6 +90,7 @@ public class Clock {
 
 	/**
 	 * Checks wether a second has passed
+	 *
 	 * @return <code>true</code> if it has been more than a second since <code>hasSecondPassed()</code> was last called
 	 */
 	public boolean hasSecondPassed() {
@@ -97,6 +103,7 @@ public class Clock {
 
 	/**
 	 * Get the frame rate
+	 *
 	 * @return The frame rate (in terms of <code>getTotalDelta()</code>)
 	 * @see #getTotalDelta()
 	 */

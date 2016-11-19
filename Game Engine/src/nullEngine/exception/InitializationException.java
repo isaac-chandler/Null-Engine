@@ -1,5 +1,8 @@
 package nullEngine.exception;
 
+/**
+ * Exception thrown if there was a failure during initialization
+ */
 public class InitializationException extends Exception {
 	public InitializationException() {
 		super();

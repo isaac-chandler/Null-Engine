@@ -2,6 +2,9 @@ package nullEngine.exception;
 
 import java.io.IOException;
 
+/**
+ * Excpetion thrown if an unsupported feature is used
+ */
 public class UnsupportedFeatureException extends IOException {
 	public UnsupportedFeatureException() {
 		super();

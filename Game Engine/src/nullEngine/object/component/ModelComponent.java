@@ -29,8 +29,9 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Create a new ModelComponent
+	 *
 	 * @param material The material to use
-	 * @param model The model to render
+	 * @param model    The model to render
 	 */
 	public ModelComponent(Material material, Model model) {
 		this.material = material;
@@ -39,6 +40,7 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Get the material
+	 *
 	 * @return The material
 	 */
 	public Material getMaterial() {
@@ -47,6 +49,7 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Set the material
+	 *
 	 * @param material The new material
 	 */
 	public void setMaterial(Material material) {
@@ -55,6 +58,7 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Get the model to be used with specific flags
+	 *
 	 * @param flags The render flags
 	 * @return The model
 	 */
@@ -64,6 +68,7 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Set the model
+	 *
 	 * @param model The new model
 	 */
 	public void setModel(Model model) {
@@ -72,6 +77,7 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Get the level of detail bias on the model
+	 *
 	 * @return The level of detail bias
 	 */
 	public int getLodBias() {
@@ -80,6 +86,7 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Set the level of detail bias on the model
+	 *
 	 * @param lodBias The level of detail bias
 	 */
 	public void setLodBias(int lodBias) {
@@ -88,6 +95,7 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Render this model
+	 *
 	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
 	 * @param flags    The render flags
@@ -100,6 +108,7 @@ public class ModelComponent extends GameComponent {
 
 	/**
 	 * Update this component
+	 *
 	 * @param delta  The time since update was last called
 	 * @param object The object this component is attached to
 	 */

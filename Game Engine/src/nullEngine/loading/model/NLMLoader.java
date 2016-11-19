@@ -1,11 +1,11 @@
 package nullEngine.loading.model;
 
 import nullEngine.gl.model.Model;
-import nullEngine.loading.filesys.FileFormatException;
 import nullEngine.loading.Loader;
+import nullEngine.loading.filesys.FileFormatException;
 import nullEngine.loading.filesys.ResourceLoader;
-import util.StreamUtils;
 import nullEngine.util.logs.Logs;
+import util.StreamUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +16,9 @@ import java.io.InputStream;
 public class NLMLoader {
 	/**
 	 * Load an NLM model
+	 *
 	 * @param loader The loader to use
-	 * @param name The name of the file
+	 * @param name   The name of the file
 	 * @return The model that was loaded
 	 */
 	public static Model loadModel(Loader loader, String name) {
@@ -45,7 +46,7 @@ public class NLMLoader {
 
 		int totalIndices = 0;
 
-		for (int  i = 0; i < lodCount; i++) {
+		for (int i = 0; i < lodCount; i++) {
 			vertexCounts[i] = StreamUtils.readInt(is);
 			totalIndices += vertexCounts[i];
 		}

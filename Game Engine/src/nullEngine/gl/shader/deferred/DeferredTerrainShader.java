@@ -2,12 +2,18 @@ package nullEngine.gl.shader.deferred;
 
 public class DeferredTerrainShader extends DeferredShader {
 
+	/**
+	 * Singleton instance
+	 */
 	public static final DeferredTerrainShader INSTANCE = new DeferredTerrainShader();
 
 	private DeferredTerrainShader() {
 		super("default/deferred/deferred-terrain");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();

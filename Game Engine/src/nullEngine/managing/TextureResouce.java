@@ -13,7 +13,8 @@ public class TextureResouce extends ManagedResource {
 
 	/**
 	 * Create a new texture resource
-	 * @param name The name of the texture that was loaded
+	 *
+	 * @param name      The name of the texture that was loaded
 	 * @param textureID The texture id to be used
 	 */
 	public TextureResouce(String name, int textureID) {
@@ -23,6 +24,7 @@ public class TextureResouce extends ManagedResource {
 
 	/**
 	 * Create a new texture resource
+	 *
 	 * @param textureID The texture id to be used
 	 */
 	public TextureResouce(int textureID) {
@@ -32,6 +34,7 @@ public class TextureResouce extends ManagedResource {
 
 	/**
 	 * Delete this texture resource
+	 *
 	 * @return <code>true</code>
 	 */
 	@Override
@@ -42,6 +45,7 @@ public class TextureResouce extends ManagedResource {
 
 	/**
 	 * Get the OpenGL texture id of this resoucre
+	 *
 	 * @return The texture id
 	 */
 	public int getTextureID() {

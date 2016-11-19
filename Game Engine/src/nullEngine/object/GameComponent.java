@@ -14,6 +14,7 @@ public abstract class GameComponent extends EventAdapter {
 
 	/**
 	 * Setup this object
+	 *
 	 * @param parent This objects parent
 	 */
 	public void init(GameObject parent) {

@@ -2,10 +2,13 @@ package nullEngine.gl.model;
 
 import nullEngine.loading.Loader;
 
+/**
+ * Model for the quad
+ */
 public class Quad {
-	
+
 	private static Model model;
-	
+
 	private static final float[] vertices = new float[] {
 			-1, 1, 0f,
 			-1, -1, 0f,
@@ -31,11 +34,19 @@ public class Quad {
 			0, 0, -1,
 			0, 0, -1
 	};
-	
+
+	/**
+	 * Create the quad
+	 * @param loader The loader
+	 */
 	public static void setup(Loader loader) {
 		model = loader.loadModel(vertices, texCoords, normals, indices);
 	}
-	
+
+	/**
+	 * Get the quad
+	 * @return The quad
+	 */
 	public static Model get() {
 		return model;
 	}

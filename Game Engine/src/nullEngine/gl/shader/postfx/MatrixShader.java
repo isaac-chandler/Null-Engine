@@ -2,8 +2,13 @@ package nullEngine.gl.shader.postfx;
 
 import math.Matrix4f;
 
+/**
+ * PostFX shader to multiply all pixels in an image by a matrix
+ */
 public class MatrixShader extends PostFXShader {
-
+	/**
+	 * Singleton instance
+	 */
 	public static final MatrixShader INSTANCE = new MatrixShader();
 
 	private int location_colors;
@@ -13,6 +18,9 @@ public class MatrixShader extends PostFXShader {
 		super("default/postfx/matrix");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -20,6 +28,9 @@ public class MatrixShader extends PostFXShader {
 		location_contrast = getUniformLocation("matrix");
 	}
 
+	/**
+	 * Bind this shader
+	 */
 	@Override
 	public void bind() {
 		super.bind();
@@ -27,6 +38,10 @@ public class MatrixShader extends PostFXShader {
 		setSystemTextures(1);
 	}
 
+	/**
+	 * Update the uniforms
+	 * @param matrix The matrix
+	 */
 	public void updateUniforms(Matrix4f matrix) {
 		loadMat4(location_contrast, matrix);
 	}

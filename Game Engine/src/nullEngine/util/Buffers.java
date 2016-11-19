@@ -2,11 +2,18 @@ package nullEngine.util;
 
 import org.lwjgl.BufferUtils;
 
-import java.nio.*;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.nio.LongBuffer;
+import java.nio.ShortBuffer;
 
 public class Buffers {
 	/**
 	 * Create a ByteBuffer from an array
+	 *
 	 * @param arr The array
 	 * @return The buffer that was created
 	 */
@@ -18,6 +25,7 @@ public class Buffers {
 
 	/**
 	 * Create a CharBuffer from an array
+	 *
 	 * @param arr The array
 	 * @return The buffer that was created
 	 */
@@ -29,6 +37,7 @@ public class Buffers {
 
 	/**
 	 * Create a ShortBuffer from an array
+	 *
 	 * @param arr The array
 	 * @return The buffer that was created
 	 */
@@ -40,6 +49,7 @@ public class Buffers {
 
 	/**
 	 * Create a IntBuffer from an array
+	 *
 	 * @param arr The array
 	 * @return The buffer that was created
 	 */
@@ -51,6 +61,7 @@ public class Buffers {
 
 	/**
 	 * Create a FloatBuffer from an array
+	 *
 	 * @param arr The array
 	 * @return The buffer that was created
 	 */
@@ -62,6 +73,7 @@ public class Buffers {
 
 	/**
 	 * Create a LongBuffer from an array
+	 *
 	 * @param arr The array
 	 * @return The buffer that was created
 	 */
@@ -73,6 +85,7 @@ public class Buffers {
 
 	/**
 	 * Create a DoubleBuffer from an array
+	 *
 	 * @param arr The array
 	 * @return The buffer that was created
 	 */

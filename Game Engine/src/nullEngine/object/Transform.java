@@ -25,6 +25,7 @@ public class Transform {
 
 	/**
 	 * Set the parent of this transform in the hierarchy
+	 *
 	 * @param parent The parent
 	 */
 	public void setParent(Transform parent) {
@@ -33,6 +34,7 @@ public class Transform {
 
 	/**
 	 * Get the position relative to the parent
+	 *
 	 * @return The position
 	 */
 	public Vector4f getPos() {
@@ -41,6 +43,7 @@ public class Transform {
 
 	/**
 	 * Set the position relative to the parent
+	 *
 	 * @param pos The new position
 	 */
 	public void setPos(Vector4f pos) {
@@ -50,6 +53,7 @@ public class Transform {
 
 	/**
 	 * Get the rotation relative to the parent
+	 *
 	 * @return The rotation
 	 */
 	public Quaternion getRot() {
@@ -58,6 +62,7 @@ public class Transform {
 
 	/**
 	 * Set the rotation relative to the parent
+	 *
 	 * @param rot The new rotation
 	 */
 	public void setRot(Quaternion rot) {
@@ -67,6 +72,7 @@ public class Transform {
 
 	/**
 	 * Get the scale relative to the parent
+	 *
 	 * @return The scale
 	 */
 	public Vector4f getScale() {
@@ -75,6 +81,7 @@ public class Transform {
 
 	/**
 	 * Set the scale relative to the parent
+	 *
 	 * @param scale The scale
 	 */
 	public void setScale(Vector4f scale) {
@@ -84,6 +91,7 @@ public class Transform {
 
 	/**
 	 * Increase the position relative to the parent
+	 *
 	 * @param amt The amount to increase by
 	 */
 	public void increasePos(Vector4f amt) {
@@ -93,6 +101,7 @@ public class Transform {
 
 	/**
 	 * Increase the rotation relative to the parent
+	 *
 	 * @param amt The amount to increase by
 	 */
 	public void increaseRot(Quaternion amt) {
@@ -102,6 +111,7 @@ public class Transform {
 
 	/**
 	 * Increase the scale relative to the parent
+	 *
 	 * @param amt The amount to increase by
 	 */
 	public void increaseScale(Vector4f amt) {
@@ -111,6 +121,7 @@ public class Transform {
 
 	/**
 	 * Get the transformation matrix
+	 *
 	 * @return The transformation matrix
 	 */
 	public Matrix4f getMatrix() {
@@ -121,6 +132,7 @@ public class Transform {
 
 	/**
 	 * Get the position relative to the world
+	 *
 	 * @return The position
 	 */
 	public Vector4f getWorldPos() {
@@ -131,6 +143,7 @@ public class Transform {
 
 	/**
 	 * Get the Rotation relative to the world
+	 *
 	 * @return The rotation
 	 */
 	public Quaternion getWorldRot() {

@@ -1,7 +1,12 @@
 package nullEngine.gl.shader.postfx;
 
+/**
+ * PostFX add shader
+ */
 public class AddShader extends PostFXShader {
-
+	/**
+	 * Singleton instance
+	 */
 	public static final AddShader INSTANCE = new AddShader();
 
 	private int location_colors0;
@@ -12,6 +17,9 @@ public class AddShader extends PostFXShader {
 		super("default/postfx/add");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -21,6 +29,9 @@ public class AddShader extends PostFXShader {
 		setSystemTextures(2);
 	}
 
+	/**
+	 * Bind this shader
+	 */
 	@Override
 	public void bind() {
 		super.bind();
@@ -28,6 +39,11 @@ public class AddShader extends PostFXShader {
 		loadInt(location_colors1, 1);
 	}
 
+	/**
+	 * Update the uniforms
+	 * @param strength0 Weight of texture 0
+	 * @param strength1 Weight of texture 1
+	 */
 	public void updateUniforms(float strength0, float strength1) {
 		loadVec2(location_strength, strength0, strength1);
 	}

@@ -4,6 +4,7 @@ import nullEngine.control.Layer;
 
 /**
  * The root GameObject, created by Layer, don't create directly
+ *
  * @see GameObject
  */
 public class RootObject extends GameObject {
@@ -12,6 +13,7 @@ public class RootObject extends GameObject {
 
 	/**
 	 * Create a new root object
+	 *
 	 * @param layer The layer this is the root of
 	 */
 	public RootObject(Layer layer) {
@@ -20,6 +22,7 @@ public class RootObject extends GameObject {
 
 	/**
 	 * Get the layer this object belongs to
+	 *
 	 * @return The layer
 	 */
 	@Override

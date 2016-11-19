@@ -1,5 +1,6 @@
 package nullEngine.input;
 
+@SuppressWarnings("unused")
 public class Input {
 	public static final int KEY_SPACE = 0x20;
 	public static final int KEY_APOSTROPHE = 0x27;
@@ -141,18 +142,41 @@ public class Input {
 
 	private static InputData inputData;
 
+	/**
+	 * Set the input data to be used for input operations
+	 *
+	 * @param inputData The input data
+	 */
 	public static void setInputData(InputData inputData) {
 		Input.inputData = inputData;
 	}
 
+	/**
+	 * Get wether a key is pressed
+	 *
+	 * @param key The key
+	 * @return Wether the key is pressed
+	 */
 	public static boolean keyPressed(int key) {
 		return inputData.getKey(key);
 	}
 
+	/**
+	 * Get wether a mouse button is pressed
+	 *
+	 * @param button The button
+	 * @return Wether the button is pressed
+	 */
 	public static boolean mousePressed(int button) {
 		return inputData.getButton(button);
 	}
 
+	/**
+	 * Get the number represented by a key
+	 *
+	 * @param key The key
+	 * @return The key number or <code>-1</code> if the key isn't a number key
+	 */
 	public static int getKeyNumber(int key) {
 		if (key >= KEY_0 && key <= KEY_9)
 			return key - KEY_0;
@@ -162,10 +186,20 @@ public class Input {
 		return -1;
 	}
 
+	/**
+	 * Get the mouse x
+	 *
+	 * @return The mouse x
+	 */
 	public static int getMouseX() {
 		return inputData.getCursorX();
 	}
 
+	/**
+	 * Get the mouse y
+	 *
+	 * @return The mouse y
+	 */
 	public static int getMouseY() {
 		return inputData.getCursorY();
 	}

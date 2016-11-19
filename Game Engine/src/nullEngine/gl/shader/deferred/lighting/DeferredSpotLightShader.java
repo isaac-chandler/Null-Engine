@@ -3,8 +3,14 @@ package nullEngine.gl.shader.deferred.lighting;
 import math.Matrix4f;
 import nullEngine.object.component.light.SpotLight;
 
+/**
+ * Deferred spot light shader
+ */
 public class DeferredSpotLightShader extends DeferredLightShader {
 
+	/**
+	 * Singleton instance
+	 */
 	public static final DeferredSpotLightShader INSTANCE = new DeferredSpotLightShader();
 
 	private int location_lightColor;
@@ -17,6 +23,9 @@ public class DeferredSpotLightShader extends DeferredLightShader {
 		super("default/deferred/lighting/deferred-spot");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -28,6 +37,10 @@ public class DeferredSpotLightShader extends DeferredLightShader {
 
 	}
 
+	/**
+	 * Load a light
+	 * @param light The light
+	 */
 	public void loadLight(SpotLight light) {
 		loadVec3(location_lightColor, light.getLightColor());
 		loadVec3(location_direction, light.getDirection());
@@ -35,6 +48,10 @@ public class DeferredSpotLightShader extends DeferredLightShader {
 		loadMat4(location_modelMatrix, light.getObject().getRenderMatrix());
 	}
 
+	/**
+	 * Load the view matrix
+	 * @param viewMarix The view matrix
+	 */
 	public void loadViewMatrix(Matrix4f viewMarix) {
 		loadMat4(location_viewMatrix, viewMarix);
 	}

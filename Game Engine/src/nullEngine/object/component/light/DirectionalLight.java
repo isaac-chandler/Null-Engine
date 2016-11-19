@@ -16,8 +16,9 @@ public class DirectionalLight extends GameComponent {
 
 	/**
 	 * Create a new directional light
+	 *
 	 * @param lightColor The color of light
-	 * @param direction The direction the light rays travel
+	 * @param direction  The direction the light rays travel
 	 */
 	public DirectionalLight(Vector4f lightColor, Vector4f direction) {
 		this.lightColor = lightColor;
@@ -26,6 +27,7 @@ public class DirectionalLight extends GameComponent {
 
 	/**
 	 * If this is a deferred render than add ourselves to the renderer
+	 *
 	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
 	 * @param flags    The render flags
@@ -38,6 +40,7 @@ public class DirectionalLight extends GameComponent {
 
 	/**
 	 * Do nothing
+	 *
 	 * @param delta  The time since update was last called
 	 * @param object The object this component is attached to
 	 */
@@ -48,6 +51,7 @@ public class DirectionalLight extends GameComponent {
 
 	/**
 	 * Get the light color
+	 *
 	 * @return The light color
 	 */
 	public Vector4f getLightColor() {
@@ -56,6 +60,7 @@ public class DirectionalLight extends GameComponent {
 
 	/**
 	 * Set the light color
+	 *
 	 * @param lightColor the new light color
 	 */
 	public void setLightColor(Vector4f lightColor) {
@@ -64,6 +69,7 @@ public class DirectionalLight extends GameComponent {
 
 	/**
 	 * Get the light direction
+	 *
 	 * @return the light direction
 	 */
 	public Vector4f getDirection() {
@@ -72,6 +78,7 @@ public class DirectionalLight extends GameComponent {
 
 	/**
 	 * Set the light sirection
+	 *
 	 * @param direction The new light direction
 	 */
 	public void setDirection(Vector4f direction) {

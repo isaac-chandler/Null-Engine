@@ -19,9 +19,10 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Create a new GUI component
-	 * @param x The x position
-	 * @param y The y position
-	 * @param width The width
+	 *
+	 * @param x      The x position
+	 * @param y      The y position
+	 * @param width  The width
 	 * @param height The height
 	 */
 	public GuiComponent(float x, float y, float width, float height) {
@@ -33,6 +34,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Render this GUI component
+	 *
 	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
 	 * @param flags    The render flags
@@ -49,6 +51,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Do nothing
+	 *
 	 * @param delta  The time since update was last called
 	 * @param object The object this component is attached to
 	 */
@@ -59,6 +62,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Get this component's color (Default white)
+	 *
 	 * @return The color
 	 */
 	public Vector4f getColor() {
@@ -67,6 +71,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Set this component's color
+	 *
 	 * @param color The new color
 	 */
 	public void setColor(Vector4f color) {
@@ -75,6 +80,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Get this component's x
+	 *
 	 * @return The x
 	 */
 	public float getX() {
@@ -83,6 +89,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Set this component's x
+	 *
 	 * @param x The new x
 	 */
 	public void setX(float x) {
@@ -91,6 +98,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Get this component's y
+	 *
 	 * @return The y
 	 */
 	public float getY() {
@@ -99,6 +107,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Set this component's y
+	 *
 	 * @param y The new y
 	 */
 	public void setY(float y) {
@@ -107,6 +116,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Get this component's width
+	 *
 	 * @return The width
 	 */
 	public float getWidth() {
@@ -115,6 +125,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Set this component's width
+	 *
 	 * @param width The new width
 	 */
 	public void setWidth(float width) {
@@ -123,6 +134,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Get this component's height
+	 *
 	 * @return The height
 	 */
 	public float getHeight() {
@@ -131,6 +143,7 @@ public class GuiComponent extends GameComponent {
 
 	/**
 	 * Set this component's height
+	 *
 	 * @param height The new height
 	 */
 	public void setHeight(float height) {

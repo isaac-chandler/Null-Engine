@@ -1,7 +1,13 @@
 package nullEngine.gl.shader.postfx;
 
+/**
+ * PostFX certical blur shader
+ */
 public class VBlurShader extends PostFXShader {
 
+	/**
+	 * Singleton instance
+	 */
 	public static final VBlurShader INSTANCE = new VBlurShader();
 
 	private int location_colors;
@@ -11,6 +17,9 @@ public class VBlurShader extends PostFXShader {
 		super("default/postfx/vblur");
 	}
 
+	/**
+	 * Get the uniform locations
+	 */
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
@@ -19,12 +28,19 @@ public class VBlurShader extends PostFXShader {
 		setSystemTextures(1);
 	}
 
+	/**
+	 * Bind this shader
+	 */
 	@Override
 	public void bind() {
 		super.bind();
 		loadInt(location_colors, 0);
 	}
 
+	/**
+	 * Update the uniforms
+	 * @param pixelSize The pixelSize
+	 */
 	public void updateUniforms(float pixelSize) {
 		loadFloat(location_pixelSize, pixelSize);
 	}

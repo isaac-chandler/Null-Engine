@@ -14,6 +14,7 @@ public class NullEngine {
 
 	/**
 	 * Setup the engine to run and start the Logs
+	 *
 	 * @throws InitializationException If initialization failed
 	 */
 	public static void init() throws InitializationException {

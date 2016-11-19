@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Null Engine Shading Language</title>
+		<link rel="stylesheet" type="text/css" href="Model_Format_Style.css">
+	</head>
+	<body>
+		<h1>Null Engine Shading Language Version 1</h1>
+		<h2>Format</h2>
+		<p>
+			A Null Engine Shading Language file consists of a series of blocks and allows arbitrary text outside of blocks that is ignored. <br>
+			Blocks are in the format:
+		</p>
+		<div class="tab">
+			<p lang="java">
+				$<em>BLOCK_NAME</em> <br>
+				<em>block body</em> <br>
+				$END
+			</p>
+		</div>
+		<p>
+			Block names and the END keyword are not case sensitive.
+		</p>
+		<h2>Include</h2>
+		<p>
+			Null Engine Shading Language extends GLSL with the capability to include code with the syntax:
+		</p>
+		<div class="tab">
+			#include "<em>file in global file path</em>"<br>
+			#include "<em>BLOCK_NAME</em>:<em>file in global file path</em>"<br>
+			#include &lt;<em>file in current folder</em>&gt;<br>
+			#include &lt;<em>BLOCK_NAME</em>:<em>file in current folder</em>&gt;
+		</div>
+		<p>
+			The include options that specify a block name will include only the block that is specified, where as include options that don't specify a block will include the entire file.
+		</p>
+		<h2>Special Blocks</h2>
+		<div id="VS">
+			<h3>VS</h3>
+			<p>
+				The VS block represents the GLSL vertex shader and expects its contents to be valid GLSL code (extended with includes)
+			</p>
+		</div>
+		<div id="FS">
+			<h3>FS</h3>
+			<p>
+				The FS block represents the GLSL fragment shader and expects its contents to be valid GLSL code (extended with includes)
+			</p>
+		</div>
+		<div id="GS">
+			<h3>GS</h3>
+			<p>
+				The GS block represents the GLSL geometry shader and expects its contents to be valid GLSL code (extended with includes)
+			</p>
+		</div>
+		<div id="VERSION">
+			<h3>VERSION</h3>
+			<p>
+				The VERSION block is used to include the GLSL version. It expects the format to be:
+			</p>
+			<div class="tab">
+				<p>
+					<em>version_number profile</em>
+				</p>
+			</div>
+			<p>
+				version_number represents the GLSL version, valid values are: 110, 120, 130, 140, 150, 300, 310, 330, 400, 410, 420, 430, 440, 450<br>
+				profile represents the GLSL profile
+			</p>
+			<ul>
+				<li>For versions less than 150 profile is not supported</li>
+				<li>For versions 300 and 310 the profile is required and must be es</li>
+				<li>For version 150, 330, 400, 410, 420, 430, 440, 450 profile is optional and can be core or compatibility, if no profile is specified the default is core</li>
+			</ul>
+		</div>
+		<h2>Required Blocks</h2>
+		<p>
+			The <a href="#VS">VS</a>, <a href="#FS">FS</a> and <a href="#VERSION">VERSION</a> blocks are required for the shader to be compiled.
+		</p>
+	</body>
+</html>

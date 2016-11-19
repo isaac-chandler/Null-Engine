@@ -331,18 +331,18 @@ public class GeoclipmapTerrain extends GameObject {
 					int bottomLeft = ((z + 1) * (m + 1)) + x;
 					int bottomRight = bottomLeft + 1;
 					indices.set(topRight, pointer);
-						pointer++;
+					pointer++;
 					indices.set(topLeft, pointer);
-						pointer++;
+					pointer++;
 					indices.set(bottomLeft, pointer);
-						pointer++;
+					pointer++;
 
 					indices.set(bottomRight, pointer);
-						pointer++;
+					pointer++;
 					indices.set(topRight, pointer);
-						pointer++;
+					pointer++;
 					indices.set(bottomLeft, pointer);
-						pointer++;
+					pointer++;
 				}
 			}
 		}
@@ -354,6 +354,7 @@ public class GeoclipmapTerrain extends GameObject {
 
 	/**
 	 * Render this terrain
+	 *
 	 * @param renderer The renderer that is rendering this object
 	 * @param flags    The render flags
 	 */
@@ -365,6 +366,7 @@ public class GeoclipmapTerrain extends GameObject {
 
 	/**
 	 * Get the terain height
+	 *
 	 * @param x The x position
 	 * @param z The z position
 	 * @return The terrain height at (x, z)
@@ -402,12 +404,13 @@ public class GeoclipmapTerrain extends GameObject {
 
 	/**
 	 * Create a new terrain
-	 * @param material The material to be used
-	 * @param heightMap The height map to be used
-	 * @param size The terrain radius
-	 * @param detail The amount of detail in the terrain
-	 * @param levels The number of levels of detail
-	 * @param loader The loader
+	 *
+	 * @param material     The material to be used
+	 * @param heightMap    The height map to be used
+	 * @param size         The terrain radius
+	 * @param detail       The amount of detail in the terrain
+	 * @param levels       The number of levels of detail
+	 * @param loader       The loader
 	 * @param cameraObject The camera
 	 */
 	public GeoclipmapTerrain(Material material, HeightMap heightMap, float size, int detail, int levels, Loader loader, GameObject cameraObject) {

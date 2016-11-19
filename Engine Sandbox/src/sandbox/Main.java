@@ -82,7 +82,7 @@ public class Main {
 			loader.setAnisotropyAmount(8);
 			loader.setTextureLodBias(0);
 
-			Material.setDefaultFloat("lightingAmount", 1);
+			Material.DEFAULT_MATERIAL.setFloat("lightingAmount", 1);
 
 			Font font = loader.loadFont("default/testsdf", 14);
 
@@ -111,21 +111,21 @@ public class Main {
 			gui.getRoot().addComponent(text);
 			Logs.d(GL11.glGetString(GL11.GL_RENDERER));
 
-			final Model model = loader.loadModel("default/dragon");
+			final Model dragonModel = loader.loadModel("default/dragon");
 
-			Texture2D texture = TextureGenerator.genColored(218, 165, 32, 255);
+			Texture2D gold = TextureGenerator.genColored(218, 165, 32, 255);
 
-			final Material material = new Material();
-			material.setDiffuse(texture);
-			material.setShineDamper(16);
-			material.setReflectivity(1);
+			final Material dragonMaterial = new Material();
+			dragonMaterial.setTexture("diffuse", gold);
+			dragonMaterial.setFloat("shineDamper", 32);
+			dragonMaterial.setFloat("reflectivity", 1);
 
 			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer());
 			FogPostFX fog = new FogPostFX(renderer.getLightOutput(), renderer.getPositionOutput());
 			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f));
 			fog.setDensity(0.004f);
 			fog.setGradient(4f);
-			final PostFX bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.3f), 0.3f);
+			final PostFX bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.2f), 0.3f);
 			final PostFX noBloom = new ContrastPostFX(fog, 0.3f);
 			renderer.setPostFX(bloom);
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));
@@ -162,8 +162,8 @@ public class Main {
 			terrainMaterial.setTexture("gTexture", loader.loadTexture("default/flowers"));
 			terrainMaterial.setTexture("bTexture", loader.loadTexture("default/path"));
 			terrainMaterial.setTexture("blend", loader.loadTexture("default/blend"));
-			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.1f, 0));
-			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 4, 1));
+			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.5f, 0));
+			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 8, 1));
 			terrainMaterial.setVector("lightingAmount", new Vector4f(1, 1, 1, 1));
 			terrainMaterial.setFloat("tileCount", 220);
 			HeightMap heightMap = loader.generateHeightMap("default/heightmap", 80);
@@ -202,7 +202,7 @@ public class Main {
 			dragon.getTransform().setPos(new Vector4f(8, terrain.getTerrainHeight(8, -14), -14));
 			dragon.getTransform().setRot(new Quaternion((float) Math.PI / -2, Vector4f.UP));
 
-			dragon.addComponent(new ModelComponent(material, model) {
+			dragon.addComponent(new ModelComponent(dragonMaterial, dragonModel) {
 				private boolean bloomEnabled = true;
 				private boolean render = true;
 

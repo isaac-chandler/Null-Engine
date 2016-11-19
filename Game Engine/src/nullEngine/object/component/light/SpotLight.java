@@ -19,12 +19,13 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Create a new spot light
+	 *
 	 * @param lightColor The color of the light
-	 * @param direction The direction to point in
-	 * @param squared The squared factor for attenuation
-	 * @param linear The linear factor for attenuation
-	 * @param constant The constant factor for attenuation
-	 * @param angle The maximum angle in radians from the direction that the light will have an effect on
+	 * @param direction  The direction to point in
+	 * @param squared    The squared factor for attenuation
+	 * @param linear     The linear factor for attenuation
+	 * @param constant   The constant factor for attenuation
+	 * @param angle      The maximum angle in radians from the direction that the light will have an effect on
 	 */
 	public SpotLight(Vector4f lightColor, Vector4f direction, float squared, float linear, float constant, float angle) {
 		this.lightColor = lightColor;
@@ -37,6 +38,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * If this is a deferred render than add ourselves to the renderer
+	 *
 	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
 	 * @param flags    The render flags
@@ -49,6 +51,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Do nothing
+	 *
 	 * @param delta  The time since update was last called
 	 * @param object The object this component is attached to
 	 */
@@ -59,6 +62,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Get the light color
+	 *
 	 * @return the light color
 	 */
 	public Vector4f getLightColor() {
@@ -67,6 +71,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Set the light color
+	 *
 	 * @param lightColor The new light color
 	 */
 	public void setLightColor(Vector4f lightColor) {
@@ -75,6 +80,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Get the attenuation squared factor
+	 *
 	 * @return The attenuation squared factor
 	 */
 	public float getSquared() {
@@ -83,6 +89,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Set the attenuation squared factor
+	 *
 	 * @param squared The new attenuation squared factor
 	 */
 	public void setSquared(float squared) {
@@ -91,6 +98,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Get the attenuation linear factor
+	 *
 	 * @return The attenuation linear factor
 	 */
 	public float getLinear() {
@@ -99,6 +107,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Set the attenuation linear factor
+	 *
 	 * @param linear The new attenuation linear factor
 	 */
 	public void setLinear(float linear) {
@@ -107,6 +116,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Get the attenuation constant factor
+	 *
 	 * @return The attenuation constant factor
 	 */
 	public float getConstant() {
@@ -115,6 +125,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Set the attenuation constant factor
+	 *
 	 * @param constant The new attenuation constant factor
 	 */
 	public void setConstant(float constant) {
@@ -123,6 +134,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Get the direction this light is pointing in
+	 *
 	 * @return The direction this light is pointing in
 	 */
 	public Vector4f getDirection() {
@@ -131,6 +143,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Set the direction this light is pointing in
+	 *
 	 * @param direction The new direction to point in
 	 */
 	public void setDirection(Vector4f direction) {
@@ -139,6 +152,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Get the cosine of the maximum angle in radians from the direction that the light will have an effect on
+	 *
 	 * @return The cosine of the maximum angle in radians from the direction that the light will have an effect on
 	 */
 	public float getCutoff() {
@@ -147,6 +161,7 @@ public class SpotLight extends GameComponent {
 
 	/**
 	 * Set the maximum angle in radians from the direction that the light will have an effect on
+	 *
 	 * @param angle The new angle
 	 */
 	public void setAngle(float angle) {
