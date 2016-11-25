@@ -13,8 +13,6 @@ import nullEngine.object.component.ModelComponent;
 import util.BitFieldInt;
 import util.Sizeof;
 
-//FIXME fix normals again
-
 /**
  * A terrain class that implements the <a href="https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter02.html">Geoclipmapping algorithm</a>
  */
@@ -428,7 +426,7 @@ public class GeoclipmapTerrain extends GameObject {
 		material.setTexture("height", heightMap.getHeightMap());
 
 		materials = new Material[levels];
-		float offset = 1.0f / detail;
+		float offset = 1f / detail;
 		for (int i = 0; i < levels; i++) {
 			materials[levels - i - 1] = material.clone();
 			materials[levels - i - 1].setFloat("offset", offset);

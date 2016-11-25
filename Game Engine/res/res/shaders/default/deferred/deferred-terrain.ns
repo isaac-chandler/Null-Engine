@@ -24,16 +24,17 @@ void main() {
 
 	texCoords = (position.xz / size + 1) / 2;
 
-	vec2 transition = clamp((abs(inPosition.xz) - 0.3) * 5, 0, 1);
+	vec2 transition = clamp(abs(inPosition.xz) - 0.25, 0, 1) * 4;
 
-	vec2 offsetV = vec2(offset + offset * max(transition.x, transition.y), 0);
+	vec2 offsetV = vec2(offset + (offset * max(transition.x, transition.y)), 0);
+	//vec2 offsetV = vec2(offset, 0);
 
 	float heightR = texture(height, texCoords + offsetV.xy).r;
 	float heightL = texture(height, texCoords - offsetV.xy).r;
 	float heightU = texture(height, texCoords + offsetV.yx).r;
 	float heightD = texture(height, texCoords - offsetV.yx).r;
 
-	normal = normalize(vec3(heightR - heightL, 2, heightD - heightU));
+	normal = normalize(vec3(heightL - heightR, 2 * (size * offsetV.x), heightD - heightU));
 
 	position.y = texture(height, texCoords).r;
 
@@ -79,8 +80,10 @@ void main() {
 	float lightingAmount0 = lightingAmount.a * aTextureAmt + lightingAmount.r * blendColor.r + lightingAmount.g * blendColor.g + lightingAmount.b * blendColor.b;
 
 	outColor = aColor + rColor + gColor + bColor;
+	//outColor = vec4(normal, 1);
 	outPosition = position;
 	outNormal = vec4(normal, 1);
+	//outNormal = vec4(0, 1, 0, 1);
 	outSpecular = vec4(reflectivity0, shineDamper0, lightingAmount0, 1);
 }
 $END

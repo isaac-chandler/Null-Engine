@@ -1,5 +1,6 @@
 package sandbox;
 
+import math.Quaternion;
 import math.Vector4f;
 import nullEngine.NullEngine;
 import nullEngine.control.Application;
@@ -170,7 +171,8 @@ public class Main {
 
 			terrainObject.addChild(terrain); // Add the terrain to the terrain object
 
-			cameraObject.getTransform().setPos(new Vector4f(0, terrain.getTerrainHeight(0, -5) + 1.5f, -5)); // Set the cameras position to the hiehgt of the terrain + 1.5
+			cameraObject.getTransform().setPos(new Vector4f(0, terrain.getTerrainHeight(0, 20) + 1.5f, 20)); // Set the cameras position to the hiehgt of the terrain + 1.5
+			cameraObject.getTransform().setRot(new Quaternion((float) Math.toRadians(180), Vector4f.UP));    // Rotate the camera 180 degrees
 
 			cameraObject.addComponent(camera);   // Add the camera to the camera object
 			application.setCursorEnabled(false); // Hide the cursor

@@ -61,7 +61,7 @@ public class OutPrintStream extends PrintStream {
 			}
 			Logs.d(message);
 		}
-		Logs.i(new Exception().getStackTrace()[1].toString() + " " + String.valueOf(x));
+		Logs.i(String.valueOf(x));
 	}
 
 	@Override

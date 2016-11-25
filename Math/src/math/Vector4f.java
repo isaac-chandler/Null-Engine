@@ -580,4 +580,15 @@ public class Vector4f {
 	public String toString() {
 		return "(" + x + ", " + y + ", " + z + ", " + w + ")";
 	}
+
+	/**
+	 * Set this vector to be another vector
+	 * @param src The vector to copy
+	 */
+	public void set(Vector4f src) {
+		x = src.x;
+		y = src.y;
+		z = src.z;
+		w = src.w;
+	}
 }

@@ -13,7 +13,6 @@ import util.BitFieldInt;
  */
 public class SpotLight extends GameComponent {
 	private Vector4f lightColor;
-	private Vector4f direction;
 	private float squared, linear, constant;
 	private float cutoff;
 
@@ -21,15 +20,13 @@ public class SpotLight extends GameComponent {
 	 * Create a new spot light
 	 *
 	 * @param lightColor The color of the light
-	 * @param direction  The direction to point in
 	 * @param squared    The squared factor for attenuation
 	 * @param linear     The linear factor for attenuation
 	 * @param constant   The constant factor for attenuation
 	 * @param angle      The maximum angle in radians from the direction that the light will have an effect on
 	 */
-	public SpotLight(Vector4f lightColor, Vector4f direction, float squared, float linear, float constant, float angle) {
+	public SpotLight(Vector4f lightColor, float squared, float linear, float constant, float angle) {
 		this.lightColor = lightColor;
-		this.direction = direction.normalize(null);
 		this.squared = squared;
 		this.linear = linear;
 		this.constant = constant;
@@ -130,24 +127,6 @@ public class SpotLight extends GameComponent {
 	 */
 	public void setConstant(float constant) {
 		this.constant = constant;
-	}
-
-	/**
-	 * Get the direction this light is pointing in
-	 *
-	 * @return The direction this light is pointing in
-	 */
-	public Vector4f getDirection() {
-		return direction;
-	}
-
-	/**
-	 * Set the direction this light is pointing in
-	 *
-	 * @param direction The new direction to point in
-	 */
-	public void setDirection(Vector4f direction) {
-		this.direction = direction.normalize();
 	}
 
 	/**
