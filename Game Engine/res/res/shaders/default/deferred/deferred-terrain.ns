@@ -24,9 +24,9 @@ void main() {
 
 	texCoords = (position.xz / size + 1) / 2;
 
-	vec2 transition = clamp(abs(inPosition.xz) - 0.25, 0, 1) * 4;
+	//vec2 transition = clamp(abs(inPosition.xz) - 0.25, 0, 1) * 4;
 
-	vec2 offsetV = vec2(offset + (offset * max(transition.x, transition.y)), 0);
+	vec2 offsetV = vec2(offset, 0);
 	//vec2 offsetV = vec2(offset, 0);
 
 	float heightR = texture(height, texCoords + offsetV.xy).r;
@@ -36,7 +36,7 @@ void main() {
 
 	normal = normalize(vec3(heightL - heightR, 2 * (size * offsetV.x), heightD - heightU));
 
-	position.y = texture(height, texCoords).r;
+	position.y = (heightR + heightL + heightD + heightU) / 4;
 
 	gl_Position = mvp * vec4(inPosition.x, position.y, inPosition.z, 1);
 }

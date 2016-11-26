@@ -14,7 +14,7 @@ import nullEngine.gl.model.Model;
 import nullEngine.gl.postfx.BrightFilterBloomPostFX;
 import nullEngine.gl.postfx.ContrastPostFX;
 import nullEngine.gl.postfx.FogPostFX;
-import nullEngine.gl.postfx.PostFX;
+import nullEngine.gl.postfx.PostFXOutput;
 import nullEngine.gl.renderer.DeferredRenderer;
 import nullEngine.gl.renderer.Renderer;
 import nullEngine.gl.shader.deferred.DeferredTerrainShader;
@@ -62,7 +62,7 @@ public class Main {
 			state.addLayer(world);                                                                          // Then add the world layer
 
 			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer()); // Get the renderer
-			renderer.setExposureTime(0.7f);                                             // Set HDR exposure time to 0.7
+			renderer.setExposureTime(1.5f);                                             // Set HDR exposure time to 0.7
 
 			state.addListener(new EventAdapter() { // Add an event listener to the state
 				@Override
@@ -118,7 +118,8 @@ public class Main {
 
 			final Model dragonModel = loader.loadModel("default/dragon"); // Load the dragon model
 
-			Texture2D gold = TextureGenerator.genColored(218, 165, 32, 255); // Create the texture for the dragon
+
+			Texture2D gold = TextureGenerator.genColored(new Vector4f(0.708f, 0.384f, 0.01f)); // Create the texture for the dragon
 
 			final Material dragonMaterial = new Material(); // Create a material for the dragon
 			dragonMaterial.setTexture("diffuse", gold);     // Set the diffuse color texture
@@ -126,11 +127,12 @@ public class Main {
 			dragonMaterial.setFloat("reflectivity", 1);     // Set the specular highlight strength
 
 			FogPostFX fog = new FogPostFX(renderer.getLightOutput(), renderer.getPositionOutput()); // Create the fog with input from the lit scene and its positions
-			fog.setSkyColor(new Vector4f(0.529f, 0.808f, 0.922f)); // Set the sky color
+			fog.setSkyColor(new Vector4f(0.246f, 0.625f, 0.836f)); // Set the sky color
 			fog.setDensity(0.004f);                                // Set how thick the fog is
 			fog.setGradient(4f);                                   // Set how quickly the fog fades in
-			final PostFX bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.2f), 0.3f); // Create the bloom postfx
-			final PostFX noBloom = new ContrastPostFX(fog, 0.3f);                                  // Create the non bloom postfx
+			final PostFXOutput bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.4f), 0.15f); // Create the bloom postfx
+//			final PostFXOutput noBloom = new ContrastPostFX(fog, 0.15f);                                  // Create the non bloom postfx
+			final PostFXOutput noBloom = renderer.getNormalOutput();                                  // Create the non bloom postfx
 			renderer.setPostFX(bloom);                                                             // Set default to bloom
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));                                 // Set the brightness of the ambient light to 20%
 
@@ -152,8 +154,8 @@ public class Main {
 			terrainMaterial.setTexture("bTexture", loader.loadTexture("default/path"));                      // Set  blue channel texture
 			terrainMaterial.setTexture("aTexture", loader.loadTexture("default/grass"));                     // Set alpha channel texture
 			terrainMaterial.setTexture("blend", loader.loadTexture("default/blend"));                        // Set texture blending map
-			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.5f, 0));                          // Set specular strength of path to 0.5 and others to 0
-			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 8, 1));                              // Set specular exponent of path to 8 and others to 1
+			terrainMaterial.setVector("reflectivity", new Vector4f(0, 0, 0.3f, 0));                          // Set specular strength of path to 0.5 and others to 0
+			terrainMaterial.setVector("shineDamper", new Vector4f(1, 1, 128, 1));                              // Set specular exponent of path to 8 and others to 1
 			terrainMaterial.setVector("lightingAmount", new Vector4f(1, 1, 1, 1));                           // Set lighting amount for all textures to 1
 			terrainMaterial.setFloat("tileCount", 220);                                                      // Set how many times the textures are tiled across the whole terrain to 220
 

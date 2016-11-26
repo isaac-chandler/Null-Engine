@@ -11,7 +11,7 @@ public class VBlurShader extends PostFXShader {
 	public static final VBlurShader INSTANCE = new VBlurShader();
 
 	private int location_colors;
-	private int location_pixelSize;
+	private int location_radius;
 
 	private VBlurShader() {
 		super("default/postfx/vblur");
@@ -24,7 +24,7 @@ public class VBlurShader extends PostFXShader {
 	protected void getUniformLocations() {
 		super.getUniformLocations();
 		location_colors = getUniformLocation("colors");
-		location_pixelSize = getUniformLocation("pixelSize");
+		location_radius = getUniformLocation("radius");
 		setSystemTextures(1);
 	}
 
@@ -39,9 +39,9 @@ public class VBlurShader extends PostFXShader {
 
 	/**
 	 * Update the uniforms
-	 * @param pixelSize The pixelSize
+	 * @param radius The blur radius
 	 */
-	public void updateUniforms(float pixelSize) {
-		loadFloat(location_pixelSize, pixelSize);
+	public void updateUniforms(float radius) {
+		loadFloat(location_radius, radius);
 	}
 }

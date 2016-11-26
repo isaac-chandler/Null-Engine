@@ -424,14 +424,7 @@ public class GeoclipmapTerrain extends GameObject {
 
 		material.setFloat("size", size / 2);
 		material.setTexture("height", heightMap.getHeightMap());
-
-		materials = new Material[levels];
-		float offset = 1f / detail;
-		for (int i = 0; i < levels; i++) {
-			materials[levels - i - 1] = material.clone();
-			materials[levels - i - 1].setFloat("offset", offset);
-			offset /= 2;
-		}
+		material.setFloat("offset", 1f / detail);
 
 		VertexBuffer vertices = generateBlockVertices(detail);
 		VertexBuffer texCoords = VertexBuffer.createZeroed(((detail + 1) * (detail + 1) * 2) * Sizeof.FLOAT);
@@ -440,11 +433,11 @@ public class GeoclipmapTerrain extends GameObject {
 		Model ring = generateRing(detail, vertices, texCoords, normals, loader);
 		Model block = generateBlock(detail, vertices, texCoords, normals, loader);
 
-		addChild(new ModelObject(block, materials[0], scale));
+		addChild(new ModelObject(block, material, scale));
 
 		for (int i = 1; i < levels; i++) {
 			scale *= 2;
-			addChild(new ModelObject(ring, materials[i], scale));
+			addChild(new ModelObject(ring, material, scale));
 		}
 	}
 }

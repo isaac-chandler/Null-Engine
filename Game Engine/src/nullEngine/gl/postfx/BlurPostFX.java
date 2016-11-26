@@ -1,5 +1,6 @@
 package nullEngine.gl.postfx;
 
+import nullEngine.control.Application;
 import nullEngine.gl.shader.postfx.HBlurShader;
 import nullEngine.gl.shader.postfx.PostFXShader;
 import nullEngine.gl.shader.postfx.VBlurShader;
@@ -9,20 +10,17 @@ import nullEngine.gl.shader.postfx.VBlurShader;
  */
 public class BlurPostFX extends PostFX {
 
-	/**
-	 * Create a new blur postfx
-	 * @param colors The colors input
-	 */
-	public BlurPostFX(PostFXOutput colors) {
-		this(colors, 1);
-	}
+	private float radius;
 
 	/**
 	 * Create a new blur postfx
 	 * @param colors The colors input
+	 * @param downScale the output down scale factor
+	 * @param radius The blur radius
 	 */
-	public BlurPostFX(PostFXOutput colors, int downScale) {
-		super(HBlurShader.INSTANCE, downScale, 1, new VBlurPostFX(colors, downScale));
+	public BlurPostFX(PostFXOutput colors, int downScale, float radius) {
+		super(HBlurShader.INSTANCE, downScale, 1, new VBlurPostFX(colors, downScale, radius));
+		this.radius = radius;
 	}
 
 	/**
@@ -31,18 +29,21 @@ public class BlurPostFX extends PostFX {
 	 */
 	@Override
 	public void updateUniforms(PostFXShader shader) {
-		HBlurShader.INSTANCE.updateUniforms(1f / buffer.getWidth());
+		HBlurShader.INSTANCE.updateUniforms(radius);
 	}
 
 	private static class VBlurPostFX extends PostFX {
 
-		VBlurPostFX(PostFXOutput colors, int downScale) {
+		private float radius;
+
+		VBlurPostFX(PostFXOutput colors, int downScale, float radius) {
 			super(VBlurShader.INSTANCE, 1, downScale, colors);
+			this.radius = radius;
 		}
 
 		@Override
 		public void updateUniforms(PostFXShader shader) {
-			VBlurShader.INSTANCE.updateUniforms(1f / buffer.getHeight());
+			VBlurShader.INSTANCE.updateUniforms(radius / Application.get().getWidth() * Application.get().getHeight());
 		}
 	}
 }

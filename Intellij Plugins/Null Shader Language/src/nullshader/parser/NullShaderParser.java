@@ -2605,7 +2605,7 @@ public class NullShaderParser implements PsiParser, LightPsiParser {
     while (true) {
       Marker m = enter_section_(b, l, _LEFT_, null);
       if (g < 0 && assignment_op(b, l + 1)) {
-        r = expr(b, l, -1);
+        r = expr(b, l, 0);
         exit_section_(b, l, m, ASSIGNMENT_EXPR, r, true, null);
       }
       else if (g < 1 && consumeTokenSmart(b, QUESTION)) {
