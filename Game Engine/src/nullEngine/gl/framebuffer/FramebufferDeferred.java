@@ -41,7 +41,7 @@ public class FramebufferDeferred {
 
 	private static final List<FramebufferDeferred> framebuffers = new ArrayList<>();
 
-	private static int genTexture(int width, int height) {
+	protected int genTexture(int width, int height) {
 		int id = GL11.glGenTextures();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
@@ -53,7 +53,7 @@ public class FramebufferDeferred {
 		return id;
 	}
 
-	private static int genTextureDetailed(int width, int height) {
+	protected int genTextureDetailed(int width, int height) {
 		int id = GL11.glGenTextures();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);

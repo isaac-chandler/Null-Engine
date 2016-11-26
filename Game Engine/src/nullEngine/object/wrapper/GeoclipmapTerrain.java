@@ -14,7 +14,7 @@ import util.BitFieldInt;
 import util.Sizeof;
 
 /**
- * A terrain class that implements the <a href="https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter02.html">Geoclipmapping algorithm</a>
+ * A terrain class that implements a simplified version of the <a href="https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter02.html">Geoclipmapping algorithm</a>
  */
 public class GeoclipmapTerrain extends GameObject {
 

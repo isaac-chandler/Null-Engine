@@ -20,7 +20,7 @@ public class LayerDeferred extends Layer {
 	 * @param near The near plane
 	 * @param far The far plane
 	 */
-	public LayerDeferred(Camera camera, float fov, float near, float far) {
+	public LayerDeferred(Camera camera, float fov, float near, float far, boolean hdr) {
 		super(camera);
 		flags.set(DEFERRED_RENDER_BIT, true);
 		this.fov = fov;
@@ -28,7 +28,7 @@ public class LayerDeferred extends Layer {
 		this.far = far;
 		projectionMatrix.setPerspective(fov, (float) Application.get().getWidth() / (float) Application.get().getHeight(),
 				near, far);
-		renderer = new DeferredRenderer(Application.get().getWidth(), Application.get().getHeight(), far, near);
+		renderer = new DeferredRenderer(Application.get().getWidth(), Application.get().getHeight(), far, near, hdr);
 	}
 
 	public void render(Renderer passRenderer) {

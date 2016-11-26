@@ -1,0 +1,22 @@
+$VERSION
+150 core
+$END
+
+$VS
+#include <VS:basic.ns>
+$END
+
+$FS
+in vec2 texCoords;
+
+out vec4 outColor;
+
+uniform sampler2D sampler;
+
+uniform float exposureTime;
+
+void main() {
+	vec4 color = texture(sampler, texCoords);
+	outColor = vec4(vec3(1) - exp(-color.rgb * exposureTime), color.a);
+}
+$END

@@ -56,12 +56,13 @@ public class Main {
 
 			final FlyCam camera = new FlyCam(); // Create the camera
 
-			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 300f); // Create the layer for the world
+			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 300f, true); // Create the layer for the world with HDR enabled
 			LayerGUI gui = new LayerGUI();                                                                  // Create the layer for the debug test
 			state.addLayer(gui);                                                                            // Add the GUI first so it is on top
 			state.addLayer(world);                                                                          // Then add the world layer
 
 			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer()); // Get the renderer
+			renderer.setExposureTime(0.7f);                                             // Set HDR exposure time to 0.7
 
 			state.addListener(new EventAdapter() { // Add an event listener to the state
 				@Override

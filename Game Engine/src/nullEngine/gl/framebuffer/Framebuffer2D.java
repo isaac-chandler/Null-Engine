@@ -22,6 +22,18 @@ public class Framebuffer2D {
 
 	private static final List<Framebuffer2D> framebuffers = new ArrayList<>();
 
+	protected int genTexture(int width, int height) {
+		int id = GL11.glGenTextures();
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		return id;
+	}
+
 	/**
 	 * Create a new framebuffer
 	 * @param width The width
@@ -31,16 +43,8 @@ public class Framebuffer2D {
 		this.width = width;
 		this.height = height;
 
-		colorTextureID = GL11.glGenTextures();
+		colorTextureID = genTexture(width, height);
 		frameBufferID = GL30.glGenFramebuffers();
-
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, colorTextureID);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer) null);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferID);
 		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, colorTextureID, 0);

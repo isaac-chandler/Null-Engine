@@ -9,13 +9,15 @@ import nullEngine.control.Layer;
 import nullEngine.gl.Material;
 import nullEngine.gl.buffer.PixelPackBuffer;
 import nullEngine.gl.framebuffer.Framebuffer2D;
+import nullEngine.gl.framebuffer.Framebuffer2DHDR;
 import nullEngine.gl.framebuffer.FramebufferDeferred;
 import nullEngine.gl.framebuffer.FramebufferMousePick;
 import nullEngine.gl.model.Model;
 import nullEngine.gl.model.Quad;
 import nullEngine.gl.postfx.PostFXOutput;
 import nullEngine.gl.postfx.TextureOutput;
-import nullEngine.gl.shader.BasicShader;
+import nullEngine.gl.shader.GammaShader;
+import nullEngine.gl.shader.HDRShader;
 import nullEngine.gl.shader.ModelMatrixShader;
 import nullEngine.gl.shader.Shader;
 import nullEngine.gl.shader.deferred.DeferredBasicShader;
@@ -67,6 +69,10 @@ public class DeferredRenderer extends Renderer {
 	private List<PointLight> pointLights = new ArrayList<>();
 	private List<SpotLight> spotLights = new ArrayList<>();
 
+	private boolean hdr;
+
+	private float exposureTime = 1;
+
 	/**
 	 * The size decrease for the mouse picking frame buffer
 	 */
@@ -74,6 +80,7 @@ public class DeferredRenderer extends Renderer {
 
 	private FramebufferDeferred dataBuffer;
 	private Framebuffer2D lightBuffer;
+	private Framebuffer2DHDR hdrBuffer = null;
 	private FramebufferMousePick mousePickBuffer;
 	private float far;
 	private float near;
@@ -99,9 +106,11 @@ public class DeferredRenderer extends Renderer {
 	 * @param far The far plane
 	 * @param near The near plane
 	 */
-	public DeferredRenderer(int width, int height, float far, float near) {
+	public DeferredRenderer(int width, int height, float far, float near, boolean hdr) {
 		dataBuffer = new FramebufferDeferred(width, height);
 		lightBuffer = new Framebuffer2D(width, height);
+		if (hdr)
+			hdrBuffer = new Framebuffer2DHDR(width, height);
 		mousePickBuffer = new FramebufferMousePick(width / MOUSE_PICK_BUFFER_DOWN_SCALE, height / MOUSE_PICK_BUFFER_DOWN_SCALE);
 		colorOutput = new TextureOutput(dataBuffer.getColorTextureID());
 		positionOutput = new TextureOutput(dataBuffer.getPositionTextureID());
@@ -112,6 +121,15 @@ public class DeferredRenderer extends Renderer {
 		postFX = lightOutput;
 		this.far = far;
 		this.near = near;
+		this.hdr = hdr;
+	}
+
+	public void setHDR(boolean hdr) {
+		this.hdr = hdr;
+	}
+
+	public void setExposureTime(float exposureTime) {
+		this.exposureTime = exposureTime;
 	}
 
 	/**
@@ -195,9 +213,11 @@ public class DeferredRenderer extends Renderer {
 			models.clear();
 
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			dataBuffer.unbind();
 
-			lightBuffer.bind();
+			if (hdrBuffer != null)
+				hdrBuffer.bind();
+			else
+				lightBuffer.bind();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
@@ -239,24 +259,36 @@ public class DeferredRenderer extends Renderer {
 
 			GL11.glDisable(GL11.GL_BLEND);
 			Quad.get().preRender();
+
+			if (hdrBuffer != null) {
+				lightBuffer.bind();
+				HDRShader.INSTANCE.bind();
+				HDRShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
+				HDRShader.INSTANCE.loadExposureTime(exposureTime);
+				GL13.glActiveTexture(GL13.GL_TEXTURE0);
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, hdrBuffer.getColorTextureID());
+				Quad.get().lazyRender(0);
+			}
+
 			postFX.preRender();
 			postFX.render(viewMatrix);
 			int out = postFX.getTextureID();
-			Quad.get().postRender();
 
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			if (Application.get().getRenderTarget() != null) {
+
+			if (Application.get().getRenderTarget() != null)
 				Application.get().getRenderTarget().bind();
-			} else {
+			else
 				Framebuffer2D.unbind();
-			}
-			BasicShader.INSTANCE.bind();
-			BasicShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
+
+			GammaShader.INSTANCE.bind();
+			GammaShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, out);
-			Quad.get().render();
+			Quad.get().lazyRender(0);
 			GL11.glDisable(GL11.GL_BLEND);
+			Quad.get().postRender();
 		}
 		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT)) {
 			BitFieldInt modelFlags = new BitFieldInt();
@@ -503,6 +535,13 @@ public class DeferredRenderer extends Renderer {
 	@Override
 	public void preRender(BitFieldInt flags) {
 		this.flags = flags;
+		if (hdr) {
+			if (hdrBuffer == null)
+				hdrBuffer = new Framebuffer2DHDR(Application.get().getWidth(), Application.get().getHeight());
+		} else if (hdrBuffer != null) {
+			hdrBuffer.delete();
+			hdrBuffer = null;
+		}
 	}
 
 	/**
@@ -558,6 +597,8 @@ public class DeferredRenderer extends Renderer {
 		initPboQueue();
 		dataBuffer = new FramebufferDeferred(event.width, event.height);
 		lightBuffer = new Framebuffer2D(event.width, event.height);
+		if (hdr)
+			hdrBuffer = new Framebuffer2DHDR(event.width, event.height);
 		mousePickBuffer = new FramebufferMousePick(event.width / MOUSE_PICK_BUFFER_DOWN_SCALE, event.height / MOUSE_PICK_BUFFER_DOWN_SCALE);
 		colorOutput.setTextureID(dataBuffer.getColorTextureID());
 		positionOutput.setTextureID(dataBuffer.getPositionTextureID());
@@ -578,6 +619,8 @@ public class DeferredRenderer extends Renderer {
 		}
 		dataBuffer.delete();
 		lightBuffer.delete();
+		if (hdrBuffer != null)
+			hdrBuffer.delete();
 		mousePickBuffer.delete();
 		postFX.preResize();
 	}
