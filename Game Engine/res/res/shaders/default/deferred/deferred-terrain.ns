@@ -4,8 +4,6 @@ $END
 
 $VS
 in vec3 inPosition;
-in vec2 inTexCoords;
-in vec3 inNormal;
 
 out vec2 texCoords;
 out vec4 position;
@@ -19,24 +17,34 @@ uniform sampler2D height;
 uniform float size;
 uniform float offset;
 
+#define HIGH_QUALITY
+
+#ifdef HIGH_QUALITY
+#include "FILTER:default/bicubic.nsi"
+#define SAMPLE textureBicubic
+#else
+#define SAMPLE texture
+#endif
+
 void main() {
 	position = modelMatrix * vec4(inPosition, 1);
 
 	texCoords = (position.xz / size + 1) / 2;
 
-	//vec2 transition = clamp(abs(inPosition.xz) - 0.25, 0, 1) * 4;
-
-	vec2 offsetV = vec2(offset, 0);
+	vec2 transition = clamp(abs(inPosition.xz) - 0.25, 0, 1) * 4;
+	vec2 offsetV = vec2(offset + (offset * max(transition.x, transition.y)), 0);
+	
 	//vec2 offsetV = vec2(offset, 0);
 
-	float heightR = texture(height, texCoords + offsetV.xy).r;
-	float heightL = texture(height, texCoords - offsetV.xy).r;
-	float heightU = texture(height, texCoords + offsetV.yx).r;
-	float heightD = texture(height, texCoords - offsetV.yx).r;
+	float heightR = SAMPLE(height, texCoords + offsetV.xy).r;
+	float heightL = SAMPLE(height, texCoords - offsetV.xy).r;
+	float heightU = SAMPLE(height, texCoords + offsetV.yx).r;
+	float heightD = SAMPLE(height, texCoords - offsetV.yx).r;
 
 	normal = normalize(vec3(heightL - heightR, 2 * (size * offsetV.x), heightD - heightU));
 
-	position.y = (heightR + heightL + heightD + heightU) / 4;
+	//position.y = SAMPLE(height, texCoords).r;
+	position.y = (heightL + heightR + heightD + heightU) / 4;
 
 	gl_Position = mvp * vec4(inPosition.x, position.y, inPosition.z, 1);
 }

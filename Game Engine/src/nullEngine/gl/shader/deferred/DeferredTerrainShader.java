@@ -11,6 +11,15 @@ public class DeferredTerrainShader extends DeferredShader {
 		super("default/deferred/deferred-terrain");
 	}
 
+	@Override
+	protected void bindAttributes() {
+		bindAttribute(0, "inPosition");
+		bindFragData(0, "outColor");
+		bindFragData(1, "outPosition");
+		bindFragData(2, "outNormal");
+		bindFragData(3, "outSpecular");
+	}
+
 	/**
 	 * Get the uniform locations
 	 */

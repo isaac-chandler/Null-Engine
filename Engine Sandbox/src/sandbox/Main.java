@@ -131,8 +131,8 @@ public class Main {
 			fog.setDensity(0.004f);                                // Set how thick the fog is
 			fog.setGradient(4f);                                   // Set how quickly the fog fades in
 			final PostFXOutput bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.4f), 0.15f); // Create the bloom postfx
-//			final PostFXOutput noBloom = new ContrastPostFX(fog, 0.15f);                                  // Create the non bloom postfx
-			final PostFXOutput noBloom = renderer.getNormalOutput();                                  // Create the non bloom postfx
+			final PostFXOutput noBloom = new ContrastPostFX(fog, 0.15f);                                  // Create the non bloom postfx
+//			final PostFXOutput noBloom = renderer.getNormalOutput();                                  // Create the non bloom postfx
 			renderer.setPostFX(bloom);                                                             // Set default to bloom
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));                                 // Set the brightness of the ambient light to 20%
 
@@ -165,9 +165,8 @@ public class Main {
 
 			GeoclipmapTerrain terrain = new GeoclipmapTerrain(terrainMaterial, heightMap,  // Creae the terrain
 					600,           // Terrain should have 600 side length
-					128,           // 128x128 square of triangles for each level of detail
-					6,             // 6 levels of detail
-					loader,        // Pass it the loader
+					64,            // 64x64 square of triangles for each level of detail
+					5,             // 5 levels of detail
 					cameraObject); // Pass it the camera object
 
 			ModelComponent.MOUSE_PICKING_ENABLED_DEFAULT = false; // Set the mouse picking to be disabled for future objects

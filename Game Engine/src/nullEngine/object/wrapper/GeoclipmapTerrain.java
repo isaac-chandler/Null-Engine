@@ -1,15 +1,15 @@
 package nullEngine.object.wrapper;
 
-import math.MathUtil;
 import math.Vector4f;
 import nullEngine.gl.Material;
 import nullEngine.gl.buffer.IndexBuffer;
 import nullEngine.gl.buffer.VertexBuffer;
 import nullEngine.gl.model.Model;
+import nullEngine.gl.model.VertexAttribPointer;
 import nullEngine.gl.renderer.Renderer;
-import nullEngine.loading.Loader;
 import nullEngine.object.GameObject;
 import nullEngine.object.component.ModelComponent;
+import org.lwjgl.opengl.GL30;
 import util.BitFieldInt;
 import util.Sizeof;
 
@@ -46,7 +46,7 @@ public class GeoclipmapTerrain extends GameObject {
 		return vertices;
 	}
 
-	private static Model generateBlock(int m, VertexBuffer vertices, VertexBuffer texCoords, VertexBuffer normals, Loader loader) {
+	private static Model generateBlock(int m, VertexBuffer vertices) {
 		int pointer = 0;
 		IndexBuffer indices = new IndexBuffer(((m * m - m) * 6) * Sizeof.INT);
 		for (int z = 0; z < m; z++) {
@@ -194,10 +194,10 @@ public class GeoclipmapTerrain extends GameObject {
 			}
 		}
 
-		return loader.loadModel(vertices, texCoords, normals, indices, (m * m - m) * 6, (float) Math.sqrt(2) / 2);
+		return new Model(GL30.glGenVertexArrays(), new int[] {(m * m - m) * 6}, new int[] {0}, (float) Math.sqrt(2) / 2, indices, VertexAttribPointer.createVec3AttribPointer(vertices));
 	}
 
-	private static Model generateRing(int m, VertexBuffer vertices, VertexBuffer texCoords, VertexBuffer normals, Loader loader) {
+	private static Model generateRing(int m, VertexBuffer vertices) {
 		int pointer = 0;
 		IndexBuffer indices = new IndexBuffer((9 * m * m / 2 - 6 * m) * Sizeof.INT);
 		for (int z = 0; z < m; z++) {
@@ -345,7 +345,7 @@ public class GeoclipmapTerrain extends GameObject {
 			}
 		}
 
-		return loader.loadModel(vertices, texCoords, normals, indices, 9 * m * m / 2 - 6 * m, (float) Math.sqrt(2) / 2);
+		return new Model(GL30.glGenVertexArrays(), new int[] {9 * m * m / 2 - 6 * m}, new int[] {0}, (float) Math.sqrt(2) / 2, indices, VertexAttribPointer.createVec3AttribPointer(vertices));
 	}
 
 	private static final Vector4f MUL = new Vector4f(1, 0, 1);
@@ -386,18 +386,33 @@ public class GeoclipmapTerrain extends GameObject {
 		int gridX = (int) (x / squareSize);
 		int gridZ = (int) (z / squareSize);
 
-		float xCoord = x % squareSize / squareSize;
-		float zCoord = z % squareSize / squareSize;
+		float xExtra = (x / squareSize) - (int) (x / squareSize);
+		float zExtra = (z / squareSize) - (int) (z / squareSize);
 
-		if (xCoord <= (1 - zCoord)) {
-			return MathUtil.barryCentric(new Vector4f(0, heightMap.getHeight(gridX, gridZ), 0), new Vector4f(1,
-					heightMap.getHeight(gridX + 1, gridZ), 0), new Vector4f(0,
-					heightMap.getHeight(gridX, gridZ + 1), 1), xCoord, zCoord);
-		} else {
-			return MathUtil.barryCentric(new Vector4f(1, heightMap.getHeight(gridX + 1, gridZ), 0), new Vector4f(1,
-					heightMap.getHeight(gridX + 1, gridZ + 1), 1), new Vector4f(0,
-					heightMap.getHeight(gridX, gridZ + 1), 1), xCoord, zCoord);
-		}
+		float a = cubic(heightMap.getHeight(gridX - 1, gridZ - 1), heightMap.getHeight(gridX, gridZ - 1), heightMap.getHeight(gridX + 1, gridZ - 1), heightMap.getHeight(gridX + 2, gridZ - 1), xExtra);
+		float b = cubic(heightMap.getHeight(gridX - 1, gridZ), heightMap.getHeight(gridX, gridZ), heightMap.getHeight(gridX + 1, gridZ), heightMap.getHeight(gridX + 2, gridZ), xExtra);
+		float c = cubic(heightMap.getHeight(gridX - 1, gridZ + 1), heightMap.getHeight(gridX, gridZ + 1), heightMap.getHeight(gridX + 1, gridZ + 1), heightMap.getHeight(gridX + 2, gridZ + 1), xExtra);
+		float d = cubic(heightMap.getHeight(gridX - 1, gridZ + 2), heightMap.getHeight(gridX, gridZ + 2), heightMap.getHeight(gridX + 1, gridZ + 2), heightMap.getHeight(gridX + 2, gridZ + 2), xExtra);
+
+		return cubic(a, b, c, d, zExtra);
+
+//		float xCoord = x % squareSize / squareSize;
+//		float zCoord = z % squareSize / squareSize;
+
+//		if (xCoord <= (1 - zCoord)) {
+//			return MathUtil.barryCentric(new Vector4f(0, heightMap.getHeight(gridX, gridZ), 0), new Vector4f(1,
+//					heightMap.getHeight(gridX + 1, gridZ), 0), new Vector4f(0,
+//					heightMap.getHeight(gridX, gridZ + 1), 1), xCoord, zCoord);
+//		} else {
+//			return MathUtil.barryCentric(new Vector4f(1, heightMap.getHeight(gridX + 1, gridZ), 0), new Vector4f(1,
+//					heightMap.getHeight(gridX + 1, gridZ + 1), 1), new Vector4f(0,
+//					heightMap.getHeight(gridX, gridZ + 1), 1), xCoord, zCoord);
+//		}
+
+	}
+
+	private static float cubic (float a, float b, float c, float d, float amount) {
+		return b + 0.5f * amount * (c - a + amount * (2f * a - 5.0f * b + 4.0f * c - d + amount * (3.0f * (b - c) + d - a)));
 	}
 
 	/**
@@ -408,10 +423,9 @@ public class GeoclipmapTerrain extends GameObject {
 	 * @param size         The terrain radius
 	 * @param detail       The amount of detail in the terrain
 	 * @param levels       The number of levels of detail
-	 * @param loader       The loader
 	 * @param cameraObject The camera
 	 */
-	public GeoclipmapTerrain(Material material, HeightMap heightMap, float size, int detail, int levels, Loader loader, GameObject cameraObject) {
+	public GeoclipmapTerrain(Material material, HeightMap heightMap, float size, int detail, int levels, GameObject cameraObject) {
 		if (((detail & (detail - 1)) != 0) || detail < 4) {
 			throw new IllegalArgumentException("n must be 2^x where x is an integer greater than 2");
 		}
@@ -424,20 +438,25 @@ public class GeoclipmapTerrain extends GameObject {
 
 		material.setFloat("size", size / 2);
 		material.setTexture("height", heightMap.getHeightMap());
-		material.setFloat("offset", 1f / detail);
+
+		materials = new Material[levels];
+		float offset = 1f / detail;
+		for (int i = 0; i < levels; i++) {
+			materials[levels - i - 1] = material.clone();
+			materials[levels - i - 1].setFloat("offset", offset);
+			offset /= 2;
+		}
 
 		VertexBuffer vertices = generateBlockVertices(detail);
-		VertexBuffer texCoords = VertexBuffer.createZeroed(((detail + 1) * (detail + 1) * 2) * Sizeof.FLOAT);
-		VertexBuffer normals = VertexBuffer.createZeroed(((detail + 1) * (detail + 1) * 3) * Sizeof.FLOAT);
 
-		Model ring = generateRing(detail, vertices, texCoords, normals, loader);
-		Model block = generateBlock(detail, vertices, texCoords, normals, loader);
+		Model ring = generateRing(detail, vertices);
+		Model block = generateBlock(detail, vertices);
 
-		addChild(new ModelObject(block, material, scale));
+		addChild(new ModelObject(block, materials[0], scale));
 
 		for (int i = 1; i < levels; i++) {
 			scale *= 2;
-			addChild(new ModelObject(ring, material, scale));
+			addChild(new ModelObject(ring, materials[i], scale));
 		}
 	}
 }
