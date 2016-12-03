@@ -1,4 +1,4 @@
-info face="PillGothic600mg-Semibd" size=123 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=18,18,18,18 spacing=-2,-2
+info face="PillGothic600mg-Semibd" textSize=123 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=18,18,18,18 spacing=-2,-2
 common lineHeight=158 base=104 scaleW=1024 scaleH=1024 pages=1 packed=0
 page id=0 file="testsdf.png"
 chars count=97

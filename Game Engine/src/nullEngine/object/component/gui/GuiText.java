@@ -2,7 +2,6 @@ package nullEngine.object.component.gui;
 
 import com.sun.istack.internal.NotNull;
 import math.Vector4f;
-import nullEngine.control.Application;
 import nullEngine.gl.Color;
 import nullEngine.gl.font.Font;
 import nullEngine.gl.model.Model;
@@ -26,6 +25,10 @@ public class GuiText extends GuiComponent {
 	private float borderWidth = 0;
 	private float borderEdge = 0.01f;
 
+	private float textSize;
+	private float textWidth;
+	private float textHeight;
+
 	private Vector4f borderColor = Color.BLACK;
 
 	private float borderOffsetX = 0, borderOffsetY = 0;
@@ -35,16 +38,17 @@ public class GuiText extends GuiComponent {
 	/**
 	 * Create new text on the GUI
 	 *
-	 * @param x    The x
-	 * @param y    The y
-	 * @param size The text size
+	 * @param textSize The text textSize
 	 * @param text The text to display
 	 * @param font The font to use
 	 */
-	public GuiText(float x, float y, float size, @NotNull String text, @NotNull Font font) {
-		super(x, y, size, size);
+	public GuiText(Anchor anchor, AnchorPos anchorPos, float textSize, @NotNull String text, @NotNull Font font) {
+		super(anchor, anchorPos);
 		this.text = text;
 		this.font = font;
+		this.textSize = textSize;
+		updateTextSize();
+		updateSize();
 		dirty = true;
 	}
 
@@ -66,15 +70,27 @@ public class GuiText extends GuiComponent {
 		}
 		GuiTextShader.INSTANCE.bind();
 		GuiTextShader.INSTANCE.loadMVP(renderer.getMVP());
+//		GuiTextShader.INSTANCE.loadOffset(0, 0);
 		GuiTextShader.INSTANCE.loadThickness(width, edge);
 		GuiTextShader.INSTANCE.loadBorderThickness(borderWidth, borderEdge);
 		GuiTextShader.INSTANCE.loadBorderColor(borderColor);
 		GuiTextShader.INSTANCE.loadBorderOffset(borderOffsetX, borderOffsetY);
-		GuiTextShader.INSTANCE.loadAspectRatio((float) Application.get().getHeight() / (float) Application.get().getWidth(), 1);
+		GuiTextShader.INSTANCE.loadTextSize(textSize / font.getLineHeight());
 		font.getTexture().bind();
 		super.render(renderer, object, flags);
 		textModel.render();
 		GuiBasicShader.INSTANCE.bind();
+	}
+
+	/**
+	 * Update this component
+	 *
+	 * @param delta  The time since update was last called
+	 * @param object The object this component is attached to
+	 */
+	@Override
+	public void update(double delta, GameObject object) {
+
 	}
 
 	/**
@@ -94,6 +110,8 @@ public class GuiText extends GuiComponent {
 	public void setText(String text) {
 		this.text = text;
 		dirty = true;
+		updateTextSize();
+		updateSize();
 	}
 
 	/**
@@ -113,6 +131,8 @@ public class GuiText extends GuiComponent {
 	public void setFont(Font font) {
 		this.font = font;
 		dirty = true;
+		updateTextSize();
+		updateSize();
 	}
 
 	/**
@@ -155,5 +175,33 @@ public class GuiText extends GuiComponent {
 	public void setBorderOffset(float x, float y) {
 		borderOffsetX = x;
 		borderOffsetY = y;
+	}
+
+	public float getTextSize() {
+		return textSize;
+	}
+
+	public void setTextSize(float textSize) {
+		this.textSize = textSize;
+		updateSize();
+	}
+
+	private void updateTextSize() {
+		textWidth = font.getWidth(text);
+		textHeight = font.getHeight(text);
+	}
+
+	private void updateSize() {
+		setSize(textWidth * textSize / font.getLineHeight(), textHeight * textSize / font.getLineHeight());
+	}
+
+	@Override
+	protected float getWidthXMul() {
+		return -0.5f;
+	}
+
+	@Override
+	protected float getHeightYMul() {
+		return 0.5f;
 	}
 }

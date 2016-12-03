@@ -12,12 +12,12 @@ public class GuiTextShader extends GuiShader implements TextShader {
 	 */
 	public static final GuiTextShader INSTANCE = new GuiTextShader();
 
-	private int location_aspectRatio;
 	private int location_offset;
 	private int location_thickness;
 	private int location_borderThickness;
 	private int location_borderColor;
 	private int location_borderOffset;
+	private int location_textSize;
 
 	private GuiTextShader() {
 		super("default/text");
@@ -29,7 +29,6 @@ public class GuiTextShader extends GuiShader implements TextShader {
 	@Override
 	protected void getUniformLocations() {
 		super.getUniformLocations();
-		location_aspectRatio = getUniformLocation("aspectRatio");
 		location_offset = getUniformLocation("offset");
 
 		location_thickness = getUniformLocation("thickness");
@@ -38,16 +37,13 @@ public class GuiTextShader extends GuiShader implements TextShader {
 		location_borderColor = getUniformLocation("borderColor");
 
 		location_borderOffset = getUniformLocation("borderOffset");
+
+		location_textSize = getUniformLocation("textSize");
 	}
 
-	/**
-	 * Load the aspect ratio
-	 * @param x <code>height / width</code>
-	 * @param y 1
-	 */
 	@Override
-	public void loadAspectRatio(float x, float y) {
-		loadVec2(location_aspectRatio, x, y);
+	public void loadTextSize(float textSize) {
+		loadFloat(location_textSize, textSize);
 	}
 
 	/**

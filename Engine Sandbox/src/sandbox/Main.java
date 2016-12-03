@@ -32,6 +32,7 @@ import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
 import nullEngine.object.component.FlyCam;
 import nullEngine.object.component.ModelComponent;
+import nullEngine.object.component.gui.GuiComponent;
 import nullEngine.object.component.gui.GuiText;
 import nullEngine.object.component.light.DirectionalLight;
 import nullEngine.object.wrapper.GeoclipmapTerrain;
@@ -88,7 +89,7 @@ public class Main {
 
 			Font font = loader.loadFont("default/testsdf", 14); // Load the font
 
-			GuiText text = new GuiText(-1, -0.85f, 0.1f, "FPS: 0\nUPS:0\n0.0/0.0MB", font) { // Create gui text with custom update code
+			GuiText text = new GuiText(gui.BOTTOM_LEFT, GuiComponent.AnchorPos.BOTTOM_LEFT, 3, "FPS: 0\nUPS:0\n0.0/0.0MB", font) { // Create gui text with custom update code
 				private double totalDelta = 1;
 
 				@Override
@@ -132,9 +133,8 @@ public class Main {
 			fog.setGradient(4f);                                   // Set how quickly the fog fades in
 			final PostFXOutput bloom = new ContrastPostFX(new BrightFilterBloomPostFX(fog, 0.4f), 0.15f); // Create the bloom postfx
 			final PostFXOutput noBloom = new ContrastPostFX(fog, 0.15f);                                  // Create the non bloom postfx
-//			final PostFXOutput noBloom = renderer.getNormalOutput();                                  // Create the non bloom postfx
-			renderer.setPostFX(bloom);                                                             // Set default to bloom
-			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));                                 // Set the brightness of the ambient light to 20%
+			renderer.setPostFX(bloom);                                                                    // Set default to bloom
+			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));                                        // Set the brightness of the ambient light to 20%
 
 			GameObject dragon = new GameObject();             // Create an object for the dragon
 			final GameObject cameraObject = new GameObject(); // Create an object for the camera

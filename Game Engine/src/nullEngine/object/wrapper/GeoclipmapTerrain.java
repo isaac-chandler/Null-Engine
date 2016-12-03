@@ -395,20 +395,6 @@ public class GeoclipmapTerrain extends GameObject {
 		float d = cubic(heightMap.getHeight(gridX - 1, gridZ + 2), heightMap.getHeight(gridX, gridZ + 2), heightMap.getHeight(gridX + 1, gridZ + 2), heightMap.getHeight(gridX + 2, gridZ + 2), xExtra);
 
 		return cubic(a, b, c, d, zExtra);
-
-//		float xCoord = x % squareSize / squareSize;
-//		float zCoord = z % squareSize / squareSize;
-
-//		if (xCoord <= (1 - zCoord)) {
-//			return MathUtil.barryCentric(new Vector4f(0, heightMap.getHeight(gridX, gridZ), 0), new Vector4f(1,
-//					heightMap.getHeight(gridX + 1, gridZ), 0), new Vector4f(0,
-//					heightMap.getHeight(gridX, gridZ + 1), 1), xCoord, zCoord);
-//		} else {
-//			return MathUtil.barryCentric(new Vector4f(1, heightMap.getHeight(gridX + 1, gridZ), 0), new Vector4f(1,
-//					heightMap.getHeight(gridX + 1, gridZ + 1), 1), new Vector4f(0,
-//					heightMap.getHeight(gridX, gridZ + 1), 1), xCoord, zCoord);
-//		}
-
 	}
 
 	private static float cubic (float a, float b, float c, float d, float amount) {

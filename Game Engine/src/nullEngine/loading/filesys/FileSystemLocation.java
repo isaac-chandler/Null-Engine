@@ -17,14 +17,16 @@ public class FileSystemLocation implements ResourceLocation {
 	@Override
 	public InputStream getResource(String name, boolean requireMark) {
 		try {
-			if (requireMark) {
-				return new FileChannelInputStream(name);
-			} else {
-				return new FileInputStream(name);
-			}
+			FileInputStream stream = new FileInputStream(name);
+			if (!stream.markSupported() && requireMark) {
+				FileChannelInputStream channelStream = new FileChannelInputStream(stream);
+				stream.close();
+				return channelStream;
+			} else
+				return stream;
 		} catch (IOException e) {
+			return null;
 		}
-		return null;
 	}
 
 	/**

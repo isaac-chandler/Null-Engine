@@ -6,12 +6,8 @@ import math.Vector4f;
  * A shader for text
  */
 public interface TextShader {
-	/**
-	 * Load the aspect ratio
-	 * @param x <code>height / width</code>
-	 * @param y 1
-	 */
-	void loadAspectRatio(float x, float y);
+
+	void loadTextSize(float textSize);
 
 	/**
 	 * Load the the character offset

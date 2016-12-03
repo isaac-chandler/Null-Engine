@@ -1,6 +1,5 @@
 package nullEngine.gl.font;
 
-import nullEngine.control.Application;
 import nullEngine.gl.buffer.IndexBuffer;
 import nullEngine.gl.buffer.VertexBuffer;
 import nullEngine.gl.model.Model;
@@ -206,12 +205,12 @@ public class Font {
 	 * Draw a string
 	 * @param text The string
 	 */
-	public void drawString(String text) {
+	public void drawString(String text, float size) {
 		if (Shader.bound() instanceof TextShader) {
 			TextShader shader = (TextShader) Shader.bound();
-			shader.loadAspectRatio((float) Application.get().getHeight() / (float) Application.get().getWidth(), 1);
+			shader.loadTextSize(size / yAdvance);
 			float cursorX = 0;
-			float cursorY = 0;
+			float cursorY = -yAdvance;
 
 			text = text.replace("\r\n", "\n").replace("\r", "\n");
 			texture.bind();
@@ -243,6 +242,53 @@ public class Font {
 		}
 	}
 
+	public float getWidth(String text) {
+		float cursorX = 0;
+
+		text = text.replace("\r\n", "\n").replace("\r", "\n");
+
+		float maxWidth = 0;
+
+		char next = text.charAt(0);
+		for (int i = 0; i < text.length(); i++) {
+			char character = text.charAt(i);
+
+			Glyph glyph = glyphs.get(next);
+			next = i < text.length() - 1 ? text.charAt(i + 1) : '\0';
+
+			if (character == '\n') {
+				maxWidth = Math.max(maxWidth, cursorX);
+				cursorX = 0;
+			} else {
+				if (glyph == null) glyph = space;
+
+				if (glyph == space) {
+					cursorX += space.xAdvance;
+				} else {
+					cursorX += glyph.xAdvance;
+				}
+
+				Float kerning = glyph.kerning.get(next);
+				if (next != '\0' && kerning != null)
+					cursorX += kerning;
+			}
+		}
+
+		maxWidth = Math.max(maxWidth, cursorX);
+		return maxWidth;
+	}
+
+	public float getHeight(String text) {
+		text = text.replace("\r\n", "\n").replace("\r", "\n");
+		int newlines = 1;
+
+		for (int i = 0; i < text.length(); i++)
+			if (text.charAt(i) == '\n')
+				newlines++;
+
+		return newlines * yAdvance;
+	}
+
 	/**
 	 * Create a string mesh
 	 * @param text The text
@@ -264,7 +310,7 @@ public class Font {
 		float[] normals = new float[12 * count];
 
 		float cursorX = 0;
-		float cursorY = 0;
+		float cursorY = -yAdvance;
 		char next = text.charAt(0);
 		int index = 0;
 		for (int i = 0; i < text.length(); i++) {
@@ -321,7 +367,7 @@ public class Font {
 		}
 
 		float cursorX = 0;
-		float cursorY = 0;
+		float cursorY = -yAdvance;
 		char next = text.charAt(0);
 		int index = 0;
 		for (int i = 0; i < text.length(); i++) {
@@ -355,5 +401,9 @@ public class Font {
 	 */
 	public Model getModel(char character) {
 		return glyphs.getOrDefault(character, space).model;
+	}
+
+	public float getLineHeight() {
+		return yAdvance;
 	}
 }

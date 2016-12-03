@@ -8,7 +8,6 @@ import math.Vector4f;
 public class GuiShader extends Shader {
 	private int location_color;
 	private int location_pos;
-	private int location_size;
 
 	/**
 	 * Create a new GUI shader
@@ -36,7 +35,6 @@ public class GuiShader extends Shader {
 	protected void getUniformLocations() {
 		location_color = getUniformLocation("color");
 		location_pos = getUniformLocation("pos");
-		location_size = getUniformLocation("size");
 	}
 
 	/**
@@ -54,14 +52,5 @@ public class GuiShader extends Shader {
 	 */
 	public void loadPosition(float x, float y) {
 		loadVec2(location_pos, x, y);
-	}
-
-	/**
-	 * Load the size
-	 * @param width The width
-	 * @param height The height
-	 */
-	public void loadSize(float width, float height) {
-		loadVec2(location_size, width, height);
 	}
 }

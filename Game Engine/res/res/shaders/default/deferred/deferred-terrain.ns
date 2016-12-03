@@ -33,8 +33,6 @@ void main() {
 
 	vec2 transition = clamp(abs(inPosition.xz) - 0.25, 0, 1) * 4;
 	vec2 offsetV = vec2(offset + (offset * max(transition.x, transition.y)), 0);
-	
-	//vec2 offsetV = vec2(offset, 0);
 
 	float heightR = SAMPLE(height, texCoords + offsetV.xy).r;
 	float heightL = SAMPLE(height, texCoords - offsetV.xy).r;
@@ -43,7 +41,6 @@ void main() {
 
 	normal = normalize(vec3(heightL - heightR, 2 * (size * offsetV.x), heightD - heightU));
 
-	//position.y = SAMPLE(height, texCoords).r;
 	position.y = (heightL + heightR + heightD + heightU) / 4;
 
 	gl_Position = mvp * vec4(inPosition.x, position.y, inPosition.z, 1);
@@ -88,10 +85,8 @@ void main() {
 	float lightingAmount0 = lightingAmount.a * aTextureAmt + lightingAmount.r * blendColor.r + lightingAmount.g * blendColor.g + lightingAmount.b * blendColor.b;
 
 	outColor = aColor + rColor + gColor + bColor;
-	//outColor = vec4(normal, 1);
 	outPosition = position;
 	outNormal = vec4(normal, 1);
-	//outNormal = vec4(0, 1, 0, 1);
 	outSpecular = vec4(reflectivity0, shineDamper0, lightingAmount0, 1);
 }
 $END

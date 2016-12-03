@@ -19,15 +19,14 @@ public class GuiModel extends GuiComponent {
 	/**
 	 * Create a new GUI Model
 	 *
-	 * @param x       The x
-	 * @param y       the y
 	 * @param width   The width
 	 * @param height  The height
 	 * @param model   The model to use
 	 * @param texture The texture to use
 	 */
-	public GuiModel(float x, float y, float width, float height, Model model, Texture2D texture) {
-		super(x, y, width, height);
+	public GuiModel(Anchor anchor, AnchorPos anchorPos, float width, float height, Model model, Texture2D texture) {
+		super(anchor, anchorPos);
+		setSize(width, height);
 		this.texture = texture;
 		this.model = model;
 	}
@@ -44,5 +43,16 @@ public class GuiModel extends GuiComponent {
 		super.render(renderer, object, flags);
 		texture.bind();
 		model.render();
+	}
+
+	/**
+	 * Update this component
+	 *
+	 * @param delta  The time since update was last called
+	 * @param object The object this component is attached to
+	 */
+	@Override
+	public void update(double delta, GameObject object) {
+
 	}
 }

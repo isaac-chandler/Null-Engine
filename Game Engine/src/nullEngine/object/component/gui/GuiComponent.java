@@ -1,5 +1,6 @@
 package nullEngine.object.component.gui;
 
+import com.sun.istack.internal.NotNull;
 import math.Vector4f;
 import nullEngine.gl.Color;
 import nullEngine.gl.renderer.Renderer;
@@ -12,24 +13,36 @@ import util.BitFieldInt;
 /**
  * A component of the GUI
  */
-public class GuiComponent extends GameComponent {
+public abstract class GuiComponent extends GameComponent {
+
+	public enum AnchorPos {
+		TOP_LEFT, TOP, TOP_RIGHT,
+		LEFT, CENTER, RIGHT,
+		BOTTOM_LEFT, BOTTOM, BOTTOM_RIGHT
+	}
 
 	private Vector4f color = Color.WHITE;
-	private float x, y, width, height;
+	private AnchorPos anchorPos;
+	private Anchor anchor;
 
-	/**
-	 * Create a new GUI component
-	 *
-	 * @param x      The x position
-	 * @param y      The y position
-	 * @param width  The width
-	 * @param height The height
-	 */
-	public GuiComponent(float x, float y, float width, float height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	private float width, height;
+
+	public final ComponentAnchor TOP_LEFT, TOP, TOP_RIGHT,
+			LEFT, CENTER, RIGHT,
+			BOTTOM_LEFT, BOTTOM, BOTTOM_RIGHT;
+
+	public GuiComponent(@NotNull Anchor anchor, AnchorPos anchorPos) {
+		this.anchorPos = anchorPos;
+		this.anchor = anchor;
+		TOP_LEFT = ComponentAnchor.topLeft(this);
+		TOP = ComponentAnchor.top(this);
+		TOP_RIGHT = ComponentAnchor.topRight(this);
+		LEFT = ComponentAnchor.left(this);
+		CENTER = ComponentAnchor.center(this);
+		RIGHT = ComponentAnchor.right(this);
+		BOTTOM_LEFT = ComponentAnchor.bottomLeft(this);
+		BOTTOM = ComponentAnchor.bottom(this);
+		BOTTOM_RIGHT = ComponentAnchor.bottomRight(this);
 	}
 
 	/**
@@ -44,20 +57,8 @@ public class GuiComponent extends GameComponent {
 		if (Shader.bound() instanceof GuiShader) {
 			GuiShader shader = (GuiShader) Shader.bound();
 			shader.loadColor(color);
-			shader.loadPosition(x, y);
-			shader.loadSize(width, height);
+			shader.loadPosition(getX(), getY());
 		}
-	}
-
-	/**
-	 * Do nothing
-	 *
-	 * @param delta  The time since update was last called
-	 * @param object The object this component is attached to
-	 */
-	@Override
-	public void update(double delta, GameObject object) {
-
 	}
 
 	/**
@@ -84,16 +85,26 @@ public class GuiComponent extends GameComponent {
 	 * @return The x
 	 */
 	public float getX() {
-		return x;
+		return getXImpl() + getWidth() * getWidthXMul();
 	}
 
-	/**
-	 * Set this component's x
-	 *
-	 * @param x The new x
-	 */
-	public void setX(float x) {
-		this.x = x;
+	private float getXImpl() {
+		switch (anchorPos) {
+			case TOP_LEFT:
+			case LEFT:
+			case BOTTOM_LEFT:
+				return anchor.getX() + getWidth() / 2;
+			case TOP:
+			case CENTER:
+			case BOTTOM:
+				return anchor.getX();
+			case TOP_RIGHT:
+			case RIGHT:
+			case BOTTOM_RIGHT:
+				return anchor.getX() - getWidth() / 2;
+			default:
+				return 0;
+		}
 	}
 
 	/**
@@ -102,16 +113,60 @@ public class GuiComponent extends GameComponent {
 	 * @return The y
 	 */
 	public float getY() {
-		return y;
+		return getYImpl() + getHeight() * getHeightYMul();
 	}
 
-	/**
-	 * Set this component's y
-	 *
-	 * @param y The new y
-	 */
-	public void setY(float y) {
-		this.y = y;
+	private float getYImpl() {
+		switch (anchorPos) {
+			case TOP_LEFT:
+			case TOP:
+			case TOP_RIGHT:
+				return anchor.getY() - getHeight() / 2;
+			case LEFT:
+			case CENTER:
+			case RIGHT:
+				return anchor.getY();
+			case BOTTOM_LEFT:
+			case BOTTOM:
+			case BOTTOM_RIGHT:
+				return anchor.getY() + getHeight() / 2;
+			default:
+				return anchor.getY();
+		}
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+
+		invalidate();
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+
+		invalidate();
+	}
+
+	public void setSize(float width, float height) {
+		this.width = width;
+		this.height = height;
+
+		invalidate();
+	}
+
+
+	private void invalidate() {
+		TOP_LEFT.invalidate();
+		TOP.invalidate();
+		TOP_RIGHT.invalidate();
+
+		LEFT.invalidate();
+		CENTER.invalidate();
+		RIGHT.invalidate();
+
+		BOTTOM_LEFT.invalidate();
+		BOTTOM.invalidate();
+		BOTTOM_RIGHT.invalidate();
 	}
 
 	/**
@@ -124,15 +179,6 @@ public class GuiComponent extends GameComponent {
 	}
 
 	/**
-	 * Set this component's width
-	 *
-	 * @param width The new width
-	 */
-	public void setWidth(float width) {
-		this.width = width;
-	}
-
-	/**
 	 * Get this component's height
 	 *
 	 * @return The height
@@ -141,12 +187,15 @@ public class GuiComponent extends GameComponent {
 		return height;
 	}
 
-	/**
-	 * Set this component's height
-	 *
-	 * @param height The new height
-	 */
-	public void setHeight(float height) {
-		this.height = height;
+	public Anchor getAnchor() {
+		return anchor;
+	}
+
+	protected float getWidthXMul() {
+		return 0;
+	}
+
+	protected float getHeightYMul() {
+		return 0;
 	}
 }

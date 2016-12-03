@@ -1,12 +1,10 @@
 package nullEngine.loading.filesys;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 /**
  * An implementation of InputStream that wraps FileChannel
@@ -21,21 +19,11 @@ public class FileChannelInputStream extends InputStream {
 	/**
 	 * Create a new FileChannelInputStream
 	 *
-	 * @param name The file to open
+	 * @param in The file to use
 	 * @throws IOException If it failed to open the file
 	 */
-	public FileChannelInputStream(String name) throws IOException {
-		channel = FileChannel.open(Paths.get(name), StandardOpenOption.READ);
-	}
-
-	/**
-	 * Create a new FileChannelInputStream
-	 *
-	 * @param file The file to open
-	 * @throws IOException If it failed to open the file
-	 */
-	public FileChannelInputStream(File file) throws IOException {
-		this(file.getAbsolutePath());
+	public FileChannelInputStream(FileInputStream in) {
+		channel = in.getChannel();
 	}
 
 	/**
