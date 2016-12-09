@@ -21,6 +21,7 @@ import java.util.TimeZone;
  */
 public class Logs {
 
+	private static boolean createDatedFiles = false;
 	private static Application application;
 
 	private static PrintStream oldSystemOut;
@@ -76,7 +77,11 @@ public class Logs {
 		}
 
 		//set log file
-		log = logFolder.getAbsolutePath() + "/log-" + fileNameFormat.format(startTime) + ".txt";
+		if (createDatedFiles) {
+			log = logFolder.getAbsolutePath() + "/log-" + fileNameFormat.format(startTime) + ".txt";
+		} else {
+			log = logFolder.getAbsolutePath() + "/log-recent.txt";
+		}
 		File logFile = new File(log);
 		try {
 			if (!logFile.exists())
@@ -333,24 +338,26 @@ public class Logs {
 	 */
 	public static void finish() {
 		if (initialized) {
-			File recent = new File(logFolder.getAbsolutePath() + "/" + Logs.recent);
 			Logs.d("Finishing log");
 			initialized = false;
 			out.flush();
 			out.close();
-			if (recent.exists())
-				recent.delete();
-			try {
-				recent.createNewFile();
-				FileChannel source = new FileInputStream(log).getChannel();
-				FileChannel destination = new FileOutputStream(recent).getChannel();
-				destination.transferFrom(source, 0, source.size());
-				source.close();
-				destination.close();
-			} catch (IOException e) {
-				e.printStackTrace(oldSystemErr);
-			}
 
+			if (createDatedFiles) {
+				File recent = new File(logFolder.getAbsolutePath() + "/" + Logs.recent);
+				if (recent.exists())
+					recent.delete();
+				try {
+					recent.createNewFile();
+					FileChannel source = new FileInputStream(log).getChannel();
+					FileChannel destination = new FileOutputStream(recent).getChannel();
+					destination.transferFrom(source, 0, source.size());
+					source.close();
+					destination.close();
+				} catch (IOException e) {
+					e.printStackTrace(oldSystemErr);
+				}
+			}
 		}
 	}
 

@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="jbullet">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/jbullet/jar/jbullet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/jbullet/jar/stack-alloc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/jbullet/jar/vecmath.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/Game Engine/lib/jbullet/javadoc/jbullet" />
+      <root url="file://$PROJECT_DIR$/Game Engine/lib/jbullet/javadoc/jstackalloc" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/Game Engine/lib/jbullet/src/jbullet" />
+    </SOURCES>
+  </library>
+</component>

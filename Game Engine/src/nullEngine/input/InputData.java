@@ -124,7 +124,7 @@ public class InputData {
 	 */
 	public int cursorY(int cursorY) {
 		lock.readLock().lock();
-		int delta = this.cursorY - cursorY;
+		int delta = cursorY - this.cursorY;
 		lock.readLock().unlock();
 		lock.writeLock().lock();
 		this.cursorY = cursorY;

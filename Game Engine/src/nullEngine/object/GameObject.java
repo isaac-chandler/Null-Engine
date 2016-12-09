@@ -1,8 +1,10 @@
 package nullEngine.object;
 
+import com.sun.istack.internal.Nullable;
 import math.Matrix4f;
-import nullEngine.control.Layer;
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.control.physics.PhysicsEngine;
+import nullEngine.control.layer.Layer;
+import nullEngine.graphics.renderer.Renderer;
 import nullEngine.input.CharEvent;
 import nullEngine.input.EventListener;
 import nullEngine.input.KeyEvent;
@@ -67,18 +69,25 @@ public class GameObject implements EventListener {
 			child.render(renderer, flags);
 	}
 
+	public <T extends GameComponent> T getComponent(Class<T> clazz) {
+		for (GameComponent component : components)
+			if (component.getClass() == clazz)
+				return (T) component;
+		return null;
+	}
+
 	/**
 	 * Update this object
 	 *
 	 * @param delta The time since it was last updated
 	 */
-	public void update(double delta) {
+	public void update(@Nullable PhysicsEngine physics, double delta) {
 		for (GameComponent component : components) {
 			if (component.enabled)
-				component.update(delta, this);
+				component.update(physics, this, delta);
 		}
 		for (GameObject child : children)
-			child.update(delta);
+			child.update(physics, delta);
 	}
 
 	/**

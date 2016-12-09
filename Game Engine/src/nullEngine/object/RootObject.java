@@ -1,6 +1,6 @@
 package nullEngine.object;
 
-import nullEngine.control.Layer;
+import nullEngine.control.layer.Layer;
 
 /**
  * The root GameObject, created by Layer, don't create directly

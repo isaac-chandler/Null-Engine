@@ -117,7 +117,7 @@ var activeTableTab = "activeTableTab";
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../nullEngine/object/component/Camera.html" title="class in nullEngine.object.component">Camera</a>, <a href="../../nullEngine/object/component/light/DirectionalLight.html" title="class in nullEngine.object.component.light">DirectionalLight</a>, <a href="../../nullEngine/object/component/gui/GuiComponent.html" title="class in nullEngine.object.component.gui">GuiComponent</a>, <a href="../../nullEngine/object/component/ModelComponent.html" title="class in nullEngine.object.component">ModelComponent</a>, <a href="../../nullEngine/object/component/light/PointLight.html" title="class in nullEngine.object.component.light">PointLight</a>, <a href="../../nullEngine/object/component/light/SpotLight.html" title="class in nullEngine.object.component.light">SpotLight</a></dd>
+<dd><a href="../../nullEngine/object/component/Camera.html" title="class in nullEngine.object.component">Camera</a>, <a href="../../nullEngine/object/component/light/DirectionalLight.html" title="class in nullEngine.object.component.graphics.light">DirectionalLight</a>, <a href="../../nullEngine/object/component/gui/GuiComponent.html" title="class in nullEngine.object.component.graphics.gui">GuiComponent</a>, <a href="../../nullEngine/object/component/ModelComponent.html" title="class in nullEngine.object.component">ModelComponent</a>, <a href="../../nullEngine/object/component/light/PointLight.html" title="class in nullEngine.object.component.graphics.light">PointLight</a>, <a href="../../nullEngine/object/component/light/SpotLight.html" title="class in nullEngine.object.component.graphics.light">SpotLight</a></dd>
 </dl>
 <hr>
 <br>
@@ -207,7 +207,7 @@ extends <a href="../../nullEngine/input/EventAdapter.html" title="class in nullE
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>abstract void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../nullEngine/object/GameComponent.html#render-nullEngine.gl.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">render</a></span>(<a href="../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.gl.renderer">Renderer</a>&nbsp;renderer,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../nullEngine/object/GameComponent.html#render-nullEngine.graphics.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">render</a></span>(<a href="../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.graphics.renderer">Renderer</a>&nbsp;renderer,
       <a href="../../nullEngine/object/GameObject.html" title="class in nullEngine.object">GameObject</a>&nbsp;object,
       <a href="../../util/BitFieldInt.html" title="class in util">BitFieldInt</a>&nbsp;flags)</code>
 <div class="block">Render this component</div>
@@ -312,13 +312,13 @@ extends <a href="../../nullEngine/input/EventAdapter.html" title="class in nullE
 </dl>
 </li>
 </ul>
-<a name="render-nullEngine.gl.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">
+<a name="render-nullEngine.graphics.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>render</h4>
-<pre>public abstract&nbsp;void&nbsp;render(<a href="../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.gl.renderer">Renderer</a>&nbsp;renderer,
+<pre>public abstract&nbsp;void&nbsp;render(<a href="../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.graphics.renderer">Renderer</a>&nbsp;renderer,
                             <a href="../../nullEngine/object/GameObject.html" title="class in nullEngine.object">GameObject</a>&nbsp;object,
                             <a href="../../util/BitFieldInt.html" title="class in util">BitFieldInt</a>&nbsp;flags)</pre>
 <div class="block">Render this component</div>
@@ -328,7 +328,7 @@ extends <a href="../../nullEngine/input/EventAdapter.html" title="class in nullE
 <dd><code>object</code> - The object this component is attached to</dd>
 <dd><code>flags</code> - The render flags</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.gl.renderer"><code>Renderer</code></a></dd>
+<dd><a href="../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.graphics.renderer"><code>Renderer</code></a></dd>
 </dl>
 </li>
 </ul>

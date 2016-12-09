@@ -105,7 +105,7 @@ var activeTableTab = "activeTableTab";
 <li><a href="../../../nullEngine/object/GameComponent.html" title="class in nullEngine.object">nullEngine.object.GameComponent</a></li>
 <li>
 <ul class="inheritance">
-<li>nullEngine.object.component.ModelComponent</li>
+<li>nullEngine.object.component.graphics.ModelComponent</li>
 </ul>
 </li>
 </ul>
@@ -178,8 +178,8 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#ModelComponent-nullEngine.gl.Material-nullEngine.gl.model.Model-">ModelComponent</a></span>(<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.gl">Material</a>&nbsp;material,
-              <a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.gl.model">Model</a>&nbsp;model)</code>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#ModelComponent-nullEngine.graphics.Material-nullEngine.graphics.model.Model-">ModelComponent</a></span>(<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.graphics">Material</a>&nbsp;material,
+              <a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.graphics.model">Model</a>&nbsp;model)</code>
 <div class="block">Create a new ModelComponent</div>
 </td>
 </tr>
@@ -205,20 +205,20 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code><a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.gl">Material</a></code></td>
+<td class="colFirst"><code><a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.graphics">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#getMaterial--">getMaterial</a></span>()</code>
 <div class="block">Get the material</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.gl.model">Model</a></code></td>
+<td class="colFirst"><code><a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.graphics.model">Model</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#getModel-util.BitFieldInt-">getModel</a></span>(<a href="../../../util/BitFieldInt.html" title="class in util">BitFieldInt</a>&nbsp;flags)</code>
 <div class="block">Get the model to be used with specific flags</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#render-nullEngine.gl.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">render</a></span>(<a href="../../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.gl.renderer">Renderer</a>&nbsp;renderer,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#render-nullEngine.graphics.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">render</a></span>(<a href="../../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.graphics.renderer">Renderer</a>&nbsp;renderer,
       <a href="../../../nullEngine/object/GameObject.html" title="class in nullEngine.object">GameObject</a>&nbsp;object,
       <a href="../../../util/BitFieldInt.html" title="class in util">BitFieldInt</a>&nbsp;flags)</code>
 <div class="block">Render this model</div>
@@ -232,13 +232,13 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#setMaterial-nullEngine.gl.Material-">setMaterial</a></span>(<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.gl">Material</a>&nbsp;material)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#setMaterial-nullEngine.graphics.Material-">setMaterial</a></span>(<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.graphics">Material</a>&nbsp;material)</code>
 <div class="block">Set the material</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#setModel-nullEngine.gl.model.Model-">setModel</a></span>(<a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.gl.model">Model</a>&nbsp;model)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../nullEngine/object/component/ModelComponent.html#setModel-nullEngine.graphics.model.Model-">setModel</a></span>(<a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.graphics.model">Model</a>&nbsp;model)</code>
 <div class="block">Set the model</div>
 </td>
 </tr>
@@ -314,14 +314,14 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="ModelComponent-nullEngine.gl.Material-nullEngine.gl.model.Model-">
+<a name="ModelComponent-nullEngine.graphics.Material-nullEngine.graphics.model.Model-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ModelComponent</h4>
-<pre>public&nbsp;ModelComponent(<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.gl">Material</a>&nbsp;material,
-                      <a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.gl.model">Model</a>&nbsp;model)</pre>
+<pre>public&nbsp;ModelComponent(<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.graphics">Material</a>&nbsp;material,
+                      <a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.graphics.model">Model</a>&nbsp;model)</pre>
 <div class="block">Create a new ModelComponent</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -344,7 +344,7 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 <ul class="blockList">
 <li class="blockList">
 <h4>getMaterial</h4>
-<pre>public&nbsp;<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.gl">Material</a>&nbsp;getMaterial()</pre>
+<pre>public&nbsp;<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.graphics">Material</a>&nbsp;getMaterial()</pre>
 <div class="block">Get the material</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -352,13 +352,13 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 </dl>
 </li>
 </ul>
-<a name="setMaterial-nullEngine.gl.Material-">
+<a name="setMaterial-nullEngine.graphics.Material-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setMaterial</h4>
-<pre>public&nbsp;void&nbsp;setMaterial(<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.gl">Material</a>&nbsp;material)</pre>
+<pre>public&nbsp;void&nbsp;setMaterial(<a href="../../../nullEngine/gl/Material.html" title="class in nullEngine.graphics">Material</a>&nbsp;material)</pre>
 <div class="block">Set the material</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -372,7 +372,7 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 <ul class="blockList">
 <li class="blockList">
 <h4>getModel</h4>
-<pre>public&nbsp;<a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.gl.model">Model</a>&nbsp;getModel(<a href="../../../util/BitFieldInt.html" title="class in util">BitFieldInt</a>&nbsp;flags)</pre>
+<pre>public&nbsp;<a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.graphics.model">Model</a>&nbsp;getModel(<a href="../../../util/BitFieldInt.html" title="class in util">BitFieldInt</a>&nbsp;flags)</pre>
 <div class="block">Get the model to be used with specific flags</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -382,13 +382,13 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 </dl>
 </li>
 </ul>
-<a name="setModel-nullEngine.gl.model.Model-">
+<a name="setModel-nullEngine.graphics.model.Model-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setModel</h4>
-<pre>public&nbsp;void&nbsp;setModel(<a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.gl.model">Model</a>&nbsp;model)</pre>
+<pre>public&nbsp;void&nbsp;setModel(<a href="../../../nullEngine/gl/model/Model.html" title="class in nullEngine.graphics.model">Model</a>&nbsp;model)</pre>
 <div class="block">Set the model</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -424,25 +424,25 @@ extends <a href="../../../nullEngine/object/GameComponent.html" title="class in 
 </dl>
 </li>
 </ul>
-<a name="render-nullEngine.gl.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">
+<a name="render-nullEngine.graphics.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>render</h4>
-<pre>public&nbsp;void&nbsp;render(<a href="../../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.gl.renderer">Renderer</a>&nbsp;renderer,
+<pre>public&nbsp;void&nbsp;render(<a href="../../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.graphics.renderer">Renderer</a>&nbsp;renderer,
                    <a href="../../../nullEngine/object/GameObject.html" title="class in nullEngine.object">GameObject</a>&nbsp;object,
                    <a href="../../../util/BitFieldInt.html" title="class in util">BitFieldInt</a>&nbsp;flags)</pre>
 <div class="block">Render this model</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../nullEngine/object/GameComponent.html#render-nullEngine.gl.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">render</a></code>&nbsp;in class&nbsp;<code><a href="../../../nullEngine/object/GameComponent.html" title="class in nullEngine.object">GameComponent</a></code></dd>
+<dd><code><a href="../../../nullEngine/object/GameComponent.html#render-nullEngine.graphics.renderer.Renderer-nullEngine.object.GameObject-util.BitFieldInt-">render</a></code>&nbsp;in class&nbsp;<code><a href="../../../nullEngine/object/GameComponent.html" title="class in nullEngine.object">GameComponent</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>renderer</code> - The renderer that is rendering this object</dd>
 <dd><code>object</code> - The object this component is attached to</dd>
 <dd><code>flags</code> - The render flags</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.gl.renderer"><code>Renderer</code></a></dd>
+<dd><a href="../../../nullEngine/gl/renderer/Renderer.html" title="class in nullEngine.graphics.renderer"><code>Renderer</code></a></dd>
 </dl>
 </li>
 </ul>

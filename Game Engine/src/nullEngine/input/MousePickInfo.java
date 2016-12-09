@@ -1,7 +1,7 @@
 package nullEngine.input;
 
 import math.Vector4f;
-import nullEngine.object.component.ModelComponent;
+import nullEngine.object.component.graphics.ModelComponent;
 
 /**
  * Struct class for mouse picking information

@@ -1,7 +1,7 @@
 package nullEngine;
 
 import nullEngine.exception.InitializationException;
-import nullEngine.gl.Window;
+import nullEngine.graphics.Window;
 import nullEngine.loading.filesys.ResourceLoader;
 import nullEngine.util.logs.Logs;
 import org.lwjgl.system.Platform;

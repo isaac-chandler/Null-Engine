@@ -1,6 +1,8 @@
 package nullEngine.object;
 
-import nullEngine.gl.renderer.Renderer;
+import com.sun.istack.internal.Nullable;
+import nullEngine.control.physics.PhysicsEngine;
+import nullEngine.graphics.renderer.Renderer;
 import nullEngine.input.EventAdapter;
 import util.BitFieldInt;
 
@@ -42,11 +44,11 @@ public abstract class GameComponent extends EventAdapter {
 
 	/**
 	 * Update this component
-	 *
-	 * @param delta  The time since update was last called
+	 * @param physics
 	 * @param object The object this component is attached to
+	 * @param delta  The time since update was last called
 	 */
-	public abstract void update(double delta, GameObject object);
+	public abstract void update(@Nullable PhysicsEngine physics, GameObject object, double delta);
 
 	/**
 	 * Syncronize this component for multithreading

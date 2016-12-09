@@ -1,14 +1,14 @@
 package nullEngine.object.wrapper;
 
 import math.Vector4f;
-import nullEngine.gl.Material;
-import nullEngine.gl.buffer.IndexBuffer;
-import nullEngine.gl.buffer.VertexBuffer;
-import nullEngine.gl.model.Model;
-import nullEngine.gl.model.VertexAttribPointer;
-import nullEngine.gl.renderer.Renderer;
+import nullEngine.graphics.Material;
+import nullEngine.graphics.buffer.IndexBuffer;
+import nullEngine.graphics.buffer.VertexBuffer;
+import nullEngine.graphics.model.Model;
+import nullEngine.graphics.model.VertexAttribPointer;
+import nullEngine.graphics.renderer.Renderer;
 import nullEngine.object.GameObject;
-import nullEngine.object.component.ModelComponent;
+import nullEngine.object.component.graphics.ModelComponent;
 import org.lwjgl.opengl.GL30;
 import util.BitFieldInt;
 import util.Sizeof;

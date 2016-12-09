@@ -1,7 +1,7 @@
 package nullEngine.loading.texture;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
-import nullEngine.gl.texture.Texture2D;
+import nullEngine.graphics.texture.Texture2D;
 import nullEngine.loading.filesys.ResourceLoader;
 import nullEngine.managing.ResourceManager;
 import nullEngine.managing.TextureResouce;

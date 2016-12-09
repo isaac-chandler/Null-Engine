@@ -1,6 +1,6 @@
 package nullEngine.object.wrapper;
 
-import nullEngine.gl.texture.Texture2D;
+import nullEngine.graphics.texture.Texture2D;
 import nullEngine.loading.filesys.FileFormatException;
 import nullEngine.managing.TextureResouce;
 import org.lwjgl.BufferUtils;

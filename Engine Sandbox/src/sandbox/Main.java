@@ -4,23 +4,24 @@ import math.Quaternion;
 import math.Vector4f;
 import nullEngine.NullEngine;
 import nullEngine.control.Application;
-import nullEngine.control.LayerDeferred;
-import nullEngine.control.LayerGUI;
+import nullEngine.control.physics.PhysicsEngine;
+import nullEngine.control.layer.LayerDeferred;
+import nullEngine.control.layer.LayerGUI;
 import nullEngine.control.State;
-import nullEngine.gl.Color;
-import nullEngine.gl.Material;
-import nullEngine.gl.font.Font;
-import nullEngine.gl.model.Model;
-import nullEngine.gl.postfx.BrightFilterBloomPostFX;
-import nullEngine.gl.postfx.ContrastPostFX;
-import nullEngine.gl.postfx.FogPostFX;
-import nullEngine.gl.postfx.PostFXOutput;
-import nullEngine.gl.renderer.DeferredRenderer;
-import nullEngine.gl.renderer.Renderer;
-import nullEngine.gl.shader.deferred.DeferredTerrainShader;
-import nullEngine.gl.shader.mousePick.MousePickTerrainShader;
-import nullEngine.gl.texture.Texture2D;
-import nullEngine.gl.texture.TextureGenerator;
+import nullEngine.graphics.Color;
+import nullEngine.graphics.Material;
+import nullEngine.graphics.font.Font;
+import nullEngine.graphics.model.Model;
+import nullEngine.graphics.postfx.BrightFilterBloomPostFX;
+import nullEngine.graphics.postfx.ContrastPostFX;
+import nullEngine.graphics.postfx.FogPostFX;
+import nullEngine.graphics.postfx.PostFXOutput;
+import nullEngine.graphics.renderer.DeferredRenderer;
+import nullEngine.graphics.renderer.Renderer;
+import nullEngine.graphics.shader.deferred.DeferredTerrainShader;
+import nullEngine.graphics.shader.mousePick.MousePickTerrainShader;
+import nullEngine.graphics.texture.Texture2D;
+import nullEngine.graphics.texture.TextureGenerator;
 import nullEngine.input.EventAdapter;
 import nullEngine.input.Input;
 import nullEngine.input.KeyEvent;
@@ -30,11 +31,12 @@ import nullEngine.input.NotificationEvent;
 import nullEngine.loading.Loader;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
-import nullEngine.object.component.FlyCam;
-import nullEngine.object.component.ModelComponent;
-import nullEngine.object.component.gui.GuiComponent;
-import nullEngine.object.component.gui.GuiText;
-import nullEngine.object.component.light.DirectionalLight;
+import nullEngine.object.component.graphics.camera.FlyCam;
+import nullEngine.object.component.graphics.ModelComponent;
+import nullEngine.object.component.graphics.gui.AnchorPos;
+import nullEngine.object.component.graphics.gui.GuiDebugSlider;
+import nullEngine.object.component.graphics.gui.GuiText;
+import nullEngine.object.component.graphics.light.DirectionalLight;
 import nullEngine.object.wrapper.GeoclipmapTerrain;
 import nullEngine.object.wrapper.HeightMap;
 import nullEngine.util.logs.Logs;
@@ -58,29 +60,13 @@ public class Main {
 			final FlyCam camera = new FlyCam(); // Create the camera
 
 			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 300f, true); // Create the layer for the world with HDR enabled
-			LayerGUI gui = new LayerGUI();                                                                  // Create the layer for the debug test
-			state.addLayer(gui);                                                                            // Add the GUI first so it is on top
+			LayerGUI debug = new LayerGUI();                                                                  // Create the layer for the debug test
+			debug.setEnabled(false);
+			state.addLayer(debug);                                                                            // Add the GUI first so it is on top
 			state.addLayer(world);                                                                          // Then add the world layer
 
 			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer()); // Get the renderer
 			renderer.setExposureTime(1.5f);                                             // Set HDR exposure time to 0.7
-
-			state.addListener(new EventAdapter() { // Add an event listener to the state
-				@Override
-				public boolean keyPressed(KeyEvent event) {
-					if (event.key == Input.KEY_T) { // Was the key T?
-						renderer.setWireframe(!renderer.isWireframe()); // Toggle wireframe mode
-						return true;                                    // Eat the event
-					} else if (event.key == Input.KEY_F1) {  // Was the key F1?
-						application.screenshot();            // Take a screenshot
-						return true;                         // Eat the event
-					} else if (event.key == Input.KEY_F11) { // Was the key F11?
-						application.setFullscreen(!application.isFullscreen(), application.isFullscreen() ? null : application.getBestFullscreenVideoMode()); // Toggle fullscreen
-						return true; // Eat the event
-					}
-					return false; // Pass the event on
-				}
-			});
 
 			Loader loader = application.getLoader(); // Get the loader
 
@@ -89,11 +75,11 @@ public class Main {
 
 			Font font = loader.loadFont("default/testsdf", 14); // Load the font
 
-			GuiText text = new GuiText(gui.BOTTOM_LEFT, GuiComponent.AnchorPos.BOTTOM_LEFT, 3, "FPS: 0\nUPS:0\n0.0/0.0MB", font) { // Create gui text with custom update code
+			GuiText text = new GuiText(debug.BOTTOM_LEFT, AnchorPos.BOTTOM_LEFT, 3, "FPS: 0\nUPS:0\n0.0/0.0MB", font) { // Create gui text with custom update code
 				private double totalDelta = 1;
 
 				@Override
-				public void update(double delta, GameObject object) {
+				public void update(PhysicsEngine physics, GameObject object, double delta) {
 					totalDelta += delta; // Increase timer
 					if (totalDelta > 0.25) { // Update text 4 times per second
 						float maxMemory = Runtime.getRuntime().maxMemory() / 1048576f;     // Get allocated memory
@@ -110,12 +96,26 @@ public class Main {
 				}
 			};
 
-			text.setColor(Color.WHITE);          // Set text color
+			GuiText sliderLabel = new GuiText(debug.TOP_LEFT, AnchorPos.TOP_LEFT, 3, "Speed", font);
+			GuiDebugSlider slider = new GuiDebugSlider(sliderLabel.BOTTOM, AnchorPos.TOP, camera::setSpeed, 1f, 20f, camera.getSpeed(), font);
+
+			text.setTextColor(Color.WHITE);          // Set text color
 			text.setBorderColor(Color.BLACK);    // Set text border
 			text.setThickness(0.25f, 0.35f);     // Set up font thickness
 			text.setBorderThickness(0.4f, 0.4f); // Set up font border thickness
 
-			gui.getRoot().addComponent(text); // Add the text to the GUI root
+			slider.setTextColor(Color.WHITE);          // Set text color
+			slider.setBorderColor(Color.BLACK);    // Set text border
+			slider.setThickness(0.25f, 0.35f);     // Set up font thickness
+			sliderLabel.setBorderThickness(0.4f, 0.4f); // Set up font border thickness
+			sliderLabel.setTextColor(Color.WHITE);          // Set text color
+			sliderLabel.setBorderColor(Color.BLACK);    // Set text border
+			sliderLabel.setThickness(0.25f, 0.35f);     // Set up font thickness
+			sliderLabel.setBorderThickness(0.4f, 0.4f); // Set up font border thickness
+
+			debug.getRoot().addComponent(text); // Add the text to the GUI root
+			debug.getRoot().addComponent(sliderLabel);
+			debug.getRoot().addComponent(slider); // Add the text to the GUI root
 
 			final Model dragonModel = loader.loadModel("default/dragon"); // Load the dragon model
 
@@ -135,6 +135,32 @@ public class Main {
 			final PostFXOutput noBloom = new ContrastPostFX(fog, 0.15f);                                  // Create the non bloom postfx
 			renderer.setPostFX(bloom);                                                                    // Set default to bloom
 			world.setAmbientColor(new Vector4f(0.2f, 0.2f, 0.2f));                                        // Set the brightness of the ambient light to 20%
+
+
+			state.addListener(new EventAdapter() { // Add an event listener to the state
+				boolean bloomEnabled = true; // Bloom enabled by default
+				@Override
+				public boolean keyPressed(KeyEvent event) {
+					if (event.key == Input.KEY_T) { // Was the key T?
+						renderer.setWireframe(!renderer.isWireframe()); // Toggle wireframe mode
+						return true;                                    // Eat the event
+					} else if (event.key == Input.KEY_F1) {  // Was the key F1?
+						application.screenshot();            // Take a screenshot
+						return true;                         // Eat the event
+					} else if (event.key == Input.KEY_F11) { // Was the key F11?
+						application.setFullscreen(!application.isFullscreen(), application.isFullscreen() ? null : application.getBestFullscreenVideoMode()); // Toggle fullscreen
+						return true; // Eat the event
+					} else if (event.key == Input.KEY_B) { // Was B pressed?
+						renderer.setPostFX((bloomEnabled = !bloomEnabled) ? bloom : noBloom); // Toggle the bloom effect
+						return true; // Eat the event
+					} else if (event.key == Input.KEY_GRAVE_ACCENT) {
+						application.setCursorEnabled(!debug.isEnabled());
+						debug.setEnabled(!debug.isEnabled());
+						return true;
+					}
+					return false; // Pass the event on
+				}
+			});
 
 			GameObject dragon = new GameObject();             // Create an object for the dragon
 			final GameObject cameraObject = new GameObject(); // Create an object for the camera
@@ -179,7 +205,6 @@ public class Main {
 			cameraObject.addComponent(camera);   // Add the camera to the camera object
 			application.setCursorEnabled(false); // Hide the cursor
 			cameraObject.addComponent(new GameComponent() { // Add a component to the camera
-				boolean cameraEnabled = true;               // Camera can move by default
 				boolean freeMove = true;                    // Camera isn't locked to ground by default
 
 				@Override
@@ -187,7 +212,10 @@ public class Main {
 				}
 
 				@Override
-				public void update(double delta, GameObject object) {
+				public void update(PhysicsEngine physics, GameObject object, double delta) {
+					camera.setCanMove(!debug.isEnabled());
+					camera.setCanRotate(!debug.isEnabled());
+
 					if (!freeMove) { // Is the camera locked to the ground? If so we should set its position to be close to the ground
 						Vector4f pos = getObject().getTransform().getPos();    // Get the camera's current position
 						pos.y = terrain.getTerrainHeight(pos.x, pos.z) + 1.5f; // Set the camera's position to the height of the terrain + 1.5
@@ -197,14 +225,7 @@ public class Main {
 
 				@Override
 				public boolean keyPressed(KeyEvent event) {
-					if (event.key == Input.KEY_LEFT_ALT) { // Was left alt pressed?
-						cameraEnabled = !cameraEnabled; // Toggle camera enabled
-						application.setCursorEnabled(!cameraEnabled); // If the camera is disabled, enabled the cursor and visa versa
-						camera.setCanRotate(cameraEnabled);           // If the camera is disabled make sure it can't rotate
-						camera.setCanMove(cameraEnabled);             // If the camera is disabled make sure it can't move
-						return true;
-
-					} else if (event.key == Input.KEY_C) { // Was C pressed?
+					if (event.key == Input.KEY_C) { // Was C pressed?
 						freeMove = !freeMove;              // Toggle the camera being locked to the ground
 						return true;                       // Eat the event
 					}
@@ -215,13 +236,12 @@ public class Main {
 			dragon.getTransform().setPos(new Vector4f(8, terrain.getTerrainHeight(8, -14), -14)); // Set the dragon's position to the terrain height
 
 			dragon.addComponent(new ModelComponent(dragonMaterial, dragonModel) {
-				private boolean bloomEnabled = true; // Bloom is enabled by default TODO Why is this on the dragon?
 				private boolean render = true;       // The dragon should render by default
 
 				@Override
 				public boolean mouseMoved(MouseEvent event) {
 					if (application.getCursorEnabled()) { // If the mouse has moved and the cursor is enabled we should move the dragon to the mouse's position
-						renderer.mousePick(Input.getMouseX(), application.getHeight() - 1 - Input.getMouseY(), new MousePickInfo(), this); // Request the renderer to do a mouse pick asychronously
+						renderer.mousePick(Input.getMouseX(), Input.getMouseY(), new MousePickInfo(), this); // Request the renderer to do a mouse pick asychronously
 					}
 					return false;
 				}
@@ -253,9 +273,6 @@ public class Main {
 					if (Input.getKeyNumber(event.key) >= 0) {      // Was a number pressed?
 						setLodBias(Input.getKeyNumber(event.key)); // Set the level of detail bias for the dragon to the number that was pressed
 						return true;                               // Eat the event
-					} else if (event.key == Input.KEY_B) { // Was B pressed?
-						renderer.setPostFX((bloomEnabled = !bloomEnabled) ? bloom : noBloom); // Toggle the bloom effect
-						return true; // Eat the event
 					}
 					return false; // Pass the event on
 				}
