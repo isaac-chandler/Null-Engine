@@ -2,7 +2,6 @@
   <library name="jbullet">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/jbullet/jar/jbullet.jar!/" />
-      <root url="jar://$PROJECT_DIR$/Game Engine/lib/jbullet/jar/stack-alloc.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/jbullet/jar/vecmath.jar!/" />
     </CLASSES>
     <JAVADOC>

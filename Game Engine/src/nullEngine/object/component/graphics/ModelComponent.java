@@ -1,7 +1,7 @@
 package nullEngine.object.component.graphics;
 
-import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.control.layer.Layer;
+import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.graphics.Material;
 import nullEngine.graphics.model.Model;
 import nullEngine.graphics.renderer.Renderer;

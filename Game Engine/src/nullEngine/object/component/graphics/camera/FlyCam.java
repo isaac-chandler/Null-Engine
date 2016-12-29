@@ -28,8 +28,8 @@ public class FlyCam extends Camera {
 	 * @param parent This objects parent
 	 */
 	@Override
-	public void init(GameObject parent) {
-		super.init(parent);
+	public void onAdded(GameObject parent) {
+		super.onAdded(parent);
 		updateMatrix();
 	}
 

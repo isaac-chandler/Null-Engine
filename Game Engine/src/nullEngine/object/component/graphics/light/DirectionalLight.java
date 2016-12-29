@@ -1,8 +1,8 @@
 package nullEngine.object.component.graphics.light;
 
 import math.Vector4f;
-import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.control.layer.Layer;
+import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.graphics.renderer.Renderer;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;

@@ -9,18 +9,19 @@ import util.BitFieldInt;
 public abstract class GameComponent extends EventAdapter {
 
 	private GameObject parent;
-	/**
-	 * Wether this component should be rendered, updated and receive non crucial events
-	 */
-	public boolean enabled = true;
+	private boolean enabled = true;
 
 	/**
 	 * Setup this object
 	 *
 	 * @param parent This objects parent
 	 */
-	public void init(GameObject parent) {
+	public void onAdded(GameObject parent) {
 		this.parent = parent;
+	}
+
+	public void onRemoved(GameObject parent) {
+		this.parent = null;
 	}
 
 	/**
@@ -65,4 +66,27 @@ public abstract class GameComponent extends EventAdapter {
 	public void postUpdate() {
 
 	}
+
+	/**
+	 * Wether this component should be rendered, updated and receive non crucial events
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		if (this.enabled != enabled) {
+			this.enabled = enabled;
+			if (enabled)
+				onEnable();
+			else
+				onDisable();
+		}
+	}
+
+	public void onDisable() {}
+
+	public void onEnable() {}
+
+	public void matrixUpdated() {}
 }

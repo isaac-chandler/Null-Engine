@@ -232,7 +232,6 @@ public abstract class Layer implements EventListener {
 	 * Pass the event to the root
 	 *
 	 * @param event The event
-	 * @return what the root returned
 	 */
 	@Override
 	public void notified(NotificationEvent event) {

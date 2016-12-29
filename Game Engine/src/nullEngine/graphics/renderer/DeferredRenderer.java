@@ -27,6 +27,7 @@ import nullEngine.graphics.shader.deferred.lighting.DeferredPointLightShader;
 import nullEngine.graphics.shader.deferred.lighting.DeferredSpotLightShader;
 import nullEngine.graphics.shader.mousePick.MousePickShader;
 import nullEngine.input.EventListener;
+import nullEngine.input.Input;
 import nullEngine.input.MousePickInfo;
 import nullEngine.input.NotificationEvent;
 import nullEngine.input.PostResizeEvent;
@@ -101,10 +102,11 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Create a new deferred renderer
-	 * @param width The width
+	 *
+	 * @param width  The width
 	 * @param height The height
-	 * @param far The far plane
-	 * @param near The near plane
+	 * @param far    The far plane
+	 * @param near   The near plane
 	 */
 	public DeferredRenderer(int width, int height, float far, float near, boolean hdr) {
 		dataBuffer = new FramebufferDeferred(width, height);
@@ -135,9 +137,10 @@ public class DeferredRenderer extends Renderer {
 	/**
 	 * Add a game component to be rendered
 	 * <ul>
-	 *     <li>If the game component is a ModelComponent it is rendered as a model</li>
-	 *     <li>If the game component is a light it is used to light the scene</li>
+	 * <li>If the game component is a ModelComponent it is rendered as a model</li>
+	 * <li>If the game component is a light it is used to light the scene</li>
 	 * </ul>
+	 *
 	 * @param component The component
 	 */
 	@Override
@@ -161,17 +164,20 @@ public class DeferredRenderer extends Renderer {
 		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT)) {
 			if (component instanceof ModelComponent) {
 				ModelComponent model = (ModelComponent) component;
-				List<ModelComponent> list = mousePickModels.get(model.getMaterial());
-				if (list == null) {
-					mousePickModels.put(model.getMaterial(), list = new ArrayList<>());
+				if (model.enableMousePicking) {
+					List<ModelComponent> list = mousePickModels.get(model.getMaterial());
+					if (list == null) {
+						mousePickModels.put(model.getMaterial(), list = new ArrayList<>());
+					}
+					list.add(model);
 				}
-				list.add(model);
 			}
 		}
 	}
 
 	/**
 	 * Render all of the added components
+	 *
 	 * @param flags The render flags
 	 */
 	@Override
@@ -285,7 +291,10 @@ public class DeferredRenderer extends Renderer {
 			GammaShader.INSTANCE.bind();
 			GammaShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, out);
+			if (Input.keyPressed(Input.KEY_M)) {
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, mousePickBuffer.getWorldPositionTextureID());
+			} else
+				GL11.glBindTexture(GL11.GL_TEXTURE_2D, out);
 			Quad.get().lazyRender(0);
 			GL11.glDisable(GL11.GL_BLEND);
 			Quad.get().postRender();
@@ -319,17 +328,20 @@ public class DeferredRenderer extends Renderer {
 						model.render(lod);
 					}
 				}
+
 			}
 			mousePickModels.clear();
 
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			mousePickBuffer.unbind();
 		}
+
+		if (mousePickRequests.size() > 0)
+			mousePickImpl();
+
 		if (!rendered) {
 			Logs.w("No recognised flags passed to deferred renderer");
 		}
-		if (mousePickRequests.size() > 0)
-			mousePickImpl();
 	}
 
 	/**
@@ -368,7 +380,7 @@ public class DeferredRenderer extends Renderer {
 			this.y = y;
 			this.info = info;
 			this.renderer = renderer;
-			orderedMousePickModels = renderer.orderedMousePickModels;
+			this.orderedMousePickModels = renderer.orderedMousePickModels;
 			finished = new NotificationEvent(notify, NotificationEvent.NOTIFICATION_MOUSE_PICK_COMPLETE, info);
 		}
 
@@ -421,7 +433,9 @@ public class DeferredRenderer extends Renderer {
 					Application.get().queueEvent(finished);
 				}
 				return done;
-			} else if (!isDone()) {
+			} else if (isDone()) {
+				return true;
+			} else {
 				Integer idx = renderer.freePbos.poll();
 				if (idx != null) {
 					workingPboIndex = idx;
@@ -444,8 +458,6 @@ public class DeferredRenderer extends Renderer {
 					renderer.getLocalPositionPbo(workingPboIndex).unbind();
 				}
 				return false;
-			} else {
-				return true;
 			}
 		}
 
@@ -473,13 +485,15 @@ public class DeferredRenderer extends Renderer {
 		public boolean isDone() {
 			return done;
 		}
+
 	}
 
 	/**
 	 * Request a mouse pick to run asynchronously
-	 * @param x The x
-	 * @param y The y
-	 * @param info The mouse pick info to use
+	 *
+	 * @param x      The x
+	 * @param y      The y
+	 * @param info   The mouse pick info to use
 	 * @param notify The listener to notify when the mouse pick is completed
 	 */
 	public void mousePick(int x, int y, @NotNull MousePickInfo info, @NotNull EventListener notify) {
@@ -530,6 +544,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Save the flags
+	 *
 	 * @param flags The rneder flags
 	 */
 	@Override
@@ -563,6 +578,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Set the ambient lighting color
+	 *
 	 * @param ambientColor The ambient color
 	 */
 	public void setAmbientColor(Vector4f ambientColor) {
@@ -571,6 +587,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Set the model matrix
+	 *
 	 * @param modelMatrix The model matrix
 	 */
 	@Override
@@ -582,6 +599,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Set the post processing tree
+	 *
 	 * @param postFX The tree
 	 */
 	public void setPostFX(PostFXOutput postFX) {
@@ -590,6 +608,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Recreate the framebuffers
+	 *
 	 * @param event The event
 	 */
 	@Override
@@ -627,6 +646,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Get wether wireframe mode is enabled
+	 *
 	 * @return Wether wireframe mode is enabled
 	 */
 	public boolean isWireframe() {
@@ -635,6 +655,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Set wether wireframe mode is enabled
+	 *
 	 * @param wireframe Wether wireframe mode is enabled
 	 */
 	public void setWireframe(boolean wireframe) {
@@ -643,6 +664,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Get the color postfx output
+	 *
 	 * @return The color postfx output
 	 */
 	public TextureOutput getColorOutput() {
@@ -651,6 +673,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Get the position postfx output
+	 *
 	 * @return The position postfx output
 	 */
 	public TextureOutput getPositionOutput() {
@@ -659,6 +682,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Get the normal postfx output
+	 *
 	 * @return The normal postfx output
 	 */
 	public TextureOutput getNormalOutput() {
@@ -667,6 +691,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Get the specular postfx output
+	 *
 	 * @return The specular postfx output
 	 */
 	public TextureOutput getSpecularOutput() {
@@ -675,6 +700,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Get the depth postfx output
+	 *
 	 * @return The depth postfx output
 	 */
 	public TextureOutput getDepthOutput() {
@@ -683,6 +709,7 @@ public class DeferredRenderer extends Renderer {
 
 	/**
 	 * Get the light postfx output
+	 *
 	 * @return The light postfx output
 	 */
 	public TextureOutput getLightOutput() {

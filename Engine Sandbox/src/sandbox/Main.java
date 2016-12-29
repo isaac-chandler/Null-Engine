@@ -4,10 +4,10 @@ import math.Quaternion;
 import math.Vector4f;
 import nullEngine.NullEngine;
 import nullEngine.control.Application;
-import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.control.layer.LayerDeferred;
 import nullEngine.control.layer.LayerGUI;
 import nullEngine.control.State;
+import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.graphics.Color;
 import nullEngine.graphics.Material;
 import nullEngine.graphics.font.Font;
@@ -63,7 +63,8 @@ public class Main {
 			LayerGUI debug = new LayerGUI();                                                                  // Create the layer for the debug test
 			debug.setEnabled(false);
 			state.addLayer(debug);                                                                            // Add the GUI first so it is on top
-			state.addLayer(world);                                                                          // Then add the world layer
+			state.addLayer(world);                                                                            // Then add the world layer
+			world.physics = new PhysicsEngine();
 
 			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer()); // Get the renderer
 			renderer.setExposureTime(1.5f);                                             // Set HDR exposure time to 0.7
@@ -209,6 +210,7 @@ public class Main {
 
 				@Override
 				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+
 				}
 
 				@Override
@@ -231,6 +233,27 @@ public class Main {
 					}
 					return false; // Pass the event on
 				}
+
+				@Override
+				public boolean mousePressed(MouseEvent event) {
+					if (event.button == Input.MOUSE_RIGHT) {
+						world.requestMousePick(event.x, event.y, new MousePickInfo(), this);
+					}
+					return true;
+				}
+
+				@Override
+				public void notified(NotificationEvent event) {
+					if (event.getNotificationType() == NotificationEvent.NOTIFICATION_MOUSE_PICK_COMPLETE && event.getData() instanceof MousePickInfo) {
+						MousePickInfo info = (MousePickInfo) event.getData();
+						if (info.model != null) {
+							GameObject newDragonObject = new GameObject();
+							newDragonObject.getTransform().setPos(info.worldPosition);
+							newDragonObject.addComponent(new ModelComponent(dragonMaterial, dragonModel));
+							world.getRoot().addChild(newDragonObject);
+						}
+					}
+				}
 			});
 
 			dragon.getTransform().setPos(new Vector4f(8, terrain.getTerrainHeight(8, -14), -14)); // Set the dragon's position to the terrain height
@@ -241,7 +264,7 @@ public class Main {
 				@Override
 				public boolean mouseMoved(MouseEvent event) {
 					if (application.getCursorEnabled()) { // If the mouse has moved and the cursor is enabled we should move the dragon to the mouse's position
-						renderer.mousePick(Input.getMouseX(), Input.getMouseY(), new MousePickInfo(), this); // Request the renderer to do a mouse pick asychronously
+						world.requestMousePick(Input.getMouseX(), Input.getMouseY(), new MousePickInfo(), this); // Request the world to do a mouse pick asychronously
 					}
 					return false;
 				}
@@ -263,9 +286,6 @@ public class Main {
 				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
 					if (render) // Should we render the dragon?
 						super.render(renderer, object, flags); // Render the dragon normally
-
-					if (application.getCursorEnabled()) // Is the cursor enabled?
-						world.mousePickNextFrame();     // It is so do a mouse pick
 				}
 
 				@Override

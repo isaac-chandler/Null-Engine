@@ -13,14 +13,33 @@ uniform mat4 mvp;
 
 uniform sampler2D height;
 
-uniform float textSize;
+uniform float size;
+uniform float offset;
+
+#define HIGH_QUALITY
+
+#ifdef HIGH_QUALITY
+#include "FILTER:default/bicubic.nsi"
+#define SAMPLE textureBicubic
+#else
+#define SAMPLE texture
+#endif
 
 void main() {
 	worldPosition = modelMatrix * vec4(inPosition, 1);
 	localPosition = inPosition;
 
-	vec2 texCoords = (worldPosition.xz / textSize + 1) / 2;
-	worldPosition.y = texture(height, texCoords).r;
+	vec2 texCoords = (worldPosition.xz / size + 1) / 2;
+    
+	vec2 transition = clamp(abs(inPosition.xz) - 0.25, 0, 1) * 4;
+	vec2 offsetV = vec2(offset + (offset * max(transition.x, transition.y)), 0);
+
+	float heightR = SAMPLE(height, texCoords + offsetV.xy).r;
+	float heightL = SAMPLE(height, texCoords - offsetV.xy).r;
+	float heightU = SAMPLE(height, texCoords + offsetV.yx).r;
+	float heightD = SAMPLE(height, texCoords - offsetV.yx).r;
+
+	worldPosition.y = (heightL + heightR + heightD + heightU) / 4;
 
 	gl_Position = mvp * vec4(inPosition.x, worldPosition.y, inPosition.z, 1);
 }

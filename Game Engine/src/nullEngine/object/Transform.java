@@ -15,12 +15,13 @@ public class Transform {
 	private Vector4f scale = new Vector4f(1, 1, 1);
 
 	private Matrix4f matrix = new Matrix4f();
+	private GameObject object;
 
 	/**
 	 * Create a new transform
 	 */
-	public Transform() {
-		matrix.setIdentity();
+	public Transform(GameObject object) {
+		this.object = object;
 	}
 
 	/**
@@ -154,5 +155,6 @@ public class Transform {
 
 	private void updateMatrix() {
 		Matrix4f.setTransformation(scale, rot, pos, matrix);
+		object.matrixUpdated();
 	}
 }

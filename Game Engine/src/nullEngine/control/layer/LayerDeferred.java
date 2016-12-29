@@ -1,9 +1,12 @@
 package nullEngine.control.layer;
 
+import com.sun.istack.internal.NotNull;
 import math.Vector4f;
 import nullEngine.control.Application;
 import nullEngine.graphics.renderer.DeferredRenderer;
 import nullEngine.graphics.renderer.Renderer;
+import nullEngine.input.EventListener;
+import nullEngine.input.MousePickInfo;
 import nullEngine.input.PostResizeEvent;
 import nullEngine.object.component.graphics.camera.Camera;
 
@@ -13,13 +16,15 @@ import nullEngine.object.component.graphics.camera.Camera;
 public class LayerDeferred extends Layer {
 
 	private float fov, near, far;
+	private boolean mousePick = false;
 
 	/**
 	 * Create a new deferred layer
+	 *
 	 * @param camera The camera
-	 * @param fov the field of view in radians
-	 * @param near The near plane
-	 * @param far The far plane
+	 * @param fov    the field of view in radians
+	 * @param near   The near plane
+	 * @param far    The far plane
 	 */
 	public LayerDeferred(Camera camera, float fov, float near, float far, boolean hdr) {
 		super(camera);
@@ -34,9 +39,9 @@ public class LayerDeferred extends Layer {
 
 	public void render(Renderer passRenderer) {
 		super.render(passRenderer);
-		if (flags.get(MOUSE_PICK_RENDER_BIT)) {
-			flags.set(MOUSE_PICK_RENDER_BIT, false);
-		}
+		flags.set(MOUSE_PICK_RENDER_BIT, mousePick);
+		if (mousePick)
+			mousePick = false;
 	}
 
 	public void setAmbientColor(Vector4f ambientColor) {
@@ -49,7 +54,8 @@ public class LayerDeferred extends Layer {
 		projectionMatrix.setPerspective(fov, (float) event.width / (float) event.height, near, far);
 	}
 
-	public void mousePickNextFrame() {
-		flags.set(MOUSE_PICK_RENDER_BIT, true);
+	public void requestMousePick(int x, int y, @NotNull MousePickInfo info, @NotNull EventListener notify) {
+		mousePick = true;
+		((DeferredRenderer) renderer).mousePick(x, y, info, notify);
 	}
 }
