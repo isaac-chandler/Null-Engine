@@ -3,6 +3,7 @@ package nullEngine.control.layer;
 import com.sun.istack.internal.NotNull;
 import math.Vector4f;
 import nullEngine.control.Application;
+import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.graphics.renderer.DeferredRenderer;
 import nullEngine.graphics.renderer.Renderer;
 import nullEngine.input.EventListener;
@@ -26,15 +27,14 @@ public class LayerDeferred extends Layer {
 	 * @param near   The near plane
 	 * @param far    The far plane
 	 */
-	public LayerDeferred(Camera camera, float fov, float near, float far, boolean hdr) {
-		super(camera);
+	public LayerDeferred(PhysicsEngine physics, Camera camera, float fov, float near, float far, boolean hdr) {
+		super(camera, physics, new DeferredRenderer(Application.get().getWidth(), Application.get().getHeight(), far, near, hdr));
 		flags.set(DEFERRED_RENDER_BIT, true);
 		this.fov = fov;
 		this.near = near;
 		this.far = far;
 		projectionMatrix.setPerspective(fov, (float) Application.get().getWidth() / (float) Application.get().getHeight(),
 				near, far);
-		renderer = new DeferredRenderer(Application.get().getWidth(), Application.get().getHeight(), far, near, hdr);
 	}
 
 	public void render(Renderer passRenderer) {
@@ -45,7 +45,7 @@ public class LayerDeferred extends Layer {
 	}
 
 	public void setAmbientColor(Vector4f ambientColor) {
-		((DeferredRenderer) renderer).setAmbientColor(ambientColor);
+		((DeferredRenderer) getRenderer()).setAmbientColor(ambientColor);
 	}
 
 	@Override
@@ -56,6 +56,6 @@ public class LayerDeferred extends Layer {
 
 	public void requestMousePick(int x, int y, @NotNull MousePickInfo info, @NotNull EventListener notify) {
 		mousePick = true;
-		((DeferredRenderer) renderer).mousePick(x, y, info, notify);
+		((DeferredRenderer) getRenderer()).mousePick(x, y, info, notify);
 	}
 }

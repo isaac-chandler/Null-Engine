@@ -1,13 +1,9 @@
 package nullEngine.object.component.graphics;
 
 import nullEngine.control.layer.Layer;
-import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.graphics.Material;
 import nullEngine.graphics.model.Model;
-import nullEngine.graphics.renderer.Renderer;
 import nullEngine.object.GameComponent;
-import nullEngine.object.GameObject;
-import util.BitFieldInt;
 
 /**
  * A component that renders a model
@@ -60,11 +56,17 @@ public class ModelComponent extends GameComponent {
 	/**
 	 * Get the model to be used with specific flags
 	 *
-	 * @param flags The render flags
+	 * @param renderMethod The render flags
 	 * @return The model
 	 */
-	public Model getModel(BitFieldInt flags) {
-		return model;
+	public Model getModel(int renderMethod) {
+		if (isEnabled()) {
+			if (renderMethod == Layer.DEFERRED_RENDER_BIT)
+				return model;
+			else if (renderMethod == Layer.MOUSE_PICK_RENDER_BIT && MOUSE_PICKING_ENABLED_DEFAULT)
+				return model;
+		}
+		return null;
 	}
 
 	/**
@@ -92,29 +94,5 @@ public class ModelComponent extends GameComponent {
 	 */
 	public void setLodBias(int lodBias) {
 		this.lodBias = lodBias;
-	}
-
-	/**
-	 * Render this model
-	 *
-	 * @param renderer The renderer that is rendering this object
-	 * @param object   The object this component is attached to
-	 * @param flags    The render flags
-	 */
-	@Override
-	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
-		if ((flags.get(Layer.MOUSE_PICK_RENDER_BIT) && enableMousePicking) || flags.get(Layer.DEFERRED_RENDER_BIT))
-			renderer.add(this);
-	}
-
-	/**
-	 * Update this component
-	 * @param physics
-	 * @param object The object this component is attached to
-	 * @param delta  The time since update was last called
-	 */
-	@Override
-	public void update(PhysicsEngine physics, GameObject object, double delta) {
-
 	}
 }

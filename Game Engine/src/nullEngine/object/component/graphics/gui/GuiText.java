@@ -1,12 +1,9 @@
 package nullEngine.object.component.graphics.gui;
 
 import com.sun.istack.internal.NotNull;
-import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.graphics.font.Font;
-import nullEngine.graphics.renderer.Renderer;
 import nullEngine.graphics.shader.gui.GuiBasicShader;
 import nullEngine.object.GameObject;
-import util.BitFieldInt;
 
 /**
  * Text to be rendered to the GUI
@@ -26,28 +23,14 @@ public class GuiText extends GuiManagedText {
 
 	/**
 	 * Render this text
-	 *
-	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
-	 * @param flags    The render flags
 	 */
 	@Override
-	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+	public void render(GameObject object) {
 		preRender();
-		super.render(renderer, object, flags);
+		super.render(object);
 		render();
 		GuiBasicShader.INSTANCE.bind();
-	}
-
-	/**
-	 * Update this component
-	 * @param physics
-	 * @param object The object this component is attached to
-	 * @param delta  The time since update was last called
-	 */
-	@Override
-	public void update(PhysicsEngine physics, GameObject object, double delta) {
-
 	}
 
 	@Override

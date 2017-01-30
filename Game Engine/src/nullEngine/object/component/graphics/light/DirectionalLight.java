@@ -1,12 +1,7 @@
 package nullEngine.object.component.graphics.light;
 
 import math.Vector4f;
-import nullEngine.control.layer.Layer;
-import nullEngine.control.physics.PhysicsEngine;
-import nullEngine.graphics.renderer.Renderer;
 import nullEngine.object.GameComponent;
-import nullEngine.object.GameObject;
-import util.BitFieldInt;
 
 /**
  * A component that represents an orthogonal light
@@ -24,30 +19,6 @@ public class DirectionalLight extends GameComponent {
 	public DirectionalLight(Vector4f lightColor, Vector4f direction) {
 		this.lightColor = lightColor;
 		this.direction = direction.normalize(null);
-	}
-
-	/**
-	 * If this is a deferred render than add ourselves to the renderer
-	 *
-	 * @param renderer The renderer that is rendering this object
-	 * @param object   The object this component is attached to
-	 * @param flags    The render flags
-	 */
-	@Override
-	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
-		if (flags.get(Layer.DEFERRED_RENDER_BIT))
-			renderer.add(this);
-	}
-
-	/**
-	 * Do nothing
-	 * @param physics
-	 * @param object The object this component is attached to
-	 * @param delta  The time since update was last called
-	 */
-	@Override
-	public void update(PhysicsEngine physics, GameObject object, double delta) {
-
 	}
 
 	/**

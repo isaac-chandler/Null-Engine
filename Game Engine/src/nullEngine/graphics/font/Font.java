@@ -7,6 +7,7 @@ import nullEngine.graphics.shader.Shader;
 import nullEngine.graphics.shader.TextShader;
 import nullEngine.graphics.texture.Texture2D;
 import nullEngine.loading.Loader;
+import nullEngine.util.logs.Logs;
 import util.Sizeof;
 
 import java.util.HashMap;
@@ -354,17 +355,26 @@ public class Font {
 		int count = 0;
 		for (int i = 0; i < text.length(); i++) {
 			char character = text.charAt(i);
-			if (!(character == '\n' || character == ' ' || !glyphs.containsKey(character)))
+			if (!(character == '\n' || character == ' ' || !glyphs.containsKey(character))) {
 				count++;
+			}
 		}
 		int oldCount = indices.getCapacity() / 6 / Sizeof.INT;
+//
+//		Logs.d(oldCount);
+//		Logs.d("");
+//		Logs.d(count);
+//		Logs.d(text);
 
-		if (count < oldCount * 2 || count > oldCount) {
+		if (count * 2 < oldCount || count > oldCount) {
+			Logs.d("aaa");
 			indices.setSize(count * 6 * Sizeof.INT);
 			positions.setSize(count * 4 * 3 * Sizeof.FLOAT);
 			texCoords.setSize(count * 4 * 2 * Sizeof.FLOAT);
 			normals.setSize(count * 4 * 3 * Sizeof.FLOAT);
 		}
+
+		model.setVertexCounts(new int[] {count * 6});
 
 		float cursorX = 0;
 		float cursorY = -yAdvance;

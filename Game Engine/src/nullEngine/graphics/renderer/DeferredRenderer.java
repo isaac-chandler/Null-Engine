@@ -32,6 +32,7 @@ import nullEngine.input.MousePickInfo;
 import nullEngine.input.NotificationEvent;
 import nullEngine.input.PostResizeEvent;
 import nullEngine.object.GameComponent;
+import nullEngine.object.ListOperator;
 import nullEngine.object.component.graphics.ModelComponent;
 import nullEngine.object.component.graphics.light.DirectionalLight;
 import nullEngine.object.component.graphics.light.PointLight;
@@ -64,7 +65,7 @@ public class DeferredRenderer extends Renderer {
 
 	private static final float LOD_DROPOFF_FACTOR = 2f;
 	private static final float MOUSE_PICK_LOD_OFFSET = 1;
-	private Map<Material, ArrayList<ModelComponent>> models = new HashMap<>();
+	private Map<Material, List<ModelComponent>> models = new HashMap<>();
 	private Vector4f ambientColor = new Vector4f();
 	private List<DirectionalLight> directionalLights = new ArrayList<>();
 	private List<PointLight> pointLights = new ArrayList<>();
@@ -97,7 +98,6 @@ public class DeferredRenderer extends Renderer {
 	private TextureOutput lightOutput;
 
 	private BitFieldInt flags;
-	private Map<Material, List<ModelComponent>> mousePickModels = new HashMap<>();
 	private List<ModelComponent> orderedMousePickModels = new ArrayList<>();
 
 	/**
@@ -134,21 +134,12 @@ public class DeferredRenderer extends Renderer {
 		this.exposureTime = exposureTime;
 	}
 
-	/**
-	 * Add a game component to be rendered
-	 * <ul>
-	 * <li>If the game component is a ModelComponent it is rendered as a model</li>
-	 * <li>If the game component is a light it is used to light the scene</li>
-	 * </ul>
-	 *
-	 * @param component The component
-	 */
-	@Override
-	public void add(GameComponent component) {
-		if (flags.get(Layer.DEFERRED_RENDER_BIT)) {
+	private ListOperator.OperatorCallback<GameComponent> componentChangeCallback = new ListOperator.OperatorCallback<GameComponent>() {
+		@Override
+		public void add(GameComponent component) {
 			if (component instanceof ModelComponent) {
 				ModelComponent model = (ModelComponent) component;
-				ArrayList<ModelComponent> list = models.get(model.getMaterial());
+				List<ModelComponent> list = models.get(model.getMaterial());
 				if (list == null) {
 					models.put(model.getMaterial(), list = new ArrayList<>());
 				}
@@ -161,19 +152,26 @@ public class DeferredRenderer extends Renderer {
 				spotLights.add((SpotLight) component);
 			}
 		}
-		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT)) {
+
+		@Override
+		public void remove(GameComponent component) {
 			if (component instanceof ModelComponent) {
 				ModelComponent model = (ModelComponent) component;
-				if (model.enableMousePicking) {
-					List<ModelComponent> list = mousePickModels.get(model.getMaterial());
-					if (list == null) {
-						mousePickModels.put(model.getMaterial(), list = new ArrayList<>());
-					}
-					list.add(model);
+				List<ModelComponent> list = models.get(model.getMaterial());
+				if (list != null) {
+					list.remove(model);
+					if (list.isEmpty())
+						models.remove(model.getMaterial());
 				}
+			} else if (component instanceof DirectionalLight) {
+				directionalLights.remove(component);
+			} else if (component instanceof PointLight) {
+				pointLights.remove(component);
+			} else if (component instanceof SpotLight) {
+				spotLights.remove(component);
 			}
 		}
-	}
+	};
 
 	/**
 	 * Render all of the added components
@@ -184,8 +182,6 @@ public class DeferredRenderer extends Renderer {
 	public void postRender(BitFieldInt flags) {
 		boolean rendered = false;
 		if (flags.get(Layer.DEFERRED_RENDER_BIT)) {
-			BitFieldInt modelFlags = new BitFieldInt();
-			modelFlags.set(Layer.DEFERRED_RENDER_BIT, true);
 			rendered = true;
 			dataBuffer.bind();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -194,29 +190,30 @@ public class DeferredRenderer extends Renderer {
 			if (wireframe) {
 				GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 			}
-			for (Map.Entry<Material, ArrayList<ModelComponent>> components : models.entrySet()) {
+			for (Map.Entry<Material, List<ModelComponent>> components : models.entrySet()) {
 				shader = (ModelMatrixShader) components.getKey().getShader(Material.DEFERRED_SHADER_INDEX);
 				shader.bind();
 				shader.loadMaterial(components.getKey());
 
-				for (ModelComponent compnent : components.getValue()) {
-					setModelMatrix(compnent.getObject().getRenderMatrix());
+				for (ModelComponent component : components.getValue()) {
+					setModelMatrix(component.getObject().getRenderMatrix());
 					Vector4f pos = modelMatrix.getPos(null);
-					Model model = compnent.getModel(modelFlags);
-					float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
-					pos.z += radius;
-					if (-pos.z <= far || components.getKey().isAlwaysRender()) {
-						int lod = MathUtil.clamp(
-								(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getLODCount()) + compnent.getLodBias()),
-								0, model.getLODCount() - 1);
-						model.render(lod);
+					Model model = component.getModel(Layer.DEFERRED_RENDER_BIT);
+					if (model != null) {
+						float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
+						pos.z += radius;
+						if (-pos.z <= far || components.getKey().isAlwaysRender()) {
+							int lod = MathUtil.clamp(
+									(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getLODCount()) + component.getLodBias()),
+									0, model.getLODCount() - 1);
+							model.render(lod);
+						}
 					}
 				}
 			}
 			if (wireframe) {
 				GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
 			}
-			models.clear();
 
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 
@@ -240,7 +237,6 @@ public class DeferredRenderer extends Renderer {
 					DeferredDirectionalLightShader.INSTANCE.loadLight(light);
 					dataBuffer.render();
 				}
-				directionalLights.clear();
 			}
 
 			if (pointLights.size() > 0) {
@@ -250,7 +246,6 @@ public class DeferredRenderer extends Renderer {
 					DeferredPointLightShader.INSTANCE.loadLight(light);
 					dataBuffer.render();
 				}
-				pointLights.clear();
 			}
 
 			if (spotLights.size() > 0) {
@@ -260,7 +255,6 @@ public class DeferredRenderer extends Renderer {
 					DeferredSpotLightShader.INSTANCE.loadLight(light);
 					dataBuffer.render();
 				}
-				spotLights.clear();
 			}
 
 			GL11.glDisable(GL11.GL_BLEND);
@@ -300,15 +294,13 @@ public class DeferredRenderer extends Renderer {
 			Quad.get().postRender();
 		}
 		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT)) {
-			BitFieldInt modelFlags = new BitFieldInt();
-			modelFlags.set(Layer.MOUSE_PICK_RENDER_BIT, true);
 			rendered = true;
 			mousePickBuffer.bind();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			orderedMousePickModels = new ArrayList<>(orderedMousePickModels.size());
 
-			for (Map.Entry<Material, List<ModelComponent>> components : mousePickModels.entrySet()) {
+			for (Map.Entry<Material, List<ModelComponent>> components : models.entrySet()) {
 				shader = (MousePickShader) components.getKey().getShader(Material.MOUSE_PICKING_SHADER_INDEX);
 				shader.bind();
 				shader.loadMaterial(components.getKey());
@@ -318,19 +310,20 @@ public class DeferredRenderer extends Renderer {
 					((MousePickShader) shader).loadIdToColor(orderedMousePickModels.size());
 					setModelMatrix(component.getObject().getRenderMatrix());
 					Vector4f pos = modelMatrix.getPos(null);
-					Model model = component.getModel(modelFlags);
-					float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
-					pos.z += radius;
-					if (-pos.z <= far || components.getKey().isAlwaysRender()) {
-						int lod = MathUtil.clamp(
-								(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getLODCount()) + component.getLodBias() + MOUSE_PICK_LOD_OFFSET),
-								0, model.getLODCount() - 1);
-						model.render(lod);
+					Model model = component.getModel(Layer.MOUSE_PICK_RENDER_BIT);
+					if (model != null) {
+						float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
+						pos.z += radius;
+						if (-pos.z <= far || components.getKey().isAlwaysRender()) {
+							int lod = MathUtil.clamp(
+									(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getLODCount()) + component.getLodBias() + MOUSE_PICK_LOD_OFFSET),
+									0, model.getLODCount() - 1);
+							model.render(lod);
+						}
 					}
 				}
 
 			}
-			mousePickModels.clear();
 
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			mousePickBuffer.unbind();
@@ -557,6 +550,7 @@ public class DeferredRenderer extends Renderer {
 			hdrBuffer.delete();
 			hdrBuffer = null;
 		}
+		componentOps.run(null, componentChangeCallback);
 	}
 
 	/**

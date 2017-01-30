@@ -3,12 +3,10 @@ package nullEngine.object.component.graphics.gui;
 import com.sun.istack.internal.NotNull;
 import math.Vector4f;
 import nullEngine.graphics.Color;
-import nullEngine.graphics.renderer.Renderer;
 import nullEngine.graphics.shader.gui.GuiShader;
 import nullEngine.graphics.shader.Shader;
 import nullEngine.object.GameComponent;
 import nullEngine.object.GameObject;
-import util.BitFieldInt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,18 +44,15 @@ public abstract class GuiComponent extends GameComponent {
 
 	/**
 	 * Render this GUI component
-	 *
-	 * @param renderer The renderer that is rendering this object
 	 * @param object   The object this component is attached to
-	 * @param flags    The render flags
 	 */
 	@Override
-	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+	public void render(GameObject object) {
 		if (Shader.bound() instanceof GuiShader) {
 			GuiShader shader = (GuiShader) Shader.bound();
 			shader.loadColor(color);
 			shader.loadPosition(getX(), getY());
-			shader.loadMVP(renderer.getMVP());
+			shader.loadMVP(getRenderer().getMVP());
 		}
 	}
 

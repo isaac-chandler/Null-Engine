@@ -4,12 +4,15 @@ import math.Matrix4f;
 import nullEngine.graphics.shader.Shader;
 import nullEngine.input.PostResizeEvent;
 import nullEngine.object.GameComponent;
+import nullEngine.object.ListOperator;
 import util.BitFieldInt;
 
 /**
  * Rendering manager
  */
 public abstract class Renderer {
+
+	protected ListOperator.ListOperatorQueue<GameComponent> componentOps = new ListOperator.ListOperatorQueue<>(GameComponent.GAME_COMPONENT_LIST_OPERATORS);
 
 	private static Renderer current;
 
@@ -42,7 +45,15 @@ public abstract class Renderer {
 	 * Add a component
 	 * @param component The component
 	 */
-	public abstract void add(GameComponent component);
+	public void add(GameComponent component) {
+		componentOps.add(component);
+	}
+
+	public void remove(GameComponent component) {
+		componentOps.remove(component);
+	}
+
+
 
 	/**
 	 * Run after the render
@@ -51,8 +62,8 @@ public abstract class Renderer {
 	public abstract void postRender(BitFieldInt flags);
 
 	/**
-	 * Run beofre the render
-	 * @param flags The rneder flags
+	 * Run before the render
+	 * @param flags The render flags
 	 */
 	public abstract void preRender(BitFieldInt flags);
 
@@ -155,4 +166,5 @@ public abstract class Renderer {
 	public Matrix4f getMVP() {
 		return mvp;
 	}
+
 }

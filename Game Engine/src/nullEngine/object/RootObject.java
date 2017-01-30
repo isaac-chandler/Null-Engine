@@ -1,6 +1,8 @@
 package nullEngine.object;
 
 import nullEngine.control.layer.Layer;
+import nullEngine.control.physics.PhysicsEngine;
+import nullEngine.graphics.renderer.Renderer;
 
 /**
  * The root GameObject, created by Layer, don't create directly
@@ -15,9 +17,13 @@ public class RootObject extends GameObject {
 	 * Create a new root object
 	 *
 	 * @param layer The layer this is the root of
+	 * @param physics
+	 * @param renderer
 	 */
-	public RootObject(Layer layer) {
+	public RootObject(Layer layer, PhysicsEngine physics, Renderer renderer) {
 		this.layer = layer;
+		this.physics = physics;
+		this.renderer = renderer;
 	}
 
 	/**

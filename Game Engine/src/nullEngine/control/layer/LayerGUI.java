@@ -25,11 +25,10 @@ public class LayerGUI extends Layer {
 	 * Create a new GUI layer
 	 */
 	public LayerGUI() {
-		super(null);
+		super(null, null, new GuiRenderer());
 		this.width = 100f * Application.get().getWidth() / Application.get().getHeight();
 		this.height = 100f;
 		setSize();
-		renderer = new GuiRenderer();
 	}
 
 	@Override

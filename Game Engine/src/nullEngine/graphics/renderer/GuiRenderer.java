@@ -30,9 +30,10 @@ public class GuiRenderer extends Renderer {
 	 * @param component The component
 	 */
 	@Override
-	public void add(GameComponent component) {
+	public void add(GameComponent component) {}
 
-	}
+	@Override
+	public void remove(GameComponent component) {}
 
 	/**
 	 * Render the framebuffer to the window

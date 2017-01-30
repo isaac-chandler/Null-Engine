@@ -3,16 +3,13 @@ package nullEngine.object.component.graphics.gui;
 import com.sun.istack.internal.NotNull;
 import nullEngine.control.Application;
 import nullEngine.control.layer.LayerGUI;
-import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.graphics.Color;
 import nullEngine.graphics.model.Quad;
-import nullEngine.graphics.renderer.Renderer;
 import nullEngine.graphics.shader.gui.GuiBasicShader;
 import nullEngine.graphics.shader.gui.GuiQuadShader;
 import nullEngine.input.Input;
 import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;
-import util.BitFieldInt;
 
 public class GuiButton extends GuiComponent {
 
@@ -32,13 +29,13 @@ public class GuiButton extends GuiComponent {
 	}
 
 	@Override
-	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
-		render(renderer, object, flags, state);
+	public void render(GameObject object) {
+		render(object, state);
 	}
 
-	protected void render(Renderer renderer, GameObject object, BitFieldInt flags, ButtonState state) {
+	protected void render(GameObject object, ButtonState state) {
 		GuiQuadShader.INSTANCE.bind();
-		GuiQuadShader.INSTANCE.loadMVP(renderer.getMVP());
+		GuiQuadShader.INSTANCE.loadMVP(getRenderer().getMVP());
 		GuiQuadShader.INSTANCE.loadPosition(getX(), getY());
 		GuiQuadShader.INSTANCE.loadSize(getWidth() / 2, getHeight() / 2);
 
@@ -92,12 +89,11 @@ public class GuiButton extends GuiComponent {
 
 	/**
 	 * Update this component
-	 * @param physics
 	 * @param object The object this component is attached to
 	 * @param delta  The time since update was last called
 	 */
 	@Override
-	public void update(PhysicsEngine physics, GameObject object, double delta) {
+	public void update(GameObject object, double delta) {
 
 	}
 

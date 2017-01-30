@@ -39,4 +39,10 @@ public class PhysicsEngine {
 			dynamicsWorld.addRigidBody(((RigidBodyComponent) component).getRigidBody());
 		}
 	}
+
+	public void remove(GameComponent component) {
+		if (component instanceof RigidBodyComponent) {
+			dynamicsWorld.removeRigidBody(((RigidBodyComponent) component).getRigidBody());
+		}
+	}
 }

@@ -11,30 +11,28 @@ import nullEngine.input.KeyEvent;
 import nullEngine.input.MouseEvent;
 import nullEngine.input.NotificationEvent;
 import nullEngine.input.PostResizeEvent;
-import util.ListOperator;
 import nullEngine.util.logs.Logs;
 import util.BitFieldInt;
-import util.ListOperatorPool;
 
 import java.lang.reflect.Array;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Represents an object in the game
  */
 public class GameObject implements EventListener {
 
-	public static final ListOperatorPool<GameObject> GAME_OBJECT_LIST_OPERATORS = new ListOperatorPool<>();
-	public static final ListOperatorPool<GameComponent> GAME_COMPONENT_LIST_OPERATORS = new ListOperatorPool<>();
+	protected PhysicsEngine physics;
+	protected Renderer renderer;
+
+	public static final ListOperator.ListOperatorPool<GameObject> GAME_OBJECT_LIST_OPERATORS = new ListOperator.ListOperatorPool<>();
 
 	private List<GameObject> children = new ArrayList<>();
 	private List<GameComponent> components = new ArrayList<>();
 
-	private Queue<ListOperator<GameObject>> childrenOps = new ArrayDeque<>();
-	private Queue<ListOperator<GameComponent>> componentOps = new ArrayDeque<>();
+	private ListOperator.ListOperatorQueue<GameObject> childrenOps = new ListOperator.ListOperatorQueue<>(GAME_OBJECT_LIST_OPERATORS);
+	private ListOperator.ListOperatorQueue<GameComponent> componentOps = new ListOperator.ListOperatorQueue<>(GameComponent.GAME_COMPONENT_LIST_OPERATORS);
 
 	private List<GameObject> renderChildren = new ArrayList<>();
 	private List<GameComponent> renderComponents = new ArrayList<>();
@@ -52,9 +50,30 @@ public class GameObject implements EventListener {
 
 	private GameObject parent;
 
-	private void onAdded(GameObject parent) {
+	public void onAdded(GameObject parent, Renderer renderer, PhysicsEngine physics) {
 		this.parent = parent;
+		this.renderer = renderer;
+		this.physics = physics;
 		transform.setParent(parent.getTransform());
+		for (GameObject object : children) {
+			object.onAdded(this, renderer, physics);
+		}
+		for (GameComponent component : components) {
+			component.onAdded(this, renderer, physics);
+		}
+	}
+
+	public void onRemoved() {
+		parent = null;
+		renderer = null;
+		physics = null;
+		transform.setParent(null);
+		for (GameObject object : children) {
+			object.onRemoved();
+		}
+		for (GameComponent component : components) {
+			component.onRemoved();
+		}
 	}
 
 	/**
@@ -68,10 +87,9 @@ public class GameObject implements EventListener {
 		} else if (child.getParent() != null) {
 			Logs.f(new IllegalArgumentException("GameObject is already a child of another object"));
 		} else if (child instanceof RootObject) {
-			Logs.f(new IllegalArgumentException("Canno add a root object"));
+			Logs.f(new IllegalArgumentException("Cannot add a root object"));
 		}
-		childrenOps.add(GAME_OBJECT_LIST_OPERATORS.add(child));
-		child.onAdded(this);
+		childrenOps.add(child);
 	}
 
 	/**
@@ -85,8 +103,7 @@ public class GameObject implements EventListener {
 		} else if (component.getObject() != null) {
 			Logs.f(new IllegalArgumentException("GameComponent is already attached to an object"));
 		}
-		componentOps.add(GAME_COMPONENT_LIST_OPERATORS.add(component));
-		component.onAdded(this);
+		componentOps.add(component);
 	}
 
 	/**
@@ -99,7 +116,7 @@ public class GameObject implements EventListener {
 	public void render(Renderer renderer, BitFieldInt flags) {
 		for (GameComponent component : renderComponents) {
 			if (component.isEnabled())
-				component.render(renderer, this, flags);
+				component.render(this);
 		}
 
 		for (GameObject child : renderChildren) {
@@ -113,7 +130,7 @@ public class GameObject implements EventListener {
 				if (clazz.isAssignableFrom(component.getClass()))
 					return (T) component;
 			return null;
-		}else {
+		} else {
 			for (GameComponent component : components)
 				if (component.getClass() == clazz)
 					return (T) component;
@@ -147,43 +164,56 @@ public class GameObject implements EventListener {
 	public void update(@Nullable PhysicsEngine physics, double delta) {
 		for (GameComponent component : components) {
 			if (component.isEnabled())
-				component.update(physics, this, delta);
+				component.update(this, delta);
 		}
 		for (GameObject child : children) {
 			child.update(physics, delta);
 		}
 	}
 
+	private ListOperator.OperatorCallback<GameComponent> componentListCallback = new ListOperator.OperatorCallback<GameComponent>() {
+		@Override
+		public void add(GameComponent obj) {
+			obj.onAdded(GameObject.this, renderer, physics);
+		}
+
+		@Override
+		public void remove(GameComponent obj) {
+			obj.onRemoved();
+		}
+	};
+
+	private ListOperator.OperatorCallback<GameObject> childListCallback = new ListOperator.OperatorCallback<GameObject>() {
+		@Override
+		public void add(GameObject obj) {
+			obj.onAdded(GameObject.this, renderer, physics);
+		}
+
+		@Override
+		public void remove(GameObject obj) {
+			obj.onRemoved();
+		}
+	};
+
 	/**
 	 * Update the matrix for multithreading synchronization
 	 * <strong>Do not run expensive code here as it is intended for copying data only, otherwise the performance will be bad</strong>
 	 */
 	protected void postUpdate() {
-		{
-			ListOperator<GameObject> op;
-			while ((op = childrenOps.poll()) != null) {
-				if (op.run(children))
-					renderChildrenVaild = false;
-				GAME_OBJECT_LIST_OPERATORS.delete(op);
-			}
+		if (childrenOps.run(children, childListCallback))
+			renderChildrenVaild = false;
 
-			if (!renderChildrenVaild) {
-				postUpdateChildren.clear();
-				postUpdateChildren.addAll(children);
-			}
+		if (!renderChildrenVaild) {
+			postUpdateChildren.clear();
+			postUpdateChildren.addAll(children);
 		}
-		{
-			ListOperator<GameComponent> op;
-			while ((op = componentOps.poll()) != null) {
-				if (op.run(components))
-					renderComponentsValid = false;
-				GAME_COMPONENT_LIST_OPERATORS.delete(op);
-			}
 
-			if (!renderComponentsValid) {
-				postUpdateComponents.clear();
-				postUpdateComponents.addAll(components);
-			}
+		if (componentOps.run(components, componentListCallback))
+			renderComponentsValid = false;
+
+		if (!renderComponentsValid) {
+			postUpdateComponents.clear();
+			postUpdateComponents.addAll(components);
 		}
 
 		for (GameComponent component : components)
@@ -437,7 +467,7 @@ public class GameObject implements EventListener {
 	public void preResize() {
 		for (GameComponent component : renderComponents)
 			if (component.isEnabled())
-			component.preResize();
+				component.preResize();
 		for (GameObject child : renderChildren)
 			child.preResize();
 	}
@@ -447,6 +477,7 @@ public class GameObject implements EventListener {
 		for (GameComponent component : components)
 			component.matrixUpdated();
 		for (GameObject child : children)
-			child.matrixUpdated();
+			if (!child.getTransform().isIgnoreParent())
+				child.matrixUpdated();
 	}
 }

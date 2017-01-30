@@ -8,6 +8,9 @@ import math.Vector4f;
  * Stores a transform hierarchy
  */
 public class Transform {
+
+	private boolean ignoreParent = false;
+
 	private Transform parent;
 
 	private Vector4f pos = new Vector4f(0, 0, 0);
@@ -126,7 +129,7 @@ public class Transform {
 	 * @return The transformation matrix
 	 */
 	public Matrix4f getMatrix() {
-		if (parent != null)
+		if (parent != null && !ignoreParent)
 			return Matrix4f.mul(parent.getMatrix(), matrix, null);
 		return matrix;
 	}
@@ -137,7 +140,7 @@ public class Transform {
 	 * @return The position
 	 */
 	public Vector4f getWorldPos() {
-		if (parent != null)
+		if (parent != null && !ignoreParent)
 			return Matrix4f.transform(pos, parent.getMatrix(), null);
 		return pos;
 	}
@@ -148,7 +151,7 @@ public class Transform {
 	 * @return The rotation
 	 */
 	public Quaternion getWorldRot() {
-		if (parent != null)
+		if (parent != null && !ignoreParent)
 			return Quaternion.mul(parent.getWorldRot(), rot, null);
 		return rot;
 	}
@@ -156,5 +159,16 @@ public class Transform {
 	private void updateMatrix() {
 		Matrix4f.setTransformation(scale, rot, pos, matrix);
 		object.matrixUpdated();
+	}
+
+	public boolean isIgnoreParent() {
+		return ignoreParent;
+	}
+
+	public void setIgnoreParent(boolean ignoreParent) {
+		if (this.ignoreParent != ignoreParent) {
+			this.ignoreParent = ignoreParent;
+			updateMatrix();
+		}
 	}
 }

@@ -17,7 +17,6 @@ import nullEngine.graphics.postfx.ContrastPostFX;
 import nullEngine.graphics.postfx.FogPostFX;
 import nullEngine.graphics.postfx.PostFXOutput;
 import nullEngine.graphics.renderer.DeferredRenderer;
-import nullEngine.graphics.renderer.Renderer;
 import nullEngine.graphics.shader.deferred.DeferredTerrainShader;
 import nullEngine.graphics.shader.mousePick.MousePickTerrainShader;
 import nullEngine.graphics.texture.Texture2D;
@@ -40,7 +39,6 @@ import nullEngine.object.component.graphics.light.DirectionalLight;
 import nullEngine.object.wrapper.GeoclipmapTerrain;
 import nullEngine.object.wrapper.HeightMap;
 import nullEngine.util.logs.Logs;
-import util.BitFieldInt;
 
 public class Main {
 
@@ -59,12 +57,11 @@ public class Main {
 
 			final FlyCam camera = new FlyCam(); // Create the camera
 
-			final LayerDeferred world = new LayerDeferred(camera, (float) Math.toRadians(90f), 0.1f, 300f, true); // Create the layer for the world with HDR enabled
+			final LayerDeferred world = new LayerDeferred(new PhysicsEngine(), camera, (float) Math.toRadians(90f), 0.1f, 300f, true); // Create the layer for the world with HDR enabled
 			LayerGUI debug = new LayerGUI();                                                                  // Create the layer for the debug test
 			debug.setEnabled(false);
 			state.addLayer(debug);                                                                            // Add the GUI first so it is on top
-			state.addLayer(world);                                                                            // Then add the world layer
-			world.physics = new PhysicsEngine();
+			state.addLayer(world);
 
 			final DeferredRenderer renderer = ((DeferredRenderer) world.getRenderer()); // Get the renderer
 			renderer.setExposureTime(1.5f);                                             // Set HDR exposure time to 0.7
@@ -80,7 +77,7 @@ public class Main {
 				private double totalDelta = 1;
 
 				@Override
-				public void update(PhysicsEngine physics, GameObject object, double delta) {
+				public void update(GameObject object, double delta) {
 					totalDelta += delta; // Increase timer
 					if (totalDelta > 0.25) { // Update text 4 times per second
 						float maxMemory = Runtime.getRuntime().maxMemory() / 1048576f;     // Get allocated memory
@@ -91,7 +88,6 @@ public class Main {
 								Math.round(1d / application.getLastFrameTime()),  // Get frame rate
 								Math.round(1d / application.getLastUpdateTime()), // Get update rate
 								totalMemory - freeMemory, maxMemory));            // Memory info
-
 						totalDelta -= 0.25; // Reset timer
 					}
 				}
@@ -209,12 +205,12 @@ public class Main {
 				boolean freeMove = true;                    // Camera isn't locked to ground by default
 
 				@Override
-				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+				public void render(GameObject object) {
 
 				}
 
 				@Override
-				public void update(PhysicsEngine physics, GameObject object, double delta) {
+				public void update(GameObject object, double delta) {
 					camera.setCanMove(!debug.isEnabled());
 					camera.setCanRotate(!debug.isEnabled());
 
@@ -283,9 +279,9 @@ public class Main {
 				}
 
 				@Override
-				public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+				public void render(GameObject object) {
 					if (render) // Should we render the dragon?
-						super.render(renderer, object, flags); // Render the dragon normally
+						super.render(object); // Render the dragon normally
 				}
 
 				@Override

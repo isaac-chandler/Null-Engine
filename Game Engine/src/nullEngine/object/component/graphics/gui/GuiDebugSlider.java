@@ -4,18 +4,15 @@ import com.sun.istack.internal.NotNull;
 import math.MathUtil;
 import nullEngine.control.Application;
 import nullEngine.control.layer.LayerGUI;
-import nullEngine.control.physics.PhysicsEngine;
 import nullEngine.graphics.Color;
 import nullEngine.graphics.font.Font;
 import nullEngine.graphics.model.Quad;
-import nullEngine.graphics.renderer.Renderer;
 import nullEngine.graphics.shader.gui.GuiBasicShader;
 import nullEngine.graphics.shader.gui.GuiQuadShader;
 import nullEngine.graphics.shader.gui.GuiTextShader;
 import nullEngine.input.Input;
 import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;
-import util.BitFieldInt;
 
 public class GuiDebugSlider extends GuiManagedText {
 
@@ -40,14 +37,14 @@ public class GuiDebugSlider extends GuiManagedText {
 	}
 
 	@Override
-	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
+	public void render(GameObject object) {
 		float x = getX();
 		float y = getY();
 		float width = getWidth();
 		float height = getHeight();
 
 		GuiQuadShader.INSTANCE.bind();
-		GuiQuadShader.INSTANCE.loadMVP(renderer.getMVP());
+		GuiQuadShader.INSTANCE.loadMVP(getRenderer().getMVP());
 		GuiQuadShader.INSTANCE.loadPosition(x, y + height / 2 - lineHeight / 2 - boxSize / 2);
 		GuiQuadShader.INSTANCE.loadSize(lineWidth / 2, lineHeight / 2);
 		GuiQuadShader.INSTANCE.loadColor(Color.WHITE);
@@ -126,12 +123,11 @@ public class GuiDebugSlider extends GuiManagedText {
 
 	/**
 	 * Update this component
-	 * @param physics
 	 * @param object The object this component is attached to
 	 * @param delta  The time since update was last called
 	 */
 	@Override
-	public void update(PhysicsEngine physics, GameObject object, double delta) {
+	public void update(GameObject object, double delta) {
 
 	}
 

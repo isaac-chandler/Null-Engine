@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public abstract class Layer implements EventListener {
 
-	public PhysicsEngine physics = null;
+	protected PhysicsEngine physics;
 
 	/**
 	 * The flag for a deferred render
@@ -40,11 +40,11 @@ public abstract class Layer implements EventListener {
 	/**
 	 * The renderer
 	 */
-	protected Renderer renderer;
+	private Renderer renderer;
 
 	private static volatile ReentrantLock matrixLock = new ReentrantLock();
 	private Camera camera;
-	private final RootObject root = new RootObject(this);
+	private final RootObject root;
 	/**
 	 * Wether this layer is enabled
 	 */
@@ -59,8 +59,11 @@ public abstract class Layer implements EventListener {
 	 *
 	 * @param camera The camera
 	 */
-	public Layer(@Nullable Camera camera) {
+	public Layer(@Nullable Camera camera, @Nullable PhysicsEngine physics, @Nullable Renderer renderer) {
 		this.camera = camera;
+		this.physics = physics;
+		this.renderer = renderer;
+		this.root = new RootObject(this, physics, renderer);
 	}
 
 	/**

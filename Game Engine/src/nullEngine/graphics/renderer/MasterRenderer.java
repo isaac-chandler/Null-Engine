@@ -35,9 +35,10 @@ public class MasterRenderer extends Renderer {
 	 * @param component The component
 	 */
 	@Override
-	public void add(GameComponent component) {
+	public void add(GameComponent component) {}
 
-	}
+	@Override
+	public void remove(GameComponent component) {}
 
 	/**
 	 * Does nothing

@@ -8,7 +8,6 @@ import nullEngine.graphics.renderer.Renderer;
 import nullEngine.input.Input;
 import nullEngine.input.MouseEvent;
 import nullEngine.object.GameObject;
-import util.BitFieldInt;
 
 /**
  * A first person camera that can fly around
@@ -26,10 +25,12 @@ public class FlyCam extends Camera {
 	 * Setup this object
 	 *
 	 * @param parent This objects parent
+	 * @param physics
+	 * @param renderer
 	 */
 	@Override
-	public void onAdded(GameObject parent) {
-		super.onAdded(parent);
+	public void onAdded(GameObject parent, Renderer renderer, PhysicsEngine physics) {
+		super.onAdded(parent, renderer, physics);
 		updateMatrix();
 	}
 
@@ -41,18 +42,6 @@ public class FlyCam extends Camera {
 	public void updateMatrix() {
 		getObject().getTransform().getWorldRot().toRotationMatrix(viewMatrix);
 		Matrix4f.mul(viewMatrix, Matrix4f.setTranslation(getObject().getTransform().getWorldPos().mul(-1, null), null), viewMatrix);
-	}
-
-	/**
-	 * Render this component
-	 *
-	 * @param renderer The renderer that is rendering this object
-	 * @param object   The object this component is attached to
-	 * @param flags    The render flags
-	 */
-	@Override
-	public void render(Renderer renderer, GameObject object, BitFieldInt flags) {
-
 	}
 
 	/**
@@ -89,12 +78,11 @@ public class FlyCam extends Camera {
 
 	/**
 	 * Update the camera and process the movement
-	 * @param physics
 	 * @param object The object this component is attached to
 	 * @param delta  The time since update was last called
 	 */
 	@Override
-	public void update(PhysicsEngine physics, GameObject object, double delta) {
+	public void update(GameObject object, double delta) {
 		if (canMove) {
 			Vector4f motion = new Vector4f();
 			Quaternion rotation = getObject().getTransform().getRot();

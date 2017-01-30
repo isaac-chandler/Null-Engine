@@ -8,8 +8,6 @@ import nullEngine.graphics.texture.Texture2D;
  */
 public class GuiTexture extends GuiModel {
 
-	private Texture2D texture;
-
 	/**
 	 * Creare a new GUI image
 	 *

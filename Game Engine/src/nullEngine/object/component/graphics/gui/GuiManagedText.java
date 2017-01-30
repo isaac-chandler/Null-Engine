@@ -49,6 +49,7 @@ public abstract class GuiManagedText extends GuiComponent  {
 		dirty = true;
 	}
 
+	@Override
 	public void preRender() {
 		if (dirty) {
 			if (textModel == null)
