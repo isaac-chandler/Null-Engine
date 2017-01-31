@@ -48,7 +48,7 @@ public class Main {
 			Logs.setDebug(true); // Set the logs to output debug info
 
 			final Application application = new Application(1280, 720, false, "Sandbox"); // Create the application
-			application.getWindow().setVsync(true);                                       // Set up vsyc
+			application.getWindow().setVsync(true);                                       // Set up vsync
 			application.bind();                                                           // Make the application current
 
 			State state = new State();                    // Create the state
@@ -203,6 +203,7 @@ public class Main {
 			application.setCursorEnabled(false); // Hide the cursor
 			cameraObject.addComponent(new GameComponent() { // Add a component to the camera
 				boolean freeMove = true;                    // Camera isn't locked to ground by default
+//				double totalDelta = 0;
 
 				@Override
 				public void render(GameObject object) {
@@ -211,6 +212,19 @@ public class Main {
 
 				@Override
 				public void update(GameObject object, double delta) {
+//					totalDelta += delta;
+//					if (totalDelta > 0.25f) {
+//						totalDelta = 0;
+//						float maxMemory = Runtime.getRuntime().maxMemory() / 1048576f;     // Get allocated memory
+//						float totalMemory = Runtime.getRuntime().totalMemory() / 1048576f; // Get memory in use
+//						float freeMemory = Runtime.getRuntime().freeMemory() / 1048576f;   // Get free memory
+//
+//						Logs.d(String.format("FPS: %d\nUPS: %d\n%.1f/%.1fMB",
+//								Math.round(1d / application.getLastFrameTime()),  // Get frame rate
+//								Math.round(1d / application.getLastUpdateTime()), // Get update rate
+//								totalMemory - freeMemory, maxMemory));            // Memory info
+//					}
+
 					camera.setCanMove(!debug.isEnabled());
 					camera.setCanRotate(!debug.isEnabled());
 
@@ -286,10 +300,10 @@ public class Main {
 
 				@Override
 				public boolean keyPressed(KeyEvent event) {
-					if (Input.getKeyNumber(event.key) >= 0) {      // Was a number pressed?
-						setLodBias(Input.getKeyNumber(event.key)); // Set the level of detail bias for the dragon to the number that was pressed
-						return true;                               // Eat the event
-					}
+//					if (Input.getKeyNumber(event.key) >= 0) {      // Was a number pressed?
+//						setLodBias(Input.getKeyNumber(event.key)); // Set the level of detail bias for the dragon to the number that was pressed
+//						return true;                               // Eat the event
+//					}
 					return false; // Pass the event on
 				}
 			});

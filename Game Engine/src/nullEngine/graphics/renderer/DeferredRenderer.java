@@ -1,7 +1,6 @@
 package nullEngine.graphics.renderer;
 
 import com.sun.istack.internal.NotNull;
-import math.MathUtil;
 import math.Matrix4f;
 import math.Vector4f;
 import nullEngine.control.Application;
@@ -27,7 +26,6 @@ import nullEngine.graphics.shader.deferred.lighting.DeferredPointLightShader;
 import nullEngine.graphics.shader.deferred.lighting.DeferredSpotLightShader;
 import nullEngine.graphics.shader.mousePick.MousePickShader;
 import nullEngine.input.EventListener;
-import nullEngine.input.Input;
 import nullEngine.input.MousePickInfo;
 import nullEngine.input.NotificationEvent;
 import nullEngine.input.PostResizeEvent;
@@ -63,8 +61,6 @@ public class DeferredRenderer extends Renderer {
 
 	private ModelMatrixShader shader = DeferredBasicShader.INSTANCE;
 
-	private static final float LOD_DROPOFF_FACTOR = 2f;
-	private static final float MOUSE_PICK_LOD_OFFSET = 1;
 	private Map<Material, List<ModelComponent>> models = new HashMap<>();
 	private Vector4f ambientColor = new Vector4f();
 	private List<DirectionalLight> directionalLights = new ArrayList<>();
@@ -196,19 +192,7 @@ public class DeferredRenderer extends Renderer {
 				shader.loadMaterial(components.getKey());
 
 				for (ModelComponent component : components.getValue()) {
-					setModelMatrix(component.getObject().getRenderMatrix());
-					Vector4f pos = modelMatrix.getPos(null);
-					Model model = component.getModel(Layer.DEFERRED_RENDER_BIT);
-					if (model != null) {
-						float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
-						pos.z += radius;
-						if (-pos.z <= far || components.getKey().isAlwaysRender()) {
-							int lod = MathUtil.clamp(
-									(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getLODCount()) + component.getLodBias()),
-									0, model.getLODCount() - 1);
-							model.render(lod);
-						}
-					}
+					renderModel(components.getKey(), component, Layer.DEFERRED_RENDER_BIT);
 				}
 			}
 			if (wireframe) {
@@ -217,80 +201,17 @@ public class DeferredRenderer extends Renderer {
 
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-			if (hdrBuffer != null)
-				hdrBuffer.bind();
-			else
-				lightBuffer.bind();
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+			renderLight();
 
-			DeferredAmbientLightShader.INSTANCE.bind();
-			DeferredAmbientLightShader.INSTANCE.loadAmbientColor(ambientColor);
-
-			dataBuffer.render();
-
-			if (directionalLights.size() > 0) {
-				DeferredDirectionalLightShader.INSTANCE.bind();
-				DeferredDirectionalLightShader.INSTANCE.loadViewMatrix(viewMatrix);
-				for (DirectionalLight light : directionalLights) {
-					DeferredDirectionalLightShader.INSTANCE.loadLight(light);
-					dataBuffer.render();
-				}
-			}
-
-			if (pointLights.size() > 0) {
-				DeferredPointLightShader.INSTANCE.bind();
-				DeferredPointLightShader.INSTANCE.loadViewMatrix(viewMatrix);
-				for (PointLight light : pointLights) {
-					DeferredPointLightShader.INSTANCE.loadLight(light);
-					dataBuffer.render();
-				}
-			}
-
-			if (spotLights.size() > 0) {
-				DeferredSpotLightShader.INSTANCE.bind();
-				DeferredSpotLightShader.INSTANCE.loadViewMatrix(viewMatrix);
-				for (SpotLight light : spotLights) {
-					DeferredSpotLightShader.INSTANCE.loadLight(light);
-					dataBuffer.render();
-				}
-			}
-
-			GL11.glDisable(GL11.GL_BLEND);
 			Quad.get().preRender();
 
 			if (hdrBuffer != null) {
-				lightBuffer.bind();
-				HDRShader.INSTANCE.bind();
-				HDRShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
-				HDRShader.INSTANCE.loadExposureTime(exposureTime);
-				GL13.glActiveTexture(GL13.GL_TEXTURE0);
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, hdrBuffer.getColorTextureID());
-				Quad.get().lazyRender(0);
+				renderHDR();
 			}
 
-			postFX.preRender();
-			postFX.render(viewMatrix);
-			int out = postFX.getTextureID();
+			int out = renderPostFX();
 
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-			if (Application.get().getRenderTarget() != null)
-				Application.get().getRenderTarget().bind();
-			else
-				Framebuffer2D.unbind();
-
-			GammaShader.INSTANCE.bind();
-			GammaShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			if (Input.keyPressed(Input.KEY_M)) {
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, mousePickBuffer.getWorldPositionTextureID());
-			} else
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, out);
-			Quad.get().lazyRender(0);
-			GL11.glDisable(GL11.GL_BLEND);
+			renderToTarget(out);
 			Quad.get().postRender();
 		}
 		if (flags.get(Layer.MOUSE_PICK_RENDER_BIT)) {
@@ -308,19 +229,7 @@ public class DeferredRenderer extends Renderer {
 				for (ModelComponent component : components.getValue()) {
 					orderedMousePickModels.add(component);
 					((MousePickShader) shader).loadIdToColor(orderedMousePickModels.size());
-					setModelMatrix(component.getObject().getRenderMatrix());
-					Vector4f pos = modelMatrix.getPos(null);
-					Model model = component.getModel(Layer.MOUSE_PICK_RENDER_BIT);
-					if (model != null) {
-						float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
-						pos.z += radius;
-						if (-pos.z <= far || components.getKey().isAlwaysRender()) {
-							int lod = MathUtil.clamp(
-									(int) (Math.floor(Math.pow(-pos.z / far, LOD_DROPOFF_FACTOR) * model.getLODCount()) + component.getLodBias() + MOUSE_PICK_LOD_OFFSET),
-									0, model.getLODCount() - 1);
-							model.render(lod);
-						}
-					}
+					renderModel(components.getKey(), component, Layer.MOUSE_PICK_RENDER_BIT);
 				}
 
 			}
@@ -334,6 +243,99 @@ public class DeferredRenderer extends Renderer {
 
 		if (!rendered) {
 			Logs.w("No recognised flags passed to deferred renderer");
+		}
+	}
+
+	private void renderLight() {
+		if (hdrBuffer != null)
+			hdrBuffer.bind();
+		else
+			lightBuffer.bind();
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+
+		DeferredAmbientLightShader.INSTANCE.bind();
+		DeferredAmbientLightShader.INSTANCE.loadAmbientColor(ambientColor);
+
+		dataBuffer.render();
+
+		if (directionalLights.size() > 0) {
+			DeferredDirectionalLightShader.INSTANCE.bind();
+			DeferredDirectionalLightShader.INSTANCE.loadViewMatrix(viewMatrix);
+			for (DirectionalLight light : directionalLights) {
+				DeferredDirectionalLightShader.INSTANCE.loadLight(light);
+				dataBuffer.render();
+			}
+		}
+
+		if (pointLights.size() > 0) {
+			DeferredPointLightShader.INSTANCE.bind();
+			DeferredPointLightShader.INSTANCE.loadViewMatrix(viewMatrix);
+			for (PointLight light : pointLights) {
+				DeferredPointLightShader.INSTANCE.loadLight(light);
+				dataBuffer.render();
+			}
+		}
+
+		if (spotLights.size() > 0) {
+			DeferredSpotLightShader.INSTANCE.bind();
+			DeferredSpotLightShader.INSTANCE.loadViewMatrix(viewMatrix);
+			for (SpotLight light : spotLights) {
+				DeferredSpotLightShader.INSTANCE.loadLight(light);
+				dataBuffer.render();
+			}
+		}
+
+		GL11.glDisable(GL11.GL_BLEND);
+	}
+
+	private void renderHDR() {
+		lightBuffer.bind();
+		HDRShader.INSTANCE.bind();
+		HDRShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
+		HDRShader.INSTANCE.loadExposureTime(exposureTime);
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, hdrBuffer.getColorTextureID());
+		Quad.get().lazyRender(0);
+	}
+
+	private int renderPostFX() {
+		postFX.preRender();
+		postFX.render(viewMatrix);
+		return postFX.getTextureID();
+	}
+
+	private void renderToTarget(int out) {
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		if (Application.get().getRenderTarget() != null)
+			Application.get().getRenderTarget().bind();
+		else
+			Framebuffer2D.unbind();
+
+		GammaShader.INSTANCE.bind();
+		GammaShader.INSTANCE.loadMVP(Matrix4f.IDENTITY);
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, out);
+		Quad.get().lazyRender(0);
+
+		GL11.glDisable(GL11.GL_BLEND);
+	}
+
+
+	private void renderModel(Material material, ModelComponent component, int renderMethod) {
+		Model model = component.getModel(renderMethod);
+		if (model != null) {
+			setModelMatrix(component.getObject().getRenderMatrix());
+			Vector4f pos = viewMatrix.mul(modelMatrix, null).getPos(null);
+			float dist = pos.length();
+			float radius = modelMatrix.transform(new Vector4f(model.getRadius(), 0, 0, 0)).length();
+			if (dist - radius <= far || material.isAlwaysRender()) {
+				int lod = component.getLod(dist, radius, renderMethod, model);
+				model.render(lod);
+			}
 		}
 	}
 

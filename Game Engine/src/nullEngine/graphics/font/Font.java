@@ -7,7 +7,6 @@ import nullEngine.graphics.shader.Shader;
 import nullEngine.graphics.shader.TextShader;
 import nullEngine.graphics.texture.Texture2D;
 import nullEngine.loading.Loader;
-import nullEngine.util.logs.Logs;
 import util.Sizeof;
 
 import java.util.HashMap;
@@ -360,14 +359,9 @@ public class Font {
 			}
 		}
 		int oldCount = indices.getCapacity() / 6 / Sizeof.INT;
-//
-//		Logs.d(oldCount);
-//		Logs.d("");
-//		Logs.d(count);
-//		Logs.d(text);
+
 
 		if (count * 2 < oldCount || count > oldCount) {
-			Logs.d("aaa");
 			indices.setSize(count * 6 * Sizeof.INT);
 			positions.setSize(count * 4 * 3 * Sizeof.FLOAT);
 			texCoords.setSize(count * 4 * 2 * Sizeof.FLOAT);

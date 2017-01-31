@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="lwjgl">
     <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-assimp.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-bgfx.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-egl.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl-glfw.jar!/" />
@@ -24,6 +25,7 @@
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/jar/lwjgl.jar!/" />
     </CLASSES>
     <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-assimp-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-bgfx-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-egl-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-glfw-javadoc.jar!/" />
@@ -47,6 +49,7 @@
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/javadoc/lwjgl-xxhash-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
+      <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-assimp-sources.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-bgfx-sources.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-egl-sources.jar!/" />
       <root url="jar://$PROJECT_DIR$/Game Engine/lib/lwjgl/src/lwjgl-glfw-sources.jar!/" />
